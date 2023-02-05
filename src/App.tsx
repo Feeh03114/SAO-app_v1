@@ -1,5 +1,7 @@
-export function App() {
-  return (
-    <h1> Hello Words</h1>
-  );
+import Router from "./router";
+
+export function App(): JSX.Element{
+  return(
+    <Router/>
+  )
 }
