@@ -1,7 +1,15 @@
+import { useContext } from 'react';
+import { AuthContext } from '../../Contexts/AuthContext';
 import logo from '../../assets/img/logo.svg';
+
 export function Login(): JSX.Element{
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const {setAuth, auth} = useContext (AuthContext)
+    console.log('auth', auth)
+
     return(
     <div className="flex min-h-full flex-row items-center justify-center py-40 px-4 sm:px-6 lg:px-8 font-poppins ">
+        <head>SAO | Login</head>
         <div className="w-full max-w-md space-y-8">
             <div>
             <img className="mx-auto h-12 w-auto" src={logo} alt="UNISO"/>
