@@ -8,12 +8,7 @@ import React, {
   /// eslint-disable-next-line prettier/prettier
   useState,
 } from 'react'
-
-enum Provider {
-  Google = 1,
-  Facebook = 2,
-  Apple = 3,
-}
+import api from '../service/api'
 
 interface RefreshToken {
   id: string
@@ -28,17 +23,9 @@ interface AuthState {
 }
 
 interface SignInCredentials {
-  provider: Provider
-  id?: string
-  email?: string
-  firstName?: string
-  name?: string
-  picture?: string
-}
-
-interface SignInCredentialsTotem {
-  userName: string
+  ru: string
   password: string
+  remember_me: boolean
 }
 
 interface User {
@@ -53,20 +40,10 @@ interface User {
   statementofresponsibility?: boolean
 }
 
-interface TotemType {
-  descricao: string
-  ativoTicket: boolean
-  totemMobile: boolean
-  ativarImpressora: boolean
-  tipoImpressora: number
-  modeloImpressora: number
-  conexaoImpressora: string
-  parametroImpressora: number
-}
-
 interface AuthContextData {
+  token: string
   user: User
-  signIn: (credentials: SignInCredentialsTotem) => Promise<void>
+  signIn: (credentials: SignInCredentials) => Promise<void>
   signOut: () => void
   loading: boolean
   setLoading: Dispatch<React.SetStateAction<boolean>>
@@ -85,14 +62,21 @@ function AuthProvider({ children }: AuthProviderProps): JSX.Element {
 
   useEffect(() => {
     async function loadStoragedData(): Promise<void> {
-      const [token, refreshToken, user, totem] = localStorage.multiGet([
+      const [remember_me, token, refreshToken, user] = localStorage.multiGet([
+        '@sao:remember_me',
         '@sao:token',
         '@sao:refreshToken',
         '@sao:user',
       ]);
 
-      if (token[1] && refreshToken[1] && user[1]) {
-        // api.defaults.headers.authorization = `Bearer ${token[1]}`;
+      if(remember_me[1].toLowerCase() === 'true') localStorage.multiRemove([
+        '@sao:remember_me',
+        '@sao:token',
+        '@sao:refreshToken',
+        '@sao:user',
+      ])
+
+      if (token[1] && refreshToken[1] && user[1] && remember_me[1].toLowerCase() === 'false') {
         setData({
           token: token[1] || '',
           refreshToken: JSON.parse(refreshToken[1] || ''),
@@ -106,30 +90,17 @@ function AuthProvider({ children }: AuthProviderProps): JSX.Element {
     loadStoragedData()
   }, [])
 
-  const signIn = useCallback(async (credentials: SignInCredentialsTotem) => {
+  const signIn = useCallback(async (credentials: SignInCredentials) => {
     try {
       const response = await api.post('api/v1/users/login', credentials)
-
       if (response.data) {
-        //console.log(response.data)
-        const { token, refreshToken, user, totem } = response.data;
-        
-        if (!totem.totemMobile) {
-          /* Toast.show({
-            type: 'error',
-            text1: 'Erro ao realizar o Login! 😞',
-            text2: 'Esse usuário não possui acesso ao Totem Mobile.',
-          }) */
-          return
-        }
-
-        await localStorage.multiSet([
+        const { token, refreshToken, user } = response.data;
+        localStorage.multiSet([
+          ['@sao:remember_me', credentials.remember_me.toString()],
           ['@sao:token', token],
           ['@sao:refreshToken', JSON.stringify(refreshToken)],
           ['@sao:user', JSON.stringify(user)],
-          ['@sao:totem', JSON.stringify(totem)],
         ])
-
         setData({ token, refreshToken, user })
       }
     } catch (err: any) {
@@ -148,11 +119,11 @@ function AuthProvider({ children }: AuthProviderProps): JSX.Element {
         refreshToken: refreshToken.id,
       })
 
-      await localStorage.multiRemove([
+      localStorage.multiRemove([
+        '@sao:remember_me',
         '@sao:token',
         '@sao:refreshToken',
         '@sao:user',
-        '@sao:totem',
       ])
 
       setData({} as AuthState)
@@ -165,6 +136,7 @@ function AuthProvider({ children }: AuthProviderProps): JSX.Element {
   return (
     <AuthContext.Provider
       value={{
+        token: data.token,
         user: data.user,
         signIn,
         signOut,
