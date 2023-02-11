@@ -1,12 +1,8 @@
-import { useContext } from 'react';
-import { AuthContext } from '../../Contexts/AuthContext';
 import logo from '../../assets/img/logo.svg';
+import { useLogin } from './useLogin';
 
 export function Login(): JSX.Element{
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const {setAuth, auth} = useContext (AuthContext)
-    console.log('auth', auth)
-
+    const {} = useLogin();
     return(
     <div className="flex min-h-full flex-row items-center justify-center py-40 px-4 sm:px-6 lg:px-8 font-poppins ">
         <head>SAO | Login</head>

@@ -10,6 +10,11 @@ interface AuthProviderProps{
     children:ReactNode
 }
 
+// interface DataLogin{
+//     ru: string;
+//     password: string;
+// }
+
 
 export const AuthContext = createContext({} as AuthProps);
 
@@ -18,8 +23,7 @@ export const AuthContext = createContext({} as AuthProps);
 //     children: ReactNode;
 // }
 export default function AuthProvider({children}:AuthProviderProps){
-    const [auth, setAuth] = useState(false)
-    
+    const [auth, setAuth] = useState(false);
     return(
         <AuthContext.Provider value={{auth, setAuth}}>
             {children}
