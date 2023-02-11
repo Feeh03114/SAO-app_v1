@@ -1,11 +1,16 @@
+/* eslint-disable react/jsx-no-undef */
+import { Helmet } from 'react-helmet';
 import logo from '../../assets/img/logo.svg';
+import { Input } from '../../components/elementTag/input';
 import { useLogin } from './useLogin';
-
 export function Login(): JSX.Element{
-    const {} = useLogin();
+    const { register, handleSubmit, ValidCredentials, errors } = useLogin();
+
     return(
     <div className="flex min-h-full flex-row items-center justify-center py-40 px-4 sm:px-6 lg:px-8 font-poppins ">
-        <head>SAO | Login</head>
+        <Helmet>
+            <title>SAO | Login</title>
+        </Helmet>
         <div className="w-full max-w-md space-y-8">
             <div>
             <img className="mx-auto h-12 w-auto" src={logo} alt="UNISO"/>
@@ -14,38 +19,41 @@ export function Login(): JSX.Element{
                 Acesse a sua conta
             </p>
             </div>
-            <form className="mt-8 space-y-6" action="#" method="POST">
+            <form className="mt-8 space-y-6" onSubmit={handleSubmit(ValidCredentials)}>
                 <input type="hidden" name="remember" value="true"/>
                 <div className="-space-y-px rounded-md shadow-sm">
                     <div>
                         <label htmlFor="ru" className=''>Registro Universitario</label>
-                        <input 
+                        <Input 
                             id="ru"
-                            name="ru"
                             type="text"
                             required
                             className="
                                 relative block w-full appearance-none rounded-lg border border-blue-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                             placeholder="Registro Universitario"
+                            {...register("ru")}
+                            error={errors.ru}
                         />
                     </div>
                     <div>
                         <label htmlFor="password">Senha</label>
-                        <input 
+                        <Input 
                             id="password"
-                            name="password"
                             type="password"
                             autoComplete="current-password"
                             required
-                            className="relative block w-full appearance-none rounded-lg border border-blue-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                            className="relative block w-full appearance-none rounded-lg border border-blue-300 px-3 py-2 text-gray-900 placeholder-gray-500  focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                             placeholder="Senha"
+                            {...register("password")}
+                            password={true}
+                            error={errors.password}
                         />
                     </div>
                 </div>
             
                 <div className="flex items-center justify-between">
                     <div className="flex items-center">
-                        <input id="remember-me" name="remember-me" type="checkbox" className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"/>
+                        <input id="remember-me" type="checkbox" className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500" {...register("remember-me")}/>
                         <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">Lembrar Senha</label>
                     </div>
             
