@@ -8,8 +8,8 @@ export function useLogin(){
     const { signIn } = useAuth();
     const loginSchema = yup.object({
         ru: yup.string().required("Por favor, insira seu registro universitário"),
-        password: yup.string().required("Por favor, insira sua senha").min(8, "A senha deve ter no mínimo 8 caracteres")
-            .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/, "A senha deve conter pelo menos 1 letra maiúscula, 1 letra minúscula, 1 número e 1 caractere especial"),	
+        password: yup.string().required("Por favor, insira sua senha").min(6, "A senha deve ter no mínimo 8 caracteres")
+            //.matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/, "A senha deve conter pelo menos 1 letra maiúscula, 1 letra minúscula, 1 número e 1 caractere especial"),	
       });
     const {
         register,
@@ -20,8 +20,7 @@ export function useLogin(){
       });
 
     async function ValidCredentials(credentials:any){
-        console.log(credentials)
-        //await signIn(credentials);
+        await signIn(credentials);
     }
 
     return{

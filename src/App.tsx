@@ -1,15 +1,14 @@
-import { useContext } from 'react';
-import AuthProvider, { AuthContext } from './Contexts/AuthContext';
 
+import { AuthProvider, useAuth } from './hook/auth';
 import Router from "./router/index";
 import PublicRouter from "./router/public.router";
 
 
-export function App(): JSX.Element{
-  const { auth } = useContext(AuthContext)
+export default function App(): JSX.Element{
+  const { user } = useAuth();
   return(
     <AuthProvider>
-      { auth ? <Router/> : <PublicRouter/> }
+      { user ? <Router/> : <PublicRouter/> }
     </AuthProvider>
   )
 }

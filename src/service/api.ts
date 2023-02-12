@@ -2,7 +2,7 @@ import axios, { AxiosError } from 'axios'
 //import env from '../lib/env';
 
 const api = axios.create({
-  baseURL: 'https://api-homo.touch.tec.br',
+  baseURL: 'http://localhost:3030',
   withCredentials: true,
 })
 

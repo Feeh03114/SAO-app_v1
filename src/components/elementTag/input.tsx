@@ -1,35 +1,23 @@
-import { ForwardRefRenderFunction, InputHTMLAttributes, useState } from "react";
+import { ForwardRefRenderFunction, InputHTMLAttributes, forwardRef, useState } from "react";
 import { FieldError, FieldErrorsImpl, Merge } from "react-hook-form";
-import InputMask from "react-input-mask";
 
 export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
     id?: string;
-    mask?: string;
     password?: boolean;
-    error?: FieldError | Merge<FieldError, FieldErrorsImpl<any>>;
+    error?: FieldError | Merge<FieldError, FieldErrorsImpl<any>> | null;
 }
 
-export const Input:ForwardRefRenderFunction<HTMLInputElement, InputProps> = ({ type, placeholder, id, mask, password = false, error=null, ...rest }) => { 
+const InputBase:ForwardRefRenderFunction<HTMLInputElement, InputProps> = ({ password = false, error = null, ...rest }, ref) => {  
     const [showPassword, setShowPassword] = useState(true);
     return(
         <>
             {
-                mask? 
-                <InputMask
-                    id={id}
-                    type={type}
-                    placeholder={placeholder}
-                    mask={mask}
-                    {...rest}
-                />
-                :
                 password?
                     <div className="relative">
                         <input
-                            id={id}
                             type={showPassword? "password": 'text'}
-                            placeholder={placeholder}
                             {...rest}
+                            ref={ref}
                         />
                         <div className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5">
                             <svg className={`h-6 text-gray-700 fill=none ${!showPassword&&'invisible hidden'} ${showPassword&&'block'}`} fill="none" xmlns="http://www.w3.org/2000/svg" onClick={()=>setShowPassword(!showPassword)}
@@ -48,10 +36,8 @@ export const Input:ForwardRefRenderFunction<HTMLInputElement, InputProps> = ({ t
                     </div>
                 :
                 <input
-                    id={id}
-                    type={type}
-                    placeholder={placeholder}
                     {...rest}
+                    ref={ref}
                 />
             }
             {!!error && (
@@ -61,3 +47,4 @@ export const Input:ForwardRefRenderFunction<HTMLInputElement, InputProps> = ({ t
     )
 }
 
+export const Input = forwardRef(InputBase);

@@ -1,11 +1,9 @@
+import { Tablet } from "../../components/table/table";
 
-import { SideBar } from "../../components/SideBar/SideBar";
 
 export default function Home(){
     return(
-        <SideBar title="Home">
-            <h1>Olaaa Kioshy</h1>
-        </SideBar>
+        <Tablet columns={["name", "age"]} data={[{name: "John", age: 20}, {name: "Jane", age: 21}]}/>
     );
 }
 

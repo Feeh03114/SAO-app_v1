@@ -20,6 +20,17 @@ interface AuthState {
   token: string
   refreshToken: RefreshToken
   user: User
+  menuUser: MenuUserProps[]
+}
+
+interface MenuUserProps{
+  namePage: string;
+  url: string;
+  icon: string;
+  isEdit: boolean;
+  isDelete: boolean;
+  isCreate: boolean;
+  isRead: boolean;
 }
 
 interface SignInCredentials {
@@ -41,7 +52,7 @@ interface User {
 }
 
 interface AuthContextData {
-  token: string
+  menu: MenuUserProps[]
   user: User
   signIn: (credentials: SignInCredentials) => Promise<void>
   signOut: () => void
@@ -62,29 +73,33 @@ function AuthProvider({ children }: AuthProviderProps): JSX.Element {
 
   useEffect(() => {
     async function loadStoragedData(): Promise<void> {
-      const [remember_me, token, refreshToken, user] = localStorage.multiGet([
-        '@sao:remember_me',
-        '@sao:token',
-        '@sao:refreshToken',
-        '@sao:user',
-      ]);
-
-      if(remember_me[1].toLowerCase() === 'true') localStorage.multiRemove([
-        '@sao:remember_me',
-        '@sao:token',
-        '@sao:refreshToken',
-        '@sao:user',
-      ])
-
-      if (token[1] && refreshToken[1] && user[1] && remember_me[1].toLowerCase() === 'false') {
-        setData({
-          token: token[1] || '',
-          refreshToken: JSON.parse(refreshToken[1] || ''),
-          user: JSON.parse(user[1] || ''),
-        })
+      const remember_me = localStorage.getItem('@sao:remember_me')|| 'false'
+      const token = localStorage.getItem('@sao:token')
+      const refreshToken = localStorage.getItem('@sao:refreshToken')
+      const user = localStorage.getItem('@sao:user')
+      
+      if(remember_me.toLowerCase() !== 'true') {
+        localStorage.removeItem('@sao:remember_me')
+        localStorage.removeItem('@sao:token')
+        localStorage.removeItem('@sao:refreshToken')
+        localStorage.removeItem('@sao:user')
+        setLoading(false)
+        return
       }
 
-      setLoading(false)
+      if (!(token && refreshToken && user)){
+        setLoading(false)
+        return;
+      }
+
+      const {data: dataMenu} = await api.get('api/v1/application/menu')
+
+      setData({
+        token: token || '',
+        refreshToken: JSON.parse(refreshToken || ''),
+        user: JSON.parse(user || ''),
+        menuUser: dataMenu||[]
+      })
     }
 
     loadStoragedData()
@@ -95,13 +110,14 @@ function AuthProvider({ children }: AuthProviderProps): JSX.Element {
       const response = await api.post('api/v1/users/login', credentials)
       if (response.data) {
         const { token, refreshToken, user } = response.data;
-        localStorage.multiSet([
-          ['@sao:remember_me', credentials.remember_me.toString()],
-          ['@sao:token', token],
-          ['@sao:refreshToken', JSON.stringify(refreshToken)],
-          ['@sao:user', JSON.stringify(user)],
-        ])
-        setData({ token, refreshToken, user })
+        localStorage.setItem('@sao:remember_me', credentials.remember_me.toString())
+        localStorage.setItem('@sao:token', token)
+        localStorage.setItem('@sao:refreshToken', JSON.stringify(refreshToken))
+        localStorage.setItem('@sao:user', JSON.stringify(user))
+
+        const {data: dataMenu} = await api.get('api/v1/application/menu')
+
+        setData({ token, refreshToken, user, menuUser: dataMenu||[] })
       }
     } catch (err: any) {
       console.log(err)
@@ -113,19 +129,16 @@ function AuthProvider({ children }: AuthProviderProps): JSX.Element {
   const signOut = useCallback(async () => {
     // if (Platform.OS !== 'ios') {
     try {
-      const jsonRefreshToken = await localStorage.getItem('@sao:refreshToken')
+      const jsonRefreshToken = localStorage.getItem('@sao:refreshToken')
       const refreshToken = JSON.parse(jsonRefreshToken || '')
       await api.post('api/v1/users/logout', {
         refreshToken: refreshToken.id,
       })
 
-      localStorage.multiRemove([
-        '@sao:remember_me',
-        '@sao:token',
-        '@sao:refreshToken',
-        '@sao:user',
-      ])
-
+      localStorage.removeItem('@sao:remember_me')
+      localStorage.removeItem('@sao:token')
+      localStorage.removeItem('@sao:refreshToken')
+      localStorage.removeItem('@sao:user')
       setData({} as AuthState)
     } catch (err) {
       console.log(err)
@@ -136,7 +149,7 @@ function AuthProvider({ children }: AuthProviderProps): JSX.Element {
   return (
     <AuthContext.Provider
       value={{
-        token: data.token,
+        menu: data.menuUser,
         user: data.user,
         signIn,
         signOut,
