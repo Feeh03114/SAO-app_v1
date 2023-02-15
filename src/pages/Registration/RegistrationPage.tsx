@@ -1,19 +1,29 @@
 import { Helmet } from 'react-helmet';
+import logo from '../../assets/img/logo.svg';
 import { Input } from '../../components/elementTag/input';
 import { useRegistration } from './useRegistration';
 
-
   export const SignupForm = () => {
 
-    const {register,handleSubmit,errors,watch,SendPacient,handleNextStep,handleBckStep,currentStep } = useRegistration();
+    const {
+      register,
+      handleSubmit,
+      errors,
+      SendPacient,
+      handleNextStep, 
+      handleBckStep, 
+      currentStep, 
+      progress 
+    } = useRegistration();
 
     return (
-    <div className='flex justify-center bg-cyan-200 w-screen h-screen font-poppins' >
+    <div className='flex justify-center bg-cyan-100 w-screen h-screen font-poppins' >
       <Helmet>
         <title> SAO | Faça o seu Cadastro</title>
       </Helmet>
       <div className='flex items-center justify-center bg-white w-1/2 h-1/6 rounded-md shadow-2xl py-96 px-32 sm:px-6 lg:px-8 mt-20'>         
-        <div className='w-full space-y-8'>
+        <div className='w-full max-w-lg space-y-8'>
+          <img className="mx-auto h-12 w-auto" src={logo} alt="UNISO"/>
           <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">
             Faça o seu cadastro
           </h2>
@@ -22,7 +32,7 @@ import { useRegistration } from './useRegistration';
           </p>
           <form onSubmit={handleSubmit(SendPacient)}>
               <div className="flex justify-between items-center mt-10 mb-10">
-                {[1, 2, 3, 4].map((step) => (
+                {progress.map((step) => (
                   <div
                     key={step}
                     className={`w-4 h-4 rounded-full border border-blue-300 ${
@@ -45,7 +55,6 @@ import { useRegistration } from './useRegistration';
                     className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     type="date"
                     id="dateOfBirth"
-                    required
                     {...register('dateOfBirth')}
                     error={errors.dateOfBirth}
                   />
@@ -121,8 +130,8 @@ import { useRegistration } from './useRegistration';
                       >
                         Genero
                       </label>
-                      <select id="gender"{...register('gender')}>
-                        <option value="null" selected>Qual seu Genero?</option>
+                      <select className='shadow border rounded w-full py-2 px-3 leading-tight' id="gender"{...register('gender')}>
+                        <option value="null" selected disabled></option>
                         <option value="M" >Masculino</option>
                         <option value="F"  >Feminino</option>
                         <option value="WI"  >Prefiro não responder</option>
@@ -139,8 +148,8 @@ import { useRegistration } from './useRegistration';
                       >
                         Etnia
                       </label>
-                      <select id="ethnicity" {...register('ethnicity')}>
-                        <option value="null" selected>Qual sua etnia?</option>
+                      <select className='shadow border rounded w-full py-2 px-3 leading-tight' id="ethnicity" {...register('ethnicity')}>
+                        <option value="null" selected disabled></option>
                         <option value="Branco">Branco</option>
                         <option value="Negro" >Negro</option>
                         <option value="Indigena">Indigena</option>
@@ -194,8 +203,6 @@ import { useRegistration } from './useRegistration';
             )}
 
 
-
-
             {/* TERCEIRA pagina começa aqui */}
             {currentStep === 3 && (
             <>
@@ -223,7 +230,7 @@ import { useRegistration } from './useRegistration';
                         >
                           Profissao
                         </label>
-                        <select id="occupation"{...register('occupation')}>
+                        <select className='shadow border rounded w-full py-2 px-3 leading-tight' id="occupation"{...register('occupation')}>
                           <option value="null" selected>Qual sua Profissão?</option>
                           <option value="M" >Masculino</option>
                           <option value="F"  >Feminino</option>
@@ -242,8 +249,8 @@ import { useRegistration } from './useRegistration';
                       >
                         Nacionalidade
                       </label>
-                      <select id="nationality"{...register('gender')}>
-                        <option value="null" selected>Qual seu Genero?</option>
+                      <select className='shadow border rounded w-full py-2 px-3 leading-tight' id="nationality"{...register('gender')}>
+                        <option value="null" selected disabled></option>
                         <option value="M" >Masculino</option>
                         <option value="F"  >Feminino</option>
                         <option value="WI"  >Prefiro não responder</option>
@@ -260,8 +267,8 @@ import { useRegistration } from './useRegistration';
                       >
                         Naturalidade
                       </label>
-                      <select id="naturalness" {...register('ethnicity')}>
-                        <option value="null" selected>Qual sua etnia?</option>
+                      <select className='shadow border rounded w-full py-2 px-3 leading-tight' id="naturalness" {...register('ethnicity')}>
+                        <option value="null" selected disabled></option>
                         <option value="Branco">Branco</option>
                         <option value="Negro" >Negro</option>
                         <option value="Indigena">Indigena</option>
@@ -296,7 +303,6 @@ import { useRegistration } from './useRegistration';
                 </div>
                 </>
             )}
-
 
 
         {/* QUARTA PAGINA COMEÇA AQUI */}
@@ -345,7 +351,7 @@ import { useRegistration } from './useRegistration';
                         >
                           UF
                         </label>
-                        <select id="uf"{...register('uf')}>
+                        <select className='shadow border rounded w-full py-2 px-3 leading-tight' id="uf"{...register('uf')}>
                           <option value="null" selected>Qual seu UF?</option>
                         </select>
                         {!!errors.uf && (
