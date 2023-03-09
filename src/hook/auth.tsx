@@ -7,12 +7,13 @@ import React, {
   useEffect,
   /// eslint-disable-next-line prettier/prettier
   useState,
-} from 'react'
-import api from '../service/api'
+} from 'react';
+import { useNavigate } from 'react-router-dom';
+import api from '../service/api';
 
 interface RefreshToken {
-  id: string
-  userId: string
+  refreshToken: string
+  user: User;
   expiresIn: number
 }
 
@@ -41,14 +42,10 @@ interface SignInCredentials {
 
 interface User {
   id: string
+  ru: string
   email: string
-  nomeUsuario: string
-  userName: string
-  avatar: string
-  solicitaPagto: boolean
-  cpf?: string
-  phoneNumber?: string
-  statementofresponsibility?: boolean
+  nome: string
+  cro:string
 }
 
 interface AuthContextData {
@@ -69,8 +66,9 @@ const AuthContext = createContext({} as AuthContextData)
 
 function AuthProvider({ children }: AuthProviderProps): JSX.Element {
   const [data, setData] = useState<AuthState>({} as AuthState)
-  const [loading, setLoading] = useState(true)
-
+  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
+  
   useEffect(() => {
     async function loadStoragedData(): Promise<void> {
       const remember_me = localStorage.getItem('@sao:remember_me')|| 'false'
@@ -100,6 +98,7 @@ function AuthProvider({ children }: AuthProviderProps): JSX.Element {
         user: JSON.parse(user || ''),
         menuUser: dataMenu||[]
       })
+      navigate('/home');
     }
 
     loadStoragedData()
@@ -107,18 +106,24 @@ function AuthProvider({ children }: AuthProviderProps): JSX.Element {
 
   const signIn = useCallback(async (credentials: SignInCredentials) => {
     try {
-      const response = await api.post('api/v1/users/login', credentials)
-      if (response.data) {
-        const { token, refreshToken, user } = response.data;
-        localStorage.setItem('@sao:remember_me', credentials.remember_me.toString())
-        localStorage.setItem('@sao:token', token)
-        localStorage.setItem('@sao:refreshToken', JSON.stringify(refreshToken))
-        localStorage.setItem('@sao:user', JSON.stringify(user))
+      const response = await api.post('api/auth/login', {ru: credentials.ru, password: credentials.password})
+      if (!response.data) return;
+      const { token, refreshToken, user } = response.data;
+      localStorage.setItem('@sao:remember_me', credentials.remember_me.toString())
+      localStorage.setItem('@sao:token', token)
+      credentials.remember_me && localStorage.setItem('@sao:refreshToken', JSON.stringify(refreshToken))
+      localStorage.setItem('@sao:user', JSON.stringify(user))
 
-        const {data: dataMenu} = await api.get('api/v1/application/menu')
-
-        setData({ token, refreshToken, user, menuUser: dataMenu||[] })
-      }
+      //const {data: dataMenu} = await api.get('api/application/menu')
+      const dataMenu = [
+        {namePage: "Pagina Inicial", url:'/', icon: 'BiHomeCircle', isEdit:true, isDelete:true, isCreate:true, isRead:true},
+        {namePage: "Agenda", url:'/', icon: 'BsCalendarFill', isEdit:true, isDelete:true, isCreate:true, isRead:true},
+        {namePage: "Encaminhamento", url:'/', icon: 'BiSend', isEdit:true, isDelete:true, isCreate:true, isRead:true},
+        {namePage: "Financeiro", url:'/', icon: 'MdAttachMoney', isEdit:true, isDelete:true, isCreate:true, isRead:true},
+        {namePage: "Exames", url:'/', icon: 'HiOutlineNewspaper', isEdit:true, isDelete:true, isCreate:true, isRead:true},
+      ];
+      setData({ token, refreshToken, user, menuUser: dataMenu||[] })
+      navigate('/home');
     } catch (err: any) {
       console.log(err)
     } finally {
@@ -129,17 +134,18 @@ function AuthProvider({ children }: AuthProviderProps): JSX.Element {
   const signOut = useCallback(async () => {
     // if (Platform.OS !== 'ios') {
     try {
-      const jsonRefreshToken = localStorage.getItem('@sao:refreshToken')
+     /*  const jsonRefreshToken = localStorage.getItem('@sao:refreshToken')
       const refreshToken = JSON.parse(jsonRefreshToken || '')
-      await api.post('api/v1/users/logout', {
+      await api.post('api/users/logout', {
         refreshToken: refreshToken.id,
-      })
+      }) */
 
       localStorage.removeItem('@sao:remember_me')
       localStorage.removeItem('@sao:token')
       localStorage.removeItem('@sao:refreshToken')
       localStorage.removeItem('@sao:user')
       setData({} as AuthState)
+      navigate('/')
     } catch (err) {
       console.log(err)
     }
@@ -172,5 +178,5 @@ function useAuth(): AuthContextData {
   return context
 }
 
-export { AuthProvider, useAuth }
+export { AuthProvider, useAuth };
 

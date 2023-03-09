@@ -2,8 +2,7 @@ import axios, { AxiosError } from 'axios'
 //import env from '../lib/env';
 
 const api = axios.create({
-  baseURL: 'http://localhost:3030',
-  withCredentials: true,
+  baseURL: 'http://localhost:3001',
 })
 
 let isRefreshing = false
@@ -40,18 +39,16 @@ api.interceptors.response.use(
           isRefreshing = true
 
           const jsonRefreshToken =  localStorage.getItem('@sao:refreshToken')
+          const localStorageuser = localStorage.getItem('@sao:user')
 
-          if (jsonRefreshToken) {
-            const refreshToken = JSON.parse(jsonRefreshToken)
-            const { id } = refreshToken
+          if (jsonRefreshToken && localStorageuser) {
+            const {ru} = JSON.parse(localStorageuser)
 
             api
-              .post('api/v1/users/refresh-token', {
-                refreshToken: id,
-              })
+              .post(`api/auth/validate-refreshtoken/${jsonRefreshToken}/${ru}`)
               .then(async response => {
                 const { token, refreshToken: newRefreshToken } = response.data
-                localStorage.multiSet([['@sao:token', token]])
+                localStorage.setItem('@sao:token', token)
 
                 if (newRefreshToken) {
                     localStorage.setItem('@sao:refreshToken', JSON.stringify(newRefreshToken))

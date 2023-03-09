@@ -1,14 +1,15 @@
 
-import { AuthProvider, useAuth } from './hook/auth';
+import { BrowserRouter } from 'react-router-dom';
+import { AuthProvider } from './hook/auth';
 import Router from "./router/index";
-import PublicRouter from "./router/public.router";
 
 
 export default function App(): JSX.Element{
-  const { user } = useAuth();
   return(
-    <AuthProvider>
-      { user ? <Router/> : <PublicRouter/> }
-    </AuthProvider>
+    <BrowserRouter>
+      <AuthProvider>
+        <Router/>
+      </AuthProvider>
+    </BrowserRouter>
   )
 }
