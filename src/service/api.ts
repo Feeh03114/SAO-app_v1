@@ -2,7 +2,7 @@ import axios, { AxiosError } from 'axios'
 //import env from '../lib/env';
 
 const api = axios.create({
-  baseURL: 'http://localhost:3001',
+  baseURL: 'http://192.168.1.38:3001',
 })
 
 let isRefreshing = false

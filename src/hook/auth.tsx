@@ -1,3 +1,5 @@
+//import { BiHomeCircle } from "@react-icons/all-files/bi/BiHomeCircle";
+//import * as Icons from "@react-icons/all-files";
 import React, {
   createContext,
   Dispatch,
@@ -90,7 +92,15 @@ function AuthProvider({ children }: AuthProviderProps): JSX.Element {
         return;
       }
 
-      const {data: dataMenu} = await api.get('api/v1/application/menu')
+      //const {data: dataMenu} = await api.get('api/v1/application/menu')
+      const dataMenu = [
+        {namePage: "Pagina Inicial", url:'/home', icon: 'BiHomeCircle', isEdit:true, isDelete:true, isCreate:true, isRead:true},
+        {namePage: "Cadastro do paciente", url:'/FormularioRegistro', icon: 'BiHomeCircle', isEdit:true, isDelete:true, isCreate:true, isRead:true},
+        {namePage: "Agenda", url:'/', icon: 'BsCalendarFill', isEdit:true, isDelete:true, isCreate:true, isRead:true},
+        {namePage: "Encaminhamento", url:'/', icon: 'BiSend', isEdit:true, isDelete:true, isCreate:true, isRead:true},
+        {namePage: "Financeiro", url:'/', icon: 'MdAttachMoney', isEdit:true, isDelete:true, isCreate:true, isRead:true},
+        {namePage: "Exames", url:'/', icon: 'HiOutlineNewspaper', isEdit:true, isDelete:true, isCreate:true, isRead:true},
+      ];
 
       setData({
         token: token || '',
@@ -116,12 +126,13 @@ function AuthProvider({ children }: AuthProviderProps): JSX.Element {
 
       //const {data: dataMenu} = await api.get('api/application/menu')
       const dataMenu = [
-        {namePage: "Pagina Inicial", url:'/', icon: 'BiHomeCircle', isEdit:true, isDelete:true, isCreate:true, isRead:true},
+        {namePage: "Pagina Inicial", url:'/home', icon: 'BiHomeCircle', isEdit:true, isDelete:true, isCreate:true, isRead:true},
         {namePage: "Agenda", url:'/', icon: 'BsCalendarFill', isEdit:true, isDelete:true, isCreate:true, isRead:true},
         {namePage: "Encaminhamento", url:'/', icon: 'BiSend', isEdit:true, isDelete:true, isCreate:true, isRead:true},
         {namePage: "Financeiro", url:'/', icon: 'MdAttachMoney', isEdit:true, isDelete:true, isCreate:true, isRead:true},
         {namePage: "Exames", url:'/', icon: 'HiOutlineNewspaper', isEdit:true, isDelete:true, isCreate:true, isRead:true},
       ];
+      
       setData({ token, refreshToken, user, menuUser: dataMenu||[] })
       navigate('/home');
     } catch (err: any) {

@@ -33,7 +33,6 @@ export function Login(): JSX.Element{
                     <label htmlFor="password">Senha</label>
                     <Input 
                         id="password"
-                        type="password"
                         autoComplete="current-password"
                         className="relative block w-full appearance-none rounded-lg border border-blue-300 px-3 py-2 text-gray-900 placeholder-gray-500  focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                         placeholder="Senha"

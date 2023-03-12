@@ -8,7 +8,7 @@ export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 }
 
 const InputBase:ForwardRefRenderFunction<HTMLInputElement, InputProps> = ({ password = false, error = null, ...rest }, ref) => {  
-    const [showPassword, setShowPassword] = useState(true);
+    const [showPassword, setShowPassword] = useState(false);
     return(
         <>
             {
