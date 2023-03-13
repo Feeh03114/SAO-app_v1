@@ -1,8 +1,11 @@
 import DynamicTablet from "../../components/dynamicTablet";
+import api from "../../service/api";
 
 export default function Home(){
     return(
-        <DynamicTablet 
+        <DynamicTablet
+            endpoint="api/users"
+            axios={api}
             metaData={
                 {
                     title: "Usuários",
@@ -20,8 +23,8 @@ export default function Home(){
                             {label: "Delete", action: () => console.log("Delete"), selectable: true},
                         ],
                     fields:[
-                        {label: "Nome", property: "name", filter: true, search: true}, 
-                        {label: "Idade", property: "age", filter: true},
+                        {label: "Nome", property: "name", filter: true, search: true, sortable: true}, 
+                        {label: "Idade", property: "age", filter: true, sort: true, sortable: true},
                         {
                             label: 'Genero',
                             property: "gender",
@@ -50,11 +53,11 @@ export default function Home(){
                             label: 'disciplina',
                             property: "discipline",
                             filter: true,
-                            gridColumns: 12,
+                            gridColumns: 6,
                             type: "label",
                             optionsMulti: true,
                             options: [
-                                {label: 'clina', value: 'c', gridColumns: 6},
+                                {label: 'clina', value: 'c'},
                                 {label: 'proteses', value: 'p'},
                                 {label: 'ortopedia', value: 'o'},
                                 {label: 'dentaria', value: 'd'},
