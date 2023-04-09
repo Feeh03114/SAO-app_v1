@@ -1,11 +1,13 @@
 
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
 import { useAuth } from "../../hook/auth";
 
 export function useLogin(){
-    const { signIn } = useAuth();
+  const navigate = useNavigate();
+    const { signIn, user } = useAuth();
     const loginSchema = yup.object({
         ru: yup.string().required("Por favor, insira seu registro universitário"),
         password: yup.string().required("Por favor, insira sua senha").min(6, "A senha deve ter no mínimo 8 caracteres")
@@ -22,7 +24,6 @@ export function useLogin(){
     async function ValidCredentials(credentials:any){
         await signIn(credentials);
     }
-
     return{
         register,
         handleSubmit,

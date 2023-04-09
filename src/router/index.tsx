@@ -1,35 +1,35 @@
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 
 import { ProtectedRoute } from "../auth/protectedRoute";
-import { SideBar } from "../components/SideBar/SideBar";
-import Diary from "../pages/Diary/diary";
-import Home from "../pages/HomePage/home";
-import { Login } from "../pages/Login/login";
+import DynamicTablet from "../components/dynamicTablet";
+import { CreateEditTable } from "../components/dynamicTablet/createEditTable";
+import { useAuth } from "../hook/auth";
+import Diary from "../pages/Diary";
+import { Login } from "../pages/Login";
 import { FormularioRegistro } from "../pages/Regiostrationv2/formularioRegistro";
-import { SignupForm } from "../pages/Registration/RegistrationPage";
+import { SignupForm } from "../pages/Registration";
+import api from "../service/api";
 
-export default function Router(){   
-    return( 
+export default function Router(){
+    const { user } = useAuth();
+    return user ? (
+        <Routes>
+            <Route path="/" element={<ProtectedRoute/>}>
+                <Route path="/home" element={
+                        <DynamicTablet endpoint="api/users" axios={api} />
+                    }>
+                    <Route path="/home/add" element={<CreateEditTable endpoint="api/users" axios={api} />}/>
+                    <Route path="/home/edit/:id" element={<CreateEditTable endpoint="api/users" axios={api} />}/>
+                </Route>
+                <Route path="/diary" element={<Diary/>}/>
+            </Route>
+        </Routes>
+    ) : (
         <Routes>
             <Route path="/" element={<Login/>}/>
             <Route path="/SignupForm" element={<SignupForm/>}/>
             <Route path="/FormularioRegistro" element={<FormularioRegistro/>}/>
-            <Route path="/" element={<ProtectedRoute/>}>
-                <Route path="/home" element={
-                    <SideBar title="Home">
-                        <Home/>
-                    </SideBar>
-                }/>
-                <Route path="/diary" element={<Diary/>}/>
-                
-            </Route>
-            
+            <Route path="/*" element={<Navigate to="/" />}/>
         </Routes>
     )
 }
-
-{/* <ProtectedRoute>
-                    <SideBar title="Home">
-                        <Home/>
-                    </SideBar>
-                </ProtectedRoute> */}

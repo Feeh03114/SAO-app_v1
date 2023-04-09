@@ -12,6 +12,7 @@ import React, {
 } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../service/api';
+import { DecodificarBase64, EnconderBase64 } from '../util/util';
 
 interface RefreshToken {
   refreshToken: string
@@ -103,9 +104,9 @@ function AuthProvider({ children }: AuthProviderProps): JSX.Element {
       ];
 
       setData({
-        token: token || '',
-        refreshToken: JSON.parse(refreshToken || ''),
-        user: JSON.parse(user || ''),
+        token: DecodificarBase64(token) || '',
+        refreshToken: JSON.parse(DecodificarBase64(refreshToken) || ''),
+        user: JSON.parse(DecodificarBase64(user) || ''),
         menuUser: dataMenu||[]
       })
       navigate('/home');
@@ -119,10 +120,10 @@ function AuthProvider({ children }: AuthProviderProps): JSX.Element {
       const response = await api.post('api/auth/login', {ru: credentials.ru, password: credentials.password})
       if (!response.data) return;
       const { token, refreshToken, user } = response.data;
-      localStorage.setItem('@sao:remember_me', credentials.remember_me.toString())
-      localStorage.setItem('@sao:token', token)
-      credentials.remember_me && localStorage.setItem('@sao:refreshToken', JSON.stringify(refreshToken))
-      localStorage.setItem('@sao:user', JSON.stringify(user))
+      localStorage.setItem('@sao:remember_me', credentials.remember_me.toString());
+      localStorage.setItem('@sao:token', EnconderBase64(token));
+      credentials.remember_me && localStorage.setItem('@sao:refreshToken', EnconderBase64(JSON.stringify(refreshToken)));
+      localStorage.setItem('@sao:user', EnconderBase64(JSON.stringify(user)));
 
       //const {data: dataMenu} = await api.get('api/application/menu')
       const dataMenu = [

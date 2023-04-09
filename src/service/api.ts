@@ -1,8 +1,8 @@
-import axios, { AxiosError } from 'axios'
+import axios, { AxiosError } from 'axios';
+import { DecodificarBase64, EnconderBase64 } from '../util/util';
 //import env from '../lib/env';
-
 const api = axios.create({
-  baseURL: 'http://192.168.1.38:3001',
+  baseURL:  `http://localhost:3001`,
 })
 
 let isRefreshing = false
@@ -15,7 +15,23 @@ api.interceptors.request.use(
     (config) => {
     const token = localStorage.getItem('@sao:token')
     if (token) {
-      config!.headers!.Authorization = `Bearer ${token}`
+      config!.headers!.Authorization = `Bearer ${DecodificarBase64(token)}`
+    }
+
+    return config
+  },
+  error => {
+    console.error('Axios interceptor: ', error)
+  }
+)
+
+api.interceptors.request.use(
+  (config) => {
+    const user = localStorage.getItem('@sao:user')
+    
+    if (user) {
+      const {id} = JSON.parse(DecodificarBase64(user))
+      config!.headers["IdUser"] = id;
     }
 
     return config
@@ -42,17 +58,15 @@ api.interceptors.response.use(
           const localStorageuser = localStorage.getItem('@sao:user')
 
           if (jsonRefreshToken && localStorageuser) {
-            const {ru} = JSON.parse(localStorageuser)
+            const {ru} = JSON.parse(DecodificarBase64(localStorageuser))
 
             api
-              .post(`api/auth/validate-refreshtoken/${jsonRefreshToken}/${ru}`)
+              .post(`api/auth/validate-refreshtoken/${DecodificarBase64(jsonRefreshToken)}/${ru}`)
               .then(async response => {
                 const { token, refreshToken: newRefreshToken } = response.data
-                localStorage.setItem('@sao:token', token)
+                localStorage.setItem('@sao:token', EnconderBase64(token))
 
-                if (newRefreshToken) {
-                    localStorage.setItem('@sao:refreshToken', JSON.stringify(newRefreshToken))
-                }
+                if (newRefreshToken) localStorage.setItem('@sao:refreshToken', JSON.stringify(newRefreshToken))
 
                 failedRequestsQueue.forEach(request => request.onSuccess(token))
                 failedRequestsQueue = []

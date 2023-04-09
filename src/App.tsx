@@ -1,5 +1,6 @@
 
 import { BrowserRouter } from 'react-router-dom';
+import 'react-tooltip/dist/react-tooltip.css';
 import { AuthProvider } from './hook/auth';
 import Router from "./router/index";
 

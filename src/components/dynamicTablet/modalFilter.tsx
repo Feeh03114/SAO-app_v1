@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
-import { fieldsProps, optionsProps } from ".";
+import { getUppercaseFirstLetter } from '../../util/util';
 import { Input } from '../elementTag/input';
 import { Modal } from "../elementTag/modal";
+import { fieldsProps, optionsProps } from "./type";
 interface FilterProps{
     fields: fieldsProps[];
     isFilterOpen: boolean;
@@ -25,6 +26,22 @@ export function ModalFilter({fields, isFilterOpen, setIsFilterOpen, filterSelect
     useEffect(() => {
         setFilterSelect(filterSelected);
     }, [filterSelected])
+    /* useEffect(async () => {
+        const newFields = [];
+        for (const field of fields as fieldsProps[]) {
+            if(field?.endpoint && !field?.options && field?.optionsMulti && field?.type === "list"){
+                field.options = [];
+                const {data} = await axios.get(field.endpoint);
+                field.options = [];
+                for (const item of data) {
+                    console.log(item);
+                    field.options.push({value: item?.id, label: item?.role});
+                }
+            }
+            newFields.push(field);
+        };
+        fields = newFields;
+    }, [filterSelect]) */
     return(
         <Modal isOpen={isFilterOpen} onClose={()=>setIsFilterOpen(!isFilterOpen)}>
             <div className="w-full h-full flex-1 bg-white dark:bg-gray-600 dark:text-white ">
@@ -34,7 +51,7 @@ export function ModalFilter({fields, isFilterOpen, setIsFilterOpen, filterSelect
                         <div
                             className={`m-3 mb-2 mt-5${gridSpan(column)}`}>
                             <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">
-                                {column?.label?.charAt(0).toUpperCase() + column?.label?.slice(1)}
+                                {getUppercaseFirstLetter(column?.label)}
                             </label>
                             <Input
                                 onChange={(e)=>setFilterSelect({...filterSelect, [column.property]: e.target.value})}
@@ -53,7 +70,7 @@ export function ModalFilter({fields, isFilterOpen, setIsFilterOpen, filterSelect
                                 >
                                     <option selected disabled>Selecione uma opção</option>
                                     {column.options.map((option) => (
-                                        <option value={option.value}>{option.label}</option>
+                                        <option value={option.value}>{getUppercaseFirstLetter(option.label)}</option>
                                     ))}
                                 </select>:
                                 <div className="grid grid-cols-3 gap-x-4">
@@ -67,7 +84,7 @@ export function ModalFilter({fields, isFilterOpen, setIsFilterOpen, filterSelect
                                                 name={option.value}
 
                                             />
-                                            <label className="ml-2" htmlFor={option.value}>{option.label}</label>
+                                            <label className="ml-2" htmlFor={option.value}>{getUppercaseFirstLetter(option.label)}</label>
                                         </div>
                                     ))}
                                 </div>)
@@ -87,7 +104,7 @@ export function ModalFilter({fields, isFilterOpen, setIsFilterOpen, filterSelect
                                                     name={option.value}
                                                     className="rounded"
                                                 />
-                                                <label className="ml-2" htmlFor={option.value}>{option.label}</label>
+                                                <label className="ml-2" htmlFor={option.value}>{getUppercaseFirstLetter(option.label)}</label>
                                             </div>
                                         ))}
                                     </div>

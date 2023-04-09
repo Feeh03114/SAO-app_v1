@@ -11,7 +11,7 @@ module.exports = {
                 'poppins': ['Poppins'],
             },
             screens: {
-                'sm-mobile': '281px', 
+                'sm-mobile': '280px', 
                 'md-mobile': '391px',
                 'lg-mobile': '415px',
                 'xl-mobile': '540px',

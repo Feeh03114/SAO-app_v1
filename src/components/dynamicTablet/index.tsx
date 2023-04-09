@@ -1,6 +1,17 @@
+/* eslint-disable no-lone-blocks */
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable react/jsx-no-undef */
 import axios, { AxiosInstance } from "axios";
+import dayjs from 'dayjs';
 import { useEffect, useState } from "react";
+import { FaListAlt } from 'react-icons/fa';
+import { Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { Tooltip } from 'react-tooltip';
+import { getUppercaseFirstLetter } from "../../util/util";
 import { ModalFilter } from './modalFilter';
+import { actionProps, metaDataProps, typeProps } from "./type";
 
 interface TableProps {
     axios?:AxiosInstance
@@ -9,79 +20,7 @@ interface TableProps {
     datas?: any[];
 }
 
-interface actionProps{
-    type: "adicionar" | "editar" | "deletar";
-    endpoint?: string;
-    axios?:AxiosInstance
-    action?: (e?:any) => void;
-    selectable?: boolean;
-    selectableAll?: boolean;
-}
 
-interface customActionProps{
-    label: string;
-    action?: () => void;
-    endpoint?: string;
-    axios?:AxiosInstance
-    selectable?: boolean;
-    selectableAll?: boolean;
-}
-
-export interface metaDataProps {
-    title: string;
-    keepFilters?: boolean;
-    concatFilters?: boolean;
-    actions?: actionProps[];
-    customActions?: customActionProps[];
-    fields: fieldsProps[];
-    endpoint?: string;
-}
-
-export interface fieldsProps extends gridColumnsProps{
-    key?: boolean;
-    initValue?: any;
-    label: string;
-    property: string;
-    type?: "text" | "number" | "date" | "select" | "radio" | "checkbox" | "textarea" | "password" | "email" | 'currency' | 'label'; //| "tel" | "url" | "file" | "image" | "color" | "range" | "time" | "datetime-local";
-    field?: metaDataProps[]
-    filter?: boolean;
-    search?: boolean;
-    visible?: boolean;
-    required?: boolean;
-    optional?: boolean;
-    disabled?: boolean;
-    readOnly?: boolean;
-    errorMessage?: string;
-    order?: number;
-    minLength?: number;
-    maxLength?: number;
-    format?: string;
-    icon?: string;
-    maskFormatModel?: string;
-    mask?: string;
-    options?: optionsProps[];
-    optionsMulti?: boolean;
-    sort?: boolean;
-    sortable?: boolean;
-    directionSort?: "asc" | "desc";
-}
-export interface optionsProps extends gridColumnsProps{
-    label: string;
-    value: any;
-}
-
-interface gridColumnsProps{
-    gridColumns?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
-    gridColumnsSm?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
-    gridColumnsMd?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
-    gridColumnsLg?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
-    gridColumnsXl?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
-    'gridColumnsSm-mobile'?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
-    'gridColumnsMd-mobile'?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
-    'gridColumnsLg-mobile'?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
-    'gridColumnsXl-mobile'?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
-    gridColumnsTablet?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
-}
 
 export default function DynamicTablet(
     {
@@ -101,20 +40,23 @@ export default function DynamicTablet(
     const [filterSelected, setFilterSelected] = useState<any>({});
     const [isFilterOpen, setIsFilterOpen] = useState(false);
 
+    const navigate = useNavigate();
+    const location = useLocation();
+
     function Search(){
         const searchProperty = metaData.fields.filter(x=>x.search)
         if(searchProperty.length === 0) {
-            alert("Nenhuma propriedade de busca informada!");
+            toast.info("Nenhuma propriedade de busca informada!", {position: "top-center", autoClose: 5000 });
             return;
         }
         if(searchProperty.length > 1) {
-            alert("Mais de uma propriedade de busca informada!");
+            toast.info("Mais de uma propriedade de busca informada!", {position: "top-center", autoClose: 5000 });
             return;
         }
         setDataTable(datasTablAll.filter((item) => item[searchProperty[0].property].toLowerCase().includes(search.toLowerCase())));
     }
 
-    useEffect(() => {
+   /*  useEffect(() => {
         setDataTable(orderTable(datas, metadata));
         setDataTableAll(orderTable(datas, metadata));
 
@@ -125,7 +67,45 @@ export default function DynamicTablet(
             fields.push({...field});
         }
         setMetadata({...metaData, fields: fields});
-    }, [datas,metaData]);
+    }, [datas,metaData]);*/
+
+    async function getDatasAPI(){
+        try {
+            const resp = await axiosProperty.get(endpoint);
+            setDataTable(orderTable(resp.data, metadata));
+            setDataTableAll(orderTable(resp.data, metadata));
+        } catch (error:any) {
+            if(error?.response?.data?.mensagem)
+                toast.error(error?.response?.data?.mensagem, {position: "top-center", autoClose: 5000 });
+            else console.error(error?.response?.data?.mensagem)
+        }
+    }
+
+    async function getMetadataAPI(){
+        try {
+            const resp = await axiosProperty.get(endpoint+"/metadata",
+            {
+                params: {
+                    type: "list"
+                }
+            });
+            setMetadata(resp.data);
+        } catch (error: any) {
+            if(error?.response?.data?.mensagem)
+                toast.error(error?.response?.data?.mensagem, {position: "top-center", autoClose: 5000 });
+            else console.error(error?.response?.data?.mensagem)
+        }
+    } 
+
+    useEffect(() => {
+        if(!endpoint) return;
+        if(!axiosProperty){
+            toast.info("Axios não informado!", {position: "top-center", autoClose: 5000 });
+            return;
+        }
+        getMetadataAPI();
+        getDatasAPI()
+    }, [endpoint,axiosProperty]);
 
     function Select(all:boolean, data?:any){
         if(all){
@@ -176,9 +156,11 @@ export default function DynamicTablet(
             }
                 
             if(delatado && isApi){
-                alert("Deletado com sucesso!");
+                toast.success("Deletado com sucesso!", {position: "top-center", autoClose: 5000 });
                 setDataTable(datasTable.filter(item => !selected.includes(item)));
-            }else if(isApi) alert("Parâmetros de deleção inválidos!");
+            }else if(isApi) toast.error("falha ao deletar!", {position: "top-center", autoClose: 5000 });
+            
+            setSelected([]);
         } catch (error:any) {
             console.error(error?.response?.data?.mensagem)
         }
@@ -230,23 +212,83 @@ export default function DynamicTablet(
             </div>
         )
     }
+
+
+    function formatText(text: any, type?:typeProps){
+        switch(type) {
+            case 'date':
+              return text && dayjs(text).format('DD/MM/YYYY');
+            case 'datetime':
+              return text && dayjs(text).format('DD/MM/YYYY HH:mm:ss');
+            case 'time':
+              return text && dayjs(text).format('HH:mm:ss');
+            case 'boolean':
+              return text ? 'Sim' : 'Não';
+            case 'currency':
+              return text && text.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+            case 'list':
+                let list = "";
+                if(!text) return list;
+                if(!Array.isArray(text)) return text;
+
+                text.forEach((item: any, index: number) => {
+                    if(index === 0) list = item?.role?.charAt(0).toUpperCase() + item?.role?.slice(1);
+                    else list = list + ", " + item?.role?.charAt(0).toUpperCase() + item?.role?.slice(1);
+                });
+
+              return (
+                <>
+                    <Tooltip anchorSelect=".list" className="bg-teal-800 p-2 rounded-xl text-white arre" />
+                    <FaListAlt data-tooltip-content={list} className="list text-2xl cursor-pointer text-teal-500 hover:text-teal-800"/>
+                </>
+              )
+                    
+            default:
+              return getUppercaseFirstLetter(text);
+        }
+    }
+
+    function GetisKey(){
+        const iskey = metadata?.fields?.filter(x=>x.key);
+        if(iskey?.length > 1){
+            toast.error("Apenas um campo pode ser chave!");
+            return false;
+        }
+        if(iskey?.length === 0){
+            toast.error("Nenhum campo foi definido como chave!");
+            return false;
+        }
+        return true;
+    }
+
+    if(location.pathname.includes('add'))
+        return <Outlet />
+
+    if(location.pathname.includes('edit'))
+        return <Outlet />
+
+    if(location.pathname.includes('view'))
+        return <Outlet />
+
     return(
         <>
+            <ToastContainer />
             <div className="w-full h-full flex-1 bg-white dark:bg-gray-600 dark:text-white">
                 <h1 className=" ml-3 pt-5 text-3xl font-bold">{metadata.title}</h1>
-                <div className="flex justify-between m-3 mb-2 mt-5">
+                <div className=" justify-between m-3 mb-2 mt-5 sm-mobile:hidden sm:flex">
                     <div className="inline">
                         {
-                            metaData?.actions?.map((action, index) => (
+                            metadata?.actions?.map((action, index) => (
                                 <button key={index+action.type} className={`bg-teal-500 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded disabled:bg-teal-900 disabled:text-white disabled:cursor-not-allowed
                                     ${metaData?.actions?.length !== index && 'ml-1'}`}
                                     onClick={async ()=>{
                                         switch (action.type) {
                                             case 'adicionar':
-
+                                                {navigate(`${location.pathname}/add`)};
                                                 break;
                                             case 'editar':
-
+                                                if(Object.keys(selected).length === 1 && GetisKey()) {navigate(`${location.pathname}/edit/${selected[0][metadata?.fields?.find(x=>x.key)?.property||'']}`)};
+                                                if(Object.keys(selected).length > 1)    toast.error("Selecione apenas um registro para editar!", {position: "top-center", autoClose: 5000 });
                                                 break;
                                             case 'deletar':
                                                 await Delete(action)
@@ -255,7 +297,7 @@ export default function DynamicTablet(
                                     }}
                                     disabled={(action.selectable && selected.length === 0) || (action.type !== 'adicionar' && selected.length === 0)}
                                 >
-                                    {action.type?.charAt(0).toUpperCase() + action.type?.slice(1)}
+                                    {action?.label ?getUppercaseFirstLetter(action?.label) : getUppercaseFirstLetter(action?.type)}
                                 </button>
                             ))
                         }
@@ -270,7 +312,7 @@ export default function DynamicTablet(
                                 <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                             </svg>
                         </div>
-                        {metaData?.keepFilters &&
+                        {metadata?.keepFilters &&
                             <button 
                                 onClick={()=>setIsFilterOpen(!isFilterOpen)}
                                 className="bg-teal-500 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded">
@@ -279,12 +321,58 @@ export default function DynamicTablet(
                         }
                     </div>
                 </div>
-                <div className={`${Object.keys(filterSelected).length === 0 && 'hidden'}  w-full mb-2`}>
+                <div className="sm:hidden">
+                    <div className="w-full justify-center">
+                        {
+                            metadata?.actions?.map((action, index) => (
+                                <button key={index+action.type} className={`bg-teal-500 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded disabled:bg-teal-900 disabled:text-white disabled:cursor-not-allowed
+                                    ${metaData?.actions?.length !== index && 'ml-1'}`}
+                                    onClick={async ()=>{
+                                        switch (action.type) {
+                                            case 'adicionar':
+                                                {navigate(`${location.pathname}/add`)};
+                                                break;
+                                            case 'editar':
+                                                if(Object.keys(selected).length === 1 && GetisKey()) {navigate(`${location.pathname}/edit/${selected[0][metadata?.fields?.find(x=>x.key)?.property||'']}`)};
+                                                if(Object.keys(selected).length > 1)    toast.error("Selecione apenas um registro para editar!", {position: "top-center", autoClose: 5000 });
+                                                break;
+                                            case 'deletar':
+                                                await Delete(action)
+                                                break;
+                                        }
+                                    }}
+                                    disabled={(action.selectable && selected.length === 0) || (action.type !== 'adicionar' && selected.length === 0)}
+                                >
+                                    {action?.label ?getUppercaseFirstLetter(action?.label) : getUppercaseFirstLetter(action?.type)}
+                                </button>
+                            ))
+                        }
+                    </div>
+                    <div className="text-center align-center m-1">
+                        <div className="relative ">
+                            <input onChange={(e)=>setSearch(e.target.value)} value={search} type="text" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Search" />
+                            <svg 
+                                onClick={Search}
+                                className="h-5 w-5 text-teal-400 absolute inset-y-2 right-1 hover:text-teal-600 cursor-pointer" 
+                                fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                                <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                            </svg>
+                        </div>
+                        {metadata?.keepFilters &&
+                            <button 
+                                onClick={()=>setIsFilterOpen(!isFilterOpen)}
+                                className="bg-teal-500 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded mt-1">
+                                Filter
+                            </button>
+                        }
+                    </div>
+                </div>
+                <div className={`${Object.keys(filterSelected).length === 0 && 'hidden'} w-full mb-2`}>
                     <div className=" mx-3 border border-teal-400 rounded-lg">
                         <div className="ml-5">
                             <strong>Apresentando resultados filtrados por:</strong>
                         </div>
-                        <div className="flex flex-wrap">
+                        <div className="flex flex-wrap overflow-hidden">
                             <div className="flex flex-row items-center justify-center m-1 border border-teal-200 rounded-xl">
                                 <button
                                     onClick={()=>setFilterSelected({})}
@@ -328,10 +416,10 @@ export default function DynamicTablet(
                         </div>
                     </div>
                 </div>
-                <div className="flex justify-center" >
-                    <table className="table-auto rounded-xl overflow-hidden" style={{width:'99%'}}>
+                <div className="sm:flex justify-center overflow-x-scroll">
+                    <table className="table-auto rounded-xl" style={{width:'99%'}}>
                         <thead className=" bg-teal-100 dark:bg-teal-900">
-                            <tr>
+                            <tr key="headerTable">
                                 <th 
                                     key='selectColumn'
                                     className={
@@ -348,11 +436,11 @@ export default function DynamicTablet(
                                     </label>
                                 </th> 
                                 {
-                                    metadata?.fields?.map((column, index) => (
-                                        <th key={index+column.property} className="sticky-top p-3 text-center align-center w-auto">
+                                    metadata?.fields?.filter(x=>x?.visible === undefined || x?.visible).map((column) => (
+                                        <th key={column.property} className="sticky-top p-3 text-center align-center w-auto">
                                             <div className="flex align-center">
                                                 <strong className="text-teal-500 dark:text-teal-400 ">
-                                                    {column?.label?.charAt(0).toUpperCase() + column?.label?.slice(1)}
+                                                    {getUppercaseFirstLetter(column?.label)}
                                                 </strong>
                                                 {column?.sortable && 
                                                 <svg
@@ -385,33 +473,37 @@ export default function DynamicTablet(
                         <tbody className="p-1">
                             {
                                 datasTable.map((row:any, index:number) => (
-                                    <tr  className={`${index % 2 === 0 ? 'bg-teal-50 dark:bg-teal-400 ' : 'bg-teal-200 dark:bg-teal-500'} hover:bg-teal-300 dark:hover:bg-teal-700 p-3 items-center text-center`}>
+                                    <tr key={metadata?.fields.find(x=>x?.key)?.property !== undefined ? row[metadata.fields.find(x=>x.key)?.property||""]: index} className={`${index % 2 === 0 ? 'bg-teal-50 dark:bg-teal-400 ' : 'bg-teal-200 dark:bg-teal-500'} hover:bg-teal-300 dark:hover:bg-teal-700 p-3 items-center text-center`}>
                                         {
-                                            metadata?.fields?.map((column, indexColumn) => 
-                                                (metadata?.actions?.filter((action:actionProps) => action.selectable === true || action.selectableAll).length !== 0) && indexColumn === 0?
-                                                <>
-                                                    <td key={indexColumn+'select'+index} className="w-1 border-b-2 border-gray-400 py-2 px-3"> 
-                                                        <label className="ml-1">
-                                                            <input 
-                                                                checked={selected?.includes(row)}
-                                                                onChange={()=>Select(false, row)}
-                                                                type="checkbox" 
-                                                                className="form-checkbox rounded"
-                                                            />
-                                                        </label>
-                                                    </td>
-                                                    <td className="border-b-2 border-gray-400 py-2 px-3">
-                                                        <div className="flex align-center">
-                                                            {row[column.property]}
-                                                        </div>
-                                                    </td>
-                                                </>
-                                                :
-                                                <td className="border-b-2 border-gray-400 py-2 px-3">
+                                        metadata?.fields?.filter(x=>x?.visible === undefined || x?.visible).map((column, indexColumn) => 
+                                            (metadata?.actions?.filter((action:actionProps) => action.selectable === true || action.selectableAll).length !== 0) && indexColumn === 0?
+                                            <>
+                                                <td key={indexColumn+'select'+index} className="w-1 border-b-2 border-gray-400 py-2 px-3"> 
+                                                    <label className="ml-1">
+                                                    <input 
+                                                        checked={selected?.includes(row)}
+                                                        onChange={()=>Select(false, row)}
+                                                        type="checkbox" 
+                                                        className="form-checkbox rounded"
+                                                    />
+                                                    </label>
+                                                </td>
+                                                <td key={`${column.property}-${index}`} className="border-b-2 border-gray-400 py-2 px-3">
                                                     <div className="flex align-center">
-                                                        {row[column.property]}
+                                                    {
+                                                        formatText(row[column.property], column?.type)
+                                                    }
                                                     </div>
                                                 </td>
+                                            </>
+                                            :
+                                            <td key={`${column.property}-${index}`} className="border-b-2 border-gray-400 py-2 px-3">
+                                                <div className="flex align-center">
+                                                    {
+                                                    formatText(row[column.property], column?.type)
+                                                    }
+                                                </div>
+                                            </td>
                                             )
                                         }
                                     </tr>
@@ -420,13 +512,13 @@ export default function DynamicTablet(
                         </tbody>
                     </table>
                 </div>
-                <ModalFilter
+                {isFilterOpen&&<ModalFilter
                     isFilterOpen={isFilterOpen}
                     setIsFilterOpen={setIsFilterOpen}
-                    fields={metaData.fields}
+                    fields={metadata.fields}
                     filterSelected={filterSelected}
                     filter={(e)=>setFilterSelected(e)}
-                />
+                />}
             </div>
         </>
     )
