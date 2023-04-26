@@ -21,6 +21,24 @@ export default function Router(){
                     <Route path="/home/add" element={<CreateEditTable endpoint="api/users" axios={api} />}/>
                     <Route path="/home/edit/:id" element={<CreateEditTable endpoint="api/users" axios={api} />}/>
                 </Route>
+                <Route path="/role" element={
+                        <DynamicTablet endpoint="api/role" axios={api} />
+                    }>
+                    <Route path="/role/add" element={<CreateEditTable endpoint="api/role" axios={api} />}/>
+                    <Route path="/role/edit/:id" element={<CreateEditTable endpoint="api/role" axios={api} />}/>
+                </Route>
+                <Route path="/modulo" element={
+                        <DynamicTablet endpoint="api/role" axios={api} />
+                    }>
+                    <Route path="/modulo/add" element={<CreateEditTable endpoint="api/role" axios={api} />}/>
+                    <Route path="/modulo/edit/:id" element={<CreateEditTable endpoint="api/role" axios={api} />}/>
+                </Route>
+                <Route path="/page" element={
+                        <DynamicTablet endpoint="api/role" axios={api} />
+                    }>
+                    <Route path="/page/add" element={<CreateEditTable endpoint="api/role" axios={api} />}/>
+                    <Route path="/page/edit/:id" element={<CreateEditTable endpoint="api/role" axios={api} />}/>
+                </Route>
                 <Route path="/diary" element={<Diary/>}/>
             </Route>
         </Routes>

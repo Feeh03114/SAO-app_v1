@@ -20,8 +20,6 @@ interface TableProps {
     datas?: any[];
 }
 
-
-
 export default function DynamicTablet(
     {
         endpoint = "",
@@ -41,8 +39,7 @@ export default function DynamicTablet(
     const [isFilterOpen, setIsFilterOpen] = useState(false);
 
     const navigate = useNavigate();
-    const location = useLocation();
-
+    const location = useLocation(); 
     function Search(){
         const searchProperty = metaData.fields.filter(x=>x.search)
         if(searchProperty.length === 0) {
@@ -105,7 +102,7 @@ export default function DynamicTablet(
         }
         getMetadataAPI();
         getDatasAPI()
-    }, [endpoint,axiosProperty]);
+    }, [endpoint,axiosProperty,location]);
 
     function Select(all:boolean, data?:any){
         if(all){
@@ -213,7 +210,6 @@ export default function DynamicTablet(
         )
     }
 
-
     function formatText(text: any, type?:typeProps){
         switch(type) {
             case 'date':
@@ -267,8 +263,8 @@ export default function DynamicTablet(
     if(location.pathname.includes('edit'))
         return <Outlet />
 
-    if(location.pathname.includes('view'))
-        return <Outlet />
+    /* if(location.pathname.includes('view'))
+        return <Outlet /> */
 
     return(
         <>
@@ -288,14 +284,13 @@ export default function DynamicTablet(
                                                 break;
                                             case 'editar':
                                                 if(Object.keys(selected).length === 1 && GetisKey()) {navigate(`${location.pathname}/edit/${selected[0][metadata?.fields?.find(x=>x.key)?.property||'']}`)};
-                                                if(Object.keys(selected).length > 1)    toast.error("Selecione apenas um registro para editar!", {position: "top-center", autoClose: 5000 });
                                                 break;
                                             case 'deletar':
                                                 await Delete(action)
                                                 break;
                                         }
                                     }}
-                                    disabled={(action.selectable && selected.length === 0) || (action.type !== 'adicionar' && selected.length === 0)}
+                                    disabled={(action.selectable && selected.length === 0) || (action.type !== 'adicionar' && selected.length === 0) || (action.type === 'editar' && selected.length !== 1) || (action.type === 'deletar' && selected.length === 0)}
                                 >
                                     {action?.label ?getUppercaseFirstLetter(action?.label) : getUppercaseFirstLetter(action?.type)}
                                 </button>
@@ -334,14 +329,13 @@ export default function DynamicTablet(
                                                 break;
                                             case 'editar':
                                                 if(Object.keys(selected).length === 1 && GetisKey()) {navigate(`${location.pathname}/edit/${selected[0][metadata?.fields?.find(x=>x.key)?.property||'']}`)};
-                                                if(Object.keys(selected).length > 1)    toast.error("Selecione apenas um registro para editar!", {position: "top-center", autoClose: 5000 });
                                                 break;
                                             case 'deletar':
                                                 await Delete(action)
                                                 break;
                                         }
                                     }}
-                                    disabled={(action.selectable && selected.length === 0) || (action.type !== 'adicionar' && selected.length === 0)}
+                                    disabled={(action.selectable && selected.length === 0) || (action.type !== 'adicionar' && selected.length === 0) || (action.type === 'editar' && selected.length !== 1) || (action.type === 'deletar' && selected.length === 0)}
                                 >
                                     {action?.label ?getUppercaseFirstLetter(action?.label) : getUppercaseFirstLetter(action?.type)}
                                 </button>
@@ -448,7 +442,7 @@ export default function DynamicTablet(
                                                         className={`h-5 w-5 transition-all duration-300 
                                                             ${column.directionSort === 'asc' ? 'rotate-0' : 'rotate-180'}
                                                             text-teal-500 dark:text-teal-400
-                                                            flex items-center justify-center ml-1 cursor-pointer hover:text-teal-600`}
+                                                            flex items-center justify-center ml-1 cursor-pointer hover:text-teal-600 z-20`}
                                                         fill="currentColor"
                                                         strokeLinecap="round"
                                                         strokeLinejoin="round"

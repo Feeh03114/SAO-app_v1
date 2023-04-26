@@ -31,7 +31,7 @@ api.interceptors.request.use(
     
     if (user) {
       const {id} = JSON.parse(DecodificarBase64(user))
-      config!.headers["IdUser"] = id;
+      config!.headers["idUser"] = id;
     }
 
     return config

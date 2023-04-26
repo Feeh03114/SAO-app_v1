@@ -96,10 +96,9 @@ function AuthProvider({ children }: AuthProviderProps): JSX.Element {
       //const {data: dataMenu} = await api.get('api/v1/application/menu')
       const dataMenu = [
         {namePage: "Pagina Inicial", url:'/home', icon: 'BiHomeCircle', isEdit:true, isDelete:true, isCreate:true, isRead:true},
-        {namePage: "Cadastro do paciente", url:'/FormularioRegistro', icon: 'BiHomeCircle', isEdit:true, isDelete:true, isCreate:true, isRead:true},
-        {namePage: "Agenda", url:'/', icon: 'BsCalendarFill', isEdit:true, isDelete:true, isCreate:true, isRead:true},
-        {namePage: "Encaminhamento", url:'/', icon: 'BiSend', isEdit:true, isDelete:true, isCreate:true, isRead:true},
-        {namePage: "Financeiro", url:'/', icon: 'MdAttachMoney', isEdit:true, isDelete:true, isCreate:true, isRead:true},
+        {namePage: "Roles", url:'/role', icon: 'BsCalendarFill', isEdit:true, isDelete:true, isCreate:true, isRead:true},
+        {namePage: "Módulos", url:'/modulo', icon: 'BiSend', isEdit:true, isDelete:true, isCreate:true, isRead:true},
+        {namePage: "Pages", url:'/page', icon: 'MdAttachMoney', isEdit:true, isDelete:true, isCreate:true, isRead:true},
         {namePage: "Exames", url:'/', icon: 'HiOutlineNewspaper', isEdit:true, isDelete:true, isCreate:true, isRead:true},
       ];
 
@@ -128,7 +127,7 @@ function AuthProvider({ children }: AuthProviderProps): JSX.Element {
       //const {data: dataMenu} = await api.get('api/application/menu')
       const dataMenu = [
         {namePage: "Pagina Inicial", url:'/home', icon: 'BiHomeCircle', isEdit:true, isDelete:true, isCreate:true, isRead:true},
-        {namePage: "Agenda", url:'/', icon: 'BsCalendarFill', isEdit:true, isDelete:true, isCreate:true, isRead:true},
+        {namePage: "Roles", url:'/role', icon: 'BsCalendarFill', isEdit:true, isDelete:true, isCreate:true, isRead:true},
         {namePage: "Encaminhamento", url:'/', icon: 'BiSend', isEdit:true, isDelete:true, isCreate:true, isRead:true},
         {namePage: "Financeiro", url:'/', icon: 'MdAttachMoney', isEdit:true, isDelete:true, isCreate:true, isRead:true},
         {namePage: "Exames", url:'/', icon: 'HiOutlineNewspaper', isEdit:true, isDelete:true, isCreate:true, isRead:true},
