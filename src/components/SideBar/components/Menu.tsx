@@ -1,10 +1,10 @@
+import { useSession } from "next-auth/react";
+import Link from "next/link";
 import React, { Fragment } from "react";
-import { Link } from "react-router-dom";
-import { useAuth } from "../../../hook/auth";
 import { Input } from "../../elementTag/input";
 
 export function MenuSideBar({open, setOpen}:{open:boolean, setOpen:React.Dispatch<React.SetStateAction<boolean>>}){
-    const { menu:menus } = useAuth();
+    const {data}:any = useSession();
     return(
         <Fragment>
             <div className="fixed">
@@ -18,9 +18,9 @@ export function MenuSideBar({open, setOpen}:{open:boolean, setOpen:React.Dispatc
                         <Input type="text" placeholder="Pesquisar" className="mt-12 relative block w-full appearance-none rounded-lg border border-blue-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"/>
                         <ul className="space-y-2">
                             {
-                                menus?.map((menu,i) => (
+                                data?.menu?.map((menu:any,i:number) => (
                                     <li key={i}>
-                                        <Link to={menu?.url} key={i} className={`mt-5 flex items-center text-sm gap-3.5 p-3 hover:bg-blue-500 rounded-md font-poppins`}>
+                                        <Link href={menu?.url} key={i} className={`mt-5 flex items-center text-sm gap-3.5 p-3 hover:bg-blue-500 rounded-md font-poppins`}>
                                         {/*  <div>
                                                 <Icon name={menu?.icon} size={20} className=""/>
                                             </div> */}

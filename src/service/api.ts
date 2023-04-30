@@ -1,5 +1,4 @@
 import axios, { AxiosError } from 'axios';
-import { DecodificarBase64, EnconderBase64 } from '../util/util';
 //import env from '../lib/env';
 const api = axios.create({
   baseURL:  `http://localhost:3001`,
@@ -10,7 +9,7 @@ let failedRequestsQueue: {
   onSuccess: (token: string) => void
   onFailure: (err: AxiosError) => void
 }[] = []
-
+/* 
 api.interceptors.request.use(
     (config) => {
     const token = localStorage.getItem('@sao:token')
@@ -100,5 +99,5 @@ api.interceptors.response.use(
     return Promise.reject(error)
   }
 )
-
+ */
 export default api

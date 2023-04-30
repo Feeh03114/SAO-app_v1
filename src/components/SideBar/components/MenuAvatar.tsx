@@ -1,11 +1,13 @@
 /* eslint-disable react/jsx-no-undef */
+import { signOut, useSession } from "next-auth/react";
 import { Fragment, useEffect, useState } from "react";
 import { FaMoon, FaSignOutAlt, FaSun } from 'react-icons/fa';
-import { useAuth } from "../../../hook/auth";
 
 
 export function MenuAvatar({open, onClose}:{open:boolean, onClose:()=>void}){
-    const {signOut, user} = useAuth();
+    //const {signOut, user} = useAuth();
+    const {data}:any = useSession();
+    console.log(data);
     const [isDarkMode, setIsDarkMode] = useState(false);
 
     useEffect(() => {
@@ -25,18 +27,18 @@ export function MenuAvatar({open, onClose}:{open:boolean, onClose:()=>void}){
                 <div className={`fixed top-10 right-1 ${open?'block': 'hidden'} z-50 my-4 text-base list-none bg-white divide-y divide-gray-100 rounded shadow dark:bg-gray-700 dark:divide-gray-600`}>
                     <div className="px-4 py-3" role="none">
                         <p className="text-sm text-gray-900 dark:text-white" role="none">
-                        Nome: {user?.nome}
+                        Nome: {data?.user?.nome}
                         </p>
                         <p className="text-sm font-medium text-gray-900 truncate dark:text-gray-300" role="none">
-                        E-mail: {user?.email}
+                        E-mail: {data?.user?.email}
                         </p>
                         <p className="text-sm font-medium text-gray-900 truncate dark:text-gray-300" role="none">
-                            RU: {user?.ru}
+                            RU: {data?.user?.ru}
                         </p>
-                        {user?.cro &&
+                        {data?.user?.cro &&
                             (
                                 <p className="text-sm font-medium text-gray-900 truncate dark:text-gray-300" role="none">
-                                    {user?.ru}
+                                    {data?.user?.ru}
                                 </p>
                             )
                         }
@@ -52,7 +54,7 @@ export function MenuAvatar({open, onClose}:{open:boolean, onClose:()=>void}){
                             </button>
                         </li>
                         <li>
-                        <button onClick={signOut}
+                        <button onClick={()=>signOut()}
                             className="w-full block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
                         >
                                 <FaSignOutAlt className="inline-block w-4 h-4 mr-2" /> {/* tamanho do ícone: w-5 h-5 */}

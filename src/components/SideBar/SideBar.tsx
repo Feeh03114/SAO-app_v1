@@ -1,8 +1,8 @@
-import logo_uniso from "../../assets/img/logo.svg";
-import avatarUniso from "../../assets/img/Nlogouniso.png";
 
+import { useSession } from "next-auth/react";
+import Head from "next/head";
+import Image from "next/image";
 import React, { ReactNode, useState } from "react";
-import { Title } from "../elementTag/title";
 import { MenuSideBar } from "./components/Menu";
 import { MenuAvatar } from "./components/MenuAvatar";
 
@@ -15,13 +15,20 @@ interface SidebarProps extends React.DetailedHTMLProps<React.HTMLAttributes<HTML
 export function SideBar({title, children, ...rest}:SidebarProps){
     const [isOpenNavbar, setIsOpenNavbar] = useState(false);
     const [isOpenUser, setIsOpenUser] = useState(false);
+    const session:any = useSession();
     return(
         <>
-            <Title title={title}/>
+            <Head>
+                <title>
+                    {session?.data?.menu?.find((x:any)=>x.url==window.location.pathname)?.namePage || title}
+                </title>
+            </Head>
             <MenuSideBar open={isOpenNavbar} setOpen={setIsOpenNavbar}/>
             <div className="h-full flex flex-col">
-                <header>
-                    <nav className="z-50 w-full bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+                <header style={{
+                    display: !session?.data?'none':'block',
+                }}>
+                    <nav className="z-50 w-full bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700 ">
                         <div className="px-3 py-3 lg:px-5 lg:pl-3">
                             <div className="flex items-center justify-between">
                                 <div className="flex items-center justify-start">
@@ -30,13 +37,13 @@ export function SideBar({title, children, ...rest}:SidebarProps){
                                             <path clipRule="evenodd" fillRule="evenodd" d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"></path>
                                         </svg>
                                     </button>
-                                    <img src={logo_uniso} className="h-8 mr-3 flex ml-2 md:mr-24" alt="FlowBite Logo" />
+                                    <Image src='/assets/SVG/logo.svg' className="h-8 mr-3 flex ml-2 md:mr-24" alt="FlowBite Logo" width={130} height={130}/>
                                 </div>
                                 <div className="flex items-center">
                                     <div className="flex items-center ml-3">
                                         <div>
                                             <button onClick={()=>setIsOpenUser(e=>!e)} type="button" className="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" >
-                                                <img className="w-8 h-8 rounded-full" src={avatarUniso} alt="avatar"/>
+                                                <Image className="w-8 h-8 rounded-full" src='/assets/Nlogouniso.png' alt="avatar" width={10} height={10}/>
                                             </button>
                                             <MenuAvatar open={isOpenUser} onClose={()=>setIsOpenUser(e=>!e)}/>
                                         </div>

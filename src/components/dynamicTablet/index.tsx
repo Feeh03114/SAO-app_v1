@@ -1,11 +1,12 @@
+/* eslint-disable react/jsx-key */
 /* eslint-disable no-lone-blocks */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/jsx-no-undef */
 import axios, { AxiosInstance } from "axios";
 import dayjs from 'dayjs';
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { FaListAlt } from 'react-icons/fa';
-import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Tooltip } from 'react-tooltip';
@@ -38,8 +39,7 @@ export default function DynamicTablet(
     const [filterSelected, setFilterSelected] = useState<any>({});
     const [isFilterOpen, setIsFilterOpen] = useState(false);
 
-    const navigate = useNavigate();
-    const location = useLocation(); 
+    const router = useRouter();
     function Search(){
         const searchProperty = metaData.fields.filter(x=>x.search)
         if(searchProperty.length === 0) {
@@ -102,7 +102,7 @@ export default function DynamicTablet(
         }
         getMetadataAPI();
         getDatasAPI()
-    }, [endpoint,axiosProperty,location]);
+    }, [endpoint,axiosProperty]);
 
     function Select(all:boolean, data?:any){
         if(all){
@@ -257,11 +257,11 @@ export default function DynamicTablet(
         return true;
     }
 
-    if(location.pathname.includes('add'))
+  /*   if(location.pathname.includes('add'))
         return <Outlet />
 
     if(location.pathname.includes('edit'))
-        return <Outlet />
+        return <Outlet /> */
 
     /* if(location.pathname.includes('view'))
         return <Outlet /> */
@@ -280,10 +280,10 @@ export default function DynamicTablet(
                                     onClick={async ()=>{
                                         switch (action.type) {
                                             case 'adicionar':
-                                                {navigate(`${location.pathname}/add`)};
+                                                {router.push(`${location.pathname}/add`)};
                                                 break;
                                             case 'editar':
-                                                if(Object.keys(selected).length === 1 && GetisKey()) {navigate(`${location.pathname}/edit/${selected[0][metadata?.fields?.find(x=>x.key)?.property||'']}`)};
+                                                if(Object.keys(selected).length === 1 && GetisKey()) {router.push(`${location.pathname}/edit/${selected[0][metadata?.fields?.find(x=>x.key)?.property||'']}`)};
                                                 break;
                                             case 'deletar':
                                                 await Delete(action)
@@ -325,10 +325,10 @@ export default function DynamicTablet(
                                     onClick={async ()=>{
                                         switch (action.type) {
                                             case 'adicionar':
-                                                {navigate(`${location.pathname}/add`)};
+                                                {router.push(`${location.pathname}/add`)};
                                                 break;
                                             case 'editar':
-                                                if(Object.keys(selected).length === 1 && GetisKey()) {navigate(`${location.pathname}/edit/${selected[0][metadata?.fields?.find(x=>x.key)?.property||'']}`)};
+                                                if(Object.keys(selected).length === 1 && GetisKey()) {router.push(`${location.pathname}/edit/${selected[0][metadata?.fields?.find(x=>x.key)?.property||'']}`)};
                                                 break;
                                             case 'deletar':
                                                 await Delete(action)

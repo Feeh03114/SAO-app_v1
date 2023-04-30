@@ -1,8 +1,9 @@
+/* eslint-disable react/jsx-key */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/jsx-no-undef */
 import axios, { AxiosInstance } from 'axios';
+import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import { getUppercaseFirstLetter } from '../../util/util';
 import { Input } from '../elementTag/input';
@@ -23,8 +24,8 @@ export function CreateEditTable({
 }: FilterProps){
     const [metadata, setMetadata] = useState<metaDataCreateEditProps>(metaData);
     const [data, setData] = useState<any>(datas);
-    const { id } = useParams();
-    const navigate = useNavigate();
+    const router = useRouter();
+    const {id} = router.query;
 
     function gridSpan(field: fieldsProps | optionsProps): string{
         let classStyle = "";
@@ -93,7 +94,7 @@ export function CreateEditTable({
             .then((resp)=>{
                 toast.success("Registro atualizado com sucesso!", {position: "top-center", autoClose: 5000 });
                 newItem? setData({} as any):
-                navigate(-1);
+                router.back();
             })
             .catch((error:any)=>{
                 if(error?.response?.data?.mensagem)
@@ -105,7 +106,7 @@ export function CreateEditTable({
             .then((resp)=>{
                 toast.success("Registro criado com sucesso!", {position: "top-center", autoClose: 5000 });
                 newItem? setData({} as any):
-                navigate(-1);
+                router.back();
             })
             .catch((error:any)=>{
                 if(error?.response?.data?.mensagem)
@@ -177,7 +178,7 @@ export function CreateEditTable({
                                                 save(true);
                                                 break;
                                             case 'cancell':
-                                                navigate(-1);
+                                                router.back();
                                                 break;
                                         }
                                     }}
