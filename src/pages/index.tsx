@@ -1,5 +1,5 @@
 import { GetServerSideProps } from 'next';
-import { getSession } from 'next-auth/react';
+import { getSession, signOut } from 'next-auth/react';
 import { Inter } from 'next/font/google';
 import Image from 'next/image';
 
@@ -120,7 +120,7 @@ export default function Home() {
 }
 
 export const getServerSideProps: GetServerSideProps = async (ctx: any) => {
-  const session = await getSession(ctx);
+  const session:any = await getSession(ctx);
   if(session === null)
     return {
       redirect: {
@@ -132,9 +132,16 @@ export const getServerSideProps: GetServerSideProps = async (ctx: any) => {
       },
     }
   else
+    session?.menu?.length === 0 
+    if(session?.menu?.length === 0) signOut({callbackUrl: '/login'});
+
     return {
+      redirect: {
+        permanent: false,
+        destination: session?.menu[0].url,
+      },
       props: {
         session,
       },
-    };
+    }
 };

@@ -1,7 +1,10 @@
 import axios, { AxiosError } from 'axios';
+import { getSession } from 'next-auth/react';
+
 //import env from '../lib/env';
 const api = axios.create({
   baseURL:  `http://localhost:3001`,
+  //withCredentials: true,
 })
 
 let isRefreshing = false
@@ -9,14 +12,26 @@ let failedRequestsQueue: {
   onSuccess: (token: string) => void
   onFailure: (err: AxiosError) => void
 }[] = []
-/* 
-api.interceptors.request.use(
-    (config) => {
-    const token = localStorage.getItem('@sao:token')
-    if (token) {
-      config!.headers!.Authorization = `Bearer ${DecodificarBase64(token)}`
-    }
 
+api.interceptors.request.use(
+  async (config: any): Promise<any> => {
+    const session: any = await getSession();   
+    if (session) {
+      config.headers.Authorization = `Bearer ${session.accessToken}`;
+    }
+    return config; 
+  },
+  (error) => {
+    console.error('Axios interceptor Authorization: ', error);
+  }
+);
+
+api.interceptors.request.use(
+  async (config) => {
+    const session: any = await getSession();
+    if (session) {
+      config!.headers["idUser"] = session.user.id;
+    }
     return config
   },
   error => {
@@ -24,80 +39,48 @@ api.interceptors.request.use(
   }
 )
 
-api.interceptors.request.use(
-  (config) => {
-    const user = localStorage.getItem('@sao:user')
-    
-    if (user) {
-      const {id} = JSON.parse(DecodificarBase64(user))
-      config!.headers["idUser"] = id;
-    }
-
-    return config
-  },
-  error => {
-    console.error('Axios interceptor: ', error)
+/* api.interceptors.request.use(async (config) => {
+  const session = await getSession();
+  if (session) {
+    config.headers.Cookie = session;
   }
-)
+  return config;
+}); */
 
 api.interceptors.response.use(
-  response => {
-    return response
-  },
-  async (error: any) => {
-    if (error.response?.status === 401) {
-        console.log('error.response?.code', error.response)
-      if (error.response?.data?.code === 'token.expired') {
-        const originalConfig = error.config
+  (response) => response,
+  async (error) => {
+    const originalRequest = error.config;
 
-        if (!isRefreshing) {
-          isRefreshing = true
+    // Verifica se a sessão expirou e se o erro é 401
+    if (error.response.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
 
-          const jsonRefreshToken =  localStorage.getItem('@sao:refreshToken')
-          const localStorageuser = localStorage.getItem('@sao:user')
-
-          if (jsonRefreshToken && localStorageuser) {
-            const {ru} = JSON.parse(DecodificarBase64(localStorageuser))
-
-            api
-              .post(`api/auth/validate-refreshtoken/${DecodificarBase64(jsonRefreshToken)}/${ru}`)
-              .then(async response => {
-                const { token, refreshToken: newRefreshToken } = response.data
-                localStorage.setItem('@sao:token', EnconderBase64(token))
-
-                if (newRefreshToken) localStorage.setItem('@sao:refreshToken', JSON.stringify(newRefreshToken))
-
-                failedRequestsQueue.forEach(request => request.onSuccess(token))
-                failedRequestsQueue = []
-              })
-              .catch(err => {
-                failedRequestsQueue.forEach(request => request.onFailure(err))
-                failedRequestsQueue = []
-              })
-              .finally(() => {
-                isRefreshing = false
-              })
-          }
-        }
-
-        return new Promise((resolve, reject) => {
-          failedRequestsQueue.push({
-            onSuccess: (token: string) => {
-              originalConfig!.headers!.Authorization = `Bearer ${token}`
-
-              resolve(originalConfig)
-            },
-            onFailure: (err: AxiosError) => {
-              reject(err)
-            },
-          })
-        })
+      // Atualiza o token de acesso usando o refreshToken do NextAuth.js
+      const session = await getSession();
+      const newAccessToken = await refreshAccessToken(session);
+      if (newAccessToken) {
+        // Atualiza o cabeçalho Authorization com o novo token de acesso
+        originalRequest.headers.Authorization = `Bearer ${newAccessToken.accessToken}`;
+        // Reenvia a solicitação original com o novo token de acesso
+        return api(originalRequest);
       }
     }
 
-    console.error('Error:', error)
-    return Promise.reject(error)
+    return Promise.reject(error);
   }
-)
- */
+);
+
+async function refreshAccessToken(session:any) {
+  const { data }:any = await api
+    .get(`/api/auth/validate-refreshtoken/${session.refreshToken}/${session.user.ru}`);
+
+  if (!data || !data.accessToken) {
+    // Se o token de atualização expirou, o usuário será redirecionado para a página de login
+    return null;
+  }
+
+  return data;
+}
+
 export default api

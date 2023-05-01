@@ -63,6 +63,7 @@ export default NextAuth({
                     ...token,
                     accessToken: user?.token,
                     expiration: user?.expiresIn,
+                    refreshToken: user?.refreshToken,
                     user: user.user,
                     menu: user.menu,
                 };
@@ -72,6 +73,7 @@ export default NextAuth({
         },
     
         async session({ session, token }: any) {
+            session.refreshToken = token?.refreshToken;
             session.accessToken = token?.accessToken;
             session.expiration = token?.expiration;
             session.user = token?.user;

@@ -2,6 +2,7 @@
 import { useSession } from "next-auth/react";
 import Head from "next/head";
 import Image from "next/image";
+import { useRouter } from "next/router";
 import React, { ReactNode, useState } from "react";
 import { MenuSideBar } from "./components/Menu";
 import { MenuAvatar } from "./components/MenuAvatar";
@@ -15,12 +16,13 @@ interface SidebarProps extends React.DetailedHTMLProps<React.HTMLAttributes<HTML
 export function SideBar({title, children, ...rest}:SidebarProps){
     const [isOpenNavbar, setIsOpenNavbar] = useState(false);
     const [isOpenUser, setIsOpenUser] = useState(false);
+    const router = useRouter();
     const session:any = useSession();
     return(
         <>
             <Head>
                 <title>
-                    {session?.data?.menu?.find((x:any)=>x.url==window.location.pathname)?.namePage || title}
+                    {session?.data?.menu?.find((x:any)=>x?.url==router?.pathname)?.namePage || title}
                 </title>
             </Head>
             <MenuSideBar open={isOpenNavbar} setOpen={setIsOpenNavbar}/>

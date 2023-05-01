@@ -3,6 +3,7 @@ import '@/styles/globals.css';
 import { SessionProvider } from 'next-auth/react';
 import type { AppProps } from 'next/app';
 import { useEffect } from 'react';
+import { ToastContainer } from 'react-toastify';
 
 export default function App({ Component, pageProps }: AppProps) {
   useEffect(() => {
@@ -18,10 +19,14 @@ export default function App({ Component, pageProps }: AppProps) {
     }
   }, []);
   return (
-    <SessionProvider session={pageProps.session}>
-      <SideBar title="Sistema de Acompanhamento Odontológico">
-        <Component {...pageProps} />
-      </SideBar>
-    </SessionProvider>
+    <>
+      <ToastContainer />
+      <SessionProvider session={pageProps.session}>
+        <SideBar title="Sistema de Acompanhamento Odontológico">
+          <Component {...pageProps} />
+        </SideBar>
+      </SessionProvider>
+    </>
+    
   )
 }

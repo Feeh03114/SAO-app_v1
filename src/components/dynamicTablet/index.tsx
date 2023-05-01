@@ -7,7 +7,7 @@ import dayjs from 'dayjs';
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { FaListAlt } from 'react-icons/fa';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Tooltip } from 'react-tooltip';
 import { getUppercaseFirstLetter } from "../../util/util";
@@ -267,219 +267,220 @@ export default function DynamicTablet(
         return <Outlet /> */
 
     return(
-        <>
-            <ToastContainer />
-            <div className="w-full h-full flex-1 bg-white dark:bg-gray-600 dark:text-white">
-                <h1 className=" ml-3 pt-5 text-3xl font-bold">{metadata.title}</h1>
-                <div className=" justify-between m-3 mb-2 mt-5 sm-mobile:hidden sm:flex">
-                    <div className="inline">
-                        {
-                            metadata?.actions?.map((action, index) => (
-                                <button key={index+action.type} className={`bg-teal-500 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded disabled:bg-teal-900 disabled:text-white disabled:cursor-not-allowed
-                                    ${metaData?.actions?.length !== index && 'ml-1'}`}
-                                    onClick={async ()=>{
-                                        switch (action.type) {
-                                            case 'adicionar':
-                                                {router.push(`${location.pathname}/add`)};
-                                                break;
-                                            case 'editar':
-                                                if(Object.keys(selected).length === 1 && GetisKey()) {router.push(`${location.pathname}/edit/${selected[0][metadata?.fields?.find(x=>x.key)?.property||'']}`)};
-                                                break;
-                                            case 'deletar':
-                                                await Delete(action)
-                                                break;
-                                        }
-                                    }}
-                                    disabled={(action.selectable && selected.length === 0) || (action.type !== 'adicionar' && selected.length === 0) || (action.type === 'editar' && selected.length !== 1) || (action.type === 'deletar' && selected.length === 0)}
-                                >
-                                    {action?.label ?getUppercaseFirstLetter(action?.label) : getUppercaseFirstLetter(action?.type)}
-                                </button>
-                            ))
-                        }
-                    </div>
-                    <div className="text-center align-center">
-                        <div className="inline-block relative mr-1">
-                            <input onChange={(e)=>setSearch(e.target.value)} value={search} type="text" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Search" />
-                            <svg 
-                                onClick={Search}
-                                className="h-5 w-5 text-teal-400 absolute inset-y-2 right-1 hover:text-teal-600 cursor-pointer" 
-                                fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
-                                <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                            </svg>
-                        </div>
-                        {metadata?.keepFilters &&
-                            <button 
-                                onClick={()=>setIsFilterOpen(!isFilterOpen)}
-                                className="bg-teal-500 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded">
-                                Filter
+        <div className="w-full h-full flex-1 bg-white dark:bg-gray-600 dark:text-white">
+            <h1 className=" ml-3 pt-5 text-3xl font-bold">{metadata.title}</h1>
+            <div className=" justify-between m-3 mb-2 mt-5 sm-mobile:hidden sm:flex">
+                <div className="inline">
+                    {
+                        metadata?.actions?.map((action, index) => (
+                            <button key={index+action.type} className={`bg-teal-500 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded disabled:bg-teal-900 disabled:text-white disabled:cursor-not-allowed
+                                ${metaData?.actions?.length !== index && 'ml-1'}`}
+                                onClick={async ()=>{
+                                    switch (action.type) {
+                                        case 'adicionar':
+                                            {router.push(`${location.pathname}/add`)};
+                                            break;
+                                        case 'editar':
+                                            if(Object.keys(selected).length === 1 && GetisKey()) {router.push(`${location.pathname}/edit/${selected[0][metadata?.fields?.find(x=>x.key)?.property||'']}`)};
+                                            break;
+                                        case 'deletar':
+                                            await Delete(action)
+                                            break;
+                                    }
+                                }}
+                                disabled={(action.selectable && selected.length === 0) || (action.type !== 'adicionar' && selected.length === 0) || (action.type === 'editar' && selected.length !== 1) || (action.type === 'deletar' && selected.length === 0)}
+                            >
+                                {action?.label ?getUppercaseFirstLetter(action?.label) : getUppercaseFirstLetter(action?.type)}
                             </button>
-                        }
-                    </div>
+                        ))
+                    }
                 </div>
-                <div className="sm:hidden">
-                    <div className="w-full justify-center">
-                        {
-                            metadata?.actions?.map((action, index) => (
-                                <button key={index+action.type} className={`bg-teal-500 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded disabled:bg-teal-900 disabled:text-white disabled:cursor-not-allowed
-                                    ${metaData?.actions?.length !== index && 'ml-1'}`}
-                                    onClick={async ()=>{
-                                        switch (action.type) {
-                                            case 'adicionar':
-                                                {router.push(`${location.pathname}/add`)};
-                                                break;
-                                            case 'editar':
-                                                if(Object.keys(selected).length === 1 && GetisKey()) {router.push(`${location.pathname}/edit/${selected[0][metadata?.fields?.find(x=>x.key)?.property||'']}`)};
-                                                break;
-                                            case 'deletar':
-                                                await Delete(action)
-                                                break;
-                                        }
-                                    }}
-                                    disabled={(action.selectable && selected.length === 0) || (action.type !== 'adicionar' && selected.length === 0) || (action.type === 'editar' && selected.length !== 1) || (action.type === 'deletar' && selected.length === 0)}
-                                >
-                                    {action?.label ?getUppercaseFirstLetter(action?.label) : getUppercaseFirstLetter(action?.type)}
-                                </button>
-                            ))
-                        }
+                <div className="text-center align-center">
+                    <div className="inline-block relative mr-1">
+                        <input onChange={(e)=>setSearch(e.target.value)} value={search} type="text" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Search" />
+                        <svg 
+                            onClick={Search}
+                            className="h-5 w-5 text-teal-400 absolute inset-y-2 right-1 hover:text-teal-600 cursor-pointer" 
+                            fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                            <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                        </svg>
                     </div>
-                    <div className="text-center align-center m-1">
-                        <div className="relative ">
-                            <input onChange={(e)=>setSearch(e.target.value)} value={search} type="text" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Search" />
-                            <svg 
-                                onClick={Search}
-                                className="h-5 w-5 text-teal-400 absolute inset-y-2 right-1 hover:text-teal-600 cursor-pointer" 
-                                fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
-                                <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                            </svg>
-                        </div>
-                        {metadata?.keepFilters &&
-                            <button 
-                                onClick={()=>setIsFilterOpen(!isFilterOpen)}
-                                className="bg-teal-500 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded mt-1">
-                                Filter
+                    {metadata?.keepFilters &&
+                        <button 
+                            onClick={()=>setIsFilterOpen(!isFilterOpen)}
+                            className="bg-teal-500 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded">
+                            Filter
+                        </button>
+                    }
+                </div>
+            </div>
+            <div className="sm:hidden">
+                <div className="w-full justify-center">
+                    {
+                        metadata?.actions?.map((action, index) => (
+                            <button key={index+action.type} className={`bg-teal-500 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded disabled:bg-teal-900 disabled:text-white disabled:cursor-not-allowed
+                                ${metaData?.actions?.length !== index && 'ml-1'}`}
+                                onClick={async ()=>{
+                                    switch (action.type) {
+                                        case 'adicionar':
+                                            {router.push(`${location.pathname}/add`)};
+                                            break;
+                                        case 'editar':
+                                            if(Object.keys(selected).length === 1 && GetisKey()) {router.push(`${location.pathname}/edit/${selected[0][metadata?.fields?.find(x=>x.key)?.property||'']}`)};
+                                            break;
+                                        case 'deletar':
+                                            await Delete(action)
+                                            break;
+                                    }
+                                }}
+                                disabled={(action.selectable && selected.length === 0) || (action.type !== 'adicionar' && selected.length === 0) || (action.type === 'editar' && selected.length !== 1) || (action.type === 'deletar' && selected.length === 0)}
+                            >
+                                {action?.label ?getUppercaseFirstLetter(action?.label) : getUppercaseFirstLetter(action?.type)}
                             </button>
-                        }
-                    </div>
+                        ))
+                    }
                 </div>
-                <div className={`${Object.keys(filterSelected).length === 0 && 'hidden'} w-full mb-2`}>
-                    <div className=" mx-3 border border-teal-400 rounded-lg">
-                        <div className="ml-5">
-                            <strong>Apresentando resultados filtrados por:</strong>
+                <div className="text-center align-center m-1">
+                    <div className="relative ">
+                        <input onChange={(e)=>setSearch(e.target.value)} value={search} type="text" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Search" />
+                        <svg 
+                            onClick={Search}
+                            className="h-5 w-5 text-teal-400 absolute inset-y-2 right-1 hover:text-teal-600 cursor-pointer" 
+                            fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                            <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                        </svg>
+                    </div>
+                    {metadata?.keepFilters &&
+                        <button 
+                            onClick={()=>setIsFilterOpen(!isFilterOpen)}
+                            className="bg-teal-500 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded mt-1">
+                            Filter
+                        </button>
+                    }
+                </div>
+            </div>
+            <div className={`${Object.keys(filterSelected).length === 0 && 'hidden'} w-full mb-2`}>
+                <div className=" mx-3 border border-teal-400 rounded-lg">
+                    <div className="ml-5">
+                        <strong>Apresentando resultados filtrados por:</strong>
+                    </div>
+                    <div className="flex flex-wrap overflow-hidden">
+                        <div className="flex flex-row items-center justify-center m-1 border border-teal-200 rounded-xl">
+                            <button
+                                onClick={()=>setFilterSelected({})}
+                                className="bg-teal-500 hover:bg-teal-700 text-white font-bold py-1 px-2 rounded-xl">
+                                Remover todos
+                            </button>
                         </div>
-                        <div className="flex flex-wrap overflow-hidden">
-                            <div className="flex flex-row items-center justify-center m-1 border border-teal-200 rounded-xl">
-                                <button
-                                    onClick={()=>setFilterSelected({})}
-                                    className="bg-teal-500 hover:bg-teal-700 text-white font-bold py-1 px-2 rounded-xl">
-                                    Remover todos
-                                </button>
-                            </div>
-                            {
-                                Object.keys(filterSelected).map((key) => 
-                                    Array.isArray(filterSelected[key]) ?
-                                    filterSelected[key].map((value:any) =>
-                                        <div className="flex flex-row items-center justify-center m-1 border border-teal-200 rounded-xl">
-                                        {parameterFilter(key, value)}
-                                        <button
-                                            onClick={()=>setFilterSelected((e:any)=>{
-                                                const newFilter = {...e};
-                                                if(newFilter[key].length === 1) delete newFilter[key];
-                                                else newFilter[key] = newFilter[key].filter((x:any)=>x !== value);
-                                                return newFilter;
-                                            })}
-                                            className="bg-teal-500 hover:bg-teal-700 text-white font-bold py-1 px-2 ml-1 rounded-r-xl">
-                                            X
-                                        </button>
-                                        </div>
-                                    )
-                                    :
+                        {
+                            Object.keys(filterSelected).map((key) => 
+                                Array.isArray(filterSelected[key]) ?
+                                filterSelected[key].map((value:any) =>
                                     <div className="flex flex-row items-center justify-center m-1 border border-teal-200 rounded-xl">
-                                        {parameterFilter(key)}
-                                        <button
+                                    {parameterFilter(key, value)}
+                                    <button
                                         onClick={()=>setFilterSelected((e:any)=>{
                                             const newFilter = {...e};
-                                            delete newFilter[key];
+                                            if(newFilter[key].length === 1) delete newFilter[key];
+                                            else newFilter[key] = newFilter[key].filter((x:any)=>x !== value);
                                             return newFilter;
                                         })}
                                         className="bg-teal-500 hover:bg-teal-700 text-white font-bold py-1 px-2 ml-1 rounded-r-xl">
-                                            X
-                                        </button>
+                                        X
+                                    </button>
                                     </div>
                                 )
-                            }
-                        </div>
+                                :
+                                <div className="flex flex-row items-center justify-center m-1 border border-teal-200 rounded-xl">
+                                    {parameterFilter(key)}
+                                    <button
+                                    onClick={()=>setFilterSelected((e:any)=>{
+                                        const newFilter = {...e};
+                                        delete newFilter[key];
+                                        return newFilter;
+                                    })}
+                                    className="bg-teal-500 hover:bg-teal-700 text-white font-bold py-1 px-2 ml-1 rounded-r-xl">
+                                        X
+                                    </button>
+                                </div>
+                            )
+                        }
                     </div>
                 </div>
-                <div className="sm:flex justify-center overflow-x-scroll">
-                    <table className="table-auto rounded-xl" style={{width:'99%'}}>
-                        <thead className=" bg-teal-100 dark:bg-teal-900">
-                            <tr key="headerTable">
-                                <th 
-                                    key='selectColumn'
-                                    className={
-                                    `w-1 sticky-top p-3 text-center 
-                                    ${(metadata?.actions?.filter((action:actionProps) => action.selectable === true || action.selectableAll).length === 0) && 'hidden'}`}
-                                > 
-                                    <label className={`ml-1  ${(metadata?.actions?.filter((action:actionProps) => action.selectableAll).length === 0) && 'hidden'}`}>
-                                        <input
-                                            checked={selected?.length === datasTable?.length}
-                                            onChange={()=>Select(true)}
-                                            type="checkbox" 
-                                            className="form-checkbox rounded"
-                                        />
-                                    </label>
-                                </th> 
-                                {
-                                    metadata?.fields?.filter(x=>x?.visible === undefined || x?.visible).map((column) => (
-                                        <th key={column.property} className="sticky-top p-3 text-center align-center w-auto">
-                                            <div className="flex align-center">
-                                                <strong className="text-teal-500 dark:text-teal-400 ">
-                                                    {getUppercaseFirstLetter(column?.label)}
-                                                </strong>
-                                                {column?.sortable && 
-                                                <svg
-                                                        onClick={() => setDataTable(data => orderTable(data,undefined,column.property, column.directionSort))}
-                                                        className={`h-5 w-5 transition-all duration-300 
-                                                            ${column.directionSort === 'asc' ? 'rotate-0' : 'rotate-180'}
-                                                            text-teal-500 dark:text-teal-400
-                                                            flex items-center justify-center ml-1 cursor-pointer hover:text-teal-600 z-20`}
-                                                        fill="currentColor"
-                                                        strokeLinecap="round"
-                                                        strokeLinejoin="round"
-                                                        strokeWidth="2"
-                                                        viewBox="0 0 24 24"
-                                                        stroke="currentColor"
-                                                    >
-                                                        <path
-                                                                strokeLinecap="round"
-                                                                strokeLinejoin="round"
-                                                                strokeWidth="2"
-                                                                d="M7 9l5 5 5-5"
-                                                            />
-                                                    </svg>
-                                                }
-                                            </div>
-                                        </th>
-                                    ))
-                                }
-                            </tr>
-                        </thead>
-                        <tbody className="p-1">
+            </div>
+            <div className="sm:flex justify-center overflow-auto border rounded-lg mx-1 h-screen" >
+                <table className="overflow-x-scroll table-auto w-full" >
+                    <thead className=" bg-teal-100 dark:bg-teal-900">
+                        <tr key="headerTable">
+                            <th 
+                                key='selectColumn'
+                                className={
+                                `w-1 sticky-top p-3 text-center
+                                ${(metadata?.actions?.filter((action:actionProps) => action.selectable === true || action.selectableAll).length === 0) && 'hidden'}`}
+                            > 
+                                <label className={`ml-1  ${(metadata?.actions?.filter((action:actionProps) => action.selectableAll).length === 0) && 'hidden'}`}>
+                                    <input
+                                        checked={selected?.length === datasTable?.length}
+                                        onChange={()=>Select(true)}
+                                        type="checkbox" 
+                                        className="form-checkbox rounded"
+                                    />
+                                </label>
+                            </th> 
                             {
-                                datasTable.map((row:any, index:number) => (
-                                    <tr key={metadata?.fields.find(x=>x?.key)?.property !== undefined ? row[metadata.fields.find(x=>x.key)?.property||""]: index} className={`${index % 2 === 0 ? 'bg-teal-50 dark:bg-teal-400 ' : 'bg-teal-200 dark:bg-teal-500'} hover:bg-teal-300 dark:hover:bg-teal-700 p-3 items-center text-center`}>
-                                        {
-                                        metadata?.fields?.filter(x=>x?.visible === undefined || x?.visible).map((column, indexColumn) => 
-                                            (metadata?.actions?.filter((action:actionProps) => action.selectable === true || action.selectableAll).length !== 0) && indexColumn === 0?
+                                metadata?.fields?.filter(x=>x?.visible === undefined || x?.visible).map((column) => (
+                                    <th key={column.property} className="sticky-top p-3 text-center align-center mx-auto">
+                                        <div className="flex align-center">
+                                            <strong className="text-teal-500 dark:text-teal-400 ">
+                                                {getUppercaseFirstLetter(column?.label)}
+                                            </strong>
+                                            {column?.sortable && 
+                                            <svg
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                onClick={() => setDataTable(data => orderTable(data,undefined,column.property, column.directionSort))}
+                                                className={`h-5 w-5 transition-all duration-300 
+                                                    ${column.directionSort === 'asc' ? 'rotate-0' : 'rotate-180'}
+                                                    text-teal-500 dark:text-teal-400
+                                                    flex items-center justify-center ml-1 cursor-pointer hover:text-teal-600`}
+                                                fill="currentColor"
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                                strokeWidth="2"
+                                                viewBox="0 0 24 24"
+                                                stroke="currentColor"
+                                            >
+                                                <path
+                                                    strokeLinecap="round"
+                                                    strokeLinejoin="round"
+                                                    strokeWidth="2"
+                                                    d="M7 9l5 5 5-5"
+                                                />
+                                            </svg>
+                                            }
+                                        </div>
+                                    </th>
+                                ))
+                            }
+                        </tr>
+                    </thead>
+                    <tbody className="p-1 overflow-y-scroll">
+                        {
+                            datasTable.map((row:any, index:number) => (
+                                <tr key={metadata?.fields.find(x=>x?.key)?.property !== undefined ? row[metadata.fields.find(x=>x.key)?.property||""]: index} 
+                                    className={`${index % 2 === 0 ? 'bg-teal-50 dark:bg-teal-400 ' : 'bg-teal-200 dark:bg-teal-500'} 
+                                    hover:bg-teal-300 dark:hover:bg-teal-700 p-3 items-center text-center `}>
+                                    {
+                                    metadata?.fields?.filter(x=>x?.visible === undefined || x?.visible).map((column, indexColumn) => 
+                                        (metadata?.actions?.filter((action:actionProps) => action.selectable === true || action.selectableAll).length !== 0) && indexColumn === 0?
                                             <>
-                                                <td key={indexColumn+'select'+index} className="w-1 border-b-2 border-gray-400 py-2 px-3"> 
+                                                <td key={indexColumn+'select'+index} className="border-b-2 border-gray-400 py-2 px-3 w-2 "> 
                                                     <label className="ml-1">
-                                                    <input 
-                                                        checked={selected?.includes(row)}
-                                                        onChange={()=>Select(false, row)}
-                                                        type="checkbox" 
-                                                        className="form-checkbox rounded"
-                                                    />
+                                                        <input 
+                                                            checked={selected?.includes(row)}
+                                                            onChange={()=>Select(false, row)}
+                                                            type="checkbox" 
+                                                            className="form-checkbox rounded"
+                                                        />
                                                     </label>
                                                 </td>
                                                 <td key={`${column.property}-${index}`} className="border-b-2 border-gray-400 py-2 px-3">
@@ -490,7 +491,7 @@ export default function DynamicTablet(
                                                     </div>
                                                 </td>
                                             </>
-                                            :
+                                        :
                                             <td key={`${column.property}-${index}`} className="border-b-2 border-gray-400 py-2 px-3">
                                                 <div className="flex align-center">
                                                     {
@@ -498,22 +499,21 @@ export default function DynamicTablet(
                                                     }
                                                 </div>
                                             </td>
-                                            )
-                                        }
-                                    </tr>
-                                ))
-                            }
-                        </tbody>
-                    </table>
-                </div>
-                {isFilterOpen&&<ModalFilter
-                    isFilterOpen={isFilterOpen}
-                    setIsFilterOpen={setIsFilterOpen}
-                    fields={metadata.fields}
-                    filterSelected={filterSelected}
-                    filter={(e)=>setFilterSelected(e)}
-                />}
+                                        )
+                                    }
+                                </tr>
+                            ))
+                        }
+                    </tbody>
+                </table>
             </div>
-        </>
+            {isFilterOpen&&<ModalFilter
+                isFilterOpen={isFilterOpen}
+                setIsFilterOpen={setIsFilterOpen}
+                fields={metadata.fields}
+                filterSelected={filterSelected}
+                filter={(e)=>setFilterSelected(e)}
+            />}
+        </div>
     )
 }

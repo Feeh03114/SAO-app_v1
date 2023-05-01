@@ -5,9 +5,7 @@ import { FaMoon, FaSignOutAlt, FaSun } from 'react-icons/fa';
 
 
 export function MenuAvatar({open, onClose}:{open:boolean, onClose:()=>void}){
-    //const {signOut, user} = useAuth();
     const {data}:any = useSession();
-    console.log(data);
     const [isDarkMode, setIsDarkMode] = useState(false);
 
     useEffect(() => {
