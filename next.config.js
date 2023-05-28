@@ -51,5 +51,4 @@ module.exports = withPWA({
 
 		return config;
 	},
-	output: 'standalone',
 });
