@@ -7,7 +7,7 @@
     "ENV NEXT_TELEMETRY_DISABLED=1",
     "EXPOSE 80",
     "WORKDIR /usr/src/app",
-    "COPY package*.json./",
+    "COPY package*.json ./",
     "RUN npm install --force && npm cache clean --force",
     "COPY . .",
     "RUN npm run build",
