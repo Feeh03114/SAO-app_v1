@@ -9,9 +9,9 @@
     "WORKDIR /usr/src/app",
     "COPY package*.json ./",
     "RUN npm install --force && npm cache clean --force",
-    "COPY . .",
     "RUN npm run build",
     "COPY . .",
+    "COPY ./src ./",
     "CMD [ \"npm\", \"start\" ]"
   ]
 }
