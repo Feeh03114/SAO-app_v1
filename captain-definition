@@ -9,7 +9,6 @@
     "RUN yarn install --frozen-lockfile && yarn cache clean --force",
     "COPY . .",
     "RUN yarn build",
-    "RUN chmod -R 777 ./",
-    "CMD [ \"yarn\", \"dev\" ]"
+    "CMD [ \"yarn\", \"start\" ]"
   ]
 }
