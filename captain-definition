@@ -6,6 +6,8 @@
     "EXPOSE 80",
     "WORKDIR /usr/src/app",
     "COPY package.json ./",
+    "COPY yarn.lock ./",
+    "RUN yarn cache clean --force",
     "RUN yarn install",
     "COPY . .",
     "RUN yarn build",
