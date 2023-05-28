@@ -408,9 +408,9 @@ export default function DynamicTablet(
                     </div>
                 </div>
             </div>
-            <div className="sm:flex justify-center overflow-auto border rounded-lg mx-1 h-screen" >
-                <table className="overflow-x-scroll table-auto w-full" >
-                    <thead className=" bg-teal-100 dark:bg-teal-900">
+            <div className="sm:flex justify-center overflow-auto border rounded-lg mx-1 max-h-[60vh] md:max-h-[70vh]" >
+                <table className="overflow-scroll table-auto w-full" >
+                    <thead className=" bg-teal-100 dark:bg-teal-900 rounded-lg w-full z-0">{/* fixed */}
                         <tr key="headerTable">
                             <th 
                                 key='selectColumn'
@@ -463,7 +463,7 @@ export default function DynamicTablet(
                             }
                         </tr>
                     </thead>
-                    <tbody className="p-1 overflow-y-scroll">
+                    <tbody className="p-">
                         {
                             datasTable.map((row:any, index:number) => (
                                 <tr key={metadata?.fields.find(x=>x?.key)?.property !== undefined ? row[metadata.fields.find(x=>x.key)?.property||""]: index} 

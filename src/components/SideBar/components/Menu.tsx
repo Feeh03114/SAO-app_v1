@@ -13,7 +13,7 @@ export function MenuSideBar({open, setOpen}:{open:boolean, setOpen:React.Dispatc
 
     return(
         <Fragment>
-            <div className="fixed">
+            <div className="fixed z-10">
                 <div className={`${open?'block': 'hidden'} fixed top-0 bottom-0 left-0 right-0 opacity-75`} onClick={()=>setOpen(e=>!e)} />
                 <aside
                     className={`transform duration-500 ease-in-out fixed top-0 left-0 w-64 h-screen
