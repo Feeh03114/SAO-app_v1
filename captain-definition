@@ -5,10 +5,10 @@
     "ENV PORT=80",
     "EXPOSE 80",
     "WORKDIR /usr/src/app",
-    "COPY package*.json ./",
-    "RUN npm install && npm cache clean --force",
+    "COPY package.json yarn.lock  ./",
+    "RUN yarn && yarn cache clean --force",
     "COPY . .",
-    "RUN npm run build",
+    "RUN yarn build",
     "CMD [ \"npm\", \"start\" ]"
   ]
 }
