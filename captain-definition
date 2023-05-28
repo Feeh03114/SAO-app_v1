@@ -9,7 +9,7 @@
     "RUN yarn && yarn cache clean --force",
     "COPY . .",
     "RUN yarn build",
-    "RUN chmod -R 777 ./.next",
+    "RUN chmod -R 777 ./",
     "CMD [ \"npm\", \"start\" ]"
   ]
 }
