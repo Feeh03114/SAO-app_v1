@@ -10,6 +10,6 @@
     "COPY . .",
     "RUN yarn build",
     "RUN chmod -R 777 ./",
-    "CMD [ \"npm\", \"dev\" ]"
+    "CMD [ \"yarn\", \"dev\" ]"
   ]
 }
