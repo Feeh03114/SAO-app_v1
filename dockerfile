@@ -33,13 +33,10 @@ COPY --from=builder /app/package.json ./package.json
 COPY --from=builder --chown=bloguser:bloggroup /app/.next/standalone ./
 COPY --from=builder --chown=bloguser:bloggroup /app/.next/static ./.next/static
 
-RUN chown -R bloguser:bloggroup /app/.next
-RUN chown -R bloguser:bloggroup ./
-
 USER bloguser
 
-EXPOSE 3005
+EXPOSE 80
 
-ENV PORT 3005
+ENV PORT 80
 
 CMD ["node", "server.js"]
