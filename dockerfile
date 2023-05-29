@@ -38,8 +38,8 @@ RUN chown -R bloguser:bloggroup ./
 
 USER bloguser
 
-EXPOSE 80
+EXPOSE 3005
 
-ENV PORT 80
+ENV PORT 3005
 
 CMD ["node", "server.js"]
