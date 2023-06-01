@@ -68,7 +68,7 @@ export function CreateEditTable({
                     }
                 }
                 newFields.push(field);
-            };
+            }
 
             setMetadata({...MetadataAPI, fields: newFields});
         } catch (error: any) {
@@ -118,7 +118,7 @@ export function CreateEditTable({
 
     function multiSelected(option:optionsProps, column: fieldsProps){
 
-        let checked = column?.propertyDTO? data[column?.property]?.includes(option.value) : data[column?.property]?.includes(option.value);
+        const checked = column?.propertyDTO? data[column?.property]?.includes(option.value) : data[column?.property]?.includes(option.value);
         function change(checked: boolean){
             if(column?.propertyDTO){
                 const newValue = data[column?.propertyDTO] ?? [];

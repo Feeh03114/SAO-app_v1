@@ -1,3 +1,4 @@
+/* eslint-disable no-case-declarations */
 /* eslint-disable react/jsx-key */
 /* eslint-disable no-lone-blocks */
 /* eslint-disable react-hooks/exhaustive-deps */
@@ -257,15 +258,6 @@ export default function DynamicTablet(
         return true;
     }
 
-  /*   if(location.pathname.includes('add'))
-        return <Outlet />
-
-    if(location.pathname.includes('edit'))
-        return <Outlet /> */
-
-    /* if(location.pathname.includes('view'))
-        return <Outlet /> */
-
     return(
         <div className="w-full h-full flex-1 bg-white dark:bg-gray-600 dark:text-white">
             <h1 className=" ml-3 pt-5 text-3xl font-bold">{metadata.title}</h1>
@@ -278,10 +270,10 @@ export default function DynamicTablet(
                                 onClick={async ()=>{
                                     switch (action.type) {
                                         case 'adicionar':
-                                            {router.push(`${location.pathname}/add`)};
+                                            {router.push(`${location.pathname}/add`)}
                                             break;
                                         case 'editar':
-                                            if(Object.keys(selected).length === 1 && GetisKey()) {router.push(`${location.pathname}/edit/${selected[0][metadata?.fields?.find(x=>x.key)?.property||'']}`)};
+                                            if(Object.keys(selected).length === 1 && GetisKey()) {router.push(`${location.pathname}/edit/${selected[0][metadata?.fields?.find(x=>x.key)?.property||'']}`)}
                                             break;
                                         case 'deletar':
                                             await Delete(action)
@@ -323,10 +315,10 @@ export default function DynamicTablet(
                                 onClick={async ()=>{
                                     switch (action.type) {
                                         case 'adicionar':
-                                            {router.push(`${location.pathname}/add`)};
+                                            {router.push(`${location.pathname}/add`)}
                                             break;
                                         case 'editar':
-                                            if(Object.keys(selected).length === 1 && GetisKey()) {router.push(`${location.pathname}/edit/${selected[0][metadata?.fields?.find(x=>x.key)?.property||'']}`)};
+                                            if(Object.keys(selected).length === 1 && GetisKey()) {router.push(`${location.pathname}/edit/${selected[0][metadata?.fields?.find(x=>x.key)?.property||'']}`)}
                                             break;
                                         case 'deletar':
                                             await Delete(action)
@@ -410,7 +402,7 @@ export default function DynamicTablet(
             </div>
             <div className="sm:flex justify-center overflow-auto border rounded-lg mx-1 max-h-[60vh] md:max-h-[70vh]" >
                 <table className="overflow-scroll table-auto w-full" >
-                    <thead className=" bg-teal-100 dark:bg-teal-900 rounded-lg w-full z-0">{/* fixed */}
+                    <thead className=" bg-teal-100 dark:bg-teal-900 rounded-lg w-full z-0">
                         <tr key="headerTable">
                             <th 
                                 key='selectColumn'
