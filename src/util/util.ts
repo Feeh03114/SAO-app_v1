@@ -1,4 +1,5 @@
 import { Buffer } from "buffer"
+
 export function getUppercaseFirstLetter(texto: string): string {
   return texto && texto?.charAt(0).toUpperCase() + texto?.slice(1)
 }

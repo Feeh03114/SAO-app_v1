@@ -1,86 +1,50 @@
+
+import { GetIcon } from "@/util/icons";
 import { useSession } from "next-auth/react";
+import Image from "next/image";
 import Link from "next/link";
-import React, { Fragment, useEffect, useState } from "react";
-import { Input } from "../../elementTag/input";
+import { useRouter } from "next/router";
+import React, { Fragment } from "react";
+import { MdChevronRight } from "react-icons/md";
 
 export function MenuSideBar({open, setOpen}:{open:boolean, setOpen:React.Dispatch<React.SetStateAction<boolean>>}){
     const {data}:any = useSession();
-    const [isOpen, setIsOpen] = useState(false);
+    const router = useRouter();
 
-    useEffect(()=>{
-        if(!open) setIsOpen(false);
-    },[open])
+    function validRouter(url:string){
+        if(url === router.pathname) return true;
+        return false;
+    }
 
     return(
         <Fragment>
-            <div className="fixed z-10">
-                <div className={`${open?'block': 'hidden'} fixed top-0 bottom-0 left-0 right-0 opacity-75`} onClick={()=>setOpen(e=>!e)} />
-                <aside
-                    className={`transform duration-500 ease-in-out fixed top-0 left-0 w-64 h-screen
-                    bg-gray-400  dark:bg-gray-800 dark:border-gray-700`}
+            <div className="fixed z-10 h-full">
+                <div className="transform duration-500 ease-in-out fixed inline-flex flex-col items-start justify-start w-56 bg-white shadow h-full" 
                     style={{transform: `${open ? 'translateX(0%)' : 'translateX(-100%)'}`}}
-                    aria-label="Sidebar"> {/*dark:bg-gray-800*/}
-                    <div className="h-full overflow-y-auto dark:bg-gray-800 text-gray-50"> {/* dark:bg-blue-300 text-gray-800*/}
-                        <Input type="text" placeholder="Pesquisar" className="mt-12 relative block w-full appearance-none border-blue-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"/>
-                        <ul className="space-y-2">
-                        {data?.menu?.map((menu: any, i: number) => (
-                            <li key={i}>
-                                {menu?.pages?.length > 0 && !menu?.url ? (
-                                    <div
-                                        className={`flex items-center text-sm p-3 hover:bg-blue-500 font-poppins ${
-                                            isOpen ? "bg-blue-500 text-white" : ""
-                                        }`}
-                                        onClick={() => setIsOpen(!isOpen)}
-                                    >
-                                        {/* <div>
-                                            <Icon name={menu?.icon} size={20} className=""/>
-                                        </div> */}
-                                        <h2>{menu?.namePage}</h2>
-                                    </div>
-                                ) : (
-                                    <Link
-                                        href={menu?.url}
-                                        key={i}
-                                        className={` flex items-center text-sm p-3 hover:bg-blue-500  font-poppins`}
-                                    >
-                                        {/* <div>
-                                            <Icon name={menu?.icon} size={20} className=""/>
-                                        </div> */}
-                                        <h2>{menu?.namePage}</h2>
-                                    </Link>
-                                )}
-                                <ul
-                                    className={` ${
-                                    isOpen ? "opacity-100 transition-all" : "opacity-0 h-0"
-                                    } bg-slate-700`}
+                    aria-label="Sidebar">
+                    <div className="flex flex-col space-y-10 items-start justify-start w-full pt-5 pb-4">
+                        <div className="inline-flex space-x-4 items-center justify-start w-full px-4">
+                            <div className="flex items-center justify-start flex-1">
+                                <Image className="w-40 h-full rounded-lg" src="/assets/log1.png" width={157} height={32} alt="logo"/>
+                            </div>
+                            <MdChevronRight className="transform -rotate-180 w-5 h-5 rounded-lg cursor-pointer" onClick={()=>setOpen((e)=>!e)}/>
+                        </div>
+                        <div className="flex flex-col space-y-6 items-start justify-start w-full flex-1 px-2">
+                            {data?.menu?.map((menu: any, i: number) => (
+                                <Link 
+                                    href={menu?.url||"/"} 
+                                    key={i}
+                                    className={`inline-flex items-center justify-start w-full py-2 pl-2 pr-3 rounded-md ${validRouter(menu?.url) && "bg-teal-50"}`}
                                 >
-                                    {menu?.pages?.map((page: any, e: number) => (
-                                    <li key={`${i}-${e}`}>
-                                        <Link
-                                        href={page?.url}
-                                        key={`${i}-${e}`}
-                                        className={` flex items-center text-sm p-3 hover:bg-blue-500 font-poppins`}
-                                        >
-                                            {/* <div>
-                                                <Icon name={menu?.icon} size={20} className=""/>
-                                            </div> */}
-                                            <h2>{page?.namePage}</h2>
-                                        </Link>
-                                    </li>
-                                    ))}
-                                </ul>
-                            </li>
-                        ))}
-                        </ul>
-                        <div className="fixed top-3 right-3">
-                            <button onClick={()=>setOpen(e=>!e)} type="button" className="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
-                                <svg className="w-3 h-3" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M10 8.586L2.929 1.515 1.515 2.929 8.586 10l-7.071 7.071 1.414 1.414L10 11.414l7.071 7.071 1.414-1.414L11.414 10l7.071-7.071-1.414-1.414L10 8.586z"/>
-                                </svg>
-                            </button>
+                                    <div className="flex space-x-3 items-center justify-start">
+                                        <GetIcon iconText={menu.icon} className={`w-1/6 h-full rounded-lg ${validRouter(menu?.url)? 'bg-teal-500': 'bg-teal-400'}`}/>
+                                        <p className={`text-base font-medium leading-normal ${validRouter(menu?.url) ? "text-gray-900": 'text-gray-600'}`}>{menu?.namePage}</p>
+                                    </div>
+                                </Link>
+                            ))}
                         </div>
                     </div>
-                </aside>
+                </div>
             </div>
         </Fragment>
     )

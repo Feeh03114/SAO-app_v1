@@ -1,7 +1,8 @@
-import { getUppercaseFirstLetter } from "@/util/util";
+import Header from "@/components/Header";
 import dayjs from "dayjs";
 import 'dayjs/locale/pt-br'; // importar localização em português
 import { useState } from "react";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
 dayjs.locale('pt-br');
 
@@ -118,32 +119,51 @@ export default function Schedule(){
     
 
     return(
-        <div className="w-full flex-1 bg-white dark:bg-gray-600 dark:text-white text-center">
-            <h1 className="ml-3 pt-5 text-3xl font-bold">Agenda</h1>
-            <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 
-                lg:px-8 flex justify-between items-center"
+        <div className="w-full bg-white dark:bg-gray-600 dark:text-white text-center ">
+            <Header 
+                title="Página Inicial"
+                subtitle="Agendamento de Consultas"
+                isFilterVisibled
+                textLeft="Filtros"
+                textRight="Adicionar Consulta"
+                onClickLeft={()=> console.log('filter')}
+                onClickRight={()=> console.log('add consult')}
+            />
+            <div className="w-full max-h-[39.625rem] border-1 border-black rounded p-[2rem] pt-0 border-solid"
+                /* style={{
+                    border: '1px solid #000',
+                }} */
             >
-                <button
-                    className="bg-teal-100 hover:bg-teal-300 dark:hover:bg-teal-700
-                     text-white font-bold py-2 px-4 rounded focus:outline-none 
-                     focus:shadow-outline"
-                    onClick={handlePrevMonth}
-                >
-                    Anterior
-                </button>
-                <h1 className="text-3xl font-bold text-gray-900">
-                    {getUppercaseFirstLetter(selectedDate.format('MMMM YYYY'))}
-                </h1>
-                <button
-                    className="bg-teal-100 hover:bg-teal-300 dark:hover:bg-teal-700
-                     text-white font-bold py-2 px-4 rounded focus:outline-none 
-                     focus:shadow-outline"
-                    onClick={handleNextMonth}
-                >
-                    Próximo
-                </button>
+                <div className="inline-flex flex-col space-y-4 items-start justify-start pb-4 max-h-[6.875rem] w-full">
+                    <div className="inline-flex space-x-4 items-center justify-center max-h-[3rem] w-full">
+                        <div className="flex items-center justify-center w-12 h-full p-3 bg-white rounded-full">
+                            <FaChevronLeft className="flex-1 h-full rounded-lg"/>
+                        </div>
+                        <div className="flex space-x-1 items-center justify-center max-h-[1.813rem] w-full">
+                            <p className="text-xl font-bold leading-7 text-right text-gray-800">Janeiro </p>
+                            <p className="text-xl leading-7 text-gray-800">2023</p>
+                        </div>
+                        <div className="flex items-center justify-center w-12 h-full p-3 bg-white rounded-full ">
+                            <FaChevronRight className="flex-1 h-full rounded-lg"/>
+                        </div>
+                    </div>
+                    <div className="bg-black bg-opacity-10 h-1 w-full"/>
+                    <div className="inline-flex space-x-0.5 items-start justify-start opacity-50 max-h-[1.438rem] w-full">
+                        <p className="flex-1 text-xs font-medium text-center text-gray-800 uppercase">SEG</p>
+                        <p className="flex-1 text-xs font-medium text-center text-gray-800 uppercase">TER</p>
+                        <p className="flex-1 text-xs font-medium text-center text-gray-800 uppercase">QUA</p>
+                        <p className="flex-1 text-xs font-medium text-center text-gray-800 uppercase">QUI</p>
+                        <p className="flex-1 text-xs font-medium text-center text-gray-800 uppercase">SEX</p>
+                        <p className="flex-1 text-xs font-medium text-center text-gray-800 uppercase">SÁB</p>
+                        <p className="flex-1 text-xs font-medium text-center text-gray-800 uppercase">DOM</p>
+                    </div>
+                </div>
             </div>
-            <div 
+        </div>
+    )
+}
+
+/* <div 
                 className="max-w-7xl mx-2 py-6 sm:px-6 lg:px-8 
                 border rounded-lg bg-teal-100 dark:bg-teal-900 overflow-scroll h-[65vh]"
             >
@@ -161,8 +181,4 @@ export default function Schedule(){
                     </thead>
                     <tbody className="overflow-scroll">{renderCalendarDays()}</tbody>
                 </table>
-            </div>
-            {/* nao deletar */}
-        </div>
-    )
-}
+            </div> */
