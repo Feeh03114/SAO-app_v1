@@ -1,0 +1,84 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import 'react-tooltip/dist/react-tooltip.css';
+@import "tailwindcss/tailwind.css";
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow: hidden;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
+/* Ajustado para modal */
+#modal-root {
+  z-index: 9999;
+}
+
+@media (min-width: 640px) {
+  .max-w-lg {
+    max-width: 640px;
+  }
+}
+
+:focus:not([data-focus-visible-added]) {
+  outline: none;
+}
+
+[data-focus-visible-added] {
+  box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.5);
+}
+
+/** Cores personalizadas **/
+.teal-950 {
+  --tw-teal-950: #042c37;
+  color: var(--tw-teal-950);
+}
+
+.bg-teal-950 {
+  --tw-bg-opacity: 1;
+  background-color: rgba(4, 44, 55, var(--tw-bg-opacity));
+}
+
+border-teal-950 {
+  --tw-border-opacity: 1;
+  border-color: rgba(4, 44, 55, var(--tw-border-opacity));
+}
+
+.hover\:bg-teal-950:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgba(4, 44, 55, var(--tw-bg-opacity));
+}
+
+.hover\:text-teal-950:hover {
+  --tw-text-opacity: 1;
+  color: rgba(4, 44, 55, var(--tw-text-opacity));
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+.calendar-todo-list {
+  text-align: left;
+  padding: 0;
+  list-style: none;
+}
+
+.calendar-todo-list li {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.calendar-todo-item-badge {
+  vertical-align: top;
+  margin-top: 8px;
+  width: 6px;
+  height: 6px;
+}  
