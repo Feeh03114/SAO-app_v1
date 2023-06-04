@@ -37,7 +37,7 @@ export function MenuSideBar({open, setOpen}:{open:boolean, setOpen:React.Dispatc
                                     className={`inline-flex items-center justify-start w-full py-2 pl-2 pr-3 rounded-md ${validRouter(menu?.url) && "bg-teal-50"}`}
                                 >
                                     <div className="flex space-x-3 items-center justify-start">
-                                        <GetIcon iconText={menu.icon} className={`w-1/6 h-full rounded-lg ${validRouter(menu?.url)? 'bg-teal-500': 'bg-teal-400'}`}/>
+                                        <GetIcon iconText={menu.icon} className={`w-1/6 h-full ${validRouter(menu?.url)? 'text-teal-500': 'text-gray-600'}`}/>
                                         <p className={`text-base font-medium leading-normal ${validRouter(menu?.url) ? "text-gray-900": 'text-gray-600'}`}>{menu?.namePage}</p>
                                     </div>
                                 </Link>

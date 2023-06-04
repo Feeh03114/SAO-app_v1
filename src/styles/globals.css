@@ -1,6 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import 'rsuite/dist/rsuite.min.css';
 @import 'react-tooltip/dist/react-tooltip.css';
 @import "tailwindcss/tailwind.css";
 body {

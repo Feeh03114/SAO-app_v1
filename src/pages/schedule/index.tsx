@@ -15,6 +15,10 @@ export default function Schedule(){
         { title: 'Evento 4', date: dayjs().startOf('day'), horario: '13:00' },
         { title: 'Evento 3', date: dayjs().add(1, 'day').startOf('day'), horario: '12:00' },
     ]);
+    const meses = [
+        'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
+        'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
+    ]
 
     function handlePrevMonth() {
         setSelectedDate(selectedDate.subtract(1, 'month'));
@@ -32,6 +36,14 @@ export default function Schedule(){
         );
     }
 
+    function isDifferentToday(date1: dayjs.Dayjs, date2: dayjs.Dayjs) {
+        return (
+            date1.year() >= date2.year() &&
+            date1.month() >= date2.month() &&
+            date1.date() >= date2.date()
+        );
+    }
+
     function getEventsForDay(date: dayjs.Dayjs) {
         return events.filter((event) => isSameDay(event.date, date));
     }
@@ -43,83 +55,90 @@ export default function Schedule(){
         for (let i = 1; i <= daysInMonth; i++) {
           const date = selectedDate.date(i);
           const eventsForDay = getEventsForDay(date);
+          const week = date.format('dddd');
           days.push(
-            <td
-              key={date.format('YYYY-MM-DD')}
-              className="p-1 h-34 xl:w-40 lg:w-30 md:w-30 sm:w-20 w-10 rounded-lg
-                overflow-auto transition cursor-pointer duration-500 ease 
-                hover:bg-teal-300 dark:hover:bg-teal-700"
-              onClick={() => console.log('click date')}
+            <div 
+                className="flex flex-col items-center justify-end h-36 px-2 py-2.5 text-start w-full"
+                style={{
+                    borderWidth: `0px ${week === 'sábado'? '0px':'1px'} 1px 0px`,
+                    borderStyle: 'solid',
+                    borderColor: 'rgba(0, 0, 0, 0.07)'
+                }}  
+                key={date.format('YYYY-MM-DD')}
+                onClick={() => console.log('click date')}
             >
-                <div className="flex flex-col h-34 mx-auto xl:w-40 lg:w-30 md:w-30 
-                    sm:w-full w-10 overflow-hidden"
+                <p className={`w-full text-lg font-semibold ${isSameDay(date, dayjs()) ? 'text-teal-800' : isDifferentToday(date, dayjs())? 'text-teal-600' : 'opacity-10 text-gray-800'}`} 
                 >
-                    <div className={`top h-5 w-full text-center ${
-                        isSameDay(date, dayjs()) ? 'text-blue-800' : ''
-                        }`}
-                    >
-                        <div className="font-bold">{date.format('DD')}</div>
-                    </div>
-                    <div className="bottom flex-grow h-24 py-1 w-full cursor-pointer">
-                        {eventsForDay.map((event, index) => 
-                            {
-                                if(index > 2) return;
+                    {date.format('DD')}
+                </p>
+                <div className="bottom flex-grow h-24 py-1 w-full cursor-pointer">
+                    {eventsForDay.map((event, index) => 
+                        {
+                            if(index > 2) return;
 
-                                if(event.title.length > 10)
-                                    event.title = event.title.substring(0, 10) + '...';
-                                
-                                if(eventsForDay.length > 2 && index === 2)
-                                    return (
-                                        <div 
-                                            key={event.title}
-                                            className="bg-purple-700 text-white 
-                                            rounded text-sm mb-1 justify-between
-                                            text-center text-[10px] font-bold"
-                                        >
-                                            <span>+ Clica Aqui +</span>
-                                        </div>
-                                    );
-                                
+                            if(event.title.length > 10)
+                                event.title = event.title.substring(0, 10) + '...';
+                            
+                            if(eventsForDay.length > 2 && index === 2)
                                 return (
                                     <div 
                                         key={event.title}
-                                        className="bg-purple-400 text-white 
-                                        rounded p-1 text-sm mb-1 justify-between
-                                        text-center"
+                                        className="bg-teal-700 text-white 
+                                        rounded text-sm mb-1 justify-between
+                                        text-center text-[10px] font-bold"
                                     >
-                                        <span>{event.title}</span>
-                                        <span>  </span>
-                                        <span>{event.horario}</span>
+                                        <span>+ Clica Aqui +</span>
                                     </div>
                                 );
-                            }
-                        )}
-                        
-                    </div>
+                            
+                            return (
+                                <div 
+                                    key={event.title}
+                                    className="bg-teal-400 text-white 
+                                    rounded p-1 text-sm mb-1 justify-between
+                                    text-center"
+                                >
+                                    <span>{event.title}</span>
+                                    <span>  </span>
+                                    <span>{event.horario}</span>
+                                </div>
+                            );
+                        }
+                    )}
+                    
                 </div>
-            </td>
+            </div>
           );
         }
         for (let i = 0; i < startOfMonth; i++) {
-          days.unshift(<td key={`empty-${i}`} className="bg-teal-100 rounded-lg"></td>);
+            const date = selectedDate.date(i);
+            days.unshift(<div key={`empty-${i}`} className="flex flex-col items-center justify-end h-36 px-2 py-2.5 text-start w-full"
+                style={{
+                    borderWidth: `0px 1px 1px 0px`,
+                    borderStyle: 'solid',
+                    borderColor: 'rgba(0, 0, 0, 0.07)'
+                }}
+            ></div>);
         }
-        const rows = [];
+        const rows:JSX.Element[] = [];
         let cells:any = [];
         days.forEach((day, i) => {
+            console.log(i % 7 !== 0);
           if (i % 7 !== 0) {
             cells.push(day);
           } else {
-            rows.push(<tr key={i / 7}>{cells}</tr>);
+            if(cells.length > 0) rows.push(<div key={i / 7} className="flex flex-row items-start p-0 h-36 w-full">{cells}</div>);
             cells = [day];
           }
         });
-        rows.push(<tr key={days.length / 7}>{cells}</tr>);
+        rows.push(<div key={days.length / 7} className="flex flex-row items-start p-0 h-36 w-full">{cells}</div>);
+
         return rows;
     }
     
 
     return(
-        <div className="w-full bg-white dark:bg-gray-600 dark:text-white text-center ">
+        <div className="w-full bg-white text-center ">
             <Header 
                 title="Página Inicial"
                 subtitle="Agendamento de Consultas"
@@ -129,33 +148,32 @@ export default function Schedule(){
                 onClickLeft={()=> console.log('filter')}
                 onClickRight={()=> console.log('add consult')}
             />
-            <div className="w-full max-h-[39.625rem] border-1 border-black rounded p-[2rem] pt-0 border-solid"
-                /* style={{
-                    border: '1px solid #000',
-                }} */
-            >
+            <div className="h-[30.625rem] m-[2rem] border border-solid border-gray-300 rounded-lg px-[3rem] py-[2rem]">
                 <div className="inline-flex flex-col space-y-4 items-start justify-start pb-4 max-h-[6.875rem] w-full">
                     <div className="inline-flex space-x-4 items-center justify-center max-h-[3rem] w-full">
                         <div className="flex items-center justify-center w-12 h-full p-3 bg-white rounded-full">
-                            <FaChevronLeft className="flex-1 h-full rounded-lg"/>
+                            <FaChevronLeft className="flex-1 h-full rounded-lg cursor-pointer" onClick={handlePrevMonth}/>
                         </div>
                         <div className="flex space-x-1 items-center justify-center max-h-[1.813rem] w-full">
-                            <p className="text-xl font-bold leading-7 text-right text-gray-800">Janeiro </p>
-                            <p className="text-xl leading-7 text-gray-800">2023</p>
+                            <p className="text-xl font-bold leading-7 text-right text-gray-800">{meses[selectedDate.month()]}</p>
+                            <p className="text-xl leading-7 text-gray-800">{selectedDate.year()}</p>
                         </div>
-                        <div className="flex items-center justify-center w-12 h-full p-3 bg-white rounded-full ">
-                            <FaChevronRight className="flex-1 h-full rounded-lg"/>
+                        <div className="flex items-center justify-center w-12 h-full p-3 bg-white rounded-full">
+                            <FaChevronRight className="flex-1 h-full rounded-lg cursor-pointer" onClick={handleNextMonth}/>
                         </div>
                     </div>
-                    <div className="bg-black bg-opacity-10 h-1 w-full"/>
+                    <div className="bg-black bg-opacity-10 w-full"/>
                     <div className="inline-flex space-x-0.5 items-start justify-start opacity-50 max-h-[1.438rem] w-full">
+                        <p className="flex-1 text-xs font-medium text-center text-gray-800 uppercase">DOM</p>
                         <p className="flex-1 text-xs font-medium text-center text-gray-800 uppercase">SEG</p>
                         <p className="flex-1 text-xs font-medium text-center text-gray-800 uppercase">TER</p>
                         <p className="flex-1 text-xs font-medium text-center text-gray-800 uppercase">QUA</p>
                         <p className="flex-1 text-xs font-medium text-center text-gray-800 uppercase">QUI</p>
                         <p className="flex-1 text-xs font-medium text-center text-gray-800 uppercase">SEX</p>
                         <p className="flex-1 text-xs font-medium text-center text-gray-800 uppercase">SÁB</p>
-                        <p className="flex-1 text-xs font-medium text-center text-gray-800 uppercase">DOM</p>
+                    </div>
+                    <div className="flex flex-col items-start p-0 w-full">
+                        {renderCalendarDays()}
                     </div>
                 </div>
             </div>

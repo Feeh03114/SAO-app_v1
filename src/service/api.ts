@@ -3,7 +3,7 @@ import { getSession } from 'next-auth/react';
 
 //import env from '../lib/env';
 const api = axios.create({
-  baseURL:  process.env.URL_BACKEND || `http://localhost:3001`,
+  baseURL:  process.env.URL_BACKEND || `https://backend-odonto.labprivate.cloud`,
   //withCredentials: true,
 })
 
