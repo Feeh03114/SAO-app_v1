@@ -32,7 +32,6 @@ export function withSSRAuth(): GetServerSideProps {
       }
     }
     let PageMenu = session?.menu?.filter((e:any) => router?.includes(e.url));
-    console.log(PageMenu);
     if(PageMenu?.length > 0) return ValidRouter(PageMenu, router, session);
     
     PageMenu = session?.menu?.filter((e:any) => e?.pages?.length > 0);

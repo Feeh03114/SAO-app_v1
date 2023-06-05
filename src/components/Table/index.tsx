@@ -43,15 +43,26 @@ export default function Table({
     const [total, setTotal] = useState(0);
     const [isLoading, setIsLoading] = useState(false);
 
+    const [windowSize, setWindowSize] = useState({ width: window.innerWidth, height: window.innerHeight });
+
+    useEffect(() => {
+        const handleResize = () => {
+        setWindowSize({ width: window.innerWidth, height: window.innerHeight });
+        };
+
+        window.addEventListener('resize', handleResize);
+
+        return () => {
+        window.removeEventListener('resize', handleResize);
+        };
+    }, []);
+
 
     const loadData = async () => {
-        //setIsLoading(true);
+        setIsLoading(true);
         try {
           const { data:RespAPI } = await api.get(endPoint);
-          console.log(RespAPI);
           setData(RespAPI);
-          /* setPages(RespAPI.data.pages);
-          setTotal(RespAPI.data.total); */
         } catch (error) {
           console.log(error);
         }
@@ -178,15 +189,15 @@ export default function Table({
     }
 
     return(
-        <div className="inline-flex items-start justify-start bg-white shadow border rounded-lg border-gray-200 w-auto m-[2rem] mt-0">
+        <div className="inline-flex items-start justify-start bg-white shadow border rounded-lg border-gray-200 m-[2rem] mt-0">
             <CustomProvider
                 locale={ptBR}
                 //theme={theme.colorMode === 'dark' ? 'dark' : 'light'}
             >
                 <RSuiteTable
                     className='w-full '
-                    width={1200}
-                    height={480}
+                    width={windowSize.width - 60}
+                    height={windowSize.height - 200}
                     data={data}
                     onSortColumn={(sortColumn, sortType = 'asc') => {
                         setParams((e:any)=> {

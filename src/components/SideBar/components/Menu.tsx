@@ -29,12 +29,13 @@ export function MenuSideBar({open, setOpen}:{open:boolean, setOpen:React.Dispatc
                             </div>
                             <MdChevronRight className="transform -rotate-180 w-5 h-5 rounded-lg cursor-pointer" onClick={()=>setOpen((e)=>!e)}/>
                         </div>
-                        <div className="flex flex-col space-y-6 items-start justify-start w-full flex-1 px-2">
+                        <div className="flex flex-col space-y-6 items-start justify-start w-full flex-1 px-2 ">
                             {data?.menu?.map((menu: any, i: number) => (
                                 <Link 
                                     href={menu?.url||"/"} 
                                     key={i}
-                                    className={`inline-flex items-center justify-start w-full py-2 pl-2 pr-3 rounded-md ${validRouter(menu?.url) && "bg-teal-50"}`}
+                                    className={`inline-flex items-center justify-start w-full py-2 pl-2 pr-3 rounded-md no-underline ${validRouter(menu?.url) && "bg-teal-50"}
+                                    hover:no-underline active:no-underline`}
                                 >
                                     <div className="flex space-x-3 items-center justify-start">
                                         <GetIcon iconText={menu.icon} className={`w-1/6 h-full ${validRouter(menu?.url)? 'text-teal-500': 'text-gray-600'}`}/>

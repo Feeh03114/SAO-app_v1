@@ -37,11 +37,9 @@ export default function Schedule(){
     }
 
     function isDifferentToday(date1: dayjs.Dayjs, date2: dayjs.Dayjs) {
-        return (
-            date1.year() >= date2.year() &&
-            date1.month() >= date2.month() &&
-            date1.date() >= date2.date()
-        );
+        const tomorrow = date2.add(1, 'day');
+    
+        return date1.isAfter(tomorrow) || date1.isSame(tomorrow, 'day');
     }
 
     function getEventsForDay(date: dayjs.Dayjs) {
@@ -58,7 +56,7 @@ export default function Schedule(){
           const week = date.format('dddd');
           days.push(
             <div 
-                className="flex flex-col items-center justify-end h-36 px-2 py-2.5 text-start w-full"
+                className={`flex flex-col items-center justify-end h-36 px-2 py-2.5 text-start w-full ${isDifferentToday(date, dayjs())? 'cursor-pointer': 'cursor-not-allowed'}`}
                 style={{
                     borderWidth: `0px ${week === 'sábado'? '0px':'1px'} 1px 0px`,
                     borderStyle: 'solid',
@@ -66,12 +64,13 @@ export default function Schedule(){
                 }}  
                 key={date.format('YYYY-MM-DD')}
                 onClick={() => console.log('click date')}
+                
             >
                 <p className={`w-full text-lg font-semibold ${isSameDay(date, dayjs()) ? 'text-teal-800' : isDifferentToday(date, dayjs())? 'text-teal-600' : 'opacity-10 text-gray-800'}`} 
                 >
                     {date.format('DD')}
                 </p>
-                <div className="bottom flex-grow h-24 py-1 w-full cursor-pointer">
+                <div className={`bottom flex-grow h-24 py-1 w-full ${eventsForDay.length? 'cursor-pointer': 'cursor-not-allowed'} `}>
                     {eventsForDay.map((event, index) => 
                         {
                             if(index > 2) return;
@@ -111,8 +110,7 @@ export default function Schedule(){
           );
         }
         for (let i = 0; i < startOfMonth; i++) {
-            const date = selectedDate.date(i);
-            days.unshift(<div key={`empty-${i}`} className="flex flex-col items-center justify-end h-36 px-2 py-2.5 text-start w-full"
+            days.unshift(<div key={`empty-${i}`} className="flex flex-col items-center justify-end h-36 px-2 py-2.5 text-start w-full cursor-not-allowed"
                 style={{
                     borderWidth: `0px 1px 1px 0px`,
                     borderStyle: 'solid',
@@ -123,9 +121,16 @@ export default function Schedule(){
         const rows:JSX.Element[] = [];
         let cells:any = [];
         days.forEach((day, i) => {
-            console.log(i % 7 !== 0);
           if (i % 7 !== 0) {
             cells.push(day);
+            if(i === days.length - 1) cells.push(<div key={`empty-${i}`} className="flex flex-col items-center justify-end h-36 px-2 py-2.5 text-start w-full cursor-not-allowed"
+                style={{
+                    borderWidth: `0px 1px 1px 0px`,
+                    borderStyle: 'solid',
+                    borderColor: 'rgba(0, 0, 0, 0.07)'
+                }}
+            ></div>
+            );
           } else {
             if(cells.length > 0) rows.push(<div key={i / 7} className="flex flex-row items-start p-0 h-36 w-full">{cells}</div>);
             cells = [day];
@@ -148,8 +153,8 @@ export default function Schedule(){
                 onClickLeft={()=> console.log('filter')}
                 onClickRight={()=> console.log('add consult')}
             />
-            <div className="h-[30.625rem] m-[2rem] border border-solid border-gray-300 rounded-lg px-[3rem] py-[2rem]">
-                <div className="inline-flex flex-col space-y-4 items-start justify-start pb-4 max-h-[6.875rem] w-full">
+            <div className="m-[2rem] border border-solid border-gray-300 rounded-lg px-[3rem] py-[2rem]">
+                <div className="inline-flex flex-col space-y-4 items-start justify-start pb-4  w-full">
                     <div className="inline-flex space-x-4 items-center justify-center max-h-[3rem] w-full">
                         <div className="flex items-center justify-center w-12 h-full p-3 bg-white rounded-full">
                             <FaChevronLeft className="flex-1 h-full rounded-lg cursor-pointer" onClick={handlePrevMonth}/>
@@ -163,7 +168,7 @@ export default function Schedule(){
                         </div>
                     </div>
                     <div className="bg-black bg-opacity-10 w-full"/>
-                    <div className="inline-flex space-x-0.5 items-start justify-start opacity-50 max-h-[1.438rem] w-full">
+                    <div className="inline-flex space-x-0.5 items-start justify-start opacity-50 max-h-[1.438rem] w-full ">
                         <p className="flex-1 text-xs font-medium text-center text-gray-800 uppercase">DOM</p>
                         <p className="flex-1 text-xs font-medium text-center text-gray-800 uppercase">SEG</p>
                         <p className="flex-1 text-xs font-medium text-center text-gray-800 uppercase">TER</p>
@@ -172,7 +177,7 @@ export default function Schedule(){
                         <p className="flex-1 text-xs font-medium text-center text-gray-800 uppercase">SEX</p>
                         <p className="flex-1 text-xs font-medium text-center text-gray-800 uppercase">SÁB</p>
                     </div>
-                    <div className="flex flex-col items-start p-0 w-full">
+                    <div className="flex flex-col items-start p-0 w-full overflow-y-auto h-[19rem]">
                         {renderCalendarDays()}
                     </div>
                 </div>
