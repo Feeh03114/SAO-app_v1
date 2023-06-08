@@ -18,8 +18,8 @@ export function MenuSideBar({open, setOpen}:{open:boolean, setOpen:React.Dispatc
 
     return(
         <Fragment>
-            <div className="fixed z-10 h-full">
-                <div className="transform duration-500 ease-in-out fixed inline-flex flex-col items-start justify-start w-56 bg-white shadow h-full" 
+            <div className="fixed z-10 h-full bg-white dark:bg-gray-800">
+                <div className="bg-white dark:bg-gray-800 transform duration-500 ease-in-out fixed inline-flex flex-col items-start justify-start w-56 shadow dark:shadow-gray-400 h-full" 
                     style={{transform: `${open ? 'translateX(0%)' : 'translateX(-100%)'}`}}
                     aria-label="Sidebar">
                     <div className="flex flex-col space-y-10 items-start justify-start w-full pt-5 pb-4">
@@ -27,19 +27,19 @@ export function MenuSideBar({open, setOpen}:{open:boolean, setOpen:React.Dispatc
                             <div className="flex items-center justify-start flex-1">
                                 <Image className="w-40 h-full rounded-lg" src="/assets/log1.png" width={157} height={32} alt="logo"/>
                             </div>
-                            <MdChevronRight className="transform -rotate-180 w-5 h-5 rounded-lg cursor-pointer" onClick={()=>setOpen((e)=>!e)}/>
+                            <MdChevronRight className="transform -rotate-180 rounded-lg cursor-pointer dark:text-white" size={24} onClick={()=>setOpen((e)=>!e)}/>
                         </div>
                         <div className="flex flex-col space-y-6 items-start justify-start w-full flex-1 px-2 ">
                             {data?.menu?.map((menu: any, i: number) => (
                                 <Link 
                                     href={menu?.url||"/"} 
                                     key={i}
-                                    className={`inline-flex items-center justify-start w-full py-2 pl-2 pr-3 rounded-md no-underline ${validRouter(menu?.url) && "bg-teal-50"}
+                                    className={`inline-flex items-center justify-start w-full py-2 pl-2 pr-3 rounded-md no-underline ${validRouter(menu?.url) && "bg-teal-50 dark:bg-teal-700"}
                                     hover:no-underline active:no-underline`}
                                 >
                                     <div className="flex space-x-3 items-center justify-start">
-                                        <GetIcon iconText={menu.icon} className={`w-1/6 h-full ${validRouter(menu?.url)? 'text-teal-500': 'text-gray-600'}`}/>
-                                        <p className={`text-base font-medium leading-normal ${validRouter(menu?.url) ? "text-gray-900": 'text-gray-600'}`}>{menu?.namePage}</p>
+                                        <GetIcon iconText={menu.icon} className={`w-1/6 h-full ${validRouter(menu?.url)? 'text-teal-500': 'text-gray-600 dark:text-gray-400'}`}/>
+                                        <p className={`text-base font-medium leading-normal ${validRouter(menu?.url) ? "text-gray-900 dark:text-gray-50": 'text-gray-600 dark:text-gray-400'}`}>{menu?.namePage}</p>
                                     </div>
                                 </Link>
                             ))}

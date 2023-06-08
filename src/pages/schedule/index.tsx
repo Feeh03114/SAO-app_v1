@@ -46,6 +46,17 @@ export default function Schedule(){
         return events.filter((event) => isSameDay(event.date, date));
     }
 
+    function getTailwindMode() {
+        if(typeof window === 'undefined') return 'unknown';
+        const rootElement = window.document.documentElement;
+        const isDarkMode = rootElement.classList.contains('dark');
+        const isLightMode = rootElement.classList.contains('light');
+      
+        if (isDarkMode) return 'dark';
+        else if (isLightMode) return 'light';
+        else return 'unknown';
+    }
+      
     function renderCalendarDays() {
         const daysInMonth = selectedDate.daysInMonth();
         const startOfMonth = selectedDate.startOf('month').day();
@@ -60,13 +71,13 @@ export default function Schedule(){
                 style={{
                     borderWidth: `0px ${week === 'sábado'? '0px':'1px'} 1px 0px`,
                     borderStyle: 'solid',
-                    borderColor: 'rgba(0, 0, 0, 0.07)'
+                    borderColor: getTailwindMode() === "light"?'rgba(0, 0, 0, 0.07)': 'rgba(255, 255, 255, 0.07)'
                 }}  
                 key={date.format('YYYY-MM-DD')}
                 onClick={() => console.log('click date')}
                 
             >
-                <p className={`w-full text-lg font-semibold ${isSameDay(date, dayjs()) ? 'text-teal-800' : isDifferentToday(date, dayjs())? 'text-teal-600' : 'opacity-10 text-gray-800'}`} 
+                <p className={`w-full text-lg font-semibold ${isSameDay(date, dayjs()) ? 'text-teal-800 dark:text-teal-300' : isDifferentToday(date, dayjs())? 'text-teal-600 dark:text-teal-500' : 'opacity-10 text-gray-800 dark:text-gray-50 dark:opacity-40'}`} 
                 >
                     {date.format('DD')}
                 </p>
@@ -114,7 +125,7 @@ export default function Schedule(){
                 style={{
                     borderWidth: `0px 1px 1px 0px`,
                     borderStyle: 'solid',
-                    borderColor: 'rgba(0, 0, 0, 0.07)'
+                    borderColor: getTailwindMode() === "light"?'rgba(0, 0, 0, 0.07)': 'rgba(255, 255, 255, 0.07)'
                 }}
             ></div>);
         }
@@ -127,7 +138,7 @@ export default function Schedule(){
                 style={{
                     borderWidth: `0px 1px 1px 0px`,
                     borderStyle: 'solid',
-                    borderColor: 'rgba(0, 0, 0, 0.07)'
+                    borderColor: getTailwindMode() === "light"?'rgba(0, 0, 0, 0.07)': 'rgba(255, 255, 255, 0.07)'
                 }}
             ></div>
             );
@@ -143,7 +154,7 @@ export default function Schedule(){
     
 
     return(
-        <div className="w-full bg-white text-center ">
+        <div className="w-full text-center ">
             <Header 
                 title="Página Inicial"
                 subtitle="Agendamento de Consultas"
@@ -153,31 +164,31 @@ export default function Schedule(){
                 onClickLeft={()=> console.log('filter')}
                 onClickRight={()=> console.log('add consult')}
             />
-            <div className="m-[2rem] border border-solid border-gray-300 rounded-lg px-[3rem] py-[2rem]">
+            <div className="bg-white dark:bg-gray-800 m-[2rem] border border-solid border-gray-300 rounded-lg px-[3rem] py-[2rem]">
                 <div className="inline-flex flex-col space-y-4 items-start justify-start pb-4  w-full">
                     <div className="inline-flex space-x-4 items-center justify-center max-h-[3rem] w-full">
-                        <div className="flex items-center justify-center w-12 h-full p-3 bg-white rounded-full">
-                            <FaChevronLeft className="flex-1 h-full rounded-lg cursor-pointer" onClick={handlePrevMonth}/>
+                        <div className="flex items-center justify-center w-12 h-full p-3 rounded-full">
+                            <FaChevronLeft className="flex-1 h-full rounded-lg cursor-pointer dark:text-white" onClick={handlePrevMonth}/>
                         </div>
-                        <div className="flex space-x-1 items-center justify-center max-h-[1.813rem] w-full">
-                            <p className="text-xl font-bold leading-7 text-right text-gray-800">{meses[selectedDate.month()]}</p>
-                            <p className="text-xl leading-7 text-gray-800">{selectedDate.year()}</p>
+                        <div className="inline-flex space-x-1 items-center justify-center max-h-[1.813rem] w-full">
+                            <p className="text-xl font-bold leading-7 text-right text-gray-800 dark:text-white">{meses[selectedDate.month()]}</p>
+                            <p className="text-xl leading-7 text-gray-800 dark:text-white">{selectedDate.year()}</p>
                         </div>
-                        <div className="flex items-center justify-center w-12 h-full p-3 bg-white rounded-full">
-                            <FaChevronRight className="flex-1 h-full rounded-lg cursor-pointer" onClick={handleNextMonth}/>
+                        <div className="inline-flex items-center justify-center w-12 h-full p-3 rounded-full">
+                            <FaChevronRight className="flex-1 h-full rounded-lg cursor-pointer dark:text-white" onClick={handleNextMonth}/>
                         </div>
                     </div>
                     <div className="bg-black bg-opacity-10 w-full"/>
                     <div className="inline-flex space-x-0.5 items-start justify-start opacity-50 max-h-[1.438rem] w-full ">
-                        <p className="flex-1 text-xs font-medium text-center text-gray-800 uppercase">DOM</p>
-                        <p className="flex-1 text-xs font-medium text-center text-gray-800 uppercase">SEG</p>
-                        <p className="flex-1 text-xs font-medium text-center text-gray-800 uppercase">TER</p>
-                        <p className="flex-1 text-xs font-medium text-center text-gray-800 uppercase">QUA</p>
-                        <p className="flex-1 text-xs font-medium text-center text-gray-800 uppercase">QUI</p>
-                        <p className="flex-1 text-xs font-medium text-center text-gray-800 uppercase">SEX</p>
-                        <p className="flex-1 text-xs font-medium text-center text-gray-800 uppercase">SÁB</p>
+                        <p className="flex-1 text-xs font-medium text-center text-gray-800 dark:text-white uppercase">DOM</p>
+                        <p className="flex-1 text-xs font-medium text-center text-gray-800 dark:text-white uppercase">SEG</p>
+                        <p className="flex-1 text-xs font-medium text-center text-gray-800 dark:text-white uppercase">TER</p>
+                        <p className="flex-1 text-xs font-medium text-center text-gray-800 dark:text-white uppercase">QUA</p>
+                        <p className="flex-1 text-xs font-medium text-center text-gray-800 dark:text-white uppercase">QUI</p>
+                        <p className="flex-1 text-xs font-medium text-center text-gray-800 dark:text-white uppercase">SEX</p>
+                        <p className="flex-1 text-xs font-medium text-center text-gray-800 dark:text-white uppercase">SÁB</p>
                     </div>
-                    <div className="flex flex-col items-start p-0 w-full overflow-y-auto h-[19rem]">
+                    <div className="flex flex-col items-start p-0 w-full overflow-y-auto max-h-[15rem]">
                         {renderCalendarDays()}
                     </div>
                 </div>

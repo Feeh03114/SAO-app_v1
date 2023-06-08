@@ -7,16 +7,16 @@ module.exports = {
   ],
   theme: {
       extend: {
-          fontFamily: {
-              'poppins': ['Poppins'],
-          },
-          screens: {
-              'sm-mobile': '280px', 
-              'md-mobile': '391px',
-              'lg-mobile': '415px',
-              'xl-mobile': '540px',
-              'tablet': '1050px'
-          },
+            fontFamily: {
+                'poppins': ['Poppins'],
+            },
+            screens: {
+                'sm-mobile': '280px', 
+                'md-mobile': '391px',
+                'lg-mobile': '415px',
+                'xl-mobile': '540px',
+                'tablet': '1050px'
+            },
       },
   },
   plugins: [

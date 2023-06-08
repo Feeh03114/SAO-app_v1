@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import { MdCheckCircle, MdRemoveRedEye } from 'react-icons/md';
 import { CustomProvider, Table as RSuiteTable } from 'rsuite';
 import ptBR from 'rsuite/locales/pt_BR';
+import { TableFooter } from './TableFooter';
 
 interface TableProps {
     endPoint: string;
@@ -32,29 +33,29 @@ export default function Table({
     const { push, pathname } = useRouter();
     const [data, setData] = useState([]);
     const [params, setParams] = useState({
-      pageSize: 10,
+      pageSize: 5,
       pageNumber: 1,
       status: 2,
       sortField: 'Id',
       sortOrder: 'asc',
       value: undefined,
     });
-    const[ pages, setPages] = useState(0);
-    const [total, setTotal] = useState(0);
+    const[ pages, setPages] = useState(1);
+    const [total, setTotal] = useState(10);
+    const [totalElement, setTotalElement] = useState(10);
     const [isLoading, setIsLoading] = useState(false);
 
-    const [windowSize, setWindowSize] = useState({ width: window.innerWidth, height: window.innerHeight });
+    const [windowSize, setWindowSize] = useState({ width: 1200, height: 800 });
 
     useEffect(() => {
-        const handleResize = () => {
-        setWindowSize({ width: window.innerWidth, height: window.innerHeight });
-        };
+        const handleResize = () => setWindowSize({ width: window.innerWidth, height: window.innerHeight });
 
-        window.addEventListener('resize', handleResize);
+        if (typeof window !== 'undefined') {
+            setWindowSize({ width: window.innerWidth, height: window.innerHeight })
+            window.addEventListener('resize', handleResize);
+        }
 
-        return () => {
-        window.removeEventListener('resize', handleResize);
-        };
+        return () => window.removeEventListener('resize', handleResize);
     }, []);
 
 
@@ -189,33 +190,54 @@ export default function Table({
     }
 
     return(
-        <div className="inline-flex items-start justify-start bg-white shadow border rounded-lg border-gray-200 m-[2rem] mt-0">
-            <CustomProvider
-                locale={ptBR}
-                //theme={theme.colorMode === 'dark' ? 'dark' : 'light'}
-            >
-                <RSuiteTable
-                    className='w-full '
-                    width={windowSize.width - 60}
-                    height={windowSize.height - 200}
-                    data={data}
-                    onSortColumn={(sortColumn, sortType = 'asc') => {
-                        setParams((e:any)=> {
-                        return{
-                            ...e,
-                            sortColumn:sortColumn,
-                            sortType:sortType
-                        }
-                        })
-                    }}
-                    rowHeight={72}
-                    loading={isLoading}
+        <div className='w-full px-[2rem]'>
+            <div className="inline-flex items-start justify-start bg-white dark:bg-gray-800 shadow dark:shadow-gray-100 border rounded-lg border-gray-200">
+                <CustomProvider
+                    locale={ptBR}
+                    //theme={theme.colorMode === 'dark' ? 'dark' : 'light'}
                 >
-                    {data.length > 0 &&
-                        Object.keys(data[0]).map((key) => ColumnsTableDynamic(key))}
-                    {ColumnsTableDynamic('actions')}
-                </RSuiteTable>
-            </CustomProvider>
+                    <RSuiteTable
+                        className='rounded-lg'
+                        width={windowSize.width - 60}
+                        height={windowSize.height - 270}
+                        data={data}
+                        onSortColumn={(sortColumn, sortType = 'asc') => {
+                            setParams((e:any)=> {
+                                return{
+                                    ...e,
+                                    sortColumn:sortColumn,
+                                    sortType:sortType
+                                }
+                            })
+                        }}
+                        rowHeight={65}
+                        loading={isLoading}
+                        bordered={false}
+                    >
+                        {data.length > 0 &&
+                            Object.keys(data[0]).map((key) => ColumnsTableDynamic(key))}
+                        {ColumnsTableDynamic('actions')}
+                    </RSuiteTable>
+                </CustomProvider>
+                
+            </div>
+            <TableFooter 
+                totalElements={totalElement}
+                totalPages={total}
+                page={pages}
+                lastPage={()=>setParams((e:any)=> {
+                    return{
+                        ...e,
+                        page:pages-1
+                    }
+                })}
+                nextPage={()=>setParams((e:any)=> {
+                    return{
+                        ...e,
+                        page:pages+1
+                    }
+                })}
+            />
         </div>
     )
 }
