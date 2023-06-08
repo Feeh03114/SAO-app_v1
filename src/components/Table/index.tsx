@@ -38,7 +38,6 @@ export default function Table({
       status: 2,
       sortField: 'Id',
       sortOrder: 'asc',
-      value: undefined,
     });
     const[ pages, setPages] = useState(1);
     const [total, setTotal] = useState(10);
@@ -62,7 +61,9 @@ export default function Table({
     const loadData = async () => {
         setIsLoading(true);
         try {
-          const { data:RespAPI } = await api.get(endPoint);
+          const { data:RespAPI } = await api.get(endPoint, {
+            params: params
+          });
           setData(RespAPI);
         } catch (error) {
           console.log(error);
