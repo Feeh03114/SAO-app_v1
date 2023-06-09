@@ -33,11 +33,10 @@ export default function Table({
     const { push, pathname } = useRouter();
     const [data, setData] = useState([]);
     const [params, setParams] = useState({
-      pageSize: 5,
-      pageNumber: 1,
+      page: 1,
       status: 2,
-      sortField: 'Id',
-      sortOrder: 'asc',
+      sortField: 'id',
+      sortOrder: 'ASC',
     });
     const[ pages, setPages] = useState(1);
     const [total, setTotal] = useState(10);
@@ -61,10 +60,13 @@ export default function Table({
     const loadData = async () => {
         setIsLoading(true);
         try {
-          const { data:RespAPI } = await api.get(endPoint, {
-            params: params
-          });
-          setData(RespAPI);
+            const { data:RespAPI } = await api.get(endPoint, {
+                params: params
+            });
+            setData(RespAPI.data);
+            setPages(RespAPI.page);
+            setTotal(RespAPI.totalPages);
+            setTotalElement(RespAPI.totalElement);
         } catch (error) {
           console.log(error);
         }
@@ -206,8 +208,8 @@ export default function Table({
                             setParams((e:any)=> {
                                 return{
                                     ...e,
-                                    sortColumn:sortColumn,
-                                    sortType:sortType
+                                    sortField:sortColumn,
+                                    sortOrder:sortType.toUpperCase()
                                 }
                             })
                         }}
@@ -229,15 +231,22 @@ export default function Table({
                 lastPage={()=>setParams((e:any)=> {
                     return{
                         ...e,
-                        page:pages-1
+                        page:Number(pages)-1
                     }
                 })}
                 nextPage={()=>setParams((e:any)=> {
                     return{
                         ...e,
-                        page:pages+1
+                        page:Number(pages)+1
                     }
                 })}
+                pageNow={(e:number)=>setParams((paramsSet:any)=> {
+                    return{
+                        ...paramsSet,
+                        page:Number(e)
+                    }
+                }
+                )}
             />
         </div>
     )
