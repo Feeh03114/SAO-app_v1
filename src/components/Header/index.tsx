@@ -42,7 +42,7 @@ export default function Header({title, subtitle, textLeft, textRight,  onClickLe
                     <BiFilterAlt className="w-5 h-full rounded-lg" style={{
                         display: isFilterVisibled ? 'block' : 'none',
                     }}/>
-                    <p className="text-sm font-medium leading-tight text-gray-700">{textLeft}</p>
+                    <p className="sm-mobile:hidden md:block text-sm font-medium leading-tight text-gray-700">{textLeft}</p>
                 </div>
                 <div className="flex space-x-2 items-center justify-center py-2 pl-3 pr-4 bg-teal-500 border rounded-md border-teal-500 cursor-pointer"
                     onClick={onClickRight}
@@ -51,7 +51,7 @@ export default function Header({title, subtitle, textLeft, textRight,  onClickLe
                     }}
                 >
                     {renderButtonRight()}
-                    <p className="text-sm font-medium leading-tight text-white">{textRight}</p>
+                    <p className="sm-mobile:hidden md:block text-sm font-medium leading-tight text-white">{textRight}</p>
                 </div>
             </div>
         </div>

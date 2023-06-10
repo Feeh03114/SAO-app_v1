@@ -1,6 +1,7 @@
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 
 interface TableFooterProps {
+    pageSizes?: number;
     totalElements: number;
     totalPages: number;
     page: number;
@@ -9,8 +10,7 @@ interface TableFooterProps {
     pageNow: (e:number) => void;
 }
 
-export function TableFooter({totalElements = 8, totalPages = 10, page = 1, lastPage, nextPage, pageNow}:TableFooterProps): JSX.Element {	
-    const itemsPerPage = 5;
+export function TableFooter({pageSizes=5,totalElements = 5, totalPages = 1, page = 1, lastPage, nextPage, pageNow}:TableFooterProps): JSX.Element {	
 
     function generatePagination(totalPages:number, currentPage:number) {
         const range = 1; // Quantidade de páginas exibidas antes e depois da página atual
@@ -54,7 +54,7 @@ export function TableFooter({totalElements = 8, totalPages = 10, page = 1, lastP
 
     return(
         <div className="inline-flex space-x-2.5 items-center justify-between py-3 h-62 w-full">
-            <p className="text-sm leading-tight text-gray-700 dark:text-gray-400">{`Mostrando ${(page - 1) * itemsPerPage + 1} até ${Math.min(page * itemsPerPage, totalElements)} de ${totalElements } resultados`}</p>
+            <p className="text-sm leading-tight text-gray-700 dark:text-gray-400">{`Mostrando ${(page - 1) * pageSizes + 1} até ${Math.min(page * pageSizes, totalElements)} de ${totalElements } resultados`}</p>
             <div className="flex items-center justify-end w-1/3 h-full">
                 <div className="inline-flex flex-col items-center justify-center p-2 bg-white border rounded-tl-md rounded-bl-md border-gray-300 cursor-pointer"
                   onClick={page <=1? undefined:lastPage}

@@ -24,6 +24,12 @@ interface TableColunmsProps {
     customActions?: JSX.Element[];
 }
 
+function calcPageSizes(height: number){
+    return Math.floor(((height-265)*6)/432);
+}
+
+
+
 export default function Table({
     endPoint,
     colunm,
@@ -37,19 +43,20 @@ export default function Table({
       status: 2,
       sortField: 'id',
       sortOrder: 'ASC',
+      pageSize: calcPageSizes(window?.innerHeight||800),
     });
     const[ pages, setPages] = useState(1);
     const [total, setTotal] = useState(10);
     const [totalElement, setTotalElement] = useState(10);
     const [isLoading, setIsLoading] = useState(false);
-
     const [windowSize, setWindowSize] = useState({ width: 1200, height: 800 });
-
+    
     useEffect(() => {
-        const handleResize = () => setWindowSize({ width: window.innerWidth, height: window.innerHeight });
+        const handleResize = () => setWindowSize({ width: window.screen.width, height: window.screen.height });
 
         if (typeof window !== 'undefined') {
             setWindowSize({ width: window.innerWidth, height: window.innerHeight })
+            setParams({...params, pageSize: calcPageSizes(window.innerHeight)});
             window.addEventListener('resize', handleResize);
         }
 
@@ -193,17 +200,14 @@ export default function Table({
     }
 
     return(
-        <div className='w-full px-[2rem]'>
-            <div className="inline-flex items-start justify-start bg-white dark:bg-gray-800 shadow dark:shadow-gray-100 border rounded-lg border-gray-200">
+        <div className='w-full px-[2rem] h-full md:max-h-[15rem] xl:max-h-[33rem]'>
+            <div className="block bg-white dark:bg-gray-800 shadow dark:shadow-gray-100 border rounded-lg border-gray-200">
                 <CustomProvider
                     locale={ptBR}
                     //theme={theme.colorMode === 'dark' ? 'dark' : 'light'}
                 >
                     <RSuiteTable
                         className='rounded-lg'
-                        width={windowSize.width - 60}
-                        height={windowSize.height - 270}
-                        data={data}
                         onSortColumn={(sortColumn, sortType = 'asc') => {
                             setParams((e:any)=> {
                                 return{
@@ -219,12 +223,13 @@ export default function Table({
                     >
                         {data.length > 0 &&
                             Object.keys(data[0]).map((key) => ColumnsTableDynamic(key))}
-                        {ColumnsTableDynamic('actions')}
+                        {data.length > 0 && ColumnsTableDynamic('actions')}
                     </RSuiteTable>
                 </CustomProvider>
                 
             </div>
-            <TableFooter 
+            <TableFooter
+                pageSizes={params?.pageSize}
                 totalElements={totalElement}
                 totalPages={total}
                 page={pages}

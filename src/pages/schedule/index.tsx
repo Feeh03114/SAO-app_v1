@@ -1,13 +1,14 @@
 import Header from "@/components/Header";
 import dayjs from "dayjs";
 import 'dayjs/locale/pt-br'; // importar localização em português
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
 dayjs.locale('pt-br');
 
 export default function Schedule(){
     const [selectedDate, setSelectedDate] = useState(dayjs());
+    const [ isDarkMode, setIsDarkMode ] = useState(false);
     const [events, setEvents] = useState([
         { title: 'Evento 1', date: dayjs().startOf('day'), horario: '10:00' },
         { title: 'Evento 2', date: dayjs().startOf('day'), horario: '11:00' },
@@ -19,6 +20,16 @@ export default function Schedule(){
         'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
         'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
     ]
+
+    useEffect(() => {
+        function getTailwindMode() {
+            if(typeof window === 'undefined') return 'unknown';
+            const rootElement = window.document.documentElement;
+            const isDarkMode = rootElement.classList.contains('dark');
+            setIsDarkMode(isDarkMode);
+        }
+        getTailwindMode();
+    }, []);
 
     function handlePrevMonth() {
         setSelectedDate(selectedDate.subtract(1, 'month'));
@@ -46,20 +57,10 @@ export default function Schedule(){
         return events.filter((event) => isSameDay(event.date, date));
     }
 
-    function getTailwindMode() {
-        if(typeof window === 'undefined') return 'unknown';
-        const rootElement = window.document.documentElement;
-        const isDarkMode = rootElement.classList.contains('dark');
-        const isLightMode = rootElement.classList.contains('light');
-      
-        if (isDarkMode) return 'dark';
-        else if (isLightMode) return 'light';
-        else return 'unknown';
-    }
-      
     function renderCalendarDays() {
         const daysInMonth = selectedDate.daysInMonth();
         const startOfMonth = selectedDate.startOf('month').day();
+        const ultimoDiaMes = selectedDate.endOf('month').day();
         const days = [];
         for (let i = 1; i <= daysInMonth; i++) {
           const date = selectedDate.date(i);
@@ -69,9 +70,9 @@ export default function Schedule(){
             <div 
                 className={`flex flex-col items-center justify-end h-36 px-2 py-2.5 text-start w-full ${isDifferentToday(date, dayjs())? 'cursor-pointer': 'cursor-not-allowed'}`}
                 style={{
-                    borderWidth: `0px ${week === 'sábado'? '0px':'1px'} 1px 0px`,
+                    borderWidth: `0px ${week === 'sábado'? '0px':'1px'} ${i>= (daysInMonth-ultimoDiaMes)? '0px': '1px'} 0px`,
                     borderStyle: 'solid',
-                    borderColor: getTailwindMode() === "light"?'rgba(0, 0, 0, 0.07)': 'rgba(255, 255, 255, 0.07)'
+                    borderColor: !isDarkMode?'rgba(0, 0, 0, 0.07)': 'rgba(255, 255, 255, 0.07)'
                 }}  
                 key={date.format('YYYY-MM-DD')}
                 onClick={() => console.log('click date')}
@@ -125,7 +126,7 @@ export default function Schedule(){
                 style={{
                     borderWidth: `0px 1px 1px 0px`,
                     borderStyle: 'solid',
-                    borderColor: getTailwindMode() === "light"?'rgba(0, 0, 0, 0.07)': 'rgba(255, 255, 255, 0.07)'
+                    borderColor: !isDarkMode?'rgba(0, 0, 0, 0.07)': 'rgba(255, 255, 255, 0.07)'
                 }}
             ></div>);
         }
@@ -135,11 +136,6 @@ export default function Schedule(){
           if (i % 7 !== 0) {
             cells.push(day);
             if(i === days.length - 1) cells.push(<div key={`empty-${i}`} className="flex flex-col items-center justify-end h-36 px-2 py-2.5 text-start w-full cursor-not-allowed"
-                style={{
-                    borderWidth: `0px 1px 1px 0px`,
-                    borderStyle: 'solid',
-                    borderColor: getTailwindMode() === "light"?'rgba(0, 0, 0, 0.07)': 'rgba(255, 255, 255, 0.07)'
-                }}
             ></div>
             );
           } else {
@@ -152,7 +148,6 @@ export default function Schedule(){
         return rows;
     }
     
-
     return(
         <div className="w-full text-center ">
             <Header 
@@ -188,7 +183,7 @@ export default function Schedule(){
                         <p className="flex-1 text-xs font-medium text-center text-gray-800 dark:text-white uppercase">SEX</p>
                         <p className="flex-1 text-xs font-medium text-center text-gray-800 dark:text-white uppercase">SÁB</p>
                     </div>
-                    <div className="flex flex-col items-start p-0 w-full overflow-y-auto max-h-[15rem]">
+                    <div className="flex flex-col items-start p-0 w-full overflow-y-auto max-h-[15rem] xl:max-h-[33rem]">
                         {renderCalendarDays()}
                     </div>
                 </div>
