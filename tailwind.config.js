@@ -8,7 +8,7 @@ module.exports = {
   theme: {
       extend: {
             fontFamily: {
-                'poppins': ['Poppins'],
+                'Inter': ['Inter', 'sans-serif'],
             },
             screens: {
                 'sm-mobile': '280px', 
@@ -20,7 +20,7 @@ module.exports = {
       },
   },
   plugins: [
-      require('flowbite/plugin'),
-      require('flowbite-typography'),
-  ],
+    require('flowbite/plugin'),
+    require('flowbite-typography'),
+],
 }
