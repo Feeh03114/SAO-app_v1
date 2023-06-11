@@ -21,25 +21,16 @@ export default function Pages(): JSX.Element {
             colunm={
                 [
                     {
-                        property: 'name',
+                        property: 'namePage',
                         label: 'Nome',
                     },
                     {
-                        property: 'email',
-                        label: 'E-mail',
+                        property: 'icon',
+                        label: 'Icone',
                     },
                     {
-                        property: 'ru',
-                        label: 'Resgistro Úniversitário',
-                    },
-                    {
-                        property: 'cro',
-                        label: 'CRO',
-                    },
-                    {
-                        property: 'active',
-                        label: 'Status',
-                        type: 'status',
+                        property: 'url',
+                        label: 'Rota',
                     },
                     {
                         property: 'actions',

@@ -43,26 +43,12 @@ export default function Table({
       status: 2,
       sortField: 'id',
       sortOrder: 'ASC',
-      pageSize: calcPageSizes(window?.innerHeight||800),
+      pageSize: calcPageSizes(800),
     });
     const[ pages, setPages] = useState(1);
     const [total, setTotal] = useState(10);
     const [totalElement, setTotalElement] = useState(10);
     const [isLoading, setIsLoading] = useState(false);
-    const [windowSize, setWindowSize] = useState({ width: 1200, height: 800 });
-    
-    useEffect(() => {
-        const handleResize = () => setWindowSize({ width: window.screen.width, height: window.screen.height });
-
-        if (typeof window !== 'undefined') {
-            setWindowSize({ width: window.innerWidth, height: window.innerHeight })
-            setParams({...params, pageSize: calcPageSizes(window.innerHeight)});
-            window.addEventListener('resize', handleResize);
-        }
-
-        return () => window.removeEventListener('resize', handleResize);
-    }, []);
-
 
     const loadData = async () => {
         setIsLoading(true);
@@ -70,6 +56,7 @@ export default function Table({
             const { data:RespAPI } = await api.get(endPoint, {
                 params: params
             });
+            console.log(RespAPI);
             setData(RespAPI.data);
             setPages(RespAPI.page);
             setTotal(RespAPI.totalPages);
@@ -82,6 +69,12 @@ export default function Table({
     
     useEffect(() => {
         loadData();
+        const handleResize = () => setParams({...params, pageSize: calcPageSizes(window.innerHeight)});
+
+        if (typeof window !== 'undefined') 
+            window.addEventListener('resize', handleResize);
+        
+        return () => window.removeEventListener('resize', handleResize);
     }, []);
 
     useEffect(() => {
@@ -201,13 +194,14 @@ export default function Table({
 
     return(
         <div className='w-full px-[2rem] h-full md:max-h-[15rem] xl:max-h-[33rem]'>
-            <div className="block bg-white dark:bg-gray-800 shadow dark:shadow-gray-100 border rounded-lg border-gray-200">
+            <div className="block bg-white dark:bg-gray-800 shadow dark:shadow-gray-200 border rounded-lg border-gray-200 dark:border-gray-700 ">
                 <CustomProvider
                     locale={ptBR}
                     //theme={theme.colorMode === 'dark' ? 'dark' : 'light'}
                 >
                     <RSuiteTable
-                        className='rounded-lg'
+                        data={data}
+                        className='rounded-l text-gray-900 dark:text-white'
                         onSortColumn={(sortColumn, sortType = 'asc') => {
                             setParams((e:any)=> {
                                 return{
@@ -220,6 +214,7 @@ export default function Table({
                         rowHeight={65}
                         loading={isLoading}
                         bordered={false}
+                        height={window.innerHeight - 300}
                     >
                         {data.length > 0 &&
                             Object.keys(data[0]).map((key) => ColumnsTableDynamic(key))}

@@ -29,11 +29,14 @@ export function SideBar({title, children, ...rest}:SidebarProps){
         if (isDarkMode) {
             document.documentElement.style.setProperty("--rs-bg-card", "#1f2937");
             document.documentElement.style.setProperty("--rs-state-hover-bg", "#0d9488");
-            //--rs-state-hover-bg
+            document.documentElement.style.setProperty("--rs-text-secondary", "#BDC8DD");
+            document.documentElement.style.setProperty("--rs-border-secondary", "#27394F");
             html.classList.add('dark');
         } else {
-            document.documentElement.style.setProperty("--rs-state-hover-bg", "#ccfbf1");
             document.documentElement.style.setProperty("--rs-bg-card", "#ffffff");
+            document.documentElement.style.setProperty("--rs-state-hover-bg", "#ccfbf1");   
+            document.documentElement.style.setProperty("--rs-text-secondary", "#6B7280");
+            document.documentElement.style.setProperty("--rs-border-secondary", "#E5E7EB");
             html.classList.remove('dark');
         }
     }, [isDarkMode]);
