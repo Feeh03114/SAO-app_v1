@@ -6,5 +6,7 @@ COPY package.json yarn.lock ./
 RUN yarn && yarn cache clean --force
 COPY . .
 RUN yarn build
+COPY . .
 ENV NODE_ENV=production
 CMD [ \"yarn\", \"start\" ]
+

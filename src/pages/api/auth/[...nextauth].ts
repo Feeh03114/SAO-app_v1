@@ -1,6 +1,7 @@
 import api from "@/service/api";
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import { toast } from "react-toastify";
 
 
 
@@ -46,6 +47,7 @@ export default NextAuth({
                     return response.data;
                 }).catch((error:any) => {
                     console.log("error", error.response.data);
+                    toast.error(error.response.data.message,{position: "top-center", autoClose: 5000});
                     throw new Error(error.response.data.message);
                 })|| null;
             },
