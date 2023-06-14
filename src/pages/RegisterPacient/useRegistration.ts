@@ -115,7 +115,18 @@ export function useRegistration(){
                 !errors.gender && !errors.ethnicity &&
                 !errors.email;
                 break;
-        }
+            case 3:
+                isCurrentStepValid = !errors.phone &&
+                !errors.occupation && !errors.nationality &&
+                !errors.naturalness;
+                break;
+            case 4:
+                isCurrentStepValid = !errors.cep &&
+                !errors.neighborhood && !errors.uf &&
+                !errors.address && !errors.number &&
+                !errors.complement;
+                break;
+    }
         setIsStepValid(isCurrentStepValid);
       }, [errors, currentStep]);
 

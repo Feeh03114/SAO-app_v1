@@ -24,7 +24,7 @@ export const Input:ForwardRefRenderFunction<HTMLInputElement, InputProps> = ({ t
                 />
                 :
                 password?
-                    <div className="relative">
+                    <div className="relative w-full">
                         <input
                             id={id}
                             type={showPassword? "password": 'text'}

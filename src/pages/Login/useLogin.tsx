@@ -1,5 +1,6 @@
 
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { useAuth } from "../../hook/auth";
@@ -19,6 +20,8 @@ export function useLogin(){
         resolver: yupResolver(loginSchema),
       });
 
+    const [isRegister, setIsRegister] = useState(false);
+
     async function ValidCredentials(credentials:any){
         console.log(credentials)
         //await signIn(credentials);
@@ -28,7 +31,9 @@ export function useLogin(){
         register,
         handleSubmit,
         ValidCredentials,
-        errors
+        errors,
+        isRegister,
+        setIsRegister
     }
 }
 

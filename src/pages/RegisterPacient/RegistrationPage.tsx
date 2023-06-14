@@ -41,7 +41,7 @@ import { useRegistration } from './useRegistration';
                   />
                 ))}
               </div>
-            {/* PRIMEIRA PAGINA COMEÇA AQUI */}
+            {/* PRIMEIRA PAGINA */}
             {currentStep === 1 && (
               <div>
                   <div className="mb-5">
@@ -72,7 +72,7 @@ import { useRegistration } from './useRegistration';
             )}
 
             
-            {/* Segunda pagina começa aqui */}
+            {/* SEGUNDA PAGINA */}
             {currentStep === 2 && (
               <>
                 <div className='grid grid-cols-2 grid-rows-3 gap-6 w-full'>
@@ -203,7 +203,7 @@ import { useRegistration } from './useRegistration';
             )}
 
 
-            {/* TERCEIRA pagina começa aqui */}
+            {/* TERCEIRA PAGINA */}
             {currentStep === 3 && (
             <>
                 <div className='grid grid-cols-2 grid-rows-3 gap-6 w-full'>
@@ -305,128 +305,128 @@ import { useRegistration } from './useRegistration';
             )}
 
 
-        {/* QUARTA PAGINA COMEÇA AQUI */}
-        {currentStep === 4 && (
-            <>
-                <div className='grid grid-cols-3 gap-6 w-full'>
-                  <div className='mb-2'>
-                    <label
-                      className="block text-gray-700 font-medium mb-2"
-                      htmlFor="cep"
-                    >
-                      CEP
-                    </label>
-                    <Input
-                      className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                      type="text"
-                      id="cpf"
-                      {...register('cep')}
-                      error={errors.cep}
-                      required />
-                  </div>
-                  
-                  <div className="mb-2">
-                    <label
-                          className="block text-gray-700 font-medium mb-2"
-                          htmlFor="neighborhood"
-                        >
-                          Bairro/Vila
+              {/* QUARTA PAGINA */}
+              {currentStep === 4 && (
+                  <>
+                      <div className='grid grid-cols-3 gap-6 w-full'>
+                        <div className='mb-2'>
+                          <label
+                            className="block text-gray-700 font-medium mb-2"
+                            htmlFor="cep"
+                          >
+                            CEP
+                          </label>
+                          <Input
+                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            type="text"
+                            id="cpf"
+                            {...register('cep')}
+                            error={errors.cep}
+                            required />
+                        </div>
+                        
+                        <div className="mb-2">
+                          <label
+                                className="block text-gray-700 font-medium mb-2"
+                                htmlFor="neighborhood"
+                              >
+                                Bairro/Vila
+                              </label>
+                              <Input
+                                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                type="text"
+                                id="neighborhood"
+                                {...register('neighborhood')}
+                                error={errors.neighborhood}
+                                required />
+                              {!!errors.neighborhood && (
+                                <p className="text-red-500 text-sm">{errors.neighborhood?.message?.toString()}</p>
+                          )}
+                        </div>
+
+                        <div className="mb-2">
+                          <label
+                                className="block text-gray-700 font-medium mb-2"
+                                htmlFor="uf"
+                              >
+                                UF
+                              </label>
+                              <select className='shadow border rounded w-full py-2 px-3 leading-tight' id="uf"{...register('uf')}>
+                                <option value="null" selected>Qual seu UF?</option>
+                              </select>
+                              {!!errors.uf && (
+                                <p className="text-red-500 text-sm">{errors.uf?.message?.toString()}</p>
+                          )}
+                        </div>
+
+                                            
+                      </div>
+
+                      <div className='grid grid-cols-2 gap-6'>
+                        <div className='mb-2'>
+                          <label
+                            className="block text-gray-700 font-medium mb-2"
+                            htmlFor="address"
+                          >
+                            Endereço
+                          </label>
+                          <Input
+                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            type="text"
+                            id="address"
+                            {...register('address')}
+                            error={errors.address}
+                            required />
+                        </div>
+
+                        <div className='mb-5'>
+                          <label className='block text-gray-700 font-medium mb-2' htmlFor="number">
+                            Numero
+                          </label>
+                          <Input className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+                          type='text'
+                          id='number'
+                          {...register('number')}
+                            error={errors.number}
+                            required/>
+                        </div>        
+                      </div>
+
+
+                      <div className='grid grid-cols-1'>
+                        <label>
+                          Complemento
                         </label>
                         <Input
-                          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                          type="text"
-                          id="neighborhood"
-                          {...register('neighborhood')}
-                          error={errors.neighborhood}
-                          required />
-                        {!!errors.neighborhood && (
-                          <p className="text-red-500 text-sm">{errors.neighborhood?.message?.toString()}</p>
-                    )}
-                  </div>
+                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            type="text"
+                            id="complement"
+                            {...register('complement')}
+                            error={errors.complement}
+                            required />
+                      </div>
 
-                  <div className="mb-2">
-                    <label
-                          className="block text-gray-700 font-medium mb-2"
-                          htmlFor="uf"
-                        >
-                          UF
-                        </label>
-                        <select className='shadow border rounded w-full py-2 px-3 leading-tight' id="uf"{...register('uf')}>
-                          <option value="null" selected>Qual seu UF?</option>
-                        </select>
-                        {!!errors.uf && (
-                          <p className="text-red-500 text-sm">{errors.uf?.message?.toString()}</p>
-                    )}
-                  </div>
-
-                                      
-                </div>
-
-                <div className='grid grid-cols-2 gap-6'>
-                  <div className='mb-2'>
-                    <label
-                      className="block text-gray-700 font-medium mb-2"
-                      htmlFor="address"
-                    >
-                      Endereço
-                    </label>
-                    <Input
-                      className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                      type="text"
-                      id="address"
-                      {...register('address')}
-                      error={errors.address}
-                      required />
-                  </div>
-
-                  <div className='mb-5'>
-                    <label className='block text-gray-700 font-medium mb-2' htmlFor="number">
-                      Numero
-                    </label>
-                    <Input className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
-                    type='text'
-                    id='number'
-                    {...register('number')}
-                      error={errors.number}
-                      required/>
-                  </div>        
-                </div>
-
-
-                <div className='grid grid-cols-1'>
-                  <label>
-                    Complemento
-                  </label>
-                  <Input
-                      className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                      type="text"
-                      id="complement"
-                      {...register('complement')}
-                      error={errors.complement}
-                      required />
-                </div>
-
-                
-                <div className="mb-5">
-                    <button
-                      className="bg-indigo-500 hover:bg-indigo-700 text-white font-medium py-2 px-4 rounded focus:outline-none focus:shadow-outline float-right"
-                      type="button"
-                      onClick={handleNextStep}
-                    >
-                      Próximo
-                    </button>
-                    <div className="mb-5">
-                      <button
-                        className="bg-indigo-500 hover:bg-indigo-700 text-white font-medium py-2 px-4 rounded focus:outline-none focus:shadow-outline float-left"
-                        type="button"
-                        onClick={handleBckStep}
-                      >
-                        Voltar
-                      </button>
-                    </div>
-                </div>
-                </>
-            )}
+                      
+                      <div className="mb-5">
+                          <button
+                            className="bg-indigo-500 hover:bg-indigo-700 text-white font-medium py-2 px-4 rounded focus:outline-none focus:shadow-outline float-right"
+                            type="button"
+                            onClick={handleNextStep}
+                          >
+                            Próximo
+                          </button>
+                          <div className="mb-5">
+                            <button
+                              className="bg-indigo-500 hover:bg-indigo-700 text-white font-medium py-2 px-4 rounded focus:outline-none focus:shadow-outline float-left"
+                              type="button"
+                              onClick={handleBckStep}
+                            >
+                              Voltar
+                            </button>
+                          </div>
+                      </div>
+                      </>
+                  )}
           </form>
         </div>
       </div>
