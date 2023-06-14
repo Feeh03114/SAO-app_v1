@@ -6,69 +6,71 @@ import Image from 'next/image';
 import { Input } from '../../components/elementTag/input';
 
 export default function Login(): JSX.Element{
-    const { register, handleSubmit, ValidCredentials, errors } = useLogin();
+    const { register, handleSubmit, ValidCredentials, errors, isSubmitted } = useLogin();
     
     return(
-        <div className="flex min-h-full flex-row items-center justify-center py-40 px-4 sm:px-6 lg:px-8 font-poppins ">
-            <div className="w-full max-w-md space-y-8">
-                <div>
-                    <Image className="mx-auto h-12 w-auto" src='/assets/SVG/logo.svg' alt="UNISO" width='10' height='10'/>
-                    <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">Bem-vindo ao SAO</h2>
-                    <p className="mt-2 text-center text-sm text-gray-600">
-                        Acesse a sua conta
-                    </p>
-                </div>
-                <form className="mt-8 space-y-6" onSubmit={handleSubmit(ValidCredentials)}>
-                    <input type="hidden" name="remember" value="true"/>
-                    <div>
-                        <label htmlFor="ru" className=''>Registro Universitario</label>
-                        <Input 
-                            id="ru"
-                            type="text"
-                            className="
-                                relative block w-full appearance-none rounded-lg border border-blue-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-                            placeholder="Registro Universitario"
-                            {...register("ru")}
-                            error={errors.ru}
-                        />
-                    </div>
-                    <div>
-                        <label htmlFor="password">Senha</label>
-                        <Input 
-                            id="password"
-                            autoComplete="current-password"
-                            className="relative block w-full appearance-none rounded-lg border border-blue-300 px-3 py-2 text-gray-900 placeholder-gray-500  focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-                            placeholder="Senha"
-                            {...register("password")}
-                            password={true}
-                            error={errors.password}
-                        />
-                    </div>
-                    
-                
-                    <div className="flex items-center justify-between">
-                        <div className="flex items-center">
-                            <Input id="remember_me" type="checkbox" className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500" {...register("remember_me")} error={errors.remember_me}/>
-                            <label htmlFor="remember_me" className="ml-2 block text-sm text-gray-900">Lembrar Senha</label>
+        <div className="flex items-center justify-end h-screen w-full">
+            <div className='hidden h-full w-2/4 md:flex items-start justify-start relative'>
+                <Image className='object-cover w-full bg-teal-400' src="/assets/Odonto.png" width={150} height={150} alt="admUniso"/>
+            </div>
+
+            <div className='w-full md:w-2/4'> {/* py-44*/}
+                <div className="w-full justify-center items-center text-center">
+                    <form className="inline-flex flex-col space-y-8 items-center justify-center px-32 py-10 bg-white dark:bg-teal-800 w-full max-w-2xl"
+                        id='loginForm'
+                        onSubmit={handleSubmit(ValidCredentials)}
+                    >
+                        <div className="flex flex-col space-y-1 items-center justify-center w-full">
+                            <p className="text-lg md:text-2xl font-bold leading-loose text-gray-900 dark:text-white">Bem-vindo ao Painel Odontológico</p>
+                            <p className="text-sm leading-none text-gray-500">Insira suas credenciais e acesse a plataforma.</p>
                         </div>
-                
-                        <div className="text-sm">
-                            <button type="button" className="font-medium text-indigo-400 hover:text-indigo-600" onClick={()=>console.log('Esqueci a senha')}>Esqueceu a senha?</button>
+                        <div className="flex flex-col space-y-4 items-start justify-start w-full">
+                            <div className="flex flex-col space-y-1 items-start justify-start w-full ">
+                                <div className="inline-flex items-center justify-start pl-4  w-full">
+                                    <p className="text-sm font-medium leading-tight text-gray-700 dark:text-gray-300">Registro Universitário (RU)</p>
+                                </div>
+                                {/*<input className="text-sm leading-tight text-gray-500 px-4 py-2 bg-white shadow border rounded-lg border-indigo-500" style={{width: 464, height: 38,}} placeholder="8484842132184165"></input> */}
+                                <Input 
+                                    id="ru"
+                                    type="text"
+                                    required
+                                    className="
+                                        w-full appearance-none rounded-lg px-4 py-2 shadow border border-teal-300 text-gray-900 placeholder-gray-500 focus:border-teal-400 focus:outline-none focus:ring-teal-400 sm:text-sm"
+                                    placeholder="Registro Universitário"
+                                    {...register("ru")}
+                                    error={errors.ru}
+                                />
+                            </div>
+                            <div className="flex flex-col space-y-1 items-start justify-start  w-full">
+                                <div className="inline-flex items-center justify-start pl-4 w-full">
+                                    <p className="text-sm font-medium leading-tight text-gray-700 dark:text-gray-300">Senha</p>
+                                </div>
+                                {/* <input className="text-sm leading-tight text-gray-500 px-4 py-2 bg-white shadow border rounded-lg border-gray-300" style={{width: 464, height: 38,}} placeholder="*************"></input> */}
+                                <Input 
+                                    id="password"
+                                    type="password"
+                                    autoComplete="current-password"
+                                    required
+                                    className="w-full appearance-none rounded-lg px-4 py-2 shadow border border-teal-300 text-gray-900 placeholder-gray-500 focus:border-teal-400 focus:outline-none focus:ring-teal-400 sm:text-sm"
+                                    placeholder="Senha"
+                                    {...register("password")}
+                                    password={true}
+                                    error={errors.password}
+                                />
+                            </div>
                         </div>
-                    </div>
-                
-                    <div>
-                        <button type="submit" 
-                        className="group relative flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
-                            <span className="absolute inset-y-0 left-0 flex items-center pl-3">
-                                <svg className="h-5 w-5 text-indigo-50 group-hover:text-indigo-300" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                    <path fillRule="evenodd" d="M10 1a4.5 4.5 0 00-4.5 4.5V9H5a2 2 0 00-2 2v6a2 2 0 002 2h10a2 2 0 002-2v-6a2 2 0 00-2-2h-.5V5.5A4.5 4.5 0 0010 1zm3 8V5.5a3 3 0 10-6 0V9h6z" clipRule="evenodd" />
-                                </svg>
-                            </span>
-                            Acessar
+                        <button className="inline-flex items-center justify-center px-4 py-2 bg-teal-400 shadow rounded-md w-full"
+                            type="submit"
+                            disabled={isSubmitted}
+                        >
+                            {isSubmitted? 
+                            <p className="text-base font-medium leading-normal text-white">
+                                Carregando...
+                            </p>
+                            :<p className="text-base font-medium leading-normal text-white">Entrar</p>}
                         </button>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
         </div>
     )

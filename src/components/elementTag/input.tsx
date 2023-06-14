@@ -13,7 +13,7 @@ const InputBase:ForwardRefRenderFunction<HTMLInputElement, InputProps> = ({ pass
         <>
             {
                 password?
-                    <div className="relative">
+                    <div className="relative w-full">
                         <input
                             type={showPassword? "password": 'text'}
                             {...rest}

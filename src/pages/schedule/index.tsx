@@ -1,6 +1,8 @@
 import Header from "@/components/Header";
+import { withSSRAuth } from "@/util/withSSRAuth";
 import dayjs from "dayjs";
 import 'dayjs/locale/pt-br'; // importar localização em português
+import { GetServerSideProps } from "next";
 import { useEffect, useState } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
@@ -191,7 +193,7 @@ export default function Schedule(){
         </div>
     )
 }
-
+export const getServerSideProps: GetServerSideProps = withSSRAuth();
 /* <div 
                 className="max-w-7xl mx-2 py-6 sm:px-6 lg:px-8 
                 border rounded-lg bg-teal-100 dark:bg-teal-900 overflow-scroll h-[65vh]"

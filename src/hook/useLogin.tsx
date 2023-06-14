@@ -14,7 +14,7 @@ export function useLogin(){
   const {
       register,
       handleSubmit,
-      formState: { errors },
+      formState: { errors, isSubmitted },
     } = useForm({
       resolver: yupResolver(loginSchema),
     });
@@ -33,6 +33,7 @@ export function useLogin(){
     register,
     handleSubmit,
     ValidCredentials,
-    errors
+    errors,
+    isSubmitted
   }
 }

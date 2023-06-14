@@ -1,10 +1,10 @@
 
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import Head from "next/head";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import React, { ReactNode, useEffect, useState } from "react";
-import { FaMoon, FaSun } from "react-icons/fa";
+import { FaMoon, FaSignOutAlt, FaSun } from "react-icons/fa";
 import { MdChevronRight } from "react-icons/md";
 import { TbBell } from 'react-icons/tb';
 import { MenuSideBar } from "./components/Menu";
@@ -74,6 +74,7 @@ export function SideBar({title, children, ...rest}:SidebarProps){
                                     <p className="text-base font-medium leading-normal text-gray-800 dark:text-white">{session.data?.user?.nome}</p>
                                     <p className="text-sm font-medium leading-tight text-gray-500">{session.data?.user?.email}</p>
                                 </div>
+                                <FaSignOutAlt className="cursor-pointer dark:text-white ml-1" size={18} onClick={()=>signOut()}/>
                             </div>
                         </div>
                     </div>
