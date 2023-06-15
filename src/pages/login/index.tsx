@@ -16,7 +16,7 @@ export default function Login(): JSX.Element{
 
             <div className='w-full md:w-2/4'> {/* py-44*/}
                 <div className="w-full justify-center items-center text-center">
-                    <form className="inline-flex flex-col space-y-8 items-center justify-center px-32 py-10 bg-white dark:bg-teal-800 w-full max-w-2xl"
+                    <form className="inline-flex flex-col space-y-8 items-center justify-center px-12 md:px-32 lg:px-32 bg-white dark:bg-teal-800 w-full max-w-2xl"
                         id='loginForm'
                         onSubmit={handleSubmit(ValidCredentials)}
                     >
