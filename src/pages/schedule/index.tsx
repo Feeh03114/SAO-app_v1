@@ -158,8 +158,8 @@ export default function Schedule(){
                 isFilterVisibled
                 textLeft="Filtros"
                 textRight="Adicionar Consulta"
-                onClickLeft={()=> console.log('filter')}
-                onClickRight={()=> console.log('add consult')}
+                onClickLeft={()=> alert('Filtros em desenvolvimento')}
+                onClickRight={()=> alert('Adicionar Consulta em desenvolvimento')}
             />
             <div className="bg-white dark:bg-gray-800 m-[2rem] border border-solid border-gray-300 rounded-lg px-[3rem] py-[2rem]">
                 <div className="inline-flex flex-col space-y-4 items-start justify-start pb-4  w-full">
