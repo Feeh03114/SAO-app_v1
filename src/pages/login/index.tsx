@@ -2,6 +2,7 @@
 import { useLogin } from '@/hook/useLogin';
 import { GetServerSideProps } from 'next';
 import { getSession } from 'next-auth/react';
+import Head from 'next/head';
 import Image from 'next/image';
 import { Input } from '../../components/elementTag/input';
 
@@ -10,11 +11,16 @@ export default function Login(): JSX.Element{
     
     return(
         <div className="flex items-center justify-end h-screen w-full">
+            <Head>
+                <title>
+                    SAO - Login
+                </title>
+            </Head>
             <div className='hidden h-full w-2/4 md:flex items-start justify-start relative'>
                 <Image className='object-cover w-full bg-teal-400' src="/assets/Odonto.png" width={150} height={150} alt="admUniso"/>
             </div>
 
-            <div className='w-full md:w-2/4'> {/* py-44*/}
+            <div className='w-full md:w-2/4'>
                 <div className="w-full justify-center items-center text-center">
                     <form className="inline-flex flex-col space-y-8 items-center justify-center px-12 md:px-32 lg:px-32 bg-white dark:bg-teal-800 w-full max-w-2xl"
                         id='loginForm'

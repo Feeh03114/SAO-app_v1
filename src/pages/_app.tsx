@@ -22,7 +22,7 @@ export default function App({ Component, pageProps }: AppProps) {
     <>
       <ToastContainer />
       <SessionProvider session={pageProps.session}>
-        <SideBar title="Sistema de Acompanhamento Odontológico">
+        <SideBar title="SAO - Sistema de Agendamento Odontológico">
           <Component {...pageProps} />
         </SideBar>
       </SessionProvider>
