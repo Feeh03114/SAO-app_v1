@@ -20,9 +20,7 @@ module.exports = withPWA({
 		// 		fs: "empty",
 		// 	};
 		// }
-		if (!isServer) {
-			config.resolve.fallback.fs = false;
-		}
+		if (!isServer) config.resolve.fallback.fs = false;
 
 		config.module.rules.push({
 			test: /\^(?!tailwind.css).(le|c)ss$/,
