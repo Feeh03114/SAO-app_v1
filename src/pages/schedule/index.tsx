@@ -93,7 +93,6 @@ export default function Schedule(){
                 className={`flex flex-col text-start w-full h-14 cursor-pointer p-2 sm:pt-1 sm:pl-1 ${isSameDay(dayjs(), date) ? 'bg-teal-400' : hasEventForDay(eventsForDay) ? 'bg-teal-200 dark:bg-teal-900' : ''} hover:border-black hover:border hover:border-2
                     ${week === 'sábado'? 'border-r-0':'border-r'} ${i >= (daysInMonth-ultimoDiaMes)? 'border-b-0': 'border-b'} border-solid border-black/10 dark:border-white/10`}
                 key={date.format('YYYY-MM-DD')}
-                onClick={() => setOpen(true)}
             >
                 <p className={`w-full text-center sm:text-start text-sm sm:text-base font-semibold dark:text-white ${isSameDay(dayjs(), date) ? 'text-white' : 'text-slate-700'}`}>
                     {date.format('DD')}
@@ -155,8 +154,8 @@ export default function Schedule(){
                 isFilterVisibled
                 textLeft="Filtros"
                 textRight="Adicionar Consulta"
-                onClickLeft={()=> alert('Filtros em desenvolvimento')}
-                onClickRight={()=> alert('Adicionar Consulta em desenvolvimento')}
+                onClickLeft={() => alert('Filtros em desenvolvimento')}
+                onClickRight={() => setOpen(true)}
             />
             <div className="bg-white dark:bg-gray-800 border border-solid border-gray-300 rounded-lg mx-1 sm:m-[2rem] sm:px-[3rem] py-[1rem] pb-4 h-full">
                 <div className="inline-flex flex-col space-y-4 items-start justify-start h-full w-full">
@@ -164,9 +163,9 @@ export default function Schedule(){
                         <div className="flex items-center justify-center w-12 p-3 rounded-full">
                             <FaChevronLeft className="flex-1 rounded-lg cursor-pointer dark:text-white" onClick={handlePrevMonth}/>
                         </div>
-                        <div className="inline-flex space-x-1 items-center justify-center max-h-[1.813rem] w-full">
+                        <div className="flex items-center justify-center space-x-1 max-h-[1.813rem] w-full">
                             <p className="text-xl font-bold leading-7 text-right text-gray-800 dark:text-white">{meses[selectedDate.month()]}</p>
-                            <p className="text-xl leading-7 text-gray-800 dark:text-white">{selectedDate.year()}</p>
+                            <p className="text-xl leading-7 text-gray-800 dark:text-white m-0">{selectedDate.year()}</p>
                         </div>
                         <div className="inline-flex items-center justify-center w-12 p-3 rounded-full">
                             <FaChevronRight className="flex-1 rounded-lg cursor-pointer dark:text-white" onClick={handleNextMonth}/>
