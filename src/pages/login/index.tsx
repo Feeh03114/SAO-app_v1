@@ -42,7 +42,6 @@ export default function Login(): JSX.Element{
                                         <div className="inline-flex items-center justify-start pl-4 w-full">
                                             <p className="text-sm font-medium leading-tight text-gray-700 dark:text-gray-300">Registro Universitário (RU)</p>
                                         </div>
-                                        {/*<input className="text-sm leading-tight text-gray-500 px-4 py-2 bg-white shadow border rounded-lg border-indigo-500" style={{width: 464, height: 38,}} placeholder="8484842132184165"></input> */}
                                         <Input 
                                             id="ru"
                                             type="text"
@@ -57,8 +56,7 @@ export default function Login(): JSX.Element{
                                         <div className="inline-flex items-center justify-start pl-4 w-full">
                                             <p className="text-sm font-medium leading-tight text-gray-700 dark:text-gray-300">Senha</p>
                                         </div>
-                                        {/* <input className="text-sm leading-tight text-gray-500 px-4 py-2 bg-white shadow border rounded-lg border-gray-300" style={{width: 464, height: 38,}} placeholder="*************"></input> */}
-                                        <Input 
+                                       <Input 
                                             id="password"
                                             type="password"
                                             autoComplete="current-password"
@@ -133,7 +131,7 @@ export default function Login(): JSX.Element{
                                                 {...register2("email")}
                                                 error={errors2.email}
                                             />
-                                            <div className="w-2/5  absolute right-0 py-2 inline-flex justify-evenly bg-gray-100 rounded-r-lg shadow border border-l-0 border-gray-300 text-gray-900 placeholder-gray-500">
+                                            <div className="w-2/5 absolute right-0 py-2 inline-flex justify-evenly bg-gray-100 rounded-r-lg shadow border border-l-0 border-gray-300 text-gray-900 placeholder-gray-500">
                                                 <MdEmail className="text-gray-400 text-xl hidden sm:block"/>
                                                 <p className="truncate hover:text-clip"> @aluno.uniso.br</p>
                                             </div>
