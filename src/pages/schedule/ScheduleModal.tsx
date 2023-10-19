@@ -1,9 +1,9 @@
-import { Dialog, Listbox, Transition } from '@headlessui/react';
+import { Input } from '@/components/elementTag/input';
+import { Dialog, Transition } from '@headlessui/react';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Fragment, useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { AiOutlinePlus } from 'react-icons/ai';
-import { IoIosArrowDown } from 'react-icons/io';
 import * as yup from 'yup';
 
 type ScheduleModalProps = {
@@ -13,7 +13,7 @@ type ScheduleModalProps = {
 };
 
 const validationModal = yup.object().shape({
-    prontuario: yup.string().required('O prontuario é obrigatório'),
+    prontuario: yup.string().required('O prontuario é obrigatório').max(2, 'Somente 2 caracteres').required(),
     nome: yup.string().required('O nome é obrigatório'),
     data: yup.string().required('A data é obrigatório'),
     horario: yup.string().required('O horário é obrigatório'),
@@ -32,7 +32,7 @@ const mock = [
 
 export default function ScheduleModal({ open, setOpen, cancelButtonRef }: ScheduleModalProps) {
     const [selected, setSelected] = useState({ id: 0, name: 'Selecione o serviço odontológico' })
-    const { register, handleSubmit, formState: { errors }} = useForm({
+    const {control, register, handleSubmit, formState: { errors }} = useForm({
         resolver: yupResolver(validationModal)
     });
 
@@ -80,13 +80,13 @@ export default function ScheduleModal({ open, setOpen, cancelButtonRef }: Schedu
                                 </div>
                                 <div className="col-span-2 sm:col-span-1">
                                     <label className="pl-4 text-sm font-medium leading-tight text-gray-700 dark:text-white">Prontuário do Paciente</label>
-                                    <input 
+                                    <Input 
                                         id="prontuario"
                                         type="text"
                                         className="w-full rounded-lg px-4 py-2 dark:bg-gray-700 dark:text-white shadow border border-gray-300 text-gray-900 placeholder-gray-500 dark:placeholder-white focus:border-teal-400 focus:outline-none focus:ring-teal-400 sm:text-sm"
                                         placeholder="Insira seu prontuário"
-                                        required
                                         {...register("prontuario")}
+                                        error={errors.prontuario}
                                     />
                                 </div>
                                 <div className="col-span-2 sm:col-span-1">
@@ -125,42 +125,27 @@ export default function ScheduleModal({ open, setOpen, cancelButtonRef }: Schedu
                                 </div>
 
                                 <div className="col-span-2">
-                                    <label className="pl-4 text-sm font-medium leading-tight text-gray-700 dark:text-white">Serviço Odontológico</label>
-                                    <Listbox value={selected} onChange={setSelected}>
-                                        <div className="relative mt-1 cursor-pointer dark:text-white">
-                                            <Listbox.Button className="relative w-full rounded-lg border border-gray-300 bg-white dark:bg-gray-700 py-2 pl-3 pr-10 text-left shadow focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
-                                                <span className="block truncate">{selected.name}</span>
-                                            
-                                                <span className="absolute inset-y-0 right-0 flex items-center pr-2">
-                                                    <IoIosArrowDown/>
-                                                </span>
-                                            </Listbox.Button>
-                                            <Transition
-                                                as={Fragment}
-                                                leave="transition ease-in duration-100"
-                                                leaveFrom="opacity-100"
-                                                leaveTo="opacity-0"
-                                            >
-                                                <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md dark:border dark:border-white bg-white dark:bg-gray-700 py-1 text-base shadow ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-                                                    {mock.map((service, serviceIdx) => (
-                                                        <Listbox.Option
-                                                            key={serviceIdx}
-                                                            className={({ active }) =>
-                                                                `relative cursor-pointer select-none py-2 pl-10 pr-4 ${
-                                                                active ? 'bg-teal-200 text-teal-900' : 'text-gray-900 dark:text-white'
-                                                                }`
-                                                            }
-                                                            value={service}
-                                                            >
-                                                            <span className={`block truncate ${selected ? 'font-medium' : 'font-normal'}`}>
-                                                                {service.name}
-                                                            </span>
-                                                        </Listbox.Option>
+                                    <Controller
+                                        name='servico'
+                                        control={control}
+                                        render={({ field }) => (
+                                            <>
+                                                <label className="pl-4 text-sm font-medium leading-tight text-gray-700 dark:text-white">Serviço Odontológico</label>
+                                                <select 
+                                                    value={field.value}
+                                                    onChange={(e) => field.onChange(e.target.value)}
+                                                    className="w-full cursor-text rounded-lg px-4 py-2 dark:bg-gray-700 dark:text-white shadow border border-gray-300 text-gray-900 placeholder-gray-500 focus:border-teal-400 focus:outline-none focus:ring-teal-400 sm:text-sm"
+                                                    placeholder="Selecione o serviço odontológico"
+                                                    required
+                                                >
+                                                    <option value="" disabled selected>Selecione o serviço</option>
+                                                    {mock.map((item) => (
+                                                        <option key={item.id} value={item.id}>{item.name}</option>
                                                     ))}
-                                                </Listbox.Options>
-                                            </Transition>
-                                        </div>
-                                    </Listbox>
+                                                </select>
+                                            </>
+                                        )}
+                                    />
                                 </div>
 
                                 <div className="col-span-2">

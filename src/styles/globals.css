@@ -52,3 +52,9 @@ code {
 [data-focus-visible-added] {
   box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.5);
 }
+
+.dark {
+  ::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+  }
+}
