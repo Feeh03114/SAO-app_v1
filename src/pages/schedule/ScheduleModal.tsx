@@ -1,7 +1,7 @@
 import { Input } from '@/components/elementTag/input';
 import { Dialog, Transition } from '@headlessui/react';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Fragment, useState } from 'react';
+import { Fragment } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { AiOutlinePlus } from 'react-icons/ai';
 import * as yup from 'yup';
@@ -31,12 +31,11 @@ const mock = [
 ]
 
 export default function ScheduleModal({ open, setOpen, cancelButtonRef }: ScheduleModalProps) {
-    const [selected, setSelected] = useState({ id: 0, name: 'Selecione o serviço odontológico' })
     const {control, register, handleSubmit, formState: { errors }} = useForm({
         resolver: yupResolver(validationModal)
     });
 
-    const addPost = (data: any) => {console.log(data);}   
+    const addPost = (data: any) => {console.log(data);}
       
     return (
       <Transition.Root show={open} as={Fragment}>

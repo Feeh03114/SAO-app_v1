@@ -1,26 +1,45 @@
 import Header from "@/components/Header";
 import { withSSRAuth } from "@/util/withSSRAuth";
-import dayjs from "dayjs";
+import dayjs, { Dayjs } from "dayjs";
 import 'dayjs/locale/pt-br';
 import { GetServerSideProps } from "next";
 import { useEffect, useRef, useState } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import DayListModal from "./DayListModal";
 import ScheduleModal from "./ScheduleModal";
 
 dayjs.locale('pt-br');
 
 export default function Schedule(){
-    const [open, setOpen] = useState(true)
-    const cancelButtonRef = useRef(null)
+    const [openDayList, setOpenDayList] = useState(false);
+    const [eventsForDayState, setEventsForDayState] = useState<{ name: string; service: string; date: Dayjs; status: string }[]>([]);
+    const [open, setOpen] = useState(false);
+    const cancelButtonRefDayList = useRef(null);
+    const cancelButtonRef = useRef(null);
     const [selectedDate, setSelectedDate] = useState(dayjs());
     const [ isDarkMode, setIsDarkMode ] = useState(false);
-    const [events, setEvents] = useState([
-        { title: 'Evento 1', date: dayjs().startOf('day'), horario: '10:00' },
-        { title: 'Evento 2', date: dayjs().startOf('day'), horario: '11:00' },
-        { title: 'Evento 5', date: dayjs().startOf('day'), horario: '12:00' },
-        { title: 'Evento 4', date: dayjs().startOf('day'), horario: '13:00' },
-        { title: 'Evento 3', date: dayjs().add(1, 'day').startOf('day'), horario: '12:00' },
-        { title: 'Evento 6', date: dayjs().startOf('day').add(2, 'day'), horario: '13:00' },
+    const [events] = useState([
+        { name: 'Nome 1', service: 'Limpeza', date: dayjs().startOf('day').hour(10), status: 'Concluído' },
+        { name: 'Nome 2', service: 'Canal', date: dayjs().startOf('day').hour(10).minute(30), status: 'Aguardando Consulta' },
+        { name: 'Nome 3', service: 'Cirurgia', date: dayjs().startOf('day').hour(11), status: 'Faltou' },
+        { name: 'Nome 1', service: 'Limpeza', date: dayjs().startOf('day').hour(10), status: 'Concluído' },
+        { name: 'Nome 2', service: 'Canal', date: dayjs().startOf('day').hour(10).minute(30), status: 'Aguardando Consulta' },
+        { name: 'Nome 3', service: 'Cirurgia', date: dayjs().startOf('day').hour(11), status: 'Faltou' },
+        { name: 'Nome 1', service: 'Limpeza', date: dayjs().startOf('day').hour(10), status: 'Concluído' },
+        { name: 'Nome 2', service: 'Canal', date: dayjs().startOf('day').hour(10).minute(30), status: 'Aguardando Consulta' },
+        { name: 'Nome 3', service: 'Cirurgia', date: dayjs().startOf('day').hour(11), status: 'Faltou' },
+        { name: 'Nome 1', service: 'Limpeza', date: dayjs().startOf('day').hour(10), status: 'Concluído' },
+        { name: 'Nome 2', service: 'Canal', date: dayjs().startOf('day').hour(10).minute(30), status: 'Aguardando Consulta' },
+        { name: 'Nome 3', service: 'Cirurgia', date: dayjs().startOf('day').hour(11), status: 'Faltou' },
+        { name: 'Nome 1', service: 'Limpeza', date: dayjs().startOf('day').hour(10), status: 'Concluído' },
+        { name: 'Nome 2', service: 'Canal', date: dayjs().startOf('day').hour(10).minute(30), status: 'Aguardando Consulta' },
+        { name: 'Nome 3', service: 'Cirurgia', date: dayjs().startOf('day').hour(11), status: 'Faltou' },
+        { name: 'Nome 1', service: 'Limpeza', date: dayjs().startOf('day').hour(10), status: 'Concluído' },
+        { name: 'Nome 2', service: 'Canal', date: dayjs().startOf('day').hour(10).minute(30), status: 'Aguardando Consulta' },
+        { name: 'Nome 3', service: 'Cirurgia', date: dayjs().startOf('day').hour(11), status: 'Faltou' },
+        { name: 'Nome 6', service: 'Limpeza', date: dayjs().startOf('day').hour(11).minute(30), status: 'Agendado' },
+        { name: 'Nome 5', service: 'Limpeza', date: dayjs().add(1, 'day').startOf('day').hour(10), status: 'Aguardando Consulta' },
+        { name: 'Nome 4', service: 'Canal', date: dayjs().add(2, 'day').startOf('day').hour(10), status: 'Concluído' },
     ]);
     const meses = [
         'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
@@ -60,12 +79,6 @@ export default function Schedule(){
         if (eventsForDay.length > 0) return true;
     }
 
-    function isDifferentToday(date1: dayjs.Dayjs, date2: dayjs.Dayjs) {
-        const tomorrow = date2.add(1, 'day');
-    
-        return date1.isAfter(tomorrow) || date1.isSame(tomorrow, 'day');
-    }
-
     function getEventsForDay(date: dayjs.Dayjs) {
         return events.filter((event) => isSameDay(event.date, date));
     }
@@ -90,9 +103,10 @@ export default function Schedule(){
           const week = date.format('dddd');
           days.push(
             <div
-                className={`flex flex-col text-start w-full h-14 cursor-pointer p-2 sm:pt-1 sm:pl-1 ${isSameDay(dayjs(), date) ? 'bg-teal-400' : hasEventForDay(eventsForDay) ? 'bg-teal-200 dark:bg-teal-900' : ''} hover:border-black hover:border hover:border-2
+                className={`flex flex-col text-start w-full h-14 cursor-pointer p-2 sm:pt-1 sm:pl-1 ${isSameDay(dayjs(), date) ? 'bg-teal-400 hover:bg-teal-500 dark:hover:bg-teal-300' : hasEventForDay(eventsForDay) && 'bg-teal-200 hover:bg-teal-300 dark:bg-teal-900 dark:hover:bg-teal-800'} hover:bg-gray-100 dark:hover:bg-gray-700
                     ${week === 'sábado'? 'border-r-0':'border-r'} ${i >= (daysInMonth-ultimoDiaMes)? 'border-b-0': 'border-b'} border-solid border-black/10 dark:border-white/10`}
                 key={date.format('YYYY-MM-DD')}
+                onClick={() => {hasEventForDay(eventsForDay) && setOpenDayList(true), setEventsForDayState(eventsForDay)}}
             >
                 <p className={`w-full text-center sm:text-start text-sm sm:text-base font-semibold dark:text-white ${isSameDay(dayjs(), date) ? 'text-white' : 'text-slate-700'}`}>
                     {date.format('DD')}
@@ -118,7 +132,6 @@ export default function Schedule(){
 
         for (let i = 0; i < 7 - ultimoDiaMes - 1; i++) {
             const date = selectedDate.date(i);
-            const week = date.format('dddd');
             days.push(
                 <div key={`empty-${i}`} className={`flex flex-col text-start w-full h-14 cursor-default p-2 sm:pt-1 sm:pl-1
                     border-l border-solid border-black/10 dark:border-white/10`}     
@@ -147,6 +160,7 @@ export default function Schedule(){
     
     return(
         <div className="w-full h-full text-center ">
+            <DayListModal openDayList={openDayList} setOpenDayList={setOpenDayList} setOpen={setOpen} cancelButtonRefDayList={cancelButtonRefDayList} eventsForDay={eventsForDayState}/>
             <ScheduleModal open={open} setOpen={setOpen} cancelButtonRef={cancelButtonRef}/>
             <Header 
                 title="Página Inicial"
