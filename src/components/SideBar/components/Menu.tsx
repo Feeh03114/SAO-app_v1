@@ -24,8 +24,8 @@ export function MenuSideBar({open, setOpen}:{open:boolean, setOpen:React.Dispatc
                     aria-label="Sidebar">
                     <div className="flex flex-col space-y-10 items-start justify-start w-full pt-5 pb-4">
                         <div className="inline-flex space-x-4 items-center justify-start w-full px-4">
-                            <div className="flex items-center justify-start flex-1">
-                                <Image className="w-40 h-full rounded-lg" src="/assets/log1.png" width={157} height={32} alt="logo"/>
+                            <div className="flex items-center justify-center flex-1">
+                                <Image className="w-12 h-full" src="/assets/logo1.png" width={157} height={32} alt="logo"/>
                             </div>
                             <MdChevronRight className="transform -rotate-180 rounded-lg cursor-pointer dark:text-white" size={24} onClick={()=>setOpen((e)=>!e)}/>
                         </div>

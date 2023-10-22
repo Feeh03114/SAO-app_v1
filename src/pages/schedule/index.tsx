@@ -149,11 +149,11 @@ export default function Schedule(){
           if (i % 7 !== 0) {
             cells.push(day);
           } else {
-            if(cells.length > 0) rows.push(<div key={i / 7} className="flex flex-row items-start p-0 h-full w-full h-full">{cells}</div>);
+            if(cells.length > 0) rows.push(<div key={i / 7} className="flex flex-row items-start p-0 h-full w-full">{cells}</div>);
             cells = [day];
           }
         });
-        rows.push(<div key={days.length / 7} className="flex flex-row items-start p-0 h-full w-full h-full">{cells}</div>);
+        rows.push(<div key={days.length / 7} className="flex flex-row items-start p-0 h-full w-full">{cells}</div>);
 
         return rows;
     }
