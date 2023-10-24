@@ -10,7 +10,7 @@ import ScheduleModal from "./ScheduleModal";
 
 dayjs.locale('pt-br');
 
-export default function Schedule(){
+export default function Schedule():JSX.Element {
     const [openDayList, setOpenDayList] = useState(false);
     const [eventsForDayState, setEventsForDayState] = useState<{ name: string; service: string; date: Dayjs; status: string }[]>([]);
     const [open, setOpen] = useState(false);

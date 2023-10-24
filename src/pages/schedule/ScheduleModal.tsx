@@ -18,6 +18,7 @@ const validationModal = yup.object().shape({
     data: yup.string().required('A data é obrigatório'),
     horario: yup.string().required('O horário é obrigatório'),
     queixa: yup.string().required('A queixa é obrigatório'),
+    servico: yup.number().required('O serviço é obrigatório'),
 });
 
 const mock = [
@@ -30,7 +31,7 @@ const mock = [
     { id: 7, name: 'Exemplo 7' },
 ]
 
-export default function ScheduleModal({ open=false, setOpen, cancelButtonRef }: ScheduleModalProps) {
+export default function ScheduleModal({ open=false, setOpen, cancelButtonRef }: ScheduleModalProps):JSX.Element  {
     const {control, register, handleSubmit, formState: { errors }} = useForm({
         resolver: yupResolver(validationModal)
     });
