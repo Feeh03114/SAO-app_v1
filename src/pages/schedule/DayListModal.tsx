@@ -48,7 +48,6 @@ export default function DayListModal({ openDayList, setOpenDayList, setOpen, can
         }
     }
 
-
     useEffect(() => {
         if(!isEqualArray(eventsForDay, fields)) onSave();
     }, [fields]);

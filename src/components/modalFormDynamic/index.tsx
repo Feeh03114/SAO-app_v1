@@ -3,6 +3,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { AxiosInstance } from "axios";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { BsFillPersonPlusFill } from 'react-icons/bs';
 import { ObjectSchema } from "yup";
 import { Input } from "../elementTag/input";
 import { Modal } from "../elementTag/modal";
@@ -112,8 +113,8 @@ export default function ModalFormDynamic({
                             return(
                                 <div key={step.fields+index.toString()} className="inline-flex flex-col space-y-6 items-start justify-start" style={{width: 464, height: 360,}}>
                                     <div className="inline-flex space-x-4 items-center justify-start" style={{width: 520, height: 40,}}>
-                                        <div className="flex items-center justify-center w-10 h-full p-2 bg-blue-100 rounded-full">
-                                            <img className="flex-1 h-full rounded-lg" src="https://via.placeholder.com/24x24"/>
+                                        <div className="flex items-center justify-center w-10 h-full p-2 bg-teal-50 rounded-full">
+                                            <BsFillPersonPlusFill className="flex-1 h-full text-teal-500"/>
                                         </div>
                                         <p className="text-lg font-medium leading-normal text-gray-900" style={{width: 464,}}>{step.title}</p>
                                     </div>
@@ -142,9 +143,11 @@ export default function ModalFormDynamic({
                     }
                 </form>
                 <div className="inline-flex space-x-3 items-center justify-end px-6 py-3 bg-gray-50" style={{width: 512, height: 62,}}>
-                    <div className="flex items-center justify-center px-4 py-2 bg-white shadow border rounded-md border-gray-300">
+                    <button className="flex items-center justify-center px-4 py-2 bg-white shadow border rounded-md border-gray-300"
+                        onClick={onClose}
+                    >
                         <p className="text-sm font-medium leading-tight text-gray-700">Cancelar</p>
-                    </div>
+                    </button>
                     <button 
                         className="flex items-center justify-center px-4 py-2 bg-teal-500 shadow rounded-md"
                         disabled={isSubmitting}

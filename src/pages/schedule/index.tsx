@@ -103,7 +103,7 @@ export default function Schedule(){
           const week = date.format('dddd');
           days.push(
             <div
-                className={`flex flex-col text-start w-full h-14 cursor-pointer p-2 sm:pt-1 sm:pl-1 ${isSameDay(dayjs(), date) ? 'bg-teal-400 hover:bg-teal-500 dark:hover:bg-teal-300' : hasEventForDay(eventsForDay) && 'bg-teal-200 hover:bg-teal-300 dark:bg-teal-900 dark:hover:bg-teal-800'} hover:bg-gray-100 dark:hover:bg-gray-700
+                className={`flex flex-col text-start w-full h-full cursor-pointer p-2 sm:pt-1 sm:pl-1 ${isSameDay(dayjs(), date) ? 'bg-teal-400 hover:bg-teal-500 dark:hover:bg-teal-300' : hasEventForDay(eventsForDay) && 'bg-teal-200 hover:bg-teal-300 dark:bg-teal-900 dark:hover:bg-teal-800'} hover:bg-gray-100 dark:hover:bg-gray-700
                     ${week === 'sábado'? 'border-r-0':'border-r'} ${i >= (daysInMonth-ultimoDiaMes)? 'border-b-0': 'border-b'} border-solid border-black/10 dark:border-white/10`}
                 key={date.format('YYYY-MM-DD')}
                 onClick={() => {hasEventForDay(eventsForDay) && setOpenDayList(true), setEventsForDayState(eventsForDay)}}
@@ -120,7 +120,7 @@ export default function Schedule(){
             const week = date.format('dddd');
             const lastDays = getLastDaysOfPreviousMonth();
             days.unshift(
-                <div key={`empty-${i}`} className={`flex flex-col text-start w-full h-14 cursor-default p-2 sm:pt-1 sm:pl-1
+                <div key={`empty-${i}`} className={`flex flex-col text-start w-full h-full cursor-default p-2 sm:pt-1 sm:pl-1
                     ${week === 'sábado'? 'border-r-0':'border-r'} ${i >= (daysInMonth-ultimoDiaMes)? 'border-b-0': 'border-b'} border-solid border-black/10 dark:border-white/10`}
                 >
                     <p className={`w-full text-center sm:text-start text-sm sm:text-base font-semibold dark:text-white/25 text-slate-700/25`}>
@@ -133,7 +133,7 @@ export default function Schedule(){
         for (let i = 0; i < 7 - ultimoDiaMes - 1; i++) {
             const date = selectedDate.date(i);
             days.push(
-                <div key={`empty-${i}`} className={`flex flex-col text-start w-full h-14 cursor-default p-2 sm:pt-1 sm:pl-1
+                <div key={`empty-${i}`} className={`flex flex-col text-start w-full h-full cursor-default p-2 sm:pt-1 sm:pl-1
                     border-l border-solid border-black/10 dark:border-white/10`}     
                 >
                     <p className={`w-full text-center sm:text-start text-sm sm:text-base font-semibold dark:text-white/25 text-slate-700/25`}>
@@ -171,7 +171,7 @@ export default function Schedule(){
                 onClickLeft={() => alert('Filtros em desenvolvimento')}
                 onClickRight={() => setOpen(true)}
             />
-            <div className="bg-white dark:bg-gray-800 border border-solid border-gray-300 rounded-lg mx-1 sm:m-[2rem] sm:px-[3rem] py-[1rem] pb-4 h-full">
+            <div className="bg-white dark:bg-gray-800 border border-solid border-gray-300 rounded-lg mx-5 sm:m-[2rem] sm:px-[3rem] py-[1rem] pb-4 h-full">
                 <div className="inline-flex flex-col space-y-4 items-start justify-start h-full w-full">
                     <div className="inline-flex space-x-4 items-center justify-center max-h-[3rem] w-full">
                         <div className="flex items-center justify-center w-12 p-3 rounded-full">
@@ -194,7 +194,7 @@ export default function Schedule(){
                         <p className="flex-1 text-xs font-medium text-center text-gray-800 dark:text-white uppercase">SEX</p>
                         <p className="flex-1 text-xs font-medium text-center text-gray-800 dark:text-white uppercase">SÁB</p>
                     </div>
-                    <div className="flex flex-col items-start p-0 h-70 w-full h-full overflow-y-auto">
+                    <div className="flex flex-col items-start p-0 h-[calc(100vh-24rem)] md:h-[calc(100vh-21rem)] w-full overflow-y-auto">
                         {renderCalendarDays()}
                     </div>
                 </div>

@@ -19,7 +19,7 @@ export function MenuSideBar({open, setOpen}:{open:boolean, setOpen:React.Dispatc
     return(
         <Fragment>
             <div className="fixed z-10 h-full bg-white dark:bg-gray-800">
-                <div className="bg-white dark:bg-gray-800 transform duration-500 ease-in-out fixed inline-flex flex-col items-start justify-start md:w-56 w-full shadow dark:shadow-gray-400 h-full" 
+                <div className="bg-white dark:bg-gray-800 transform duration-500 ease-in-out fixed inline-flex flex-col items-start justify-start md:w-56 w-full shadow md:dark:shadow-gray-400 h-full" 
                     style={{transform: `${open ? 'translateX(0%)' : 'translateX(-100%)'}`}}
                     aria-label="Sidebar">
                     <div className="flex flex-col space-y-10 items-start justify-start w-full pt-5 pb-4">

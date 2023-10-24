@@ -51,7 +51,7 @@ export default function Users(): JSX.Element {
                 subtitle="Consulte os usuários da plataforma"
                 isFilterVisibled
                 textLeft="Filtros"
-                textRight="Adicionar Consulta"
+                textRight="Adicionar Usuário"
                 onClickLeft={()=> console.log('filter')}
                 onClickRight={newUserDisposer.open}
             />
