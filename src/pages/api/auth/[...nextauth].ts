@@ -44,7 +44,6 @@ export default NextAuth({
                         password: credentials.password,
                         rememberPassword: credentials?.remember_me||false,
                     });
-
                     return response.data;
                 } catch (error:any) {
                     console.log("error", error.response.data);
