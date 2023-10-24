@@ -53,7 +53,7 @@ export default function DayListModal({ openDayList, setOpenDayList, setOpen, can
     }, [fields]);
 
     return (
-        <Transition.Root show={openDayList} as={Fragment}>
+        <Transition.Root show={openDayList||false} as={Fragment}>
             <Dialog as="div" className="relative z-10" initialFocus={cancelButtonRefDayList} onClose={setOpenDayList}>
                 <Transition.Child
                     as={Fragment}
@@ -91,7 +91,7 @@ export default function DayListModal({ openDayList, setOpenDayList, setOpen, can
                                             </Dialog.Title>
                                         </div>
                                     </div>
-                                    <div className="text-base text-gray-900 dark:text-white w-1/4">{eventsForDay.length > 0 && eventsForDay[0].date.format('DD/MM/YYYY')}</div>
+                                    <div className="text-base text-gray-900 dark:text-white w-1/4">{eventsForDay?.length > 0 && eventsForDay[0].date.format('DD/MM/YYYY')}</div>
                                 </div>
 
                                 <div className="grid grid-cols-5 mt-4 ml-4 p-2 rounded-t-lg shadow bg-gray-50 py-2 dark:bg-gray-700">
@@ -105,7 +105,7 @@ export default function DayListModal({ openDayList, setOpenDayList, setOpen, can
                                 <div className="max-h-96 isolate overflow-hidden overflow-y-auto">
                                     {fields.map((value: any, index) => { 
                                         return (
-                                            <div className="grid grid-cols-5 ml-4 p-2 border-b-2 dark:border-gray-500">
+                                            <div key={index} className="grid grid-cols-5 ml-4 p-2 border-b-2 dark:border-gray-500">
                                                 <div className="col-span-1 flex justify-start items-center dark:text-white">{value.name}</div>
                                                 <div className="col-span-1 flex justify-start items-center dark:text-white">{value.service}</div>
                                                 <div className="col-span-1 flex justify-start items-center dark:text-white">{value.date.format('h:mm')}</div>

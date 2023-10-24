@@ -1,5 +1,23 @@
+interface FieldProps {
+    size: string;
+    label: string;
+    data: string;
+}
+
+function Field({ size, label, data }:FieldProps) {
+    return (
+        <div className={`w-1/2 mt-4 ${size}`}>
+            <label className="pl-4 text-sm font-medium leading-tight text-gray-700 dark:text-white">{label}</label>
+            <div className="mx-2 text-sm p-1 pl-2 leading-6 rounded-lg dark:bg-gray-700 dark:text-white shadow border border-gray-300 text-gray-500 placeholder-gray-500 dark:placeholder-white focus:border-teal-400 focus:outline-none focus:ring-teal-400">
+                {data}
+            </div>
+        </div>
+    )
+}
+
 import { AiOutlineArrowLeft, AiOutlineClockCircle } from 'react-icons/ai';
 import { HiOutlinePencilAlt } from 'react-icons/hi';
+
 
 interface HeaderProps {
     title: string;
@@ -16,7 +34,7 @@ interface HeaderProps {
     typeButtonRight?: 'add' | 'edit' | 'confirm' ;
 }
 
-export default function HeaderSchedule({title, subtitle, textLeft, textMiddle, textRight, onClickLeft, onClickMiddle, onClickRight }:HeaderProps) {
+function HeaderSchedule({title, subtitle, textLeft, textMiddle, textRight, onClickLeft, onClickMiddle, onClickRight }:HeaderProps) {
     return (
         <div className="flex items-center max-h-12 w-full px-[2rem] my-[2rem] justify-between">
             <div className='text-start md:mx-6'>
@@ -57,3 +75,8 @@ export default function HeaderSchedule({title, subtitle, textLeft, textMiddle, t
         </div>
     );
 }
+
+
+export {
+    Field, HeaderSchedule
+};

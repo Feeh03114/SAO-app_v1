@@ -30,7 +30,7 @@ const mock = [
     { id: 7, name: 'Exemplo 7' },
 ]
 
-export default function ScheduleModal({ open, setOpen, cancelButtonRef }: ScheduleModalProps) {
+export default function ScheduleModal({ open=false, setOpen, cancelButtonRef }: ScheduleModalProps) {
     const {control, register, handleSubmit, formState: { errors }} = useForm({
         resolver: yupResolver(validationModal)
     });

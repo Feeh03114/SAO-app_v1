@@ -1,6 +1,6 @@
+
+import { Field, HeaderSchedule } from "@/components/pages/schedule/edit/components";
 import { BsPerson } from "react-icons/bs";
-import { Field } from "./components";
-import HeaderSchedule from "./header";
 
 const mock = { 
     id: 1, 
