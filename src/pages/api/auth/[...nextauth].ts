@@ -1,7 +1,6 @@
 import api from "@/service/api";
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { toast } from "react-toastify";
 
 
 
@@ -39,17 +38,19 @@ export default NextAuth({
                 remember_me: { label: "Remember me", type: "checkbox" },
             },
             async authorize(credentials:any,req) {
-                return api.post("/api/auth/login", {
-                    ru: credentials.ru,
-                    password: credentials.password,
-                    rememberPassword: credentials?.remember_me||false,
-                }).then((response:any) => {
+                try {
+                    const response = await api.post("/api/auth/login", {
+                        ru: credentials.ru,
+                        password: credentials.password,
+                        rememberPassword: credentials?.remember_me||false,
+                    });
+
                     return response.data;
-                }).catch((error:any) => {
+                } catch (error:any) {
                     console.log("error", error.response.data);
-                    toast.error(error.response.data.message,{position: "top-center", autoClose: 5000});
-                    throw new Error(error.response.data.message);
-                })|| null;
+                    if(error?.response?.data?.message) throw new Error(error.response.data?.message);
+                    throw new Error('Erro ao realizar login');
+                }
             },
         }),
     ],

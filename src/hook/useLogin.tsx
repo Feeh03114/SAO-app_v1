@@ -1,11 +1,13 @@
 
 import { yupResolver } from '@hookform/resolvers/yup';
 import { signIn } from 'next-auth/react';
+import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
+import { toast } from 'react-toastify';
 import * as yup from 'yup';
 
 export function useLogin(){
-  //const route = useRouter();
+  const router = useRouter();
   const loginSchema = yup.object({
       ru: yup.string().required("Por favor, insira seu registro universitário"),
       password: yup.string().required("Por favor, insira sua senha").min(6, "A senha deve ter no mínimo 8 caracteres")
@@ -20,13 +22,17 @@ export function useLogin(){
     });
 
   async function ValidCredentials(credentials:any){
-    await signIn('credentials',{
+    const resp = await signIn('credentials',{
         ru: credentials.ru,
         password: credentials.password,
         rememberPassword: credentials.remember_me,
-        //redirect: false,
+        redirect: false,
       }
     );
+    if(resp?.error) 
+      if(!resp.error.includes('connect ECONNREFUSED'))toast.error(resp.error);
+      else toast.error('Erro ao conectar com o servidor');
+    else router.push('/dashboard');
   }
   
   return{
