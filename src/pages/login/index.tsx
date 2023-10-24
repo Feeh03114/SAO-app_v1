@@ -10,8 +10,8 @@ import { MdEmail } from 'react-icons/md';
 import { Input } from '../../components/elementTag/input';
 
 export default function Login(): JSX.Element{
-    const { register, handleSubmit, ValidCredentials, errors, isSubmitted } = useLogin();
-    const { register: register2, handleSubmit: handleSubmit2, ValidCredentials: ValidCredentials2, errors: errors2, isSubmitted: isSubmitted2  } = useRegister();
+    const { register, handleSubmit, ValidCredentials, errors, isSubmitting } = useLogin();
+    const { register: register2, handleSubmit: handleSubmit2, ValidCredentials: ValidCredentials2, errors: errors2, isSubmitting: isSubmitting2  } = useRegister();
     const [isLogin, setIsLogin] = useState(true);
 
     return(
@@ -61,20 +61,19 @@ export default function Login(): JSX.Element{
                                     </div>
                                     <Input 
                                         id="password"
-                                        type="password"
                                         autoComplete="current-password"
                                         required
                                         className="w-full appearance-none rounded-lg px-4 py-2 shadow border border-gray-300 text-gray-900 placeholder-gray-500 focus:border-teal-400 focus:outline-none focus:ring-teal-400 sm:text-sm"
                                         placeholder="Insira sua senha"
                                         {...register("password")}
-                                        password={true}
+                                        password
                                         error={errors.password}
                                     />
                                 </div>
                             </div>
                             <button className="inline-flex items-center justify-center px-4 py-2 bg-teal-400 shadow rounded-md w-full"
                                 type="submit"
-                                disabled={isSubmitted}
+                                disabled={isSubmitting}
                                 form='loginForm'
                             >
                                 {/* {isSubmitted? 
@@ -148,7 +147,7 @@ export default function Login(): JSX.Element{
                             </div>
                             <button className="px-4 py-2 bg-teal-200 shadow rounded-md w-full"
                                 type="submit"
-                                disabled={isSubmitted2}
+                                disabled={isSubmitting2}
                             >
                                 {/* {isSubmitted2? 
                                 <p className="text-base font-medium leading-normal text-teal-700">

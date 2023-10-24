@@ -10,13 +10,13 @@ export function useLogin(){
   const router = useRouter();
   const loginSchema = yup.object({
       ru: yup.string().required("Por favor, insira seu registro universitário"),
-      password: yup.string().required("Por favor, insira sua senha").min(6, "A senha deve ter no mínimo 8 caracteres")
+      password: yup.string().required("Por favor, insira sua senha")
           //.matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/, "A senha deve conter pelo menos 1 letra maiúscula, 1 letra minúscula, 1 número e 1 caractere especial"),	
     });
   const {
       register,
       handleSubmit,
-      formState: { errors, isSubmitted },
+      formState: { errors, isSubmitting },
     } = useForm({
       resolver: yupResolver(loginSchema),
     });
@@ -32,7 +32,7 @@ export function useLogin(){
     if(resp?.error) 
       if(!resp.error.includes('connect ECONNREFUSED'))toast.error(resp.error);
       else toast.error('Erro ao conectar com o servidor');
-    else router.push('/dashboard');
+    else router.push('/schedule');
   }
   
   return{
@@ -40,6 +40,6 @@ export function useLogin(){
     handleSubmit,
     ValidCredentials,
     errors,
-    isSubmitted
+    isSubmitting
   }
 }

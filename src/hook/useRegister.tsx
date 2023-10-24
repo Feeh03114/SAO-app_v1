@@ -10,7 +10,7 @@ export function useRegister(){
       email: yup.number().typeError('O e-mail deve usar somente números').required("Por favor, insira seu email").positive("O número deve ser positivo").integer("O número deve ser inteiro")
   });
 
-  const { register, handleSubmit, formState: { errors, isSubmitted } } = useForm({
+  const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm({
     resolver: yupResolver(registerSchema)
   });
 
@@ -27,6 +27,6 @@ export function useRegister(){
     handleSubmit,
     ValidCredentials,
     errors,
-    isSubmitted
+    isSubmitting
   }
 }

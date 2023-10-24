@@ -19,7 +19,7 @@ const InputBase:ForwardRefRenderFunction<HTMLInputElement, InputProps> = ({ pass
                             {...rest}
                             ref={ref}
                         />
-                        <div className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5">
+                        <div className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5 cursor-pointer">
                             <svg className={`h-6 text-gray-700 fill=none ${showPassword&&'invisible hidden'} ${!showPassword&&'block'}`} fill="none" xmlns="http://www.w3.org/2000/svg" onClick={()=>setShowPassword(!showPassword)}
                             viewBox="0 0 576 512">
                                 <path fill="currentColor"
