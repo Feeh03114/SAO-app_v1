@@ -1,3 +1,5 @@
+import React from 'react';
+
 interface FieldProps {
     size: string;
     label: string;
@@ -76,7 +78,4 @@ function HeaderSchedule({title, subtitle, textLeft, textMiddle, textRight, onCli
     );
 }
 
-
-export {
-    Field, HeaderSchedule
-};
+export { Field, HeaderSchedule };
