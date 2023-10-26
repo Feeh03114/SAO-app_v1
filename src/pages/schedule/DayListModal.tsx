@@ -106,7 +106,8 @@ export default function DayListModal({ openDayList, setOpenDayList, setOpen, can
                                             </Dialog.Title>
                                         </div>
                                     </div>
-                                    <div className="text-base text-gray-900 dark:text-white w-1/4">{eventsForDay?.length > 0 && eventsForDay[0].date.format('DD/MM/YYYY')}</div>
+                                    <div className="md:hidden text-base text-gray-900 dark:text-white w-1/4">{eventsForDay?.length > 0 && eventsForDay[0].date.format('DD/MM')}</div>
+                                    <div className="hidden md:block text-base text-gray-900 dark:text-white w-1/4">{eventsForDay?.length > 0 && eventsForDay[0].date.format('DD/MM/YYYY')}</div>
                                 </div>
 
                                 <div className="grid grid-cols-5 mt-4 md:ml-4 p-2 rounded-t-lg shadow bg-gray-50 py-2 dark:bg-gray-700">

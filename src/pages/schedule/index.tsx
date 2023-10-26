@@ -83,6 +83,16 @@ export default function Schedule():JSX.Element {
         return events.filter((event) => isSameDay(event.date, date));
     }
 
+    function isSameOrFutureDay(date: dayjs.Dayjs): boolean {
+        const today = dayjs();
+        return date.isSame(today, 'day') || date.isAfter(today, 'day');
+    }
+
+    function isSaturdayOrSunday(date: dayjs.Dayjs): boolean {
+        const dayOfWeek = date.day();
+        return dayOfWeek === 0 || dayOfWeek === 6;
+    }
+
     function getLastDaysOfPreviousMonth() {
         const days = [];
         const lastMonth = selectedDate.subtract(1, 'month');
@@ -94,6 +104,16 @@ export default function Schedule():JSX.Element {
         return days.reverse();
     }
 
+    function getAfterDaysOfNextMonth() {
+        const days = [];
+        const nextMonth = selectedDate.add(1, 'month');
+        for (let i = 1; i <= 7; i++) {
+            const date = nextMonth.date(i);
+            days.push(date);
+        }
+        return days;
+    }
+
     function renderCalendarDays() {
 
         const days = [];
@@ -103,10 +123,10 @@ export default function Schedule():JSX.Element {
           const week = date.format('dddd');
           days.push(
             <div
-                className={`flex flex-col text-start w-full h-full cursor-pointer p-2 sm:pt-1 sm:pl-1 ${isSameDay(dayjs(), date) ? 'bg-teal-400 hover:bg-teal-500 dark:hover:bg-teal-300' : hasEventForDay(eventsForDay) && 'bg-teal-200 hover:bg-teal-300 dark:bg-teal-900 dark:hover:bg-teal-800'} hover:bg-gray-100 dark:hover:bg-gray-700
-                    ${week === 'sábado'? 'border-r-0':'border-r'} ${i >= (daysInMonth-ultimoDiaMes)? 'border-b-0': 'border-b'} border-solid border-black/10 dark:border-white/10`}
+                className={`flex flex-col text-start w-full h-full cursor-default p-2 sm:pt-1 sm:pl-1 ${isSameDay(dayjs(), date) ? 'bg-teal-400 hover:bg-teal-500 cursor-pointer dark:hover:bg-teal-300' : hasEventForDay(eventsForDay) && 'bg-teal-200 hover:bg-teal-300 dark:bg-teal-900 dark:hover:bg-teal-800 cursor-pointer'} hover:bg-gray-100 dark:hover:bg-gray-700
+                    ${week === 'sábado' ? 'border-r-0 bg-gray-50':'border-r'} ${week === 'domingo' && 'bg-gray-50'} ${i >= (daysInMonth-ultimoDiaMes)? 'border-b-0': 'border-b'} border-solid border-black/10 dark:border-white/10`}
                 key={date.format('YYYY-MM-DD')}
-                onClick={() => {hasEventForDay(eventsForDay) && setOpenDayList(true), setEventsForDayState(eventsForDay)}}
+                onClick={() => {(isSameOrFutureDay(date) && !isSaturdayOrSunday(date)) && setOpenDayList(true), setEventsForDayState(eventsForDay)}}
             >
                 <p className={`w-full text-center sm:text-start text-sm sm:text-base font-semibold dark:text-white ${isSameDay(dayjs(), date) ? 'text-white' : 'text-slate-700'}`}>
                     {date.format('DD')}
@@ -116,12 +136,10 @@ export default function Schedule():JSX.Element {
         }
 
         for (let i = 0; i < startOfMonth; i++) {
-            const date = selectedDate.date(i);
-            const week = date.format('dddd');
             const lastDays = getLastDaysOfPreviousMonth();
             days.unshift(
                 <div key={`empty-${i}`} className={`flex flex-col text-start w-full h-full cursor-default p-2 sm:pt-1 sm:pl-1
-                    ${week === 'sábado'? 'border-r-0':'border-r'} ${i >= (daysInMonth-ultimoDiaMes)? 'border-b-0': 'border-b'} border-solid border-black/10 dark:border-white/10`}
+                    ${lastDays[i].format('dddd') === 'sábado' ? 'border-r-0 bg-gray-50':'border-r'} ${lastDays[i].format('dddd') === 'domingo' && 'bg-gray-50'} ${i >= (daysInMonth-ultimoDiaMes)? 'border-b-0': 'border-b'} border-solid border-black/10 dark:border-white/10`}
                 >
                     <p className={`w-full text-center sm:text-start text-sm sm:text-base font-semibold dark:text-white/25 text-slate-700/25`}>
                         {lastDays[i].format('DD')}
@@ -130,11 +148,11 @@ export default function Schedule():JSX.Element {
             );
         }
 
-        for (let i = 0; i < 7 - ultimoDiaMes - 1; i++) {
-            const date = selectedDate.date(i);
+        for (let i = 0; i < 6 - ultimoDiaMes; i++) {
+            const day = getAfterDaysOfNextMonth()[i].format('dddd');
             days.push(
                 <div key={`empty-${i}`} className={`flex flex-col text-start w-full h-full cursor-default p-2 sm:pt-1 sm:pl-1
-                    border-l border-solid border-black/10 dark:border-white/10`}     
+                    ${day === 'sábado' && 'bg-gray-50'} ${day === 'domingo' && 'bg-gray-50'} border-l border-solid border-black/10 dark:border-white/10`}     
                 >
                     <p className={`w-full text-center sm:text-start text-sm sm:text-base font-semibold dark:text-white/25 text-slate-700/25`}>
                         {i+1}
