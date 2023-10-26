@@ -1,7 +1,7 @@
 import { Input } from '@/components/elementTag/input';
 import { Dialog, Transition } from '@headlessui/react';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Fragment, useState } from 'react';
+import { Fragment, useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { AiOutlinePlus } from 'react-icons/ai';
 import * as yup from 'yup';
@@ -17,16 +17,20 @@ const validationFullModal = yup.object().shape({
     nome: yup.string().required('O nome é obrigatório'),
     data: yup.date().min(new Date(Date.now() - 86400000), 'A data deve ser igual ou posterior ao dia atual').required('A data é obrigatória'),
     horario: yup.string().required('O horário é obrigatório'),
-    servico: yup.number().required('O serviço é obrigatório'),
-    queixa: yup.string().required('A queixa é obrigatório'),
+    typeConsult: yup.string().required('O tipo da consulta é obrigatório'),
+    servico: yup.number().test('isNumber', 'O serviço é obrigatório', function(value) {
+        const {typeConsult} = this.parent;
+        if(typeConsult === 'novaConsulta') return value !== undefined;
+        return true;
+    }),
+    queixa: yup.string().test('isString', 'A queixa é obrigatória', function(value) {
+        const {typeConsult} = this.parent;
+        if(typeConsult === 'novaConsulta') return value !== undefined;
+        return true;
+    }),
+
 });
 
-const validationModal = yup.object().shape({
-    prontuario: yup.string().required('O prontuario é obrigatório'),
-    nome: yup.string().required('O nome é obrigatório'),
-    data: yup.date().min(new Date(Date.now() - 86400000), 'A data deve ser igual ou posterior ao dia atual').required('A data é obrigatória'),
-    horario: yup.string().required('O horário é obrigatório'),
-});
 
 const mock = [
     { id: 1, name: 'Exemplo 1' },
@@ -39,20 +43,28 @@ const mock = [
 ]
 
 export default function ScheduleModal({ open=false, setOpen, cancelButtonRef }: ScheduleModalProps):JSX.Element  {
-    const [openFullForm, setOpenFullForm] = useState(true);
-
-    const { control, register, handleSubmit, formState: { errors } } = useForm({
-        resolver: openFullForm ? yupResolver(validationFullModal) : yupResolver(validationModal)
+    const { reset, control, register, setValue, watch, handleSubmit, formState: { errors } } = useForm({
+        resolver: yupResolver(validationFullModal)
     });
 
-    
     const addPost = (data: any) => {console.log(data);}
 
     function closeFullForm() {
-        setOpenFullForm(false);
-        control._formValues.servico = undefined;
-        control._formValues.queixa = "";
+        setValue('servico', undefined);
+        setValue('queixa', undefined);
     }
+
+    useEffect(() => {
+        if(!open) reset({
+            prontuario: '',
+            nome: '',
+            data: new Date(),
+            horario: '',
+            typeConsult: 'retorno',
+            servico: undefined,
+            queixa: undefined,
+        });
+    }, [open]);
       
     return (
       <Transition.Root show={open} as={Fragment}>
@@ -143,7 +155,7 @@ export default function ScheduleModal({ open=false, setOpen, cancelButtonRef }: 
                                 <label className="pl-4 text-sm font-medium leading-tight text-gray-700 dark:text-white">Tipo da consulta</label>
                                 <div id="tipoDaConsulta" className="col-span-2">
                                     <Controller
-                                        name='tipoConsulta'
+                                        name='typeConsult'
                                         control={control}
                                         defaultValue={'retorno'}
                                         render={({ field }) => (
@@ -155,10 +167,7 @@ export default function ScheduleModal({ open=false, setOpen, cancelButtonRef }: 
                                                         name="type"
                                                         className="text-teal-400 mr-2"
                                                         checked={field.value === 'retorno'}
-                                                        onChange={(e) => {
-                                                            field.onChange(e.target.checked ? 'retorno' : 'novaConsulta')
-                                                            setOpenFullForm(true);
-                                                        }}
+                                                        onChange={(e) => field.onChange(e.target.checked ? 'retorno' : 'novaConsulta')}
                                                     />
                                                     Retorno
                                                 </label>
@@ -170,10 +179,7 @@ export default function ScheduleModal({ open=false, setOpen, cancelButtonRef }: 
                                                         name="type"
                                                         className="text-teal-400 mr-2"
                                                         checked={field.value === 'novaConsulta'}
-                                                        onChange={(e) => {
-                                                            field.onChange(e.target.value? 'novaConsulta' : 'retorno');
-                                                            closeFullForm();
-                                                        }}
+                                                        onChange={(e) => field.onChange(e.target.value? 'novaConsulta' : 'retorno')}
                                                     />
                                                     Nova consulta
                                                 </label>
@@ -181,43 +187,42 @@ export default function ScheduleModal({ open=false, setOpen, cancelButtonRef }: 
                                         )}
                                     />
                                 </div>
+                                <div className="col-span-2 aria-hidden:hidden"
+                                    aria-hidden={watch('typeConsult') === 'retorno' ? false : true}
+                                >
+                                    <Controller
+                                        name='servico'
+                                        control={control}
+                                        render={({ field }) => (
+                                            <>
+                                                <label className="pl-4 text-sm font-medium leading-tight text-gray-700 dark:text-white">Serviço Odontológico</label>
+                                                <select 
+                                                    value={field.value}
+                                                    onChange={(e) => field.onChange(e.target.value)}
+                                                    className="w-full cursor-text rounded-lg px-4 py-2 dark:bg-gray-700 dark:text-white shadow border border-gray-300 text-gray-900 placeholder-gray-500 focus:border-teal-400 focus:outline-none focus:ring-teal-400 sm:text-sm"
+                                                    placeholder="Selecione o serviço odontológico"
+                                                >
+                                                    <option value="" disabled selected>Selecione o serviço</option>
+                                                    {mock.map((item) => (
+                                                        <option key={item.id} value={item.id}>{item.name}</option>
+                                                    ))}
+                                                </select>
+                                            </>
+                                        )}
+                                    />
+                                </div>
 
-                                {openFullForm && (
-                                    <>
-                                        <div className="col-span-2">
-                                            <Controller
-                                                name='servico'
-                                                control={control}
-                                                render={({ field }) => (
-                                                    <>
-                                                        <label className="pl-4 text-sm font-medium leading-tight text-gray-700 dark:text-white">Serviço Odontológico</label>
-                                                        <select 
-                                                            value={field.value}
-                                                            onChange={(e) => field.onChange(e.target.value)}
-                                                            className="w-full cursor-text rounded-lg px-4 py-2 dark:bg-gray-700 dark:text-white shadow border border-gray-300 text-gray-900 placeholder-gray-500 focus:border-teal-400 focus:outline-none focus:ring-teal-400 sm:text-sm"
-                                                            placeholder="Selecione o serviço odontológico"
-                                                        >
-                                                            <option value="" disabled selected>Selecione o serviço</option>
-                                                            {mock.map((item) => (
-                                                                <option key={item.id} value={item.id}>{item.name}</option>
-                                                            ))}
-                                                        </select>
-                                                    </>
-                                                )}
-                                            />
-                                        </div>
-
-                                        <div className="col-span-2">
-                                            <label className="pl-4 text-sm font-medium leading-tight text-gray-700 dark:text-white">Queixa</label>
-                                            <textarea 
-                                                id="queixa"
-                                                className="w-full h-20 rounded-lg px-4 py-2 dark:bg-gray-700 dark:text-white shadow border border-gray-300 text-gray-900 placeholder-gray-500 dark:placeholder-white focus:border-teal-400 focus:outline-none focus:ring-teal-400 sm:text-sm"
-                                                placeholder="Descrever o que aconteceu com o paciente"
-                                                {...register("queixa")}
-                                            />
-                                        </div>
-                                    </>
-                                )}
+                                <div className="col-span-2 aria-hidden:hidden"
+                                    aria-hidden={watch('typeConsult') === 'retorno' ? false : true}
+                                >
+                                    <label className="pl-4 text-sm font-medium leading-tight text-gray-700 dark:text-white">Queixa</label>
+                                    <textarea 
+                                        id="queixa"
+                                        className="w-full h-20 rounded-lg px-4 py-2 dark:bg-gray-700 dark:text-white shadow border border-gray-300 text-gray-900 placeholder-gray-500 dark:placeholder-white focus:border-teal-400 focus:outline-none focus:ring-teal-400 sm:text-sm"
+                                        placeholder="Descrever o que aconteceu com o paciente"
+                                        {...register("queixa")}
+                                    />
+                                </div>
                                 <div className="px-4 py-3 flex justify-end sm:px-6 col-span-2 dark:bg-gray-800">
                                     <button
                                         type="button"
