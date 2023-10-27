@@ -118,7 +118,7 @@ export default function DayListModal({ openDayList, setOpenDayList, setOpen, can
                                 </div>
 
                                 <div className="max-h-96 isolate overflow-hidden overflow-y-auto">
-                                    {eventsForDay.map((value: any, index) => {
+                                    {eventsForDay?.map((value: any, index) => {
                                         return (
                                             <>
                                                 <div key={index} className="grid grid-cols-5 md:ml-4 py-1 px-3 border-b-2 dark:border-gray-500">
