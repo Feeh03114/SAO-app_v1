@@ -5,4 +5,4 @@ services:
       context: ./  # O diretório atual (onde o Dockerfile está localizado)
       dockerfile: Dockerfile  # O nome do Dockerfile
     ports:
-      - "3002:3002"  # Mapeia a porta 3002 do host para a porta 3002 do contêiner
+      - "3001:80"  # Mapeia a porta 3002 do host para a porta 3002 do contêiner
