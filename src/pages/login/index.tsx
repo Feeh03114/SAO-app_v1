@@ -11,7 +11,7 @@ import { Input } from '../../components/elementTag/input';
 
 export default function Login(): JSX.Element{
     const { register, handleSubmit, ValidCredentials, errors, isSubmitting } = useLogin();
-    const { register: register2, handleSubmit: handleSubmit2, ValidCredentials: ValidCredentials2, errors: errors2, isSubmitting: isSubmitting2  } = useRegister();
+    const { register: register2, handleSubmit: handleSubmit2, newUserStudent: newUserStudent, errors: errors2, isSubmitting: isSubmitting2  } = useRegister();
     const [isLogin, setIsLogin] = useState(true);
 
     return(
@@ -103,7 +103,7 @@ export default function Login(): JSX.Element{
 
                 <form className="inline-flex flex-col items-center justify-center px-12 space-y-8 md:px-[calc(100vw*0.08)] lg:px-32 bg-white dark:bg-teal-800 w-full max-w-2xl"
                     id='registerForm'
-                    onSubmit={handleSubmit2(ValidCredentials2)}
+                    onSubmit={handleSubmit2(newUserStudent)}
                 >
                     <div className="flex flex-col items-center justify-center w-full">
                         <p className="text-sm md:text-2xl font-bold leading-loose text-gray-900 dark:text-white">Crie sua conta na plataforma</p>

@@ -31,7 +31,7 @@ export default function Header({title, subtitle, textLeft, textRight,  onClickLe
         <div className="flex items-center max-h-[3.125rem] w-full px-[2rem] my-[2rem] justify-between">
             <div className='text-start'>
                 <p className="text-2xl font-bold leading-loose text-gray-900 dark:text-white">{title}</p>
-                <p className="text-sm leading-none text-gray-500">{subtitle}</p>
+                <p className="text-sm leading-none text-gray-400">{subtitle}</p>
             </div>
             <div className="flex">
                 <div className="flex space-x-2 items-center justify-center py-2 pl-3 pr-4 bg-white border rounded-md border-gray-300 cursor-pointer mr-[1rem] "

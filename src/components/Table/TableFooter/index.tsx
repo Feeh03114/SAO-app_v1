@@ -1,76 +1,121 @@
-import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
+import { BiSolidChevronLeft, BiSolidChevronRight, BiSolidChevronsLeft, BiSolidChevronsRight } from "react-icons/bi";
+
+const MAX_ITEMS = 5;
+const MAX_LEFT = 2;
 
 interface TableFooterProps {
-    pageSizes?: number;
+    pageSize?: number;
     totalElements: number;
-    totalPages: number;
-    page: number;
-    nextPage: () => void;
-    lastPage: () => void;
-    pageNow: (e:number) => void;
+    currentPage: number;
+    setCurrentPage: (e:number) => void;
 }
 
-export function TableFooter({pageSizes=5,totalElements = 5, totalPages = 1, page = 1, lastPage, nextPage, pageNow}:TableFooterProps): JSX.Element {	
+export function TableFooter({pageSize=5, totalElements=5, currentPage=1, setCurrentPage}:TableFooterProps): JSX.Element {	
+    const pages = Math.ceil(totalElements / pageSize);
+    const first = Math.max(currentPage - MAX_LEFT, 1);
 
-    function generatePagination(totalPages:number, currentPage:number) {
-        const range = 1; // Quantidade de páginas exibidas antes e depois da página atual
-        const itemsBeforeLastPage = 1; // Quantidade de itens exibidos antes da última página
-        const paginationHTML:any = [];
-      
-        if (totalPages <= 1) 
-          return paginationHTML;
-      
-        // Função auxiliar para adicionar um item à paginação
-        function addItemToPagination(itemHTML:string, currentPage = false) {
-          paginationHTML.push(
-            <div key={itemHTML} className={`inline-flex flex-col items-center justify-center px-4 py-2 bg-white border ${currentPage? 'border-teal-500 bg-teal-200': 'border-gray-300'} cursor-pointer`}
-              onClick={() => pageNow(parseInt(itemHTML))}
-            >
-              <p className={`text-sm font-medium leading-tight text-center ${currentPage? 'text-teal-600': 'text-gray-600'}`}>{itemHTML}</p>
-            </div>
-          );
-        }
-      
-        // Adiciona os itens de página inicial e final
-        addItemToPagination('1', Number(currentPage) === 1);
-        if (currentPage > range + 2) addItemToPagination('...');
-      
-        // Adiciona os itens de página antes e depois da página atual
-        for (let i = currentPage - range; i <= currentPage + range; i++) {
-          if (i > 1 && i < totalPages)  addItemToPagination(i.toString(), i === Number(currentPage));
-        }
-      
-        if (currentPage < totalPages - range - 1) 
-          addItemToPagination('...');
-      
-        // Adiciona os itens antes da última página
-        if (currentPage <= totalPages - itemsBeforeLastPage - range - 1) 
-          addItemToPagination((totalPages - itemsBeforeLastPage).toString());
-      
-        addItemToPagination(totalPages.toString(), Number(currentPage) === totalPages);
-      
-        return paginationHTML;
+    function enumerateArray(index: number) {
+      if (first + MAX_ITEMS > pages) {
+        return pages - MAX_ITEMS + index + 1;
+      }
+      return index + first;
+    }
+
+    function threePointsReturn() {
+      if (currentPage === 5) {
+        return currentPage - 3;
+      } else if (currentPage === 6) {
+        return currentPage - 4;
+      } 
+      return currentPage - 5;
+    }
+
+    function threePointsAdvance() {
+      if (currentPage === pages - 4) {
+        return currentPage + 3;
+      } else if (currentPage === pages - 5) {
+        return currentPage + 4;
+      } 
+      return currentPage + 5;
     }
 
     return(
-      <>
-        <div className="bg-gray-200 w-full" style={{height: 1,}}/>
-          <div className="inline-flex space-x-2.5 items-center justify-between py-3 h-62 w-full">
-              <p className="text-sm leading-tight text-gray-700 dark:text-gray-400">{`Mostrando ${(page - 1) * pageSizes + 1} até ${Math.min(page * pageSizes, totalElements)} de ${totalElements } resultados`}</p>
-              <div className="flex items-center justify-end w-1/3 h-full">
-                  <div className="inline-flex flex-col items-center justify-center p-2 bg-white border rounded-tl-md rounded-bl-md border-gray-300 cursor-pointer"
-                    onClick={page <=1? undefined:lastPage}
-                  >
-                      <FaChevronLeft className="w-4 flex-1 rounded-lg"/>
-                  </div>
-                  {generatePagination(totalPages, page)}
-                  <div className="inline-flex flex-col items-center justify-center p-2 bg-white border rounded-tr-md rounded-br-md border-gray-300 cursor-pointer"
-                    onClick={page >= totalPages? undefined:nextPage}
-                  >
-                      <FaChevronRight className="w-4 flex-1 rounded-lg"/>
-                  </div>
-              </div>
+      <div className="w-screen mt-8">
+        <div className="mx-6 pb-3 pt-4 flex items-center justify-between border-t-2 border-gray-200 dark:border-gray-600">
+          <div className="hidden md:block font-Inter text-sm font-medium leading-5 text-gray-400">
+            {`Mostrando ${(currentPage - 1) * pageSize + 1} até ${Math.min(currentPage * pageSize, totalElements)} de ${totalElements } resultados`}
           </div>
-      </>
+          <div className="md:hidden font-Inter text-sm font-medium leading-5 text-gray-400">
+            {`Página ${currentPage} de ${pages}`}
+          </div>
+          <div className="h-full flex items-center justify-end">
+              <button className={`md:hidden w-9 h-9 flex flex-col items-center justify-center bg-white dark:bg-slate-800 dark:text-gray-300 border rounded-tl-md rounded-bl-md border-gray-300 dark:border-none  ${currentPage === 1 ? 'cursor-default' : 'cursor-pointer'}`}
+                  onClick={() => setCurrentPage(1)}
+              >
+                <BiSolidChevronsLeft className="w-6 h-6 flex-1 rounded-lg"/>
+              </button>
+
+              <button className={`w-9 h-9 flex flex-col items-center justify-center bg-white dark:bg-slate-800 dark:text-gray-300 border md:rounded-tl-md md:rounded-bl-md border-gray-300 dark:border-none  ${currentPage === 1 ? 'cursor-default' : 'cursor-pointer'}`}
+                onClick={() => setCurrentPage(currentPage === 1 ? currentPage : currentPage - 1)}
+              >
+                <BiSolidChevronLeft className="w-6 h-6 flex-1 rounded-lg"/>
+              </button>
+
+              {(currentPage > (MAX_ITEMS - MAX_LEFT)) &&
+                <div className="hidden md:inline-flex w-9 h-9 flex-col items-center justify-center px-4 border bg-white dark:bg-slate-800 dark:text-gray-300 border-gray-300 dark:border-none cursor-pointer"
+                  onClick={() => setCurrentPage(1)}
+                >
+                 <p className={`text-sm font-medium leading-tight text-center text-gray-600}`}>1</p>
+               </div>
+              }
+
+              {(currentPage > (MAX_ITEMS - MAX_LEFT + 1)) &&
+                <div className="hidden md:inline-flex w-9 h-9 flex-col items-center justify-center px-4 border bg-white dark:bg-slate-800 dark:text-gray-300 border-gray-300 dark:border-none cursor-pointer"
+                  onClick={() => setCurrentPage(threePointsReturn())}
+                >
+                 <p className={`text-sm font-medium leading-tight text-center text-gray-600}`}>...</p>
+               </div>
+              }
+
+              {Array.from( {length: MAX_ITEMS})
+                .map((_, index) => enumerateArray(index))
+                .map((page) => ( 
+                  <div key={page} className={`hidden md:inline-flex w-9 h-9 flex-col items-center justify-center px-4 py-2 ${page === currentPage && 'border-teal-500' } bg-white dark:bg-slate-800 dark:text-gray-300 border border-gray-300 dark:border-none cursor-pointer`}
+                    onClick={() => setCurrentPage(page)}
+                  >
+                    <p className={`text-sm font-medium leading-tight text-center text-gray-600}`}>{page}</p>
+                  </div>
+              ))}
+
+              {(currentPage < (pages - 3)) &&
+                <div className="hidden md:inline-flex w-9 h-9 flex-col items-center justify-center px-4 border bg-white dark:bg-slate-800 dark:text-gray-300 border-gray-300 dark:border-none cursor-pointer"
+                  onClick={() => setCurrentPage(threePointsAdvance())}
+                >
+                 <p className={`text-sm font-medium leading-tight text-center text-gray-600}`}>...</p>
+               </div>
+              }
+
+              {(currentPage < (pages - 2)) &&
+                <div className="hidden md:inline-flex w-9 h-9 flex-col items-center justify-center px-4 border bg-white dark:bg-slate-800 dark:text-gray-300 border-gray-300 dark:border-none cursor-pointer"
+                  onClick={() => setCurrentPage(pages)}
+                >
+                 <p className={`text-sm font-medium leading-tight text-center text-gray-600}`}>{pages}</p>
+               </div>
+              }
+
+              <button className={`w-9 h-9 flex flex-col items-center justify-center bg-white dark:bg-slate-800 dark:text-gray-300 border md:rounded-tr-md md:rounded-br-md border-gray-300 dark:border-none ${(currentPage + 1) > pages ? 'cursor-default' : 'cursor-pointer'}`}
+                onClick={() => setCurrentPage((currentPage + 1) > pages ? currentPage : currentPage + 1)}
+              >
+                <BiSolidChevronRight className="w-6 h-6 flex-1 rounded-lg"/>
+              </button>
+
+              <button className={`md:hidden w-9 h-9 flex flex-col items-center justify-center bg-white dark:bg-slate-800 dark:text-gray-300 border rounded-tr-md rounded-br-md border-gray-300 dark:border-none ${(currentPage + 1) > pages ? 'cursor-default' : 'cursor-pointer'}`}
+                onClick={() => setCurrentPage(pages)}
+              >
+                <BiSolidChevronsRight className="w-6 h-6 flex-1 rounded-lg"/>
+              </button>
+          </div>
+        </div>
+      </div>
     )
 }
