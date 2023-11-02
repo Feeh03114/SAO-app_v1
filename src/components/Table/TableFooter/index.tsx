@@ -15,8 +15,10 @@ export function TableFooter({pageSize=5, totalElements=5, currentPage=1, setCurr
     const first = Math.max(currentPage - MAX_LEFT, 1);
 
     function enumerateArray(index: number) {
+      console.log("index: " + (index + first));
       if (first + MAX_ITEMS > pages) {
-        return pages - MAX_ITEMS + index + 1;
+        console.log("retorno: " + (pages - Math.min(MAX_ITEMS, pages) + index + 1));
+        return pages - Math.min(MAX_ITEMS, pages) + index + 1;
       }
       return index + first;
     }
@@ -61,7 +63,7 @@ export function TableFooter({pageSize=5, totalElements=5, currentPage=1, setCurr
                 <BiSolidChevronLeft className="w-6 h-6 flex-1 rounded-lg"/>
               </button>
 
-              {(currentPage > (MAX_ITEMS - MAX_LEFT)) &&
+              {(currentPage > (MAX_ITEMS - MAX_LEFT) && pages > 5) &&
                 <div className="hidden md:inline-flex w-9 h-9 flex-col items-center justify-center px-4 border bg-white dark:bg-slate-800 dark:text-gray-300 border-gray-300 dark:border-none cursor-pointer"
                   onClick={() => setCurrentPage(1)}
                 >
@@ -69,7 +71,7 @@ export function TableFooter({pageSize=5, totalElements=5, currentPage=1, setCurr
                </div>
               }
 
-              {(currentPage > (MAX_ITEMS - MAX_LEFT + 1)) &&
+              {(currentPage > (MAX_ITEMS - MAX_LEFT + 1) && pages > 5) &&
                 <div className="hidden md:inline-flex w-9 h-9 flex-col items-center justify-center px-4 border bg-white dark:bg-slate-800 dark:text-gray-300 border-gray-300 dark:border-none cursor-pointer"
                   onClick={() => setCurrentPage(threePointsReturn())}
                 >
@@ -77,7 +79,7 @@ export function TableFooter({pageSize=5, totalElements=5, currentPage=1, setCurr
                </div>
               }
 
-              {Array.from( {length: MAX_ITEMS})
+              {Array.from( {length: Math.min(MAX_ITEMS, pages)} )
                 .map((_, index) => enumerateArray(index))
                 .map((page) => ( 
                   <div key={page} className={`hidden md:inline-flex w-9 h-9 flex-col items-center justify-center px-4 py-2 ${page === currentPage && 'border-teal-500' } bg-white dark:bg-slate-800 dark:text-gray-300 border border-gray-300 dark:border-none cursor-pointer`}
@@ -87,7 +89,7 @@ export function TableFooter({pageSize=5, totalElements=5, currentPage=1, setCurr
                   </div>
               ))}
 
-              {(currentPage < (pages - 3)) &&
+              {(currentPage < (pages - 3) && pages > 6) &&
                 <div className="hidden md:inline-flex w-9 h-9 flex-col items-center justify-center px-4 border bg-white dark:bg-slate-800 dark:text-gray-300 border-gray-300 dark:border-none cursor-pointer"
                   onClick={() => setCurrentPage(threePointsAdvance())}
                 >
@@ -95,7 +97,7 @@ export function TableFooter({pageSize=5, totalElements=5, currentPage=1, setCurr
                </div>
               }
 
-              {(currentPage < (pages - 2)) &&
+              {(currentPage < (pages - 2) && pages > 5) &&
                 <div className="hidden md:inline-flex w-9 h-9 flex-col items-center justify-center px-4 border bg-white dark:bg-slate-800 dark:text-gray-300 border-gray-300 dark:border-none cursor-pointer"
                   onClick={() => setCurrentPage(pages)}
                 >

@@ -3,6 +3,7 @@ import Table from "@/components/Table";
 import { TableFooter } from "@/components/Table/TableFooter";
 import Modal from "@/components/modal";
 import { useDisclosure } from "@/hook/useDisclosure";
+import api from "@/service/api";
 import { withSSRAuth } from "@/util/withSSRAuth";
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
@@ -10,95 +11,74 @@ import { useEffect, useState } from "react";
 import { BsFillPersonPlusFill } from "react-icons/bs";
 import { Input } from "rsuite";
 
-const TOTAL_ELEMENTS = 300;
+const TOTAL_ELEMENTS = 25;
 const rowsNumber = 6;
 
 export default function Users(): JSX.Element {
-    interface User {
-        name: string;
-        email: string;
-        ru: string;
-    }
+    // interface User {
+    //     name: string;
+    //     email: string;
+    //     ru: string;
+    // }
     
     const newUserDisposer = useDisclosure();
-    const [tableHeight, setTableHeight] = useState(0);
     const { push, pathname } = useRouter();
-    const [data, setData] = useState<User[]>([]);
-    // const [data, setData] = useState([]);
+    // const [data, setData] = useState<User[]>([]);
+    const [data, setData] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalElements, setTotalElements] = useState(TOTAL_ELEMENTS);
     const [isLoading, setIsLoading] = useState(false);
-    // const [rowsNumber, setRowsNumber] = useState(1);
 
-    // const [params, setParams] = useState({
-    //     page: currentPage,
-    //     pageSize: rowsNumber,
-    //     sortOrder: 'ASC',
-    //     sortField: 'id',
-    //     status: 2,
-    //   });
+    const [params, setParams] = useState({
+        page: currentPage,
+        pageSize: rowsNumber,
+        sortOrder: 'ASC',
+        sortField: 'id',
+        status: 2,
+      });
+
+    const loadData = async () => {
+        setIsLoading(true);
+        try {
+            const { data:RespAPI } = await api.get("api/users", {
+                params: params
+            });
+            console.log(RespAPI);
+            setData(RespAPI.data);
+            setCurrentPage(RespAPI.page);
+            setTotalElements(RespAPI.totalElement);
+        } catch (error) {
+          console.log(error);
+        }
+        setIsLoading(false);
+    };
     
-    // useEffect(() => {
-    //     function handleResize() {
-    //         setTableHeight(window.innerHeight - 230);
-    //     }
+    useEffect(() => {
+        loadData();
+    }, []);
 
-    //     window.addEventListener('resize', handleResize);
-    //     handleResize();
+    // const mock: User[] = [];
 
-    //     return () => window.removeEventListener('resize', handleResize);
-    // }, []);
+    // for (let index = 1; index <= TOTAL_ELEMENTS; index++) {
+    //     mock.push({
+    //         name: "Teste " + index.toString(),
+    //         email: "exemple@email.com",
+    //         ru: "123456789"
+    //     });
+    // }
 
-    // useEffect(() => {
-    //     setRowsNumber(Math.floor(tableHeight/46) - 1);
-    //     loadDataMock();
-    // }, [tableHeight]);
+    // const start = currentPage * rowsNumber - rowsNumber;
+    // const newMock = mock.slice(start, start + rowsNumber);
 
-    console.log("Altura total: " + tableHeight);
-    console.log("Quantidade de linhas: " + rowsNumber);
-    // const loadData = async () => {
-    //     setIsLoading(true);
-    //     try {
-    //         const { data:RespAPI } = await api.get("api/users", {
-    //             params: params
-    //         });
-    //         console.log(RespAPI);
-    //         setData(RespAPI.data);
-    //         setCurrentPage(RespAPI.page);
-    //         setTotalPages(RespAPI.totalPages);
-    //         setTotalElements(RespAPI.totalElement);
-    //     } catch (error) {
-    //       console.log(error);
-    //     }
-    //     setIsLoading(false);
-    // };
-    //
-    // useEffect(() => {
-    //     loadData();
-    // }, []);
-
-    const mock: User[] = [];
-
-    for (let index = 1; index <= TOTAL_ELEMENTS; index++) {
-        mock.push({
-            name: "Teste " + index.toString(),
-            email: "exemple@email.com",
-            ru: "123456789"
-        });
-    }
-
-    const start = currentPage * rowsNumber - rowsNumber;
-    const newMock = mock.slice(start, start + rowsNumber);
-
-    const loadDataMock = async () => {
-        setData(newMock);
-        setCurrentPage(currentPage);
-        setTotalElements(TOTAL_ELEMENTS);
-    }
+    // const loadDataMock = async () => {
+    //     setData(newMock);
+    //     setCurrentPage(currentPage);
+    //     setTotalElements(TOTAL_ELEMENTS);
+    // }
 
     useEffect(() => {
-        // loadData();
-        loadDataMock();
+        loadData();
+        // loadDataMock();
     }, [currentPage]);
 
     return (
