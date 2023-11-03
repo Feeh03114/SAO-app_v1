@@ -3,21 +3,19 @@ import { BiSolidChevronLeft, BiSolidChevronRight, BiSolidChevronsLeft, BiSolidCh
 const MAX_ITEMS = 5;
 const MAX_LEFT = 2;
 
-interface TableFooterProps {
+interface PaginationProps {
     pageSize?: number;
     totalElements: number;
     currentPage: number;
     setCurrentPage: (e:number) => void;
 }
 
-export function TableFooter({pageSize=5, totalElements=5, currentPage=1, setCurrentPage}:TableFooterProps): JSX.Element {	
+export function Pagination({pageSize=5, totalElements=5, currentPage=1, setCurrentPage}:PaginationProps): JSX.Element {	
     const pages = Math.ceil(totalElements / pageSize);
     const first = Math.max(currentPage - MAX_LEFT, 1);
 
     function enumerateArray(index: number) {
-      console.log("index: " + (index + first));
       if (first + MAX_ITEMS > pages) {
-        console.log("retorno: " + (pages - Math.min(MAX_ITEMS, pages) + index + 1));
         return pages - Math.min(MAX_ITEMS, pages) + index + 1;
       }
       return index + first;

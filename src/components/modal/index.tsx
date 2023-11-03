@@ -30,7 +30,7 @@ function ModalRoot({
                 <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"/>
             </Transition.Child>
     
-            <div className="fixed inset-0 z-10 w-screen">
+            <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
                 <div className="flex min-h-full items-center justify-center p-4 md:items-center md:p-0">
                 <Transition.Child
                     as={Fragment}
@@ -41,7 +41,7 @@ function ModalRoot({
                     leaveFrom="opacity-100 translate-y-0 md:scale-100"
                     leaveTo="opacity-0 translate-y-4 md:translate-y-0 md:scale-95"
                 >
-                    <Dialog.Panel className="p-6 mx-4 relative transform overflow-hidden rounded-lg bg-white dark:bg-gray-800 text-left shadow transition-all w-full md:max-w-lg h-[calc(100vh-24rem)] md:h-[calc(100vh-21rem)]">
+                    <Dialog.Panel className="p-6 mx-4 mt-4 relative transform rounded-lg bg-white dark:bg-gray-800 text-left shadow transition-all w-full md:max-w-lg h-full">
                         {children}
                     </Dialog.Panel>
                 </Transition.Child>

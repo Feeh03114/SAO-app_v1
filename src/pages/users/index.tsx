@@ -1,9 +1,8 @@
 import Header from "@/components/Header";
 import Table from "@/components/Table";
-import { TableFooter } from "@/components/Table/TableFooter";
+import { Pagination } from "@/components/Table/Pagination";
 import Modal from "@/components/modal";
 import { useDisclosure } from "@/hook/useDisclosure";
-import api from "@/service/api";
 import { withSSRAuth } from "@/util/withSSRAuth";
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
@@ -15,16 +14,16 @@ const TOTAL_ELEMENTS = 25;
 const rowsNumber = 6;
 
 export default function Users(): JSX.Element {
-    // interface User {
-    //     name: string;
-    //     email: string;
-    //     ru: string;
-    // }
+    interface User {
+        name: string;
+        email: string;
+        ru: string;
+    }
     
     const newUserDisposer = useDisclosure();
     const { push, pathname } = useRouter();
-    // const [data, setData] = useState<User[]>([]);
-    const [data, setData] = useState([]);
+    const [data, setData] = useState<User[]>([]);
+    // const [data, setData] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalElements, setTotalElements] = useState(TOTAL_ELEMENTS);
     const [isLoading, setIsLoading] = useState(false);
@@ -37,52 +36,52 @@ export default function Users(): JSX.Element {
         status: 2,
       });
 
-    const loadData = async () => {
-        setIsLoading(true);
-        try {
-            const { data:RespAPI } = await api.get("api/users", {
-                params: params
-            });
-            console.log(RespAPI);
-            setData(RespAPI.data);
-            setCurrentPage(RespAPI.page);
-            setTotalElements(RespAPI.totalElement);
-        } catch (error) {
-          console.log(error);
-        }
-        setIsLoading(false);
-    };
+    // const loadData = async () => {
+    //     setIsLoading(true);
+    //     try {
+    //         const { data:RespAPI } = await api.get("api/users", {
+    //             params: params
+    //         });
+    //         console.log(RespAPI);
+    //         setData(RespAPI.data);
+    //         setCurrentPage(RespAPI.page);
+    //         setTotalElements(RespAPI.totalElement);
+    //     } catch (error) {
+    //       console.log(error);
+    //     }
+    //     setIsLoading(false);
+    // };
     
+    // useEffect(() => {
+    //     loadData();
+    // }, []);
+
+    const mock: User[] = [];
+
+    for (let index = 1; index <= TOTAL_ELEMENTS; index++) {
+        mock.push({
+            name: "Teste " + index.toString(),
+            email: "exemple@email.com",
+            ru: "123456789"
+        });
+    }
+
+    const start = currentPage * rowsNumber - rowsNumber;
+    const newMock = mock.slice(start, start + rowsNumber);
+
+    const loadDataMock = async () => {
+        setData(newMock);
+        setCurrentPage(currentPage);
+        setTotalElements(TOTAL_ELEMENTS);
+    }
+
     useEffect(() => {
-        loadData();
-    }, []);
-
-    // const mock: User[] = [];
-
-    // for (let index = 1; index <= TOTAL_ELEMENTS; index++) {
-    //     mock.push({
-    //         name: "Teste " + index.toString(),
-    //         email: "exemple@email.com",
-    //         ru: "123456789"
-    //     });
-    // }
-
-    // const start = currentPage * rowsNumber - rowsNumber;
-    // const newMock = mock.slice(start, start + rowsNumber);
-
-    // const loadDataMock = async () => {
-    //     setData(newMock);
-    //     setCurrentPage(currentPage);
-    //     setTotalElements(TOTAL_ELEMENTS);
-    // }
-
-    useEffect(() => {
-        loadData();
-        // loadDataMock();
+        // loadData();
+        loadDataMock();
     }, [currentPage]);
 
     return (
-        <>
+        <div className="flex flex-col flex-wrap">
             <Modal.Root
                 isOpen={newUserDisposer.isOpen}
                 onClose={newUserDisposer.close}
@@ -166,7 +165,7 @@ export default function Users(): JSX.Element {
                 onClickLeft={()=> console.log('filter')}
                 onClickRight={newUserDisposer.open}
             />
-            <Table.Root>
+            <Table.Root tableHeight={String(rowsNumber)}>
                 <Table.Header>
                     <Table.CellHeader hiddenInMobile={false}>NOME</Table.CellHeader>
                     <Table.CellHeader hiddenInMobile={true}>E-MAIL</Table.CellHeader>
@@ -182,13 +181,13 @@ export default function Users(): JSX.Element {
                 ))}
             </Table.Root> 
 
-            <TableFooter
+            <Pagination
                 pageSize={rowsNumber}
                 totalElements={totalElements}
                 currentPage={currentPage}
                 setCurrentPage={setCurrentPage}
             />
-        </>
+        </div>
     );
 }
 

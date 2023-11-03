@@ -191,7 +191,7 @@ export function CreateEditTable({
                     </div>
                 </div>
                 <div className="grid grid-cols-12 overflow-y-scroll"
-                 style={{
+                style={{
                     height: "calc(100vh - 15rem)",
                 }}>
                     {metadata.fields.map((column) => (
