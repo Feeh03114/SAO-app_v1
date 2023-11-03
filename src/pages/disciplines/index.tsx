@@ -59,7 +59,7 @@ export default function Subjects(): JSX.Element {
                 onClickLeft={()=> console.log('filter')}
                 onClickRight={newUserDisposer.open}
             />
-            <Table.Root>
+            <Table.Root tableHeight={String(rowsNumber)}>
                 <Table.Header>
                     <Table.CellHeader hiddenInMobile={false}>TÍTULO</Table.CellHeader>
                 </Table.Header>

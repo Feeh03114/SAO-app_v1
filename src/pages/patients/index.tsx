@@ -27,7 +27,7 @@ export default function Patients(): JSX.Element {
     const loadData = async () => {
         setIsLoading(true);
         try {
-            const { data:RespAPI } = await api.get("api/patients", {
+            const { data:RespAPI } = await api.get("api/patient", {
                 params: params
             });
             console.log(RespAPI);
@@ -51,15 +51,15 @@ export default function Patients(): JSX.Element {
     return (
         <>
             <Header 
-                title="Disciplinas"
-                subtitle="Consulte as disciplinas da plataforma"
+                title="Pacientes"
+                subtitle="Consulte os pacientes da plataforma"
                 isFilterVisibled
                 textLeft="Filtros"
-                textRight="Adicionar disciplina"
+                textRight="Adicionar paciente"
                 onClickLeft={()=> console.log('filter')}
                 onClickRight={newUserDisposer.open}
             />
-            <Table.Root>
+            <Table.Root tableHeight={String(rowsNumber)}>
                 <Table.Header>
                     <Table.CellHeader hiddenInMobile={false}>PRONTUÁRIO</Table.CellHeader>
                     <Table.CellHeader hiddenInMobile={false}>NOME</Table.CellHeader>

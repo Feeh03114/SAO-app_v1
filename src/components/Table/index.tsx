@@ -13,6 +13,7 @@ function TableRoot({ children, tableHeight } : RegisterModelProps): JSX.Element 
     } else {
         tableHeight = `${Number(tableHeight) * 48 + 42}px`;
     }
+    console.log(tableHeight);
     return(
         <div className={`w-screen flex items-center justify-centers flex-col flex-wrap ${tableHeight == undefined && 'h-[calc(100vh-24rem)]'}`}>
             <div className="m-6 flex items-start justify-centers flex-col flex-wrap border bg-gray-50 dark:bg-slate-800 dark:border-slate-700 border-solid border-gray-200 shadow-sm rounded-lg overflow-hidden border-separate"    
