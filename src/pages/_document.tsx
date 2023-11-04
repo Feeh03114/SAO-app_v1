@@ -8,7 +8,7 @@ export default function Document() {
         <link rel="manifest" href="/manifest.json" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png"></link>
       </Head>
-      <body className='bg-white dark:bg-gray-900'>
+      <body className='bg-white dark:bg-gray-900 overflow-y-scroll'>
         <Main />
         <NextScript />
       </body>

@@ -50,7 +50,7 @@ export function SideBar({title, children, ...rest}:SidebarProps){
             </Head>
             <MenuSideBar open={isOpenNavbar} setOpen={setIsOpenNavbar}/>
                 <div className="h-full flex flex-col">
-                    <div className="bg-white dark:bg-gray-800 shadow-md max-h-[4.75rem] w-full" style={{
+                    <div className="bg-white dark:bg-gray-800 shadow-md max-h-[4.75rem] w-full fixed" style={{
                         display: !session?.data?'none':undefined,
                         boxShadow: '0px 1px 3px rgba(0, 0, 0, 0.1), 0px 1px 2px rgba(0, 0, 0, 0.06)'
                     }}>
