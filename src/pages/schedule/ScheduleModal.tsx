@@ -182,7 +182,7 @@ export default function ScheduleModal({ open=false, setOpen, cancelButtonRef }: 
                                     />
                                 </div>
                                 <div className="col-span-2 aria-hidden:hidden"
-                                    aria-hidden={watch('typeConsult') === 'retorno' ? false : true}
+                                    aria-hidden={watch('typeConsult') === 'retorno' ? true : false}
                                 >
                                     <Controller
                                         name='servico'
@@ -207,7 +207,7 @@ export default function ScheduleModal({ open=false, setOpen, cancelButtonRef }: 
                                 </div>
 
                                 <div className="col-span-2 aria-hidden:hidden"
-                                    aria-hidden={watch('typeConsult') === 'retorno' ? false : true}
+                                    aria-hidden={watch('typeConsult') === 'retorno' ? true : false}
                                 >
                                     <label className="pl-4 text-sm font-medium leading-tight text-gray-700 dark:text-white">Queixa</label>
                                     <textarea 
