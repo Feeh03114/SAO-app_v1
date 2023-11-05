@@ -1,5 +1,5 @@
 import Header from "@/components/Header";
-import Table from "@/components/Table";
+import Table from "@/components/Table/oldIndex";
 import { withSSRAuth } from "@/util/withSSRAuth";
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";

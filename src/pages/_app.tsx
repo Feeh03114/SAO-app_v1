@@ -4,8 +4,10 @@ import { SessionProvider } from 'next-auth/react';
 import type { AppProps } from 'next/app';
 import { useEffect } from 'react';
 import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-export default function App({ Component, pageProps }: AppProps) {
+
+export default function App({ Component, pageProps }: AppProps): JSX.Element {
   useEffect(() => {
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker
@@ -20,7 +22,7 @@ export default function App({ Component, pageProps }: AppProps) {
   }, []);
   return (
     <>
-      <ToastContainer />
+      <ToastContainer position="top-center"/>
       <SessionProvider session={pageProps.session}>
         <SideBar title="SAO - Sistema de Agendamento Odontológico">
           <Component {...pageProps} />

@@ -1,26 +1,45 @@
 import Header from "@/components/Header";
 import { withSSRAuth } from "@/util/withSSRAuth";
-import dayjs from "dayjs";
+import dayjs, { Dayjs } from "dayjs";
 import 'dayjs/locale/pt-br';
 import { GetServerSideProps } from "next";
 import { useEffect, useRef, useState } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import DayListModal from "./DayListModal";
 import ScheduleModal from "./ScheduleModal";
 
 dayjs.locale('pt-br');
 
-export default function Schedule(){
-    const [open, setOpen] = useState(true)
-    const cancelButtonRef = useRef(null)
+export default function Schedule():JSX.Element {
+    const [openDayList, setOpenDayList] = useState(false);
+    const [eventsForDayState, setEventsForDayState] = useState<{ name: string; service: string; date: Dayjs; status: string }[]>([]);
+    const [open, setOpen] = useState(false);
+    const cancelButtonRefDayList = useRef(null);
+    const cancelButtonRef = useRef(null);
     const [selectedDate, setSelectedDate] = useState(dayjs());
     const [ isDarkMode, setIsDarkMode ] = useState(false);
-    const [events, setEvents] = useState([
-        { title: 'Evento 1', date: dayjs().startOf('day'), horario: '10:00' },
-        { title: 'Evento 2', date: dayjs().startOf('day'), horario: '11:00' },
-        { title: 'Evento 5', date: dayjs().startOf('day'), horario: '12:00' },
-        { title: 'Evento 4', date: dayjs().startOf('day'), horario: '13:00' },
-        { title: 'Evento 3', date: dayjs().add(1, 'day').startOf('day'), horario: '12:00' },
-        { title: 'Evento 6', date: dayjs().startOf('day').add(2, 'day'), horario: '13:00' },
+    const [events] = useState([
+        { name: 'Nome 1', service: 'Limpeza', date: dayjs().startOf('day').hour(10), status: 'Concluído' },
+        { name: 'Nome 2', service: 'Canal', date: dayjs().startOf('day').hour(10).minute(30), status: 'Aguardando Consulta' },
+        { name: 'Nome 3', service: 'Cirurgia', date: dayjs().startOf('day').hour(11), status: 'Faltou' },
+        { name: 'Nome 1', service: 'Limpeza', date: dayjs().startOf('day').hour(10), status: 'Concluído' },
+        { name: 'Nome 2', service: 'Canal', date: dayjs().startOf('day').hour(10).minute(30), status: 'Aguardando Consulta' },
+        { name: 'Nome 3', service: 'Cirurgia', date: dayjs().startOf('day').hour(11), status: 'Faltou' },
+        { name: 'Nome 1', service: 'Limpeza', date: dayjs().startOf('day').hour(10), status: 'Concluído' },
+        { name: 'Nome 2', service: 'Canal', date: dayjs().startOf('day').hour(10).minute(30), status: 'Aguardando Consulta' },
+        { name: 'Nome 3', service: 'Cirurgia', date: dayjs().startOf('day').hour(11), status: 'Faltou' },
+        { name: 'Nome 1', service: 'Limpeza', date: dayjs().startOf('day').hour(10), status: 'Concluído' },
+        { name: 'Nome 2', service: 'Canal', date: dayjs().startOf('day').hour(10).minute(30), status: 'Aguardando Consulta' },
+        { name: 'Nome 3', service: 'Cirurgia', date: dayjs().startOf('day').hour(11), status: 'Faltou' },
+        { name: 'Nome 1', service: 'Limpeza', date: dayjs().startOf('day').hour(10), status: 'Concluído' },
+        { name: 'Nome 2', service: 'Canal', date: dayjs().startOf('day').hour(10).minute(30), status: 'Aguardando Consulta' },
+        { name: 'Nome 3', service: 'Cirurgia', date: dayjs().startOf('day').hour(11), status: 'Faltou' },
+        { name: 'Nome 1', service: 'Limpeza', date: dayjs().startOf('day').hour(10), status: 'Concluído' },
+        { name: 'Nome 2', service: 'Canal', date: dayjs().startOf('day').hour(10).minute(30), status: 'Aguardando Consulta' },
+        { name: 'Nome 3', service: 'Cirurgia', date: dayjs().startOf('day').hour(11), status: 'Faltou' },
+        { name: 'Nome 6', service: 'Limpeza', date: dayjs().startOf('day').hour(11).minute(30), status: 'Agendado' },
+        { name: 'Nome 5', service: 'Limpeza', date: dayjs().add(1, 'day').startOf('day').hour(10), status: 'Aguardando Consulta' },
+        { name: 'Nome 4', service: 'Canal', date: dayjs().add(2, 'day').startOf('day').hour(10), status: 'Concluído' },
     ]);
     const meses = [
         'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
@@ -60,14 +79,18 @@ export default function Schedule(){
         if (eventsForDay.length > 0) return true;
     }
 
-    function isDifferentToday(date1: dayjs.Dayjs, date2: dayjs.Dayjs) {
-        const tomorrow = date2.add(1, 'day');
-    
-        return date1.isAfter(tomorrow) || date1.isSame(tomorrow, 'day');
-    }
-
     function getEventsForDay(date: dayjs.Dayjs) {
         return events.filter((event) => isSameDay(event.date, date));
+    }
+
+    function isSameOrFutureDay(date: dayjs.Dayjs): boolean {
+        const today = dayjs();
+        return date.isSame(today, 'day') || date.isAfter(today, 'day');
+    }
+
+    function isSaturdayOrSunday(date: dayjs.Dayjs): boolean {
+        const dayOfWeek = date.day();
+        return dayOfWeek === 0 || dayOfWeek === 6;
     }
 
     function getLastDaysOfPreviousMonth() {
@@ -81,6 +104,16 @@ export default function Schedule(){
         return days.reverse();
     }
 
+    function getAfterDaysOfNextMonth() {
+        const days = [];
+        const nextMonth = selectedDate.add(1, 'month');
+        for (let i = 1; i <= 7; i++) {
+            const date = nextMonth.date(i);
+            days.push(date);
+        }
+        return days;
+    }
+
     function renderCalendarDays() {
 
         const days = [];
@@ -90,10 +123,10 @@ export default function Schedule(){
           const week = date.format('dddd');
           days.push(
             <div
-                className={`flex flex-col text-start w-full h-14 cursor-pointer p-2 sm:pt-1 sm:pl-1 ${isSameDay(dayjs(), date) ? 'bg-teal-400' : hasEventForDay(eventsForDay) ? 'bg-teal-200 dark:bg-teal-900' : ''} hover:border-black hover:border hover:border-2
-                    ${week === 'sábado'? 'border-r-0':'border-r'} ${i >= (daysInMonth-ultimoDiaMes)? 'border-b-0': 'border-b'} border-solid border-black/10 dark:border-white/10`}
+                className={`flex flex-col text-start w-full h-full cursor-default p-2 sm:pt-1 sm:pl-1 ${isSameDay(dayjs(), date) ? 'bg-teal-400 hover:bg-teal-500 cursor-pointer dark:hover:bg-teal-300' : hasEventForDay(eventsForDay) && 'bg-teal-200 hover:bg-teal-300 dark:bg-teal-900 dark:hover:bg-teal-800 cursor-pointer'} hover:bg-gray-100 dark:hover:bg-gray-700
+                    ${week === 'sábado' ? 'border-r-0 bg-gray-50 dark:bg-slate-700 dark:hover:bg-slate-600':'border-r'} ${week === 'domingo' && 'bg-gray-50 dark:bg-slate-700 dark:hover:bg-slate-600'} ${i >= (daysInMonth-ultimoDiaMes)? 'border-b-0': 'border-b'} border-solid border-black/10 dark:border-white/10`}
                 key={date.format('YYYY-MM-DD')}
-                onClick={() => setOpen(true)}
+                onClick={() => {(isSameOrFutureDay(date) && !isSaturdayOrSunday(date)) && setOpenDayList(true), setEventsForDayState(eventsForDay)}}
             >
                 <p className={`w-full text-center sm:text-start text-sm sm:text-base font-semibold dark:text-white ${isSameDay(dayjs(), date) ? 'text-white' : 'text-slate-700'}`}>
                     {date.format('DD')}
@@ -103,12 +136,10 @@ export default function Schedule(){
         }
 
         for (let i = 0; i < startOfMonth; i++) {
-            const date = selectedDate.date(i);
-            const week = date.format('dddd');
             const lastDays = getLastDaysOfPreviousMonth();
             days.unshift(
-                <div key={`empty-${i}`} className={`flex flex-col text-start w-full h-14 cursor-default p-2 sm:pt-1 sm:pl-1
-                    ${week === 'sábado'? 'border-r-0':'border-r'} ${i >= (daysInMonth-ultimoDiaMes)? 'border-b-0': 'border-b'} border-solid border-black/10 dark:border-white/10`}
+                <div key={`empty-${i}`} className={`flex flex-col text-start w-full h-full cursor-default p-2 sm:pt-1 sm:pl-1
+                    ${lastDays[i].format('dddd') === 'sábado' ? 'border-r-0 bg-gray-50 dark:bg-slate-700 dark:hover:bg-slate-600':'border-r'} ${lastDays[i].format('dddd') === 'domingo' && 'bg-gray-50 dark:bg-slate-700 dark:hover:bg-slate-600'} ${i >= (daysInMonth-ultimoDiaMes)? 'border-b-0': 'border-b'} border-solid border-black/10 dark:border-white/10`}
                 >
                     <p className={`w-full text-center sm:text-start text-sm sm:text-base font-semibold dark:text-white/25 text-slate-700/25`}>
                         {lastDays[i].format('DD')}
@@ -117,12 +148,11 @@ export default function Schedule(){
             );
         }
 
-        for (let i = 0; i < 7 - ultimoDiaMes - 1; i++) {
-            const date = selectedDate.date(i);
-            const week = date.format('dddd');
+        for (let i = 0; i < 6 - ultimoDiaMes; i++) {
+            const day = getAfterDaysOfNextMonth()[i].format('dddd');
             days.push(
-                <div key={`empty-${i}`} className={`flex flex-col text-start w-full h-14 cursor-default p-2 sm:pt-1 sm:pl-1
-                    border-l border-solid border-black/10 dark:border-white/10`}     
+                <div key={`empty-${i}`} className={`flex flex-col text-start w-full h-full cursor-default p-2 sm:pt-1 sm:pl-1
+                    ${day === 'sábado' && 'bg-gray-50 dark:bg-slate-700 dark:hover:bg-slate-600'} ${day === 'domingo' && 'bg-gray-50 dark:bg-slate-700 dark:hover:bg-slate-600'} border-l border-solid border-black/10 dark:border-white/10`}     
                 >
                     <p className={`w-full text-center sm:text-start text-sm sm:text-base font-semibold dark:text-white/25 text-slate-700/25`}>
                         {i+1}
@@ -137,17 +167,18 @@ export default function Schedule(){
           if (i % 7 !== 0) {
             cells.push(day);
           } else {
-            if(cells.length > 0) rows.push(<div key={i / 7} className="flex flex-row items-start p-0 h-full w-full h-full">{cells}</div>);
+            if(cells.length > 0) rows.push(<div key={i / 7} className="flex flex-row items-start p-0 h-full w-full">{cells}</div>);
             cells = [day];
           }
         });
-        rows.push(<div key={days.length / 7} className="flex flex-row items-start p-0 h-full w-full h-full">{cells}</div>);
+        rows.push(<div key={days.length / 7} className="flex flex-row items-start p-0 h-full w-full">{cells}</div>);
 
         return rows;
     }
     
     return(
         <div className="w-full h-full text-center ">
+            <DayListModal openDayList={openDayList} setOpenDayList={setOpenDayList} setOpen={setOpen} cancelButtonRefDayList={cancelButtonRefDayList} eventsForDay={eventsForDayState}/>
             <ScheduleModal open={open} setOpen={setOpen} cancelButtonRef={cancelButtonRef}/>
             <Header 
                 title="Página Inicial"
@@ -155,18 +186,18 @@ export default function Schedule(){
                 isFilterVisibled
                 textLeft="Filtros"
                 textRight="Adicionar Consulta"
-                onClickLeft={()=> alert('Filtros em desenvolvimento')}
-                onClickRight={()=> alert('Adicionar Consulta em desenvolvimento')}
+                onClickLeft={() => alert('Filtros em desenvolvimento')}
+                onClickRight={() => setOpen(true)}
             />
-            <div className="bg-white dark:bg-gray-800 border border-solid border-gray-300 rounded-lg mx-1 sm:m-[2rem] sm:px-[3rem] py-[1rem] pb-4 h-full">
+            <div className="bg-white dark:bg-gray-800 border border-solid border-gray-300 rounded-lg mx-5 sm:m-[2rem] sm:px-[3rem] py-[1rem] pb-4 h-full">
                 <div className="inline-flex flex-col space-y-4 items-start justify-start h-full w-full">
                     <div className="inline-flex space-x-4 items-center justify-center max-h-[3rem] w-full">
                         <div className="flex items-center justify-center w-12 p-3 rounded-full">
                             <FaChevronLeft className="flex-1 rounded-lg cursor-pointer dark:text-white" onClick={handlePrevMonth}/>
                         </div>
-                        <div className="inline-flex space-x-1 items-center justify-center max-h-[1.813rem] w-full">
+                        <div className="flex items-center justify-center space-x-1 max-h-[1.813rem] w-full">
                             <p className="text-xl font-bold leading-7 text-right text-gray-800 dark:text-white">{meses[selectedDate.month()]}</p>
-                            <p className="text-xl leading-7 text-gray-800 dark:text-white">{selectedDate.year()}</p>
+                            <p className="text-xl leading-7 text-gray-800 dark:text-white m-0">{selectedDate.year()}</p>
                         </div>
                         <div className="inline-flex items-center justify-center w-12 p-3 rounded-full">
                             <FaChevronRight className="flex-1 rounded-lg cursor-pointer dark:text-white" onClick={handleNextMonth}/>
@@ -181,7 +212,7 @@ export default function Schedule(){
                         <p className="flex-1 text-xs font-medium text-center text-gray-800 dark:text-white uppercase">SEX</p>
                         <p className="flex-1 text-xs font-medium text-center text-gray-800 dark:text-white uppercase">SÁB</p>
                     </div>
-                    <div className="flex flex-col items-start p-0 h-70 w-full h-full overflow-y-auto">
+                    <div className="flex flex-col items-start p-0 h-[calc(100vh-24rem)] md:h-[calc(100vh-21rem)] w-full overflow-y-auto">
                         {renderCalendarDays()}
                     </div>
                 </div>

@@ -10,8 +10,13 @@
   font-family: 'Inter', sans-serif;
 }
 
+html {
+  height: 100vh;
+}
+
 body {
   margin: 0;
+  height: 100vh;
   font-family: 'Inter', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -51,4 +56,10 @@ code {
 
 [data-focus-visible-added] {
   box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.5);
+}
+
+.dark {
+  ::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+  }
 }
