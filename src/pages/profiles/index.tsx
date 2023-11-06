@@ -56,6 +56,7 @@ export default function Profiles(): JSX.Element {
             <Modal.Root
                 isOpen={newDisposer.isOpen}
                 onClose={newDisposer.close}
+                width="md:max-w-lg"
             >
                 <Modal.Header title="Novo Usuário" icon={BsFillPersonPlusFill} />
                 <Modal.Body>

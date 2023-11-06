@@ -1,7 +1,6 @@
 import Header from "@/components/Header";
 import Table from "@/components/Table";
 import { Pagination } from "@/components/Table/Pagination";
-import { useDisclosure } from "@/hook/useDisclosure";
 import { withSSRAuth } from "@/util/withSSRAuth";
 import { GetServerSideProps } from "next";
 import { useEffect, useState } from "react";
@@ -18,7 +17,6 @@ interface Finance {
 }
 
 export default function Finance(): JSX.Element {
-    const newUserDisposer = useDisclosure();
     const [data, setData] = useState<Finance[]>([]);
     // const [data, setData] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
@@ -89,9 +87,7 @@ export default function Finance(): JSX.Element {
                 subtitle="Consulte os pagamentos de serviços"
                 isFilterVisibled
                 textLeft="Filtros"
-                textRight="Adicionar disciplina"
                 onClickLeft={()=> console.log('filter')}
-                onClickRight={newUserDisposer.open}
             />
             <Table.Root tableHeight={String(rowsNumber)}>
                 <Table.Header>

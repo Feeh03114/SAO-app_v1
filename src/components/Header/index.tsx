@@ -4,9 +4,7 @@ import { HiOutlineCheck, HiOutlinePencilAlt, HiOutlinePlus } from 'react-icons/h
 interface HeaderProps {
     title: string;
     subtitle: string;
-
     isFilterVisibled?: React.ReactNode;
-
     textLeft?: string;
     textRight?: string;
     onClickLeft?: () => void;
@@ -14,7 +12,7 @@ interface HeaderProps {
     typeButtonRight?: 'add' | 'edit' | 'confirm' ;
 }
 
-export default function Header({title, subtitle, textLeft, textRight,  onClickLeft, onClickRight, typeButtonRight = 'add' , isFilterVisibled = false, }:HeaderProps) {
+export default function Header({title, subtitle, textLeft, textRight, onClickLeft, onClickRight, typeButtonRight = 'add' , isFilterVisibled = false, }:HeaderProps) {
 
     function renderButtonRight() {
         switch (typeButtonRight) {

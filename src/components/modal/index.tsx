@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import { Dialog, Transition } from "@headlessui/react";
-import { ComponentProps, Fragment } from "react";
+import { Fragment, ReactNode } from "react";
 import { IconType } from "react-icons";
 import { BsFillPersonPlusFill } from "react-icons/bs";
 
@@ -8,13 +8,10 @@ export interface RegisterModelProps {
     isOpen: boolean;
     onClose: () => void;
     children?: React.ReactNode;
+    width?: string;
 }
 
-function ModalRoot({
-    isOpen,
-    onClose,
-    children,
-}:RegisterModelProps): JSX.Element {
+function ModalRoot({ isOpen, onClose, children, width }:RegisterModelProps): JSX.Element {
     return(
         <Transition.Root show={isOpen} as={Fragment}>
             <Dialog as="div" className="relative z-10" onClose={onClose}>
@@ -41,7 +38,7 @@ function ModalRoot({
                     leaveFrom="opacity-100 translate-y-0 md:scale-100"
                     leaveTo="opacity-0 translate-y-4 md:translate-y-0 md:scale-95"
                 >
-                    <Dialog.Panel className="p-6 mx-4 mt-4 relative transform rounded-lg bg-white dark:bg-gray-800 text-left shadow transition-all w-full md:max-w-lg h-full">
+                    <Dialog.Panel className={`p-6 mx-4 mt-4 relative transform rounded-lg bg-white dark:bg-gray-800 text-left shadow transition-all w-full ${width} h-full`}>
                         {children}
                     </Dialog.Panel>
                 </Transition.Child>
@@ -68,11 +65,13 @@ const headerModal= ({title, icon:Icon=BsFillPersonPlusFill}:HeaderProps)=>{
     )
 }
 
-interface ModalBodyProps extends ComponentProps<'tr'> {}
+interface ModalBodyProps {
+    children: ReactNode;
+}
 
-const ModalBody = ({children}:ModalBodyProps) => {
+const ModalBody = ({children}: ModalBodyProps) => {
     return(
-        <div className="w-full space-y-4 overflow-y-auto">
+        <div className="w-full space-y-4 overflow-y-auto flex flex-wrap">
             {children}
         </div>
     )
