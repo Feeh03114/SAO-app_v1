@@ -10,7 +10,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { HiOutlinePlus } from "react-icons/hi";
 import * as yup from 'yup';
 
@@ -105,9 +105,57 @@ export default function FinanceEdit(): JSX.Element {
                 onClose={newDisposer.close}
                 width="md:max-w-5xl"
             >
-                <Modal.Header title="Novo Usuário" icon={HiOutlinePlus} />
+                <Modal.Header title="Dados de pagamento" icon={HiOutlinePlus} />
                 <Modal.Body>
-                    <div className="w-1/2">Quem é o pagante</div>
+                    <div className="w-1/2 mt-4">
+                        <label className="pl-4 text-sm font-medium leading-tight text-gray-700 dark:text-white">Quem é o pagante</label>
+                        <div id="pagante" className="mt-2 col-span-2">
+                            <Controller
+                                name='typePaying'
+                                control={control}
+                                defaultValue={'paciente'}
+                                render={({ field }) => (
+                                    <>
+                                        <label className="ml-4">
+                                            <input 
+                                                id="paciente"
+                                                type="radio" 
+                                                name="type"
+                                                className="text-teal-400 mr-2"
+                                                checked={field.value === 'paciente'}
+                                                onChange={(e) => field.onChange(e.target.checked && 'paciente')}
+                                            />
+                                            O paciente
+                                        </label>
+                                        <label className="ml-4">
+                                            <input 
+                                                id="guardiao"
+                                                type="radio" 
+                                                value="guardiao"
+                                                name="type"
+                                                className="text-teal-400 mr-2"
+                                                checked={field.value === 'guardiao'}
+                                                onChange={(e) => field.onChange(e.target.checked && 'guardiao')}
+                                            />
+                                           O guardião
+                                        </label>
+                                        <label className="ml-4">
+                                            <input 
+                                                id="outro"
+                                                type="radio" 
+                                                value="outro"
+                                                name="type"
+                                                className="text-teal-400 mr-2"
+                                                checked={field.value === 'outro'}
+                                                onChange={(e) => field.onChange(e.target.checked && 'outro')}
+                                            />
+                                           Outro
+                                        </label>
+                                    </>
+                                )}
+                            />
+                        </div>
+                    </div>
                     <div className="w-1/2 px-2">
                         <Select label={"Nome do guardião"} placeHolder={"Selecione um guardião"} data={mock} control={control}></Select>
                     </div>
@@ -279,21 +327,23 @@ export default function FinanceEdit(): JSX.Element {
 
             <div className="w-screen">
                 <Card.Root>
-                    <Card.Text label="Data agenda" text={data.data} width="w-full md:w-1/4"></Card.Text>
-                    <Card.Text label="E-mail" text={data.email} width="w-full md:w-2/4"></Card.Text>
-                    <Card.Text label="Telefone" text={data.telefone} width="w-full md:w-1/4"></Card.Text>
+                    <Card.Text label="Data agenda" text={data.data} width="w-1/2 md:w-1/4"></Card.Text>
+                    <Card.Text label="E-mail" text={data.email} width="w-1/2"></Card.Text>
+                    <Card.Text label="Telefone" text={data.telefone} width="w-1/2  md:w-1/4"></Card.Text>
 
-                    <Card.Text label="Horário" text={data.hora} width="w-full md:w-1/4"></Card.Text>
+                    <Card.Text label="Horário" text={data.hora} width="w-1/2  md:w-1/4"></Card.Text>
                     <Card.Text label="Disciplina" text={data.disciplina} width="w-full md:w-1/4"></Card.Text>
-                    <Card.Text label="Serviço" text={data.servico} width="w-full md:w-1/4"></Card.Text>
-                    <Card.Text label="Preço" text={data.preco} width="w-full md:w-1/4"></Card.Text>
+                    <Card.Text label="Serviço" text={data.servico} width="w-1/2  md:w-1/4"></Card.Text>
+                    <Card.Text label="Preço" text={data.preco} width="w-1/2  md:w-1/4"></Card.Text>
                     
-                    <div className="w-3/4"></div>
-                    <Card.Button text="Adicionar Pagamento" width="w-full md:w-1/4" onClickButton={newDisposer.open}></Card.Button>
+                    <div className="w-full flex justify-end">
+                        <Card.Button text="Adicionar Pagamento" onClickButton={newDisposer.open}></Card.Button>
+                    </div>
 
                     <Table.Root tableHeight={String(6)} style="mx-3">
                         <Table.Header>
-                            <Table.CellHeader hiddenInMobile={false}>NOME</Table.CellHeader>
+                            <Table.CellHeader>NOME</Table.CellHeader>
+                            <Table.CellHeader hiddenInDesktop={true}>STATUS</Table.CellHeader>
                             <Table.CellHeader hiddenInMobile={true}>E-MAIL</Table.CellHeader>
                             <Table.CellHeader hiddenInMobile={true}>FORMA DE PAGAMENTO</Table.CellHeader>
                         </Table.Header>

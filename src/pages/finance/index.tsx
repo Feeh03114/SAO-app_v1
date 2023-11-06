@@ -99,7 +99,7 @@ export default function Finance(): JSX.Element {
                 </Table.Header>
 
                 {data.map((item: Finance, index: number) => (
-                    <Table.Row key={index}>
+                    <Table.Row key={index} link={"/finance/edit/" + item.prontuario}>
                         <Table.CellBody hiddenInMobile={true}><p className="font-medium dark:text-white">{item.prontuario}</p></Table.CellBody>
                         <Table.CellBody><p className="font-medium dark:text-white">{item.nome}</p></Table.CellBody>
                         <Table.CellBody hiddenInMobile={true}><p className="font-medium dark:text-white">{item.servico}</p></Table.CellBody>

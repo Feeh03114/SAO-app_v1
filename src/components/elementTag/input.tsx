@@ -38,8 +38,8 @@ const InputBase:ForwardRefRenderFunction<HTMLInputElement, InputProps> = ({ pass
                     </div>
                 :
                 <>
-                    <label className="pl-4 text-sm font-Inter font-medium leading-tight text-gray-700 dark:text-white">{label}</label>
-                    <input className="w-full h-7 md:h-10 px-4 py-2 shadow-sm border rounded-lg border-gray-300 dark:border-gray-500"
+                    <label className={`${label == undefined && "hidden"} pl-4 text-sm font-Inter font-medium leading-tight text-gray-700 dark:text-white`}>{label}</label>
+                    <input className={`w-full h-7 md:h-10 px-4 py-2 shadow-sm border rounded-lg border-gray-300 dark:border-gray-500`}
                         {...rest}
                         ref={ref}
                     />

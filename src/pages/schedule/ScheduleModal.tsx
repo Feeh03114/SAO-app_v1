@@ -146,8 +146,8 @@ export default function ScheduleModal({ open=false, setOpen, cancelButtonRef }: 
                                     />
                                 </div>
 
-                                <label className="pl-4 text-sm font-medium leading-tight text-gray-700 dark:text-white">Tipo da consulta</label>
-                                <div id="tipoDaConsulta" className="col-span-2">
+                                <label className="pl-4 text-sm font-medium leading-tight text-gray-700 dark:text-white">Tipo de consulta</label>
+                                <div id="tipoDeConsulta" className="col-span-2">
                                     <Controller
                                         name='typeConsult'
                                         control={control}

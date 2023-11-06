@@ -1,8 +1,10 @@
+import { useEffect, useState } from "react";
 import { AiOutlineEye } from "react-icons/ai";
 
 export interface RegisterModelProps {
     children?: React.ReactNode;
     hiddenInMobile?: boolean;
+    hiddenInDesktop?: boolean;
     tableHeight?: string;
     link?: string;
     style?: string;
@@ -49,9 +51,23 @@ const TableHeader = ({children} : RegisterModelProps) => {
     )
 }
 
-const TableCellHeader = ({children, hiddenInMobile}:RegisterModelProps) => {
+const TableCellHeader = ({children, hiddenInMobile, hiddenInDesktop }:RegisterModelProps) => {
+    const [styleCell, setStyleCell] = useState("");
+
+    useEffect(() => {
+        if (hiddenInMobile && hiddenInDesktop) {
+            setStyleCell("hidden");
+        } else if ((!hiddenInMobile || hiddenInMobile == undefined)  && hiddenInDesktop) {
+            setStyleCell("md:hidden");
+        } else if (hiddenInMobile && (!hiddenInDesktop || hiddenInMobile == undefined)) {
+            setStyleCell("hidden md:table-cell");
+        } else {
+            setStyleCell("table-cell");
+        }
+    }, [hiddenInMobile, hiddenInDesktop]);
+
     return(
-        <th className={`px-6 py-3 text-start font-Inter text-xs font-medium leading-4 tracking-wide text-gray-500 dark:text-gray-200 ${hiddenInMobile && 'hidden md:table-cell'}`}>
+        <th className={`px-6 py-3 text-start font-Inter text-xs font-medium leading-4 tracking-wide text-gray-500 dark:text-gray-200 ${styleCell}`}>
             {children}
         </th>
     )
@@ -76,9 +92,23 @@ const TableRow = ({children, link}:RegisterModelProps) => {
     )
 }
 
-const TableCell = ({children, hiddenInMobile}:RegisterModelProps) => {
+const TableCell = ({children, hiddenInMobile, hiddenInDesktop}:RegisterModelProps) => {
+    const [styleCell, setStyleCell] = useState("");
+
+    useEffect(() => {
+        if (hiddenInMobile && hiddenInDesktop) {
+            setStyleCell("hidden");
+        } else if ((!hiddenInMobile || hiddenInMobile == undefined)  && hiddenInDesktop) {
+            setStyleCell("md:hidden");
+        } else if (hiddenInMobile && (!hiddenInDesktop || hiddenInMobile == undefined)) {
+            setStyleCell("hidden md:table-cell");
+        } else {
+            setStyleCell("table-cell");
+        }
+    }, [hiddenInMobile, hiddenInDesktop]);
+    
     return(
-        <td className={`px-6 border font-Inter border-x-0 truncate bg-white border-gray-200 dark:border-slate-700 dark:bg-slate-800 text-sm font-normal leading-5 text-gray-500 dark:text-gray-200 ${hiddenInMobile && 'hidden md:table-cell'}`}>
+        <td className={`px-6 border font-Inter border-x-0 truncate bg-white border-gray-200 dark:border-slate-700 dark:bg-slate-800 text-sm font-normal leading-5 text-gray-500 dark:text-gray-200 ${styleCell}`}>
             {children}
         </td>
     )
