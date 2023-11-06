@@ -229,20 +229,20 @@ export const getServerSideProps: GetServerSideProps = async (ctx: any) => {
     const session = await getSession(ctx);
     if(session === null)
         return {
-        props: {
-            session,
-        },
+            props: {
+                session,
+            },
         }
     else
         if(session?.menu?.length === 0) signOut({callbackUrl: '/login'});
 
         return {
-        redirect: {
-            permanent: false,
-            destination: session?.menu[0].url,
-        },
-        props: {
-            session,
-        },
-    }
+            redirect: {
+                permanent: false,
+                destination: session?.menu[0].url,
+            },
+            props: {
+                session,
+            },
+        }
 };
