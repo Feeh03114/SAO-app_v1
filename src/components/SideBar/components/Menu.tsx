@@ -4,17 +4,38 @@ import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect } from "react";
 import { MdChevronRight } from "react-icons/md";
 
 export function MenuSideBar({open, setOpen}:{open:boolean, setOpen:React.Dispatch<React.SetStateAction<boolean>>}){
-    const {data}:any = useSession();
+    const {data} = useSession();
     const router = useRouter();
+    const [menu, setMenu] = React.useState<any[]>([]);
 
     function validRouter(url:string){
         if(url === router.pathname) return true;
         return false;
     }
+
+    useEffect(() => {
+        const rotesMobile = ['/schedule', '/waiting-line', '/patients']
+        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        if(isMobile) setMenu(data?.menu?.filter((x:any)=>rotesMobile.includes(x?.url))||[]);
+        else setMenu(data?.menu||[]);
+
+        window.addEventListener('resize', ()=>{
+            const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            if(isMobile) setMenu(data?.menu?.filter((x:any)=>rotesMobile.includes(x?.url))||[]);
+            else setMenu(data?.menu||[]);
+        })
+        return () => {
+            window.removeEventListener('resize', ()=>{
+                const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+                if(isMobile) setMenu(data?.menu?.filter((x:any)=>rotesMobile.includes(x?.url))||[]);
+                else setMenu(data?.menu||[]);
+            });
+        }
+    }, []);
 
     return(
         <Fragment>
@@ -30,7 +51,7 @@ export function MenuSideBar({open, setOpen}:{open:boolean, setOpen:React.Dispatc
                             <MdChevronRight className="transform -rotate-180 rounded-lg cursor-pointer dark:text-white" size={24} onClick={()=>setOpen((e)=>!e)}/>
                         </div>
                         <div className="flex flex-col space-y-6 items-start justify-start w-full flex-1 px-2 ">
-                            {data?.menu?.map((menu: any, i: number) => (
+                            {menu?.map((menu: any, i: number) => (
                                 <Link 
                                     href={menu?.url||"/"} 
                                     onClick={()=>setOpen(false)}

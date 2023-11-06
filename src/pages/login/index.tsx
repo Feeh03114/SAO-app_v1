@@ -1,6 +1,8 @@
 /* eslint-disable react/jsx-no-undef */
 import { useLogin } from '@/hook/useLogin';
 import { useRegister } from '@/hook/useRegister';
+import { GetServerSideProps } from 'next';
+import { getSession, signOut } from 'next-auth/react';
 import Head from 'next/head';
 import Image from 'next/image';
 import { useState } from 'react';
@@ -221,4 +223,26 @@ export default function Login(): JSX.Element{
             </div>
         </div>
     )
-} 
+}
+
+export const getServerSideProps: GetServerSideProps = async (ctx: any) => {
+    const session = await getSession(ctx);
+    if(session === null)
+        return {
+        props: {
+            session,
+        },
+        }
+    else
+        if(session?.menu?.length === 0) signOut({callbackUrl: '/login'});
+
+        return {
+        redirect: {
+            permanent: false,
+            destination: session?.menu[0].url,
+        },
+        props: {
+            session,
+        },
+    }
+};
