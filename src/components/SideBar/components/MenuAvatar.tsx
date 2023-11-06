@@ -12,11 +12,15 @@ export function MenuAvatar({open, onClose}:{open:boolean, onClose: React.Dispatc
     useEffect(() => {
         const html = document.querySelector('html') as HTMLElement;
         if (isDarkMode) {
-          html.classList.add('dark');
+            html.classList.add('dark');
         } else {
-          html.classList.remove('dark');
+            html.classList.remove('dark');
         }
-      }, [isDarkMode]);
+    }, [isDarkMode]);
+
+    const handleClick = () => {
+        window.location.href = `/users/edit/${data?.user?.id}`;
+    };
 
     return(
         <Transition.Root show={open} as={Fragment}>
@@ -30,11 +34,12 @@ export function MenuAvatar({open, onClose}:{open:boolean, onClose: React.Dispatc
                     leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                     leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                 >
-                    <Dialog.Panel className={`rounded-lg bg-white dark:bg-gray-800 text-left transition-all fixed top-0 right-0 mt-20 mr-20 w-56 z-50 shadow-lg flex justify-start`}>
+                    <Dialog.Panel className={`rounded-lg bg-white dark:bg-gray-800 text-left transition-all fixed top-0 right-0 mt-20 mr-2 md:mr-28 w-56 z-50 shadow-lg flex justify-start`}>
                         <ul className="py-1" role="none">
                             <li>
                                 <button
                                     className="w-56 px-4 py-2 text-sm text-gray-700 hover:bg-teal-50 hover:text-teal-600 dark:text-gray-300 dark:hover:bg-teal-900 dark:hover:text-teal-100 flex justify-start"
+                                    onClick={handleClick}
                                 >
                                     <BsPerson className="inline-block w-5 h-5 mr-3"/>
                                     Perfil

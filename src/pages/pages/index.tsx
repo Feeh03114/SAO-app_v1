@@ -1,5 +1,4 @@
 import Header from "@/components/Header";
-import Table from "@/components/Table";
 import { withSSRAuth } from "@/util/withSSRAuth";
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
@@ -16,7 +15,7 @@ export default function Pages(): JSX.Element {
             onClickLeft={()=> console.log('filter')}
             onClickRight={()=> push('/pages/add')}
         />
-        <Table 
+        {/* <Table 
             endPoint="api/page"
             colunm={
                 [
@@ -40,7 +39,7 @@ export default function Pages(): JSX.Element {
                     }
                 ]
             }
-        />
+        /> */}
     </>;
 }
 

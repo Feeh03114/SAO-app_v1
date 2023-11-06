@@ -124,7 +124,7 @@ export default function Schedule():JSX.Element {
           days.push(
             <div
                 className={`flex flex-col text-start w-full h-full cursor-default p-2 sm:pt-1 sm:pl-1 ${isSameDay(dayjs(), date) ? 'bg-teal-400 hover:bg-teal-500 cursor-pointer dark:hover:bg-teal-300' : hasEventForDay(eventsForDay) && 'bg-teal-200 hover:bg-teal-300 dark:bg-teal-900 dark:hover:bg-teal-800 cursor-pointer'} hover:bg-gray-100 dark:hover:bg-gray-700
-                    ${week === 'sábado' ? 'border-r-0 bg-gray-50':'border-r'} ${week === 'domingo' && 'bg-gray-50'} ${i >= (daysInMonth-ultimoDiaMes)? 'border-b-0': 'border-b'} border-solid border-black/10 dark:border-white/10`}
+                    ${week === 'sábado' ? 'border-r-0 bg-gray-50 dark:bg-slate-700 dark:hover:bg-slate-600':'border-r'} ${week === 'domingo' && 'bg-gray-50 dark:bg-slate-700 dark:hover:bg-slate-600'} ${i >= (daysInMonth-ultimoDiaMes)? 'border-b-0': 'border-b'} border-solid border-black/10 dark:border-white/10`}
                 key={date.format('YYYY-MM-DD')}
                 onClick={() => {(isSameOrFutureDay(date) && !isSaturdayOrSunday(date)) && setOpenDayList(true), setEventsForDayState(eventsForDay)}}
             >
@@ -139,7 +139,7 @@ export default function Schedule():JSX.Element {
             const lastDays = getLastDaysOfPreviousMonth();
             days.unshift(
                 <div key={`empty-${i}`} className={`flex flex-col text-start w-full h-full cursor-default p-2 sm:pt-1 sm:pl-1
-                    ${lastDays[i].format('dddd') === 'sábado' ? 'border-r-0 bg-gray-50':'border-r'} ${lastDays[i].format('dddd') === 'domingo' && 'bg-gray-50'} ${i >= (daysInMonth-ultimoDiaMes)? 'border-b-0': 'border-b'} border-solid border-black/10 dark:border-white/10`}
+                    ${lastDays[i].format('dddd') === 'sábado' ? 'border-r-0 bg-gray-50 dark:bg-slate-700 dark:hover:bg-slate-600':'border-r'} ${lastDays[i].format('dddd') === 'domingo' && 'bg-gray-50 dark:bg-slate-700 dark:hover:bg-slate-600'} ${i >= (daysInMonth-ultimoDiaMes)? 'border-b-0': 'border-b'} border-solid border-black/10 dark:border-white/10`}
                 >
                     <p className={`w-full text-center sm:text-start text-sm sm:text-base font-semibold dark:text-white/25 text-slate-700/25`}>
                         {lastDays[i].format('DD')}
@@ -152,7 +152,7 @@ export default function Schedule():JSX.Element {
             const day = getAfterDaysOfNextMonth()[i].format('dddd');
             days.push(
                 <div key={`empty-${i}`} className={`flex flex-col text-start w-full h-full cursor-default p-2 sm:pt-1 sm:pl-1
-                    ${day === 'sábado' && 'bg-gray-50'} ${day === 'domingo' && 'bg-gray-50'} border-l border-solid border-black/10 dark:border-white/10`}     
+                    ${day === 'sábado' && 'bg-gray-50 dark:bg-slate-700 dark:hover:bg-slate-600'} ${day === 'domingo' && 'bg-gray-50 dark:bg-slate-700 dark:hover:bg-slate-600'} border-l border-solid border-black/10 dark:border-white/10`}     
                 >
                     <p className={`w-full text-center sm:text-start text-sm sm:text-base font-semibold dark:text-white/25 text-slate-700/25`}>
                         {i+1}

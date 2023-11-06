@@ -31,7 +31,6 @@ const validationFullModal = yup.object().shape({
 
 });
 
-
 const mock = [
     { id: 1, name: 'Exemplo 1' },
     { id: 2, name: 'Exemplo 2' },
@@ -48,11 +47,6 @@ export default function ScheduleModal({ open=false, setOpen, cancelButtonRef }: 
     });
 
     const addPost = (data: any) => {console.log(data);}
-
-    function closeFullForm() {
-        setValue('servico', undefined);
-        setValue('queixa', undefined);
-    }
 
     useEffect(() => {
         if(!open) reset({
@@ -111,7 +105,7 @@ export default function ScheduleModal({ open=false, setOpen, cancelButtonRef }: 
                                     <Input 
                                         id="prontuario"
                                         type="text"
-                                        className="w-full rounded-lg px-4 py-2 dark:bg-gray-700 dark:text-white shadow border border-gray-300 text-gray-900 placeholder-gray-500 dark:placeholder-white focus:border-teal-400 focus:outline-none focus:ring-teal-400 sm:text-sm"
+                                        className="w-full rounded-lg px-4 py-2 dark:bg-gray-700 dark:text-white shadow border border-gray-300 text-gray-900 placeholder-gray-500 dark:placeholder-white focus:border-teal-400 focus:outline-none focus:ring-teal-400 md:text-sm"
                                         placeholder="Insira seu prontuário"
                                         {...register("prontuario")}
                                         error={errors.prontuario}
@@ -188,7 +182,7 @@ export default function ScheduleModal({ open=false, setOpen, cancelButtonRef }: 
                                     />
                                 </div>
                                 <div className="col-span-2 aria-hidden:hidden"
-                                    aria-hidden={watch('typeConsult') === 'retorno' ? false : true}
+                                    aria-hidden={watch('typeConsult') === 'retorno' ? true : false}
                                 >
                                     <Controller
                                         name='servico'
@@ -213,7 +207,7 @@ export default function ScheduleModal({ open=false, setOpen, cancelButtonRef }: 
                                 </div>
 
                                 <div className="col-span-2 aria-hidden:hidden"
-                                    aria-hidden={watch('typeConsult') === 'retorno' ? false : true}
+                                    aria-hidden={watch('typeConsult') === 'retorno' ? true : false}
                                 >
                                     <label className="pl-4 text-sm font-medium leading-tight text-gray-700 dark:text-white">Queixa</label>
                                     <textarea 
