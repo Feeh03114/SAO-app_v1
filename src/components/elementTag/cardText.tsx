@@ -1,10 +1,12 @@
 import { InputHTMLAttributes } from "react";
+import { HiOutlinePlus } from "react-icons/hi";
 
 export interface CardTextProps extends InputHTMLAttributes<HTMLInputElement> {
     children?: React.ReactNode;
     label?: string;
     text?: string;
     width?: string;
+    onClickButton?: () => void;
 }
 
 function CardRoot({children} : CardTextProps): JSX.Element {
@@ -24,6 +26,19 @@ const CardText = ({label, text, width} : CardTextProps) => {
             <div className="w-full h-7 md:h-10 px-4 py-2 shadow-sm border rounded-lg border-gray-300 dark:border-gray-500">
                 <p className="text-xs md:text-sm font-Inter font-normal leading-tight text-gray-500 truncate">{text}</p>
             </div>
+        </div>
+    )
+}
+
+const CardButton = ({text, width, onClickButton} : CardTextProps) => {
+    return (
+        <div className={`${width} px-3 flex items-center justify-center flex-row`}>
+            <button className={`mb-3 md:mb-6 px-3 py-2 flex items-center justify-center flex-row bg-teal-500 border rounded-md border-teal-500 cursor-pointer`}
+                onClick={onClickButton}
+            >
+                <HiOutlinePlus className="w-5 h-5 rounded-lg text-white"/>
+                <p className="hidden md:block pl-2 text-sm font-Inter font-medium leading-tight text-white dark:text-gray-300 truncate">{text}</p>
+            </button>
         </div>
     )
 }
@@ -52,6 +67,7 @@ const TextSelected = ({text} : CardTextProps) => {
 const Card = {
     Root: CardRoot,
     Text: CardText,
+    Button: CardButton,
     CardSelected: CardSelected,
     TextSelected: TextSelected
 }

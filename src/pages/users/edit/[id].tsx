@@ -24,7 +24,7 @@ export default function UsersEdit(): JSX.Element {
         cro: "",
         profilesIds: [],
     });
-    const [profiles, setProfiles] = useState<String[]>([]);
+    const [profiles, setProfiles] = useState<string[]>([]);
     const newUserDisposer = useDisclosure();
     const router = useRouter();
     const id = router.query.id;

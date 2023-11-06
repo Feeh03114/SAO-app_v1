@@ -5,20 +5,22 @@ export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
     id?: string;
     password?: boolean;
     error?: FieldError | Merge<FieldError, FieldErrorsImpl<any>> | null;
+    label?: string;
 }
 
-const InputBase:ForwardRefRenderFunction<HTMLInputElement, InputProps> = ({ password = false, error = null, ...rest }, ref) => {  
+const InputBase:ForwardRefRenderFunction<HTMLInputElement, InputProps> = ({ password = false, error = null, label, ...rest }, ref) => {  
     const [showPassword, setShowPassword] = useState(true);
     return(
         <>
             {
                 password?
                     <div className="relative w-full">
-                        <input
+                        <input className="w-full h-7 md:h-10 px-4 py-2 shadow-sm border rounded-lg border-gray-300 dark:border-gray-500"
                             type={showPassword? "password": 'text'}
                             {...rest}
                             ref={ref}
                         />
+                        
                         <div className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5 cursor-pointer">
                             <svg className={`h-6 text-gray-700 fill=none ${showPassword&&'invisible hidden'} ${!showPassword&&'block'}`} fill="none" xmlns="http://www.w3.org/2000/svg" onClick={()=>setShowPassword(!showPassword)}
                             viewBox="0 0 576 512">
@@ -35,10 +37,13 @@ const InputBase:ForwardRefRenderFunction<HTMLInputElement, InputProps> = ({ pass
                         </div>
                     </div>
                 :
-                <input
-                    {...rest}
-                    ref={ref}
-                />
+                <>
+                    <label className="pl-4 text-sm font-Inter font-medium leading-tight text-gray-700 dark:text-white">{label}</label>
+                    <input className="w-full h-7 md:h-10 px-4 py-2 shadow-sm border rounded-lg border-gray-300 dark:border-gray-500"
+                        {...rest}
+                        ref={ref}
+                    />
+                </>
             }
             {!!error && (
 				<p className="text-red-500 text-sm">{error?.message?.toString()}</p>
