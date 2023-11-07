@@ -192,7 +192,7 @@ export default function Home():JSX.Element {
                 imagem='/assets/home/alunos/kioyshi.jpg'
                 title='Aluno - UX/UI'
                 description='Lucas Kiyosh de Lara'
-                urlLinkedin='https://www.linkedin.com/in/michel-silva-msc-smc-21675916'
+                urlLinkedin='https://www.linkedin.com/in/lucas-kiyoshi-296a4a199'
               />
               <CartIntegrantes
                 imagem='/assets/home/alunos/leme.jpg'
