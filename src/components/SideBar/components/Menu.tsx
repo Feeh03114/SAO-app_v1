@@ -35,7 +35,7 @@ export function MenuSideBar({open, setOpen}:{open:boolean, setOpen:React.Dispatc
                 else setMenu(data?.menu||[]);
             });
         }
-    }, []);
+    }, [data]);
 
     return(
         <Fragment>
