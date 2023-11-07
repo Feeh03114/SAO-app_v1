@@ -53,11 +53,12 @@ export default function Subjects(): JSX.Element {
             <Header 
                 title="Disciplinas"
                 subtitle="Consulte as disciplinas da plataforma"
-                isFilterVisibled
                 textLeft="Filtros"
                 textRight="Adicionar disciplina"
                 onClickLeft={()=> console.log('filter')}
                 onClickRight={newUserDisposer.open}
+                typeButtonLeft="filter"
+                typeButtonRight="add"
             />
             <Table.Root tableHeight={String(rowsNumber)}>
                 <Table.Header>

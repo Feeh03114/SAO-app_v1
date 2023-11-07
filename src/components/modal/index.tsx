@@ -69,7 +69,7 @@ interface ModalBodyProps {
     children: ReactNode;
 }
 
-const ModalBody = ({children}: ModalBodyProps) => {
+const ModalBody = ({children} : ModalBodyProps) => {
     return(
         <div className="w-full space-y-4 overflow-y-auto flex flex-wrap">
             {children}
@@ -77,11 +77,15 @@ const ModalBody = ({children}: ModalBodyProps) => {
     )
 }
 
-const ModalFooter = () => {
+export interface FooterProps {
+    onClose?: () => void;
+}
+
+const ModalFooter = ({ onClose } : FooterProps) => {
     return(
         <div className="w-full inline-flex space-x-3 mt-4 items-center justify-end px-6 py-3 bg-white dark:bg-gray-800 rounded-b-lg" >
             <button className="flex items-center justify-center px-4 py-2 bg-white shadow border rounded-md border-gray-300"
-                // onClick={onClose}
+                onClick={onClose}
             >
                 <p className="text-sm font-medium leading-tight text-gray-700">Cancelar</p>
             </button>

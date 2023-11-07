@@ -1,18 +1,34 @@
 import { BiFilterAlt } from 'react-icons/bi';
 import { HiOutlineCheck, HiOutlinePencilAlt, HiOutlinePlus } from 'react-icons/hi';
+import { ImFilesEmpty } from 'react-icons/im';
 
 interface HeaderProps {
     title: string;
     subtitle: string;
-    isFilterVisibled?: React.ReactNode;
     textLeft?: string;
     textRight?: string;
     onClickLeft?: () => void;
     onClickRight?: () => void;
-    typeButtonRight?: 'add' | 'edit' | 'confirm' ;
+    typeButtonLeft?: 'add' | 'edit' | 'confirm' | 'filter' |'files';
+    typeButtonRight?: 'add' | 'edit' | 'confirm' | 'filter' | 'files';
 }
 
-export default function Header({title, subtitle, textLeft, textRight, onClickLeft, onClickRight, typeButtonRight = 'add' , isFilterVisibled = false, }:HeaderProps) {
+export default function Header({title, subtitle, textLeft, textRight, onClickLeft, onClickRight, typeButtonLeft, typeButtonRight, }:HeaderProps) {
+
+    function renderButtonLeft() {
+        switch (typeButtonLeft) {
+            case 'add':
+                return <HiOutlinePlus className="w-5 h-full rounded-lg text-white"/>
+            case 'edit':
+                return <HiOutlinePencilAlt className="w-5 h-full rounded-lg text-white"/>
+            case 'confirm':
+                return <HiOutlineCheck className="w-5 h-full rounded-lg text-white"/>
+            case 'filter':
+                return <BiFilterAlt className="w-5 h-full rounded-lg text-black"/>
+            case 'files':
+                return <ImFilesEmpty className="w-5 h-full rounded-lg text-black"/>
+        }
+    }
 
     function renderButtonRight() {
         switch (typeButtonRight) {
@@ -22,6 +38,10 @@ export default function Header({title, subtitle, textLeft, textRight, onClickLef
                 return <HiOutlinePencilAlt className="w-5 h-full rounded-lg text-white"/>
             case 'confirm':
                 return <HiOutlineCheck className="w-5 h-full rounded-lg text-white"/>
+            case 'filter':
+                return <BiFilterAlt className="w-5 h-full rounded-lg text-black"/>
+            case 'files':
+                return <ImFilesEmpty className="w-5 h-full rounded-lg text-black"/>
         }
     }
 
@@ -38,9 +58,7 @@ export default function Header({title, subtitle, textLeft, textRight, onClickLef
                         display: onClickLeft ? 'flex':'none',
                     }}
                 >
-                    <BiFilterAlt className="w-5 h-full rounded-lg" style={{
-                        display: isFilterVisibled ? 'block' : 'none',
-                    }}/>
+                    {renderButtonLeft()}
                     <p className="sm-mobile:hidden md:block text-sm font-medium leading-tight text-gray-700">{textLeft}</p>
                 </div>
                 <div className="flex space-x-2 items-center justify-center py-2 pl-3 pr-3 bg-teal-500 border rounded-md border-teal-500 cursor-pointer"

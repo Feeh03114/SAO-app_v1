@@ -77,11 +77,12 @@ export default function Profiles(): JSX.Element {
             <Header 
                 title="Perfis"
                 subtitle="Consulte os perfis da plataforma"
-                isFilterVisibled
                 textLeft="Filtros"
                 textRight="Adicionar Perfil"
                 onClickLeft={()=> console.log('filter')}
                 onClickRight={newDisposer.open}
+                typeButtonLeft="filter"
+                typeButtonRight="add"
             />
             <Table.Root tableHeight={String(rowsNumber)}>
                 <Table.Header>
@@ -113,11 +114,12 @@ export default function Profiles(): JSX.Element {
     //         <Header 
     //             title="Usuários"
     //             subtitle="Consulte os usuários da plataforma"
-    //             isFilterVisibled
     //             textLeft="Filtros"
     //             textRight="Adicionar Consulta"
     //             onClickLeft={()=> console.log('filter')}
     //             onClickRight={()=> push('/roles/add')}
+    //             typeButtonLeft="filter"
+    //             typeButtonRight="add"
     //         />
     //         <Table 
     //             endPoint="api/role"

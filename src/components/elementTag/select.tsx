@@ -25,7 +25,7 @@ function Select({ label, placeHolder, data, control }:RegisterModelProps & { con
                     <select 
                         value={field.value}
                         onChange={(e) => field.onChange(e.target.value)}
-                        className="w-full md:text-sm cursor-text rounded-lg px-4 py-2 dark:bg-gray-700 dark:text-white shadow border border-gray-300 text-gray-900 placeholder-gray-500 focus:border-teal-400 focus:outline-none focus:ring-teal-400"
+                        className="w-full h-7 md:h-10 px-4 py-0 md:py-2 text-sm shadow-sm border rounded-lg border-gray-300 dark:border-gray-500 truncate placeholder-gray-500 focus:border-teal-400 focus:outline-none focus:ring-teal-400"
                         placeholder="Selecione o serviço odontológico"
                     >
                         <option value="" disabled selected>{placeHolder}</option>

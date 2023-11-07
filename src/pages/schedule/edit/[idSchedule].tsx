@@ -35,7 +35,6 @@ export default function DentalChart(): JSX.Element {
             <HeaderSchedule 
                 title={mock.name}
                 subtitle={"Prontuário: " + mock.id}
-                isFilterVisibled
                 textLeft="Voltar"
                 textMiddle="Histórico"
                 textRight="Finalizar Consulta"

@@ -183,11 +183,12 @@ export default function Schedule():JSX.Element {
             <Header 
                 title="Página Inicial"
                 subtitle="Agendamento de Consultas"
-                isFilterVisibled
                 textLeft="Filtros"
                 textRight="Adicionar Consulta"
                 onClickLeft={() => alert('Filtros em desenvolvimento')}
                 onClickRight={() => setOpen(true)}
+                typeButtonLeft="filter"
+                typeButtonRight="add"
             />
             <div className="bg-white dark:bg-gray-800 border border-solid border-gray-300 rounded-lg mx-5 sm:m-[2rem] sm:px-[3rem] py-[1rem] pb-4 h-full">
                 <div className="inline-flex flex-col space-y-4 items-start justify-start h-full w-full">

@@ -159,11 +159,12 @@ export default function Users(): JSX.Element {
             <Header 
                 title="Usuários"
                 subtitle="Consulte os usuários da plataforma"
-                isFilterVisibled
                 textLeft="Filtros"
                 textRight="Adicionar Usuário"
                 onClickLeft={()=> console.log('filter')}
                 onClickRight={newUserDisposer.open}
+                typeButtonLeft="filter"
+                typeButtonRight="add"
             />
             <Table.Root tableHeight={String(rowsNumber)}>
                 <Table.Header>
