@@ -178,14 +178,14 @@ export default function Home():JSX.Element {
             <CartIntegrantes
               imagem='/assets/home/professores/denicezar.jpg'
               title='Orientador'
-              description='Prof. Dr. Denicezar Angelo Baldo'
+              description='Prof. Me. Denicezar Angelo Baldo'
               urlLinkedin='https://www.linkedin.com/in/denicezar-angelo-baldo-3936aa25'
             />
             <CartIntegrantes
               imagem='/assets/home/professores/michel.jpg'
               title='Coorientador'
               description='Prof. Me. Michel Goncalves da Silva'
-              urlLinkedin='https://www.linkedin.com/in/michel-silva-msc-smc-21675916/'
+              urlLinkedin='https://www.linkedin.com/in/michel-silva-msc-smc-21675916'
             />
           </div>
           <div className='mx-auto flex gap-9'>
@@ -193,19 +193,19 @@ export default function Home():JSX.Element {
               imagem='/assets/home/alunos/felipe.jpg'
               title='Aluno - FullStack'
               description='Felipe Alessander Caetano Luiz'
-              urlLinkedin='https://www.linkedin.com/in/felipe-alessander-caetano-luiz-8087ab1a2/'
+              urlLinkedin='https://www.linkedin.com/in/felipe-alessander-caetano-luiz-8087ab1a2'
             />
             <CartIntegrantes
               imagem='/assets/home/alunos/kioyshi.jpg'
               title='Aluno - UX/UI'
               description='Lucas Kiyosh de Lara'
-              urlLinkedin='https://www.linkedin.com/in/michel-silva-msc-smc-21675916/'
+              urlLinkedin='https://www.linkedin.com/in/michel-silva-msc-smc-21675916'
             />
             <CartIntegrantes
               imagem='/assets/home/alunos/leme.jpg'
               title='Aluno - FrontEnd'
-              description='Lucas Leme'
-              urlLinkedin='https://www.linkedin.com/in/michel-silva-msc-smc-21675916/'
+              description='Lucas Leme Cardoso Ferreira'
+              urlLinkedin='https://www.linkedin.com/in/lucas-leme'
             />
           </div>
         </div>
