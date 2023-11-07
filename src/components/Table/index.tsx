@@ -73,7 +73,7 @@ const TableCellHeader = ({children, hiddenInMobile, hiddenInDesktop }:RegisterMo
     )
 }
 
-const TableRow = ({children, link}:RegisterModelProps) => {
+const TableRow = ({children, link, style}:RegisterModelProps) => {
     const handleClick = () => {
         window.location.href = `${link}`;
     };
@@ -81,18 +81,20 @@ const TableRow = ({children, link}:RegisterModelProps) => {
         <tbody>
             <tr className="h-12">
                 {children}
-                <td className={`px-6 border font-Inter border-x-0 truncate bg-white border-gray-200 dark:border-slate-700 dark:bg-slate-800 text-sm font-normal leading-5 text-gray-500 dark:text-gray-200`}>
-                    <button className="h-full px-3 py-2 border dark:border-gray-500 rounded-md cursor-pointer"
-                        onClick={handleClick}>
-                        <AiOutlineEye className="w-5 h-5 text-teal-500"/>
-                    </button>
+                <td className={`${style} h-full px-6 border font-Inter border-x-0 truncate bg-white border-gray-200 dark:border-slate-700 dark:bg-slate-800 text-sm font-normal leading-5 text-gray-500 dark:text-gray-200`}>
+                    <div className="flex items-center justify-end">
+                        <button className="h-full mr-4 px-3 py-2 border dark:border-gray-500 rounded-md cursor-pointer"
+                            onClick={handleClick}>
+                            <AiOutlineEye className="w-5 h-5 text-teal-500"/>
+                        </button>
+                    </div>
                 </td>
             </tr>
         </tbody>
     )
 }
 
-const TableCell = ({children, hiddenInMobile, hiddenInDesktop}:RegisterModelProps) => {
+const TableCell = ({children, hiddenInMobile, hiddenInDesktop, style}:RegisterModelProps) => {
     const [styleCell, setStyleCell] = useState("");
 
     useEffect(() => {
@@ -108,7 +110,7 @@ const TableCell = ({children, hiddenInMobile, hiddenInDesktop}:RegisterModelProp
     }, [hiddenInMobile, hiddenInDesktop]);
     
     return(
-        <td className={`px-6 border font-Inter border-x-0 truncate bg-white border-gray-200 dark:border-slate-700 dark:bg-slate-800 text-sm font-normal leading-5 text-gray-500 dark:text-gray-200 ${styleCell}`}>
+        <td className={`${style} px-6 border font-Inter border-x-0 truncate bg-white border-gray-200 dark:border-slate-700 dark:bg-slate-800 text-sm font-normal leading-5 text-gray-500 dark:text-gray-200 ${styleCell}`}>
             {children}
         </td>
     )

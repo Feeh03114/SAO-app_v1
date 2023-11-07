@@ -94,14 +94,14 @@ export default function Patients(): JSX.Element {
                 <Table.Header>
                     <Table.CellHeader hiddenInMobile={false}>PRONTUÁRIO</Table.CellHeader>
                     <Table.CellHeader hiddenInMobile={false}>NOME</Table.CellHeader>
-                    <Table.CellHeader hiddenInMobile={false}>E-MAIL</Table.CellHeader>
+                    <Table.CellHeader hiddenInMobile={true}>E-MAIL</Table.CellHeader>
                 </Table.Header>
 
                 {data.map((item: Patients, index: number) => (
                     <Table.Row key={index} link={"/patients/edit/" + item.prontuario}>
                         <Table.CellBody><p className="font-medium dark:text-white"></p>{item.prontuario}</Table.CellBody>
                         <Table.CellBody><p className="font-medium dark:text-white">{item.nome}</p></Table.CellBody>
-                        <Table.CellBody><p className="font-medium dark:text-white">{item.email}</p></Table.CellBody>
+                        <Table.CellBody hiddenInMobile={true}><p className="font-medium dark:text-white">{item.email}</p></Table.CellBody>
                     </Table.Row>
                 ))}
             </Table.Root> 

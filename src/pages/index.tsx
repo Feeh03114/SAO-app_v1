@@ -2,10 +2,15 @@ import { GetServerSideProps } from 'next';
 import { getSession, signOut } from 'next-auth/react';
 import { Inter } from 'next/font/google';
 import Image from 'next/image';
+import { useEffect } from 'react';
 
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home():JSX.Element {
+  useEffect(() => {
+    document.querySelector('html')?.classList.remove('dark');
+  }, []);
+  
   return (
     <main
       className={`flex min-h-screen flex-col items-center justify-between p-24 ${inter.className}`}

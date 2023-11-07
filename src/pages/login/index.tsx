@@ -17,7 +17,7 @@ export default function Login(): JSX.Element{
     const [isSendedEmail, setIsSendedEmail] = useState(false);
 
     return(
-        <div className="flex items-center h-screen w-full">
+        <div className="flex items-center h-screen w-full dark:bg-slate-800">
             <Head>
                 <title>
                     SAO - Login
@@ -28,16 +28,19 @@ export default function Login(): JSX.Element{
             </div>
 
             <div className={`${isResetPassword ? "hidden md:block" : "block"} w-full right-0 md:w-1/2 text-center fixed`}>
-                <div className="md:hidden w-full flex justify-center items-center">
+                <div className="dark:hidden w-full flex justify-center items-center">
                     <Image className='h-24 w-24' src="/assets/logo4.png" width={150} height={150} alt="logoMobile"/>
                 </div>
-                <form className="inline-flex flex-col items-center justify-center px-12 md:px-[calc(100vw*0.08)] lg:px-32 bg-white dark:bg-teal-800 w-full max-w-2xl"
+                <div className="dark:flex hidden w-full justify-center items-center">
+                    <Image className='h-24 w-24' src="/assets/logo3.png" width={150} height={150} alt="logoMobile"/>
+                </div>
+                <form className="inline-flex flex-col items-center justify-center px-12 md:px-[calc(100vw*0.08)] lg:px-32 bg-white dark:bg-slate-800 w-full max-w-2xl"
                     id='loginForm'
                     onSubmit={handleSubmit(ValidCredentials)}
                 >
                     <div className="w-full flex flex-col items-center justify-center text-center">
                         <p className="text-2xl font-bold leading-8 text-gray-900 dark:text-white">Bem-vindo ao Painel Odontológico</p>
-                        <p className="text-sm font-normal leading-none text-gray-500">Insira suas credenciais e acesse a plataforma</p>
+                        <p className="text-sm font-normal leading-none text-gray-400">Insira suas credenciais e acesse a plataforma</p>
                     </div>
                     <div 
                         className='flex flex-col transition-all ease-in-out duration-700 overflow-auto w-full max-h-max aria-hidden:max-h-0 mt-4'
@@ -107,7 +110,7 @@ export default function Login(): JSX.Element{
                     </div>
                 </form>
 
-                <form className="inline-flex flex-col items-center justify-center px-12 md:px-[calc(100vw*0.08)] lg:px-32 bg-white dark:bg-teal-800 w-full max-w-2xl"
+                <form className="inline-flex flex-col items-center justify-center px-12 md:px-[calc(100vw*0.08)] lg:px-32 bg-white dark:bg-slate-800 w-full max-w-2xl"
                     id='registerForm'
                     onSubmit={handleSubmit2(newUserStudent)}
                 >
@@ -178,16 +181,19 @@ export default function Login(): JSX.Element{
             </div>
 
             <div className={`${isResetPassword ? "block" : "hidden md:block"} w-full left-0 md:w-1/2 text-center fixed`}>
-                <form className="space-y-8 inline-flex flex-col items-center justify-center px-12 md:px-[calc(100vw*0.08)] lg:px-32 bg-white dark:bg-teal-800 w-full max-w-2xl"
+                <form className="space-y-8 inline-flex flex-col items-center justify-center px-12 md:px-[calc(100vw*0.08)] lg:px-32 bg-white dark:bg-slate-800 w-full max-w-2xl"
                     id='restPasswordForm'
                 >
-                    <div className="w-full flex justify-center items-center">
+                    <div className="dark:hidden w-full flex justify-center items-center">
                         <Image className='h-24 w-24' src="/assets/logo4.png" width={150} height={150} alt="logoMobile"/>
+                    </div>
+                    <div className="dark:flex hidden w-full justify-center items-center">
+                        <Image className='h-24 w-24' src="/assets/logo3.png" width={150} height={150} alt="logoMobile"/>
                     </div>
 
                     <div className="w-full flex flex-col items-center justify-center text-center">
                         <p className={`text-2xl font-bold leading-8 text-gray-900 dark:text-white`}>{isSendedEmail ? "Instruções enviadas com sucesso!" : "Redefinir senha"}</p>
-                        <p className="text-sm font-normal leading-none text-gray-500">{isSendedEmail ? "Por favor, verifique sua caixa de e-mail universitário" : "Redefina a sua senha para acessar a plataforma"}</p>
+                        <p className="text-sm font-normal leading-none text-gray-400">{isSendedEmail ? "Por favor, verifique sua caixa de e-mail universitário" : "Redefina a sua senha para acessar a plataforma"}</p>
                     </div>
 
                     <div className="w-full relative flex flex-wrap items-stretch">
@@ -205,7 +211,7 @@ export default function Login(): JSX.Element{
                     </div>
 
                     <button 
-                        className="h-10 inline-flex items-center justify-center px-4 py-2 bg-teal-100 shadow rounded-md w-full"
+                        className="h-10 inline-flex items-center justify-center px-4 py-2 bg-teal-200 shadow rounded-md w-full"
                         onClick={() => {setIsSendedEmail(true)}}
                         type='button'
                     >

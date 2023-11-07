@@ -7,7 +7,7 @@ export interface Option {
 }
 
 export interface RegisterModelProps {
-    label: string;
+    label?: string;
     placeHolder?: string;
     data?: Option[];
     children?: React.ReactNode;
@@ -21,11 +21,11 @@ function Select({ label, placeHolder, data, control }:RegisterModelProps & { con
             control={control}
             render={({ field }) => (
                 <>
-                    <label className="pl-4 text-sm font-Inter font-medium leading-tight text-gray-700 dark:text-white">{label}</label>
+                    <label className={`${label === undefined && 'hidden'}pl-4 text-sm font-Inter font-medium leading-tight text-gray-700 dark:text-white`}>{label}</label>
                     <select 
                         value={field.value}
                         onChange={(e) => field.onChange(e.target.value)}
-                        className="w-full h-7 md:h-10 px-4 py-0 md:py-2 text-sm shadow-sm border rounded-lg border-gray-300 dark:border-gray-500 truncate placeholder-gray-500 focus:border-teal-400 focus:outline-none focus:ring-teal-400"
+                        className={`${label === undefined && 'mt-5'} w-full h-7 md:h-10 px-4 py-0 md:py-2 text-sm shadow-sm border rounded-lg border-gray-300 dark:border-gray-500 truncate placeholder-gray-500 focus:border-teal-400 focus:outline-none focus:ring-teal-400`}
                         placeholder="Selecione o serviço odontológico"
                     >
                         <option value="" disabled selected>{placeHolder}</option>

@@ -22,6 +22,13 @@ export function MenuAvatar({open, onClose}:{open:boolean, onClose: React.Dispatc
         window.location.href = `/users/edit/${data?.user?.id}`;
     };
 
+    useEffect(() => {
+        if(window.matchMedia('(prefers-color-scheme: dark)').matches)
+            setIsDarkMode(true);
+        else
+            setIsDarkMode(false);
+    }, []);
+
     return(
         <Transition.Root show={open} as={Fragment}>
             <Dialog as="div" className={`${open?'block': 'hidden'}`} onClose={onClose}>

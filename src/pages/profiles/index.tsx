@@ -1,6 +1,7 @@
 import Header from "@/components/Header";
 import { Pagination } from "@/components/Table/Pagination";
 import Table from "@/components/Table/index";
+import Card from "@/components/elementTag/cardText";
 import Modal from "@/components/modal";
 import { useDisclosure } from "@/hook/useDisclosure";
 import api from "@/service/api";
@@ -10,11 +11,24 @@ import { useEffect, useState } from "react";
 import { BsFillPersonPlusFill } from "react-icons/bs";
 import { Input } from "rsuite";
 
-const rowsNumber = 6;
+const rowsNumber = 5;
+
+interface Profile {
+    id: string;
+    name: string;
+    permissions: [
+        {
+            page: {
+                    namePage: string;
+            }
+        }
+    ]
+}
 
 export default function Profiles(): JSX.Element {
     const newDisposer = useDisclosure();
-    const [data, setData] = useState([]);
+    const [data, setData] = useState<Profile[]>([]);
+    // const [data, setData] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalElements, setTotalElements] = useState(rowsNumber);
     const [isLoading, setIsLoading] = useState(false);
@@ -85,15 +99,16 @@ export default function Profiles(): JSX.Element {
                 typeButtonRight="add"
             />
             <Table.Root tableHeight={String(rowsNumber)}>
-                <Table.Header>
-                    <Table.CellHeader hiddenInMobile={false}>NOME</Table.CellHeader>
-                    <Table.CellHeader hiddenInMobile={false}>PÁGINAS</Table.CellHeader>
-                </Table.Header>
-
-                {data.map((item: { name: string, email: string, ru: string }, index: number) => (
-                    <Table.Row key={index}>
-                        <Table.CellBody><p className="font-medium dark:text-white">{item.name}</p></Table.CellBody>
-                        <Table.CellBody><p className="font-medium dark:text-white"></p></Table.CellBody>
+                {data.map((item: Profile, index: number) => (
+                    <Table.Row key={index} style={"w-1/6"}>
+                        <Table.CellBody style={"w-1/6"}><p className="font-medium dark:text-white">{item.name}</p></Table.CellBody>
+                        <Table.CellBody style={"w-4/6"}>
+                            <div className="py-1 flex flex-row flex-wrap">
+                                {item.permissions.map((item: any, index: number) => (
+                                    <Card.TextSelected key={index} text={item.page.namePage}></Card.TextSelected>
+                                ))}
+                            </div>
+                        </Table.CellBody>
                     </Table.Row>
                 ))}
             </Table.Root> 
@@ -107,39 +122,5 @@ export default function Profiles(): JSX.Element {
         </>
     );
 }
-    // const {push} = useRouter();
-
-    // return (
-    //     <>
-    //         <Header 
-    //             title="Usuários"
-    //             subtitle="Consulte os usuários da plataforma"
-    //             textLeft="Filtros"
-    //             textRight="Adicionar Consulta"
-    //             onClickLeft={()=> console.log('filter')}
-    //             onClickRight={()=> push('/roles/add')}
-    //             typeButtonLeft="filter"
-    //             typeButtonRight="add"
-    //         />
-    //         <Table 
-    //             endPoint="api/role"
-    //             colunm={
-    //                 [
-    //                     {
-    //                         property: 'role',
-    //                         label: 'Perfil',
-    //                     },
-    //                     {
-    //                         property: 'actions',
-    //                         label: 'Ações',
-    //                         type: 'actions',
-    //                         optionsActions: ['view'],
-    //                     }
-    //                 ]
-    //             }
-    //         />
-    //     </>
-    // );
-// }
 
 export const getServerSideProps: GetServerSideProps = withSSRAuth();
