@@ -16,8 +16,12 @@ export function withSSRAuth(): GetServerSideProps {
   return async (ctx: GetServerSidePropsContext): Promise<GetServerSidePropsResult<any>> => {
     const session = await getSession(ctx);
     const router = ctx.resolvedUrl
-    if (session === null) {
+    if (session === null && !['/', '/login', '/resetpassword'].includes(router)) {
       return {
+        redirect: {
+          permanent: false,
+          destination: '/',
+        },
         props: {
           session,
         },
