@@ -77,8 +77,8 @@ export default function Home():JSX.Element {
           width={157}
           height={157}
           className="w-5/12 h-[31rem]"
-          src="/assets/SVG/doutores_homePage.svg"
-          alt='doutores_homePage'
+          src="/assets/SVG/odonto_homePage.svg"
+          alt='odonto_homePage'
         /> 
       </div>  
       <div className="w-full justify-center items-center gap-7 inline-flex mt-24">
@@ -99,7 +99,7 @@ export default function Home():JSX.Element {
         />
       </div>
 
-      <div className="w-full flex justify-around">
+      <div className="w-full flex justify-around mt-24">
         <Image
           width={157}
           height={157}
@@ -130,14 +130,14 @@ export default function Home():JSX.Element {
         </div>
       </div>
 
-      <div className="w-full flex flex-col gap-6">
+      <div className="w-full flex flex-col gap-6 mt-24">
         <div className="mx-auto flex flex-col gap-3">
           <span className="text-black text-5xl font-bold leading-10 px-10">
             Nossos serviços
           </span>
           <div className="w-full h-1 bg-teal-500 rounded-3xl" />
         </div>
-        <div className="w-full h-80 flex-flex justify-center items-center flex-wrap gap-9 flex">
+        <div className="w-full flex-flex justify-center items-center flex-wrap gap-9 flex">
           <CartInfo2
             title='Agendamento'
             description='Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
@@ -166,9 +166,9 @@ export default function Home():JSX.Element {
         
       </div>
 
-      <div className="w-full flex flex-col gap-6">
+      <div className="w-full flex flex-col gap-6 mt-24">
         <div className="mx-auto flex flex-col gap-3">
-          <span className="text-black text-5xl font-bold leading-10 px-10">
+          <span className="text-black text-5xl font-bold leading-10 px-10 whitespace-nowrap">
             Conheça os Desenvolvedores
           </span>
           <div className="w-full h-1 bg-teal-500 rounded-3xl" />
