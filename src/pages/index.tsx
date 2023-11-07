@@ -254,8 +254,8 @@ export default function Home():JSX.Element {
           </div>
           <div className='flex flex-col text-white'>
             <span className='font-semibold text-xl'>Contato</span>
-            <span className={twMerge(inter.className,"opacity-80 text-base leading-normal whitespace-nowrap")}>WhatsApp: +55 15 31995393</span>
-            <span className={twMerge(inter.className,"opacity-80 text-base leading-normal whitespace-nowrap")}>admin@labprivate.cloud</span>
+            <span className={twMerge(inter.className,"opacity-80 text-base leading-normal whitespace-nowrap")}>WhatsApp: <a className='hover:text-teal-900' href='https://api.whatsapp.com/send?phone=551531995393&text=Ol%C3%A1'>+55 15 3199-5393</a></span>
+            <span className={twMerge(inter.className,"opacity-80 text-base leading-normal whitespace-nowrap")}>E-mail: <a className='hover:text-teal-900' href='mailto:sao@labprivate.cloud'>sao@labprivate.cloud</a></span>
           </div>
         </div>
         <div className='my-10 w-full h-px bg-white opacity-60' />
