@@ -6,7 +6,6 @@ import Select from "@/components/elementTag/select";
 import Modal from "@/components/modal";
 import { useDisclosure } from "@/hook/useDisclosure";
 import { withSSRAuth } from "@/util/withSSRAuth";
-import { yupResolver } from "@hookform/resolvers/yup";
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import { useState } from "react";
@@ -57,9 +56,10 @@ const validationFullModal = yup.object().shape({
 });
 
 export default function FinanceEdit(): JSX.Element {
-    const { reset, control, register, setValue, watch, handleSubmit, formState: { errors } } = useForm({
+    /* {
         resolver: yupResolver(validationFullModal)
-    });
+    } */
+    const { reset, control, register, setValue, watch, handleSubmit, formState: { errors } } = useForm();
     const newDisposer = useDisclosure();
     const router = useRouter();
     const id = router.query.id;
