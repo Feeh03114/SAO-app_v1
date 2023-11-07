@@ -166,7 +166,7 @@ export default function Home():JSX.Element {
             </span>
             <div className="w-full h-1 bg-teal-500 rounded-3xl" />
           </div>
-          <div className="w-full flex-flex justify-center items-center flex-wrap gap-9 flex">
+          <div className="w-full flex-col justify-center items-center flex-wrap gap-9 flex">
             <div className='mx-auto flex gap-9'>
               <CartIntegrantes
                 imagem='/assets/home/professores/denicezar.jpg'
