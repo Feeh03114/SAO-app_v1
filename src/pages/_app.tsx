@@ -19,6 +19,14 @@ export default function App({ Component, pageProps }: AppProps): JSX.Element {
         });
     }
   }, []);
+
+  useEffect(() => {
+    if(window.matchMedia('(prefers-color-scheme: dark)').matches)
+      document.querySelector('html')?.classList.add('dark');
+    else
+      document.querySelector('html')?.classList.remove('dark');
+  }, []);
+  
   return (
     <>
       <ToastContainer position="top-center"/>
