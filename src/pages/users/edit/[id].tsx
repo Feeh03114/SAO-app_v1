@@ -64,11 +64,11 @@ export default function UsersEdit(): JSX.Element {
             <Header 
                 title={data.name}
                 subtitle={"RU: " + data.ru}
-                isFilterVisibled
                 textLeft="Voltar"
                 textRight="Editar"
-                onClickLeft={()=> console.log('filter')}
+                onClickLeft={()=> console.log('Voltar')}
                 onClickRight={newUserDisposer.open}
+                typeButtonRight="edit"
             />
 
             <div className="w-screen">

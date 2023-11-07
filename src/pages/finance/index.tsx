@@ -85,9 +85,9 @@ export default function Finance(): JSX.Element {
             <Header 
                 title="Financeiro (Mockado)"
                 subtitle="Consulte os pagamentos de serviços"
-                isFilterVisibled
                 textLeft="Filtros"
                 onClickLeft={()=> console.log('filter')}
+                typeButtonLeft="filter"
             />
             <Table.Root tableHeight={String(rowsNumber)}>
                 <Table.Header>

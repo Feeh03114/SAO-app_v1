@@ -1,4 +1,3 @@
-import React from 'react';
 
 interface FieldProps {
     size: string;
@@ -24,9 +23,6 @@ import { HiOutlinePencilAlt } from 'react-icons/hi';
 interface HeaderProps {
     title: string;
     subtitle: string;
-
-    isFilterVisibled?: React.ReactNode;
-
     textLeft?: string;
     textMiddle?: string;
     textRight?: string;
@@ -79,3 +75,4 @@ function HeaderSchedule({title, subtitle, textLeft, textMiddle, textRight, onCli
 }
 
 export { Field, HeaderSchedule };
+

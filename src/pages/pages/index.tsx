@@ -9,11 +9,12 @@ export default function Pages(): JSX.Element {
         <Header 
             title="Páginas"
             subtitle="Consulte as páginas cadastradas no sistema."
-            isFilterVisibled
             textLeft="Filtros"
             textRight="Adicionar Consulta"
             onClickLeft={()=> console.log('filter')}
             onClickRight={()=> push('/pages/add')}
+            typeButtonLeft="filter"
+            typeButtonRight="add"
         />
         {/* <Table 
             endPoint="api/page"

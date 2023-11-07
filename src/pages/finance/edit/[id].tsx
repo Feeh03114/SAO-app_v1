@@ -95,9 +95,8 @@ export default function FinanceEdit(): JSX.Element {
             <Header 
                 title={data.nome}
                 subtitle={"Prontuário: " + data.prontuario}
-                isFilterVisibled
                 textLeft="Voltar"
-                onClickLeft={()=> console.log('filter')}
+                onClickLeft={()=> console.log('Voltar')}
             />
 
             <Modal.Root
@@ -107,7 +106,7 @@ export default function FinanceEdit(): JSX.Element {
             >
                 <Modal.Header title="Dados de pagamento" icon={HiOutlinePlus} />
                 <Modal.Body>
-                    <div className="w-1/2 mt-4">
+                    <div className="w-full md:w-1/2 mt-4">
                         <label className="pl-4 text-sm font-medium leading-tight text-gray-700 dark:text-white">Quem é o pagante</label>
                         <div id="pagante" className="mt-2 col-span-2">
                             <Controller
@@ -116,7 +115,7 @@ export default function FinanceEdit(): JSX.Element {
                                 defaultValue={'paciente'}
                                 render={({ field }) => (
                                     <>
-                                        <label className="ml-4">
+                                        <label className="ml-4 truncate">
                                             <input 
                                                 id="paciente"
                                                 type="radio" 
@@ -127,7 +126,7 @@ export default function FinanceEdit(): JSX.Element {
                                             />
                                             O paciente
                                         </label>
-                                        <label className="ml-4">
+                                        <label className="ml-4 truncate">
                                             <input 
                                                 id="guardiao"
                                                 type="radio" 
@@ -139,7 +138,7 @@ export default function FinanceEdit(): JSX.Element {
                                             />
                                            O guardião
                                         </label>
-                                        <label className="ml-4">
+                                        <label className="ml-4 truncate">
                                             <input 
                                                 id="outro"
                                                 type="radio" 
@@ -156,11 +155,11 @@ export default function FinanceEdit(): JSX.Element {
                             />
                         </div>
                     </div>
-                    <div className="w-1/2 px-2">
+                    <div className="w-full md:w-1/2 px-2">
                         <Select label={"Nome do guardião"} placeHolder={"Selecione um guardião"} data={mock} control={control}></Select>
                     </div>
 
-                    <div className="w-2/4 px-2">
+                    <div className="w-full md:w-2/4 px-2">
                         <Input 
                             id="nomePagante"
                             type="text"
@@ -170,7 +169,7 @@ export default function FinanceEdit(): JSX.Element {
                             // error={errors.prontuario}
                         />
                     </div>
-                    <div className="w-1/4 px-2">
+                    <div className="w-1/2 md:w-1/4 px-2">
                         <Input 
                             id="cpf"
                             type="text"
@@ -180,7 +179,7 @@ export default function FinanceEdit(): JSX.Element {
                             // error={errors.prontuario}
                         />
                     </div>
-                    <div className="w-1/4 px-2">
+                    <div className="w-1/2 md:w-1/4 px-2">
                         <Input 
                             id="rg"
                             type="text"
@@ -191,7 +190,7 @@ export default function FinanceEdit(): JSX.Element {
                         />
                     </div>
 
-                    <div className="w-1/4 px-2">
+                    <div className="w-full md:w-1/4 px-2">
                         <Input 
                             id="dataNascimento"
                             type="text"
@@ -201,7 +200,7 @@ export default function FinanceEdit(): JSX.Element {
                             // error={errors.prontuario}
                         />
                     </div>
-                    <div className="w-1/4 px-2">
+                    <div className="w-1/2 md:w-1/4 px-2">
                         <Input 
                             id="celular"
                             type="text"
@@ -211,7 +210,7 @@ export default function FinanceEdit(): JSX.Element {
                             // error={errors.prontuario}
                         />
                     </div>
-                    <div className="w-1/4 px-2">
+                    <div className="w-1/2 md:w-1/4 px-2">
                         <Input 
                             id="Telefone"
                             type="text"
@@ -221,7 +220,7 @@ export default function FinanceEdit(): JSX.Element {
                             // error={errors.prontuario}
                         />
                     </div>
-                    <div className="w-1/4 px-2">
+                    <div className="w-1/2 md:w-1/4 px-2">
                         <Input 
                             id="email"
                             type="text"
@@ -232,7 +231,7 @@ export default function FinanceEdit(): JSX.Element {
                         />
                     </div>
 
-                    <div className="w-1/4 px-2">
+                    <div className="w-1/2 md:w-1/4 px-2">
                         <Input 
                             id="cep"
                             type="text"
@@ -242,7 +241,7 @@ export default function FinanceEdit(): JSX.Element {
                             // error={errors.prontuario}
                         />
                     </div>
-                    <div className="w-2/4 px-2">
+                    <div className="w-full md:w-2/4 px-2">
                         <Input 
                             id="logradouro"
                             type="text"
@@ -252,7 +251,7 @@ export default function FinanceEdit(): JSX.Element {
                             // error={errors.prontuario}
                         />
                     </div>
-                    <div className="w-1/4 px-2">
+                    <div className="w-1/2 md:w-1/4 px-2">
                         <Input 
                             id="numero"
                             type="text"
@@ -262,18 +261,7 @@ export default function FinanceEdit(): JSX.Element {
                             // error={errors.prontuario}
                         />
                     </div>
-
-                    <div className="w-1/4 px-2">
-                        <Input 
-                            id="bairro"
-                            type="text"
-                            label="Bairro"
-                            placeholder="Insira o bairro"
-                            // {...register("prontuario")}
-                            // error={errors.prontuario}
-                        />
-                    </div>
-                    <div className="w-1/4 px-2">
+                    <div className="w-1/2 md:w-1/4 px-2">
                         <Input 
                             id="uf"
                             type="text"
@@ -283,7 +271,18 @@ export default function FinanceEdit(): JSX.Element {
                             // error={errors.prontuario}
                         />
                     </div>
-                    <div className="w-2/4 px-2">
+
+                    <div className="w-full md:w-1/4 px-2">
+                        <Input 
+                            id="bairro"
+                            type="text"
+                            label="Bairro"
+                            placeholder="Insira o bairro"
+                            // {...register("prontuario")}
+                            // error={errors.prontuario}
+                        />
+                    </div>
+                    <div className="w-full md:w-2/4 px-2">
                         <Input 
                             id="complemento"
                             type="text"
@@ -294,13 +293,13 @@ export default function FinanceEdit(): JSX.Element {
                         />
                     </div>
 
-                    <div className="w-2/6 px-2">
+                    <div className="w-full md:w-2/6 px-2">
                         <Select label={"Forma de pagamento"} placeHolder={"Selecione um forma de pagamento"} data={mock} control={control}></Select>
                     </div>
-                    <div className="w-1/6 px-2">
+                    <div className="w-1/2 md:w-1/6 px-2">
                         <Select label={"Parcela"} placeHolder={"0x"} data={mock} control={control}></Select>
                     </div>
-                    <div className="w-1/4 px-2">
+                    <div className="w-1/2 md:w-1/4 px-2">
                         <Input 
                             id="bandeiraCartao"
                             type="text"
@@ -310,7 +309,7 @@ export default function FinanceEdit(): JSX.Element {
                             // error={errors.prontuario}
                         />
                     </div>
-                    <div className="w-1/4 px-2">
+                    <div className="w-full md:w-1/4 px-2">
                         <Input 
                             id="valor"
                             type="text"
@@ -320,9 +319,26 @@ export default function FinanceEdit(): JSX.Element {
                             // error={errors.prontuario}
                         />
                     </div>
-
+                    <div className="w-full md:w-1/4 px-2">
+                        <div className="w-full h-48 px-4 py-2 flex items-center justify-center text-sm shadow-sm border rounded-lg border-gray-300 dark:border-gray-500">
+                            <svg className="w-24 h-24 text-gray-400" xmlns="http://www.w3.org/2000/svg" width="100" height="101" viewBox="0 0 100 101" fill="none">
+                                <path d="M33.3334 17.1667H25.0001C20.3977 17.1667 16.6667 20.8976 16.6667 25.5V75.5C16.6667 80.1024 20.3977 83.8333 25.0001 83.8333H75.0001C79.6025 83.8333 83.3334 80.1024 83.3334 75.5V25.5C83.3334 20.8976 79.6025 17.1667 75.0001 17.1667H66.6668M50.0001 13V46.3333M50.0001 46.3333L62.5001 33.8333M50.0001 46.3333L37.5001 33.8333M16.6667 54.6667H27.4409C28.5459 54.6667 29.6057 55.1057 30.3871 55.8871L40.4464 65.9463C41.2278 66.7277 42.2876 67.1667 43.3926 67.1667H56.6075C57.7126 67.1667 58.7724 66.7277 59.5538 65.9463L69.613 55.8871C70.3944 55.1057 71.4542 54.6667 72.5593 54.6667H83.3334" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <div className="w-full md:w-3/4 px-2 flex items-center">
+                        <div className="w-full">
+                            <label className="pl-4 text-sm font-medium leading-tight text-gray-700 dark:text-white">Observação</label>
+                            <textarea 
+                                id="queixa"
+                                className="w-full h-40 text-sm rounded-lg px-4 py-2 dark:bg-gray-700 dark:text-white shadow border border-gray-300 text-gray-900 placeholder-gray-500 dark:placeholder-white focus:border-teal-400 focus:outline-none focus:ring-teal-400 resize-none"
+                                placeholder="Descrever o que aconteceu com o paciente"
+                                {...register("queixa")}
+                            />
+                        </div>
+                    </div>
                 </Modal.Body>
-                <Modal.Footer/>
+                <Modal.Footer onClose={newDisposer.close}/>
             </Modal.Root>
 
             <div className="w-screen">
