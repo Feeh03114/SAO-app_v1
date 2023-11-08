@@ -3,9 +3,10 @@ import Table from "@/components/Table";
 import { Pagination } from "@/components/Table/Pagination";
 import { withSSRAuth } from "@/util/withSSRAuth";
 import { GetServerSideProps } from "next";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
-const TOTAL_ELEMENTS = 25;
+const TOTAL_ELEMENTS = 300;
 const rowsNumber = 6;
 
 interface Finance {
@@ -19,6 +20,7 @@ interface Finance {
 export default function Finance(): JSX.Element {
     const [data, setData] = useState<Finance[]>([]);
     // const [data, setData] = useState([]);
+    const router = useRouter();
     const [currentPage, setCurrentPage] = useState(1);
     const [totalElements, setTotalElements] = useState(rowsNumber);
     const [isLoading, setIsLoading] = useState(false);
@@ -99,7 +101,11 @@ export default function Finance(): JSX.Element {
                 </Table.Header>
 
                 {data.map((item: Finance, index: number) => (
-                    <Table.Row key={index} link={"/finance/edit/" + item.prontuario}>
+                    <Table.Row 
+                        key={index}
+                        onView={()=> router.push(`/finance/edit/${item.prontuario}`)}
+                        onDelete={()=> console.log('delete')}
+                    >
                         <Table.CellBody hiddenInMobile={true}><p className="font-medium dark:text-white">{item.prontuario}</p></Table.CellBody>
                         <Table.CellBody><p className="font-medium dark:text-white">{item.nome}</p></Table.CellBody>
                         <Table.CellBody hiddenInMobile={true}><p className="font-medium dark:text-white">{item.servico}</p></Table.CellBody>

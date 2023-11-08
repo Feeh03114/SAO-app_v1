@@ -172,7 +172,7 @@ export default function FormProfile({edit, isPermissionWrite=true, onSave}:FormP
                         <p className="text-xs leading-none text-gray-400">Confira as páginas do perfil</p>
                     </div>
                     <Table.Root tableHeight={String(6)} style="mt-8">
-                        <Table.Header>
+                        <Table.Header style="hidden">
                             <Table.CellHeader>PÁGINA</Table.CellHeader>
                             <Table.CellHeader>VIZUALIZAÇÃO</Table.CellHeader>
                             <Table.CellHeader>CRIAÇÃO</Table.CellHeader>

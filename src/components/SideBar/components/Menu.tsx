@@ -56,11 +56,11 @@ export function MenuSideBar({open, setOpen}:{open:boolean, setOpen:React.Dispatc
                                     href={menu?.url||"/"} 
                                     onClick={()=>setOpen(false)}
                                     key={i}
-                                    className={`inline-flex items-center justify-start w-full py-2 pl-2 pr-3 rounded-md no-underline ${validRouter(menu?.url) && "bg-teal-50 dark:bg-teal-700"}`}
+                                    className={`inline-flex items-center justify-start w-full py-2 pl-2 pr-3 rounded-md no-underline hover:bg-teal-100 hover:dark:bg-teal-400 hover:dark:text-white ${validRouter(menu?.url) && "bg-teal-50 dark:bg-teal-700"}`}
                                 >
                                     <div className="flex space-x-3 items-center justify-start">
-                                        <GetIcon iconText={menu.icon} className={`w-1/6 h-full ${validRouter(menu?.url)? 'text-teal-500': 'text-gray-600 dark:text-gray-400'}`}/>
-                                        <p className={`text-base font-medium leading-normal whitespace-nowrap ${validRouter(menu?.url) ? "text-gray-900 dark:text-gray-50": 'text-gray-600 dark:text-gray-400'}`}>{menu?.namePage}</p>
+                                        <GetIcon iconText={menu.icon} className={`w-1/6 h-full ${validRouter(menu?.url)? 'text-teal-500': 'text-gray-600 dark:text-gray-200'}`}/>
+                                        <p className={`text-base font-medium leading-normal whitespace-nowrap ${validRouter(menu?.url) ? "text-gray-900 dark:text-gray-50": 'text-gray-600 dark:text-gray-200'}`}>{menu?.namePage}</p>
                                     </div>
                                 </Link>
                             ))}

@@ -30,15 +30,19 @@ export default function Home():JSX.Element {
     <>
       <div className={twMerge(poppins.className,"w-full px-36 relative bg-white flex flex-col")}>
         <div className="w-full h-20 pt-4 justify-between items-center gap-48 inline-flex">
-          <div className="w-auto self-stretch pr-8 justify-start items-center gap-1 flex">
-            <Image
+          <div className="w-full pr-8 flex flex-row justify-start items-center">
+            <img
               width={157}
               height={157}
-              className="w-20 h-20"
+
+              className="w-20 h-20 resize-none"
               src="/assets/logo_black.png"
               alt='logo-sao'
             />
-            <div className="text-black text-lg font-bold whitespace-nowrap">
+            <div className="md:hidden text-black text-lg font-bold whitespace-nowrap">
+              SAO
+            </div>
+            <div className="hidden md:block text-black text-lg font-bold whitespace-nowrap">
               Sistema de Agendamento Odontológico
             </div>
           </div>

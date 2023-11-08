@@ -23,7 +23,7 @@ const CardText = ({label, text, width} : CardTextProps) => {
             <div className="w-full pl-4 inline-flex items-center justify-start">
                 <p className="text-xs md:text-sm font-Inter font-medium leading-tight text-gray-700 dark:text-gray-300 truncate">{label}</p>
             </div>
-            <div className="w-full h-7 md:h-10 px-4 py-2 shadow-sm border rounded-lg border-gray-300 dark:border-gray-500">
+            <div className="w-full h-10 md:h-10 px-4 flex items-center shadow-sm border rounded-lg border-gray-300 dark:border-gray-500">
                 <p className="text-xs md:text-sm font-Inter font-normal leading-tight text-gray-500 truncate">{text}</p>
             </div>
         </div>
