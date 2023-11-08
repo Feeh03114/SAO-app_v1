@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { AiOutlineEye } from "react-icons/ai";
+import { FiTrash2 } from "react-icons/fi";
+import { twMerge } from "tailwind-merge";
 
 export interface RegisterModelProps {
     children?: React.ReactNode;
@@ -73,19 +75,31 @@ const TableCellHeader = ({children, hiddenInMobile, hiddenInDesktop }:RegisterMo
     )
 }
 
-const TableRow = ({children, link, style}:RegisterModelProps) => {
-    const handleClick = () => {
-        window.location.href = `${link}`;
-    };
+interface TableRowProps extends RegisterModelProps {
+    onView?: () => void;
+    onDelete?: () => void;
+}
+
+const TableRow = ({children, style, onView, onDelete }:TableRowProps) => {
     return(
         <tbody>
             <tr className="h-12">
                 {children}
-                <td className={`${style} h-full px-6 border font-Inter border-x-0 truncate bg-white border-gray-200 dark:border-slate-700 dark:bg-slate-800 text-sm font-normal leading-5 text-gray-500 dark:text-gray-200`}>
-                    <div className="flex items-center justify-end">
-                        <button className="h-full mr-4 px-3 py-2 border dark:border-gray-500 rounded-md cursor-pointer"
-                            onClick={handleClick}>
+                <td className={twMerge(style,"h-full px-6 border font-Inter border-x-0 truncate bg-white border-gray-200 dark:border-slate-700 dark:bg-slate-800 text-sm font-normal leading-5 text-gray-500 dark:text-gray-200 aria-hidden:hidden")}
+                    aria-hidden={(onView == undefined && onDelete == undefined) ? true : false}
+                >
+                    <div className="flex items-center justify-end gap-2">
+                        <button className="h-full mr-4 px-3 py-2 border dark:border-gray-500 rounded-md cursor-pointer aria-hidden:hidden"
+                            onClick={onView}
+                            aria-hidden={onView == undefined ? true : false}
+                        >
                             <AiOutlineEye className="w-5 h-5 text-teal-500"/>
+                        </button>
+                        <button className="h-full mr-4 px-3 py-2 border dark:border-gray-500 rounded-md cursor-pointer aria-hidden:hidden"
+                            onClick={onDelete}
+                            aria-hidden={onDelete == undefined ? true : false}    
+                        >
+                            <FiTrash2 className="w-5 h-5 text-teal-500"/>
                         </button>
                     </div>
                 </td>

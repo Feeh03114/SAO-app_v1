@@ -7,13 +7,15 @@ interface HeaderProps {
     subtitle: string;
     textLeft?: string;
     textRight?: string;
+    disabledLeft?: boolean;
+    disabledRight?: boolean;
     onClickLeft?: () => void;
     onClickRight?: () => void;
     typeButtonLeft?: 'add' | 'edit' | 'confirm' | 'filter' |'files';
     typeButtonRight?: 'add' | 'edit' | 'confirm' | 'filter' | 'files';
 }
 
-export default function Header({title, subtitle, textLeft, textRight, onClickLeft, onClickRight, typeButtonLeft, typeButtonRight, }:HeaderProps) {
+export default function Header({title, subtitle, textLeft, textRight, disabledLeft, disabledRight, onClickLeft, onClickRight, typeButtonLeft, typeButtonRight, }:HeaderProps) {
 
     function renderButtonLeft() {
         switch (typeButtonLeft) {
@@ -52,24 +54,26 @@ export default function Header({title, subtitle, textLeft, textRight, onClickLef
                 <p className="text-xs leading-none text-gray-400">{subtitle}</p>
             </div>
             <div className="flex">
-                <div className="flex space-x-2 items-center justify-center py-2 pl-3 pr-4 bg-white border rounded-md border-gray-300 cursor-pointer mr-[1rem] "
+                <button className="flex space-x-2 items-center justify-center py-2 pl-3 pr-4 bg-white border rounded-md border-gray-300 cursor-pointer mr-[1rem] "
                     onClick={onClickLeft}
                     style={{
                         display: onClickLeft ? 'flex':'none',
                     }}
+                    disabled={disabledLeft}
                 >
                     {renderButtonLeft()}
                     <p className="sm-mobile:hidden md:block text-sm font-medium leading-tight text-gray-700">{textLeft}</p>
-                </div>
-                <div className="flex space-x-2 items-center justify-center py-2 pl-3 pr-3 bg-teal-500 border rounded-md border-teal-500 cursor-pointer"
+                </button>
+                <button className="flex space-x-2 items-center justify-center py-2 pl-3 pr-3 bg-teal-500 border rounded-md border-teal-500 cursor-pointer"
                     onClick={onClickRight}
                     style={{
                         display: onClickRight ? 'flex' : 'none',
                     }}
+                    disabled={disabledRight}
                 >
                     {renderButtonRight()}
                     <p className="sm-mobile:hidden md:block text-sm font-medium leading-tight text-white">{textRight}</p>
-                </div>
+                </button>
             </div>
         </div>
     );

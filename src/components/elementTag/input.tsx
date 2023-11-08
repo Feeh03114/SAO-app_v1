@@ -1,5 +1,6 @@
 import { ForwardRefRenderFunction, InputHTMLAttributes, forwardRef, useState } from "react";
 import { FieldError, FieldErrorsImpl, Merge } from "react-hook-form";
+import { twMerge } from "tailwind-merge";
 
 export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
     id?: string;
@@ -8,14 +9,14 @@ export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
     label?: string;
 }
 
-const InputBase:ForwardRefRenderFunction<HTMLInputElement, InputProps> = ({ password = false, error = null, label, ...rest }, ref) => {  
+const InputBase:ForwardRefRenderFunction<HTMLInputElement, InputProps> = ({ password = false, error = null, label, className, ...rest }, ref) => {  
     const [showPassword, setShowPassword] = useState(true);
     return(
         <>
             {
                 password?
                     <div className="relative w-full">
-                        <input className="w-full h-7 md:h-10 px-4 py-2 shadow-sm border rounded-lg border-gray-300 dark:border-gray-500"
+                        <input className={twMerge(className,"w-full h-7 md:h-10 px-4 py-2 shadow-sm border rounded-lg border-gray-300 dark:border-gray-500")}
                             type={showPassword? "password": 'text'}
                             {...rest}
                             ref={ref}
@@ -39,7 +40,7 @@ const InputBase:ForwardRefRenderFunction<HTMLInputElement, InputProps> = ({ pass
                 :
                 <>
                     <label className={`${label == undefined && "hidden"} pl-4 text-sm font-Inter font-medium leading-tight text-gray-700 dark:text-white truncate`}>{label}</label>
-                    <input className={`w-full h-7 md:h-10 px-4 py-2 text-sm shadow-sm border rounded-lg border-gray-300 dark:border-gray-500 truncate`}
+                    <input className={twMerge(className,`w-full h-7 md:h-10 px-4 py-2 text-sm shadow-sm border rounded-lg border-gray-300 dark:border-gray-500 truncate`)}
                         {...rest}
                         ref={ref}
                     />

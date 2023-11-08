@@ -2,14 +2,12 @@ import Header from "@/components/Header";
 import { Pagination } from "@/components/Table/Pagination";
 import Table from "@/components/Table/index";
 import Card from "@/components/elementTag/cardText";
-import Modal from "@/components/modal";
 import { useDisclosure } from "@/hook/useDisclosure";
 import api from "@/service/api";
 import { withSSRAuth } from "@/util/withSSRAuth";
 import { GetServerSideProps } from "next";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { BsFillPersonPlusFill } from "react-icons/bs";
-import { Input } from "rsuite";
 
 const rowsNumber = 5;
 
@@ -26,6 +24,7 @@ interface Profile {
 }
 
 export default function Profiles(): JSX.Element {
+    const router = useRouter();
     const newDisposer = useDisclosure();
     const [data, setData] = useState<Profile[]>([]);
     // const [data, setData] = useState([]);
@@ -47,7 +46,6 @@ export default function Profiles(): JSX.Element {
             const { data:RespAPI } = await api.get("api/profiles", {
                 params: params
             });
-            console.log(RespAPI);
             setData(RespAPI.data);
             setCurrentPage(RespAPI.page);
             setTotalElements(RespAPI.totalElement);
@@ -67,40 +65,24 @@ export default function Profiles(): JSX.Element {
 
     return (
         <>
-            <Modal.Root
-                isOpen={newDisposer.isOpen}
-                onClose={newDisposer.close}
-                width="md:max-w-lg"
-            >
-                <Modal.Header title="Novo Usuário" icon={BsFillPersonPlusFill} />
-                <Modal.Body>
-                    <div className="w-full">
-                        <label className="pl-4 text-sm font-medium leading-tight text-gray-700 dark:text-white">Teste</label>
-                        <Input 
-                            id="prontuario"
-                            type="text"
-                            className="w-full rounded-lg px-4 py-2 dark:bg-gray-700 dark:text-white shadow border border-gray-300 text-gray-900 placeholder-gray-500 dark:placeholder-white focus:border-teal-400 focus:outline-none focus:ring-teal-400 md:text-sm"
-                            placeholder="Insira seu prontuário"
-                            // {...register("prontuario")}
-                            // error={errors.prontuario}
-                        />
-                    </div>
-                </Modal.Body>
-                <Modal.Footer/>
-            </Modal.Root>
             <Header 
                 title="Perfis"
                 subtitle="Consulte os perfis da plataforma"
                 textLeft="Filtros"
                 textRight="Adicionar Perfil"
                 onClickLeft={()=> console.log('filter')}
-                onClickRight={newDisposer.open}
+                onClickRight={()=> router.push('/profiles/add')}
                 typeButtonLeft="filter"
                 typeButtonRight="add"
             />
             <Table.Root tableHeight={String(rowsNumber)}>
                 {data.map((item: Profile, index: number) => (
-                    <Table.Row key={index} style={"w-1/6"}>
+                    <Table.Row 
+                        key={index}
+                        style="w-1/6"
+                        onView={()=> router.push(`/profiles/edit/${item.id}`)}
+                        onDelete={()=> console.log('delete')}
+                    >
                         <Table.CellBody style={"w-1/6"}><p className="font-medium dark:text-white">{item.name}</p></Table.CellBody>
                         <Table.CellBody style={"w-4/6"}>
                             <div className="py-1 flex flex-row flex-wrap">
