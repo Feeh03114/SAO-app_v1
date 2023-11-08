@@ -145,7 +145,7 @@ export default function Login(): JSX.Element{
                                         id="email"
                                         type="text"
                                         required
-                                        className="w-3/5 h-10 text-sm font-medium leading-tight left-0 rounded-l-lg px-4 py-2 shadow border border-gray-300 text-gray-900 placeholder-gray-500 focus:border-teal-400 focus:outline-none focus:ring-teal-400"
+                                        className="w-3/5 h-10 text-sm font-medium leading-tight left-0 rounded-l-lg rounded-r-none px-4 py-2 shadow border border-gray-300 text-gray-900 placeholder-gray-500 focus:border-teal-400 focus:outline-none focus:ring-teal-400"
                                         placeholder="Insira seu RU"
                                         {...register2("email")}
                                         error={errors2.email}

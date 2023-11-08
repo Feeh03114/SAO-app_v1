@@ -16,6 +16,7 @@ interface Profile {
     name: string;
     permissions: [
         {
+            isRead: boolean;
             page: {
                     namePage: string;
             }
@@ -77,17 +78,22 @@ export default function Profiles(): JSX.Element {
                 typeButtonRight="add"
             />
             <Table.Root tableHeight={String(rowsNumber)}>
+                <Table.Header>
+                    <Table.CellHeader style={"w-40 md:w-60"}>NOME</Table.CellHeader>
+                    <Table.CellHeader hiddenInMobile={true}>PÁGINAS</Table.CellHeader>
+                </Table.Header> 
+
                 {data.map((item: Profile, index: number) => (
                     <Table.Row 
                         key={index}
                         onView={()=> router.push(`/profiles/edit/${item.id}`)}
                         onDelete={()=> console.log('delete')}
                     >
-                        <Table.CellBody style={"w-1/6"}><p className="font-medium dark:text-white">{item.name}</p></Table.CellBody>
-                        <Table.CellBody style={"w-4/6"}>
+                        <Table.CellBody><p className="font-medium dark:text-white">{item.name}</p></Table.CellBody>
+                        <Table.CellBody hiddenInMobile={true}>
                             <div className="py-1 flex flex-row flex-wrap">
                                 {item.permissions.map((item: any, index: number) => (
-                                    <Card.TextSelected key={index} text={item.page.namePage}></Card.TextSelected>
+                                    item.isRead && <Card.TextSelected key={index} text={item.page.namePage}></Card.TextSelected>
                                 ))}
                             </div>
                         </Table.CellBody>

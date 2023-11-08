@@ -46,13 +46,13 @@ const TableHeader = ({children, style} : RegisterModelProps) => {
         <thead className="bg-gray-100 dark:bg-slate-700">
             <tr className="overflow-auto">
                 {children}
-                <th className={twMerge("w-24", style)}></th>          
+                <th className={twMerge("w-32", style)}></th>          
             </tr>
         </thead>
     )
 }
 
-const TableCellHeader = ({children, hiddenInMobile, hiddenInDesktop }:RegisterModelProps) => {
+const TableCellHeader = ({children, hiddenInMobile, hiddenInDesktop, style}:RegisterModelProps) => {
     const [styleCell, setStyleCell] = useState("");
 
     useEffect(() => {
@@ -67,8 +67,10 @@ const TableCellHeader = ({children, hiddenInMobile, hiddenInDesktop }:RegisterMo
         }
     }, [hiddenInMobile, hiddenInDesktop]);
 
+    const finalStyle = styleCell + " " + style;
+
     return(
-        <th className={`px-6 py-3 text-start font-Inter text-xs font-medium leading-4 tracking-wide text-gray-500 dark:text-gray-200 ${styleCell}`}>
+        <th className={twMerge("px-6 py-3 text-start font-Inter text-xs font-medium leading-4 tracking-wide text-gray-500 dark:text-gray-200", finalStyle)}>
             {children}
         </th>
     )
@@ -84,7 +86,7 @@ const TableRow = ({children, style, onView, onDelete }:TableRowProps) => {
         <tbody>
             <tr className="h-12">
                 {children}
-                <td className={twMerge("h-full px-6 border font-Inter border-x-0 bg-white border-gray-200 dark:border-slate-700 dark:bg-slate-800 text-sm font-normal leading-5 text-gray-500 dark:text-gray-200 aria-hidden:hidden", style)}
+                <td className={twMerge("h-full px-0 border font-Inter border-x-0 bg-white border-gray-200 dark:border-slate-700 dark:bg-slate-800 text-sm font-normal leading-5 text-gray-500 dark:text-gray-200 aria-hidden:hidden", style)}
                     aria-hidden={(onView == undefined && onDelete == undefined) ? true : false}
                 >
                     <div className="flex items-center justify-end">
@@ -121,9 +123,11 @@ const TableCell = ({children, hiddenInMobile, hiddenInDesktop, style}:RegisterMo
             setStyleCell("table-cell");
         }
     }, [hiddenInMobile, hiddenInDesktop]);
+
+    const finalStyle = styleCell + " " + style;
     
     return(
-        <td className={`${style} px-6 border font-Inter border-x-0 truncate bg-white border-gray-200 dark:border-slate-700 dark:bg-slate-800 text-sm font-normal leading-5 text-gray-500 dark:text-gray-200 ${styleCell}`}>
+        <td className={twMerge("pl-6 font-Inter text-sm font-normal leading-5 text-gray-500 dark:text-gray-200 border border-x-0 bg-white border-gray-200 dark:border-slate-700 dark:bg-slate-800", finalStyle)}>
             {children}
         </td>
     )

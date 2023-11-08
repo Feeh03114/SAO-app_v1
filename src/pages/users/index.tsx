@@ -6,6 +6,7 @@ import { useDisclosure } from "@/hook/useDisclosure";
 import api from "@/service/api";
 import { withSSRAuth } from "@/util/withSSRAuth";
 import { GetServerSideProps } from "next";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { BsFillPersonPlusFill } from "react-icons/bs";
 import { Input } from "rsuite";
@@ -23,6 +24,7 @@ export default function Users(): JSX.Element {
     const newUserDisposer = useDisclosure();
     // const [data, setData] = useState<User[]>([]);
     const [data, setData] = useState([]);
+    const router = useRouter();
     const [currentPage, setCurrentPage] = useState(1);
     const [totalElements, setTotalElements] = useState(TOTAL_ELEMENTS);
     const [isLoading, setIsLoading] = useState(false);
@@ -174,7 +176,11 @@ export default function Users(): JSX.Element {
                 </Table.Header>
 
                 {data.map((item: { id:string, name: string, email: string, ru: string }, index: number) => (
-                    <Table.Row key={index} link={"/users/edit/" + item.id}>
+                    <Table.Row 
+                        key={index}                        
+                        onView={()=> router.push(`/profiles/edit/${item.id}`)}
+                        onDelete={()=> console.log('delete')}
+                    >
                         <Table.CellBody><p className="font-medium dark:text-white">{item.name}</p></Table.CellBody>
                         <Table.CellBody hiddenInMobile={true}>{item.email}</Table.CellBody>
                         <Table.CellBody hiddenInMobile={true}>{item.ru}</Table.CellBody>
