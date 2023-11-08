@@ -6,6 +6,7 @@ import { withSSRAuth } from "@/util/withSSRAuth";
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 interface Permission {
     profile_id: string;
@@ -62,10 +63,13 @@ export default function RolesEdit(): JSX.Element {
         }
     }
 
-    const onSave = (data:any) => {
+    const onSave = async (data:any) => {
         setIsLoading(true);
         try {
-            console.log(data);
+            const resp = await api.put(`/api/profiles/${id}`, data);
+            console.log(resp);
+            toast.success('Perfil atualizado com sucesso!');
+            router.back();
         } catch (error) {
             console.log(error);
         }

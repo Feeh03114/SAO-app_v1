@@ -49,7 +49,7 @@ export default function ProfileAdd(): JSX.Element {
             const resp = await api.post(`/api/profiles`, data);
             console.log(resp.data);
             toast.success('Perfil editado com sucesso!');
-            //router.back();
+            router.back();
         } catch (error) {
             console.log(error);
         }
