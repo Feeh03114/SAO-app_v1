@@ -29,7 +29,7 @@ function TableRoot({ children, tableHeight, style, label } : RegisterModelProps)
                     <p className="text-xs md:text-sm font-Inter font-medium leading-tight text-gray-700 dark:text-gray-300 truncate">{label}</p>
                 </div>
             }
-            <div className={`${style2} flex items-start justify-centers flex-col flex-wrap border bg-gray-50 dark:bg-slate-800 dark:border-slate-700 border-solid border-gray-200 shadow-sm rounded-lg overflow-hidden border-separate`}   
+            <div className={`${style2} flex items-start justify-centers flex-col flex-wrap border bg-gray-50 dark:bg-slate-800 dark:border-slate-700 border-solid border-gray-200 shadow-md rounded-lg overflow-hidden border-separate`}   
                 style={{
                     height: tableHeight,
                 }}>
@@ -43,7 +43,7 @@ function TableRoot({ children, tableHeight, style, label } : RegisterModelProps)
 
 const TableHeader = ({children, style} : RegisterModelProps) => {
     return (
-        <thead className="bg-gray-50 dark:bg-slate-700">
+        <thead className="bg-gray-100 dark:bg-slate-700">
             <tr className="overflow-auto">
                 {children}
                 <th className={twMerge("w-24", style)}></th>          

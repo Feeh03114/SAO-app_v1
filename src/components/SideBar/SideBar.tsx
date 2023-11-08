@@ -3,7 +3,7 @@ import { useSession } from "next-auth/react";
 import Head from "next/head";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import React, { ReactNode, useEffect, useState } from "react";
+import React, { ReactNode, useState } from "react";
 import { MdChevronRight } from "react-icons/md";
 import { TbBell } from 'react-icons/tb';
 import { MenuSideBar } from "./components/Menu";
@@ -20,26 +20,6 @@ export function SideBar({title, children, ...rest}:SidebarProps){
     const [isOpenUser, setIsOpenUser] = useState(false);
     const router = useRouter();
     const session:any = useSession();
-
-    const [isDarkMode, setIsDarkMode] = useState(false);
-
-    useEffect(() => {
-        const html = document.querySelector('html') as HTMLElement;
-        document.documentElement.style.setProperty("--rs-table-sort", "#14b8a6");
-        if (isDarkMode) {
-            document.documentElement.style.setProperty("--rs-bg-card", "#1f2937");
-            document.documentElement.style.setProperty("--rs-state-hover-bg", "#0d9488");
-            document.documentElement.style.setProperty("--rs-text-secondary", "#BDC8DD");
-            document.documentElement.style.setProperty("--rs-border-secondary", "#27394F");
-            html.classList.add('dark');
-        } else {
-            document.documentElement.style.setProperty("--rs-bg-card", "#ffffff");
-            document.documentElement.style.setProperty("--rs-state-hover-bg", "#ccfbf1");   
-            document.documentElement.style.setProperty("--rs-text-secondary", "#6B7280");
-            document.documentElement.style.setProperty("--rs-border-secondary", "#E5E7EB");
-            html.classList.remove('dark');
-        }
-    }, [isDarkMode]);
 
     return(
         <>
