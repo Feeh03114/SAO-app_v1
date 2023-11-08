@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
-import { Control, Controller } from "react-hook-form";
+import { Control, Controller, FieldValues } from "react-hook-form";
 
 export interface Option {
     id: number;
@@ -13,11 +13,11 @@ export interface RegisterModelProps {
     valueDefault?:any;
     data?: Option[];
     children?: React.ReactNode;
-    control: Control;
+    control: Control<FieldValues>;
     disabled?: boolean;
 }
 
-function Select({ name, label, placeHolder, valueDefault='', data, control, disabled }:RegisterModelProps & { control: Control }): JSX.Element {
+function Select({ name, label, placeHolder, valueDefault='', data=[], control, disabled }:RegisterModelProps & { control: Control }): JSX.Element {
     return(
         <Controller
             name={name}

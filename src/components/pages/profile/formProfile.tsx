@@ -135,7 +135,7 @@ export default function FormProfile({edit, isPermissionWrite=true, onSave}:FormP
                                     return {id: e, name: TypeUser[+e]}
                                 }) as any
                             }
-                            control={control}
+                            control={control as any}
                         />
                     </div>
                     <div className="w-full md:w-1/4 px-2 mt-4 md:mt-0">

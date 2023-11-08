@@ -156,7 +156,14 @@ export default function FinanceEdit(): JSX.Element {
                         </div>
                     </div>
                     <div className="w-full md:w-1/2 px-2">
-                        <Select label={"Nome do guardião"} placeHolder={"Selecione um guardião"} data={mock} control={control}></Select>
+                        <Select 
+                            label="Nome do guardião"
+                            placeHolder="Selecione um guardião"
+                            data={mock}
+                            control={control as any} 
+                            name="guardiaoId"
+                            valueDefault={-1}
+                        />
                     </div>
 
                     <div className="w-full md:w-2/4 px-2">
@@ -294,10 +301,24 @@ export default function FinanceEdit(): JSX.Element {
                     </div>
 
                     <div className="w-full md:w-2/6 px-2">
-                        <Select label={"Forma de pagamento"} placeHolder={"Selecione um forma de pagamento"} data={mock} control={control}></Select>
+                        <Select 
+                            label="Forma de pagamento"
+                            placeHolder="Selecione um forma de pagamento"
+                            data={mock}
+                            control={control as any}
+                            name="formaPagamento"
+                            valueDefault={-1}
+                        />
                     </div>
                     <div className="w-1/2 md:w-1/6 px-2">
-                        <Select label={"Parcela"} placeHolder={"0x"} data={mock} control={control}></Select>
+                        <Select 
+                            label="Parcela"
+                            placeHolder="0x"
+                            data={mock}
+                            control={control as any}
+                            name="parcela"
+                            valueDefault={-1}
+                        />
                     </div>
                     <div className="w-1/2 md:w-1/4 px-2">
                         <Input 
