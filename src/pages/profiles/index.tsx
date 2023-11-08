@@ -46,6 +46,7 @@ export default function Profiles(): JSX.Element {
             const { data:RespAPI } = await api.get("api/profiles", {
                 params: params
             });
+            console.log(RespAPI);
             setData(RespAPI.data);
             setCurrentPage(RespAPI.page);
             setTotalElements(RespAPI.totalElement);
@@ -79,7 +80,6 @@ export default function Profiles(): JSX.Element {
                 {data.map((item: Profile, index: number) => (
                     <Table.Row 
                         key={index}
-                        style="w-1/6"
                         onView={()=> router.push(`/profiles/edit/${item.id}`)}
                         onDelete={()=> console.log('delete')}
                     >

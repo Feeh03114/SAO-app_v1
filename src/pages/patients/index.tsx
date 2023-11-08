@@ -4,6 +4,7 @@ import { Pagination } from "@/components/Table/Pagination";
 import { useDisclosure } from "@/hook/useDisclosure";
 import { withSSRAuth } from "@/util/withSSRAuth";
 import { GetServerSideProps } from "next";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
 const TOTAL_ELEMENTS = 25;
@@ -17,6 +18,7 @@ interface Patients {
 
 export default function Patients(): JSX.Element {
     const newUserDisposer = useDisclosure();
+    const router = useRouter();
     const [data, setData] = useState<Patients[]>([]);
     // const [data, setData] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
@@ -98,7 +100,11 @@ export default function Patients(): JSX.Element {
                 </Table.Header>
 
                 {data.map((item: Patients, index: number) => (
-                    <Table.Row key={index} link={"/patients/edit/" + item.prontuario}>
+                    <Table.Row 
+                        key={index}
+                        onView={()=> router.push(`/patients/edit/${item.prontuario}`)}
+                        onDelete={()=> console.log('delete')} 
+                    >
                         <Table.CellBody><p className="font-medium dark:text-white"></p>{item.prontuario}</Table.CellBody>
                         <Table.CellBody><p className="font-medium dark:text-white">{item.nome}</p></Table.CellBody>
                         <Table.CellBody hiddenInMobile={true}><p className="font-medium dark:text-white">{item.email}</p></Table.CellBody>

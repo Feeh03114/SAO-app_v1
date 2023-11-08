@@ -6,7 +6,7 @@
   "background_color": "#FFFFFF",
   "start_url": "/",
   "scope": "/",
-  "display": "standalone",
+  "display": "minimal-ui",
   "orientation": "portrait",
   "icons":[
     {

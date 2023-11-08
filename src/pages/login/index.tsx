@@ -201,7 +201,7 @@ export default function Login(): JSX.Element{
                             id="email"
                             type="text"
                             required
-                            className="w-3/5 h-10 text-sm font-medium leading-tight left-0 rounded-l-lg px-4 py-2 shadow border border-gray-300 text-gray-900 placeholder-gray-500 focus:border-teal-400 focus:outline-none focus:ring-teal-400"
+                            className="w-3/5 left-0 rounded-l-lg rounded-r-none"
                             placeholder="Insira seu RU"
                         />
                         <div className="w-2/5 h-10 right-0 inline-flex justify-evenly items-center bg-gray-100 rounded-r-lg shadow border border-l-0 border-gray-300 text-gray-900 placeholder-gray-500">

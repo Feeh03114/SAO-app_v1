@@ -370,7 +370,7 @@ export default function FinanceEdit(): JSX.Element {
 
                     <Card.Text label="Horário" text={data.hora} width="w-1/2  md:w-1/4"></Card.Text>
                     <Card.Text label="Disciplina" text={data.disciplina} width="w-full md:w-1/4"></Card.Text>
-                    <Card.Text label="Serviço" text={data.servico} width="w-1/2  md:w-1/4"></Card.Text>
+                    <Card.Text label="Serviço" text={data.servico} width="w-1/2 md:w-1/4"></Card.Text>
                     <Card.Text label="Preço" text={data.preco} width="w-1/2  md:w-1/4"></Card.Text>
                     
                     <div className="w-full flex justify-end">

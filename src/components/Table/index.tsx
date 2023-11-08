@@ -8,7 +8,6 @@ export interface RegisterModelProps {
     hiddenInMobile?: boolean;
     hiddenInDesktop?: boolean;
     tableHeight?: string;
-    link?: string;
     style?: string;
     label?: string;
 }
@@ -42,12 +41,12 @@ function TableRoot({ children, tableHeight, style, label } : RegisterModelProps)
     );
 }
 
-const TableHeader = ({children} : RegisterModelProps) => {
+const TableHeader = ({children, style} : RegisterModelProps) => {
     return (
         <thead className="bg-gray-50 dark:bg-slate-700">
-            <tr className=" overflow-auto">
+            <tr className="overflow-auto">
                 {children}
-                <th className="w-24"></th>        
+                <th className={twMerge("w-24", style)}></th>          
             </tr>
         </thead>
     )
@@ -85,10 +84,10 @@ const TableRow = ({children, style, onView, onDelete }:TableRowProps) => {
         <tbody>
             <tr className="h-12">
                 {children}
-                <td className={twMerge(style,"h-full px-6 border font-Inter border-x-0 truncate bg-white border-gray-200 dark:border-slate-700 dark:bg-slate-800 text-sm font-normal leading-5 text-gray-500 dark:text-gray-200 aria-hidden:hidden")}
+                <td className={twMerge("h-full px-6 border font-Inter border-x-0 bg-white border-gray-200 dark:border-slate-700 dark:bg-slate-800 text-sm font-normal leading-5 text-gray-500 dark:text-gray-200 aria-hidden:hidden", style)}
                     aria-hidden={(onView == undefined && onDelete == undefined) ? true : false}
                 >
-                    <div className="flex items-center justify-end gap-2">
+                    <div className="flex items-center justify-end">
                         <button className="h-full mr-4 px-3 py-2 border dark:border-gray-500 rounded-md cursor-pointer aria-hidden:hidden"
                             onClick={onView}
                             aria-hidden={onView == undefined ? true : false}
