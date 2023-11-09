@@ -2,12 +2,12 @@ import Header from "@/components/Header";
 import { Pagination } from "@/components/Table/Pagination";
 import Table from "@/components/Table/index";
 import Card from "@/components/elementTag/cardText";
-import { useDisclosure } from "@/hook/useDisclosure";
 import api from "@/service/api";
 import { withSSRAuth } from "@/util/withSSRAuth";
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 const rowsNumber = 5;
 
@@ -26,7 +26,6 @@ interface Profile {
 
 export default function Profiles(): JSX.Element {
     const router = useRouter();
-    const newDisposer = useDisclosure();
     const [data, setData] = useState<Profile[]>([]);
     // const [data, setData] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
@@ -38,8 +37,8 @@ export default function Profiles(): JSX.Element {
         pageSize: rowsNumber,
         sortOrder: 'ASC',
         sortField: 'id',
-        status: 2,
-      });
+        status: 0,
+    });
 
     const loadData = async () => {
         setIsLoading(true);
@@ -47,7 +46,6 @@ export default function Profiles(): JSX.Element {
             const { data:RespAPI } = await api.get("api/profiles", {
                 params: params
             });
-            console.log(RespAPI);
             setData(RespAPI.data);
             setCurrentPage(RespAPI.page);
             setTotalElements(RespAPI.totalElement);
@@ -64,6 +62,16 @@ export default function Profiles(): JSX.Element {
     useEffect(() => {
         loadData();
     }, [currentPage]);
+
+    const onDelete = async (id: string) => {
+        try {
+            const resp = await api.delete(`api/profiles/${id}`);
+            toast.success(resp.data.message);
+            await loadData();
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
     return (
         <>
@@ -87,7 +95,7 @@ export default function Profiles(): JSX.Element {
                     <Table.Row 
                         key={index}
                         onView={()=> router.push(`/profiles/edit/${item.id}`)}
-                        onDelete={()=> console.log('delete')}
+                        onDelete={()=> onDelete(item.id)}
                     >
                         <Table.CellBody><p className="font-medium dark:text-white">{item.name}</p></Table.CellBody>
                         <Table.CellBody hiddenInMobile={true}>

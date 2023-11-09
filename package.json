@@ -39,6 +39,7 @@
     "react-hook-form": "^7.43.9",
     "react-icons": "^4.11.0",
     "react-input-mask": "^2.0.4",
+    "react-select": "^5.8.0",
     "react-toastify": "^9.1.2",
     "react-tooltip": "^5.11.1",
     "rsuite": "^5.35.0",
