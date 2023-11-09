@@ -9,7 +9,6 @@ import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
-
 const TOTAL_ELEMENTS = 25;
 const rowsNumber = 6;
 

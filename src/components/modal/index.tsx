@@ -3,6 +3,7 @@ import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, ReactNode } from "react";
 import { IconType } from "react-icons";
 import { BsFillPersonPlusFill } from "react-icons/bs";
+import { twMerge } from "tailwind-merge";
 
 export interface RegisterModelProps {
     isOpen: boolean;
@@ -52,13 +53,16 @@ function ModalRoot({ isOpen, onClose, children, width }:RegisterModelProps): JSX
 interface HeaderProps {
     icon: IconType;
     title: string;
+    styleContainer?: string;
+    styleBgIcon?: string;
+    styleIcon?: string;
 }
 
-const headerModal= ({title, icon:Icon=BsFillPersonPlusFill}:HeaderProps)=>{
+const headerModal= ({title, icon:Icon=BsFillPersonPlusFill, styleContainer, styleBgIcon, styleIcon}:HeaderProps)=>{
     return(
-        <div className="w-full inline-flex space-x-4 items-center justify-start mb-6">
-            <div className="flex items-center justify-center w-10 h-full p-2 bg-teal-50 dark:bg-teal-400 rounded-full">
-                <Icon className="flex-1 h-full text-teal-500 dark:text-teal-700"/>
+        <div className={twMerge("w-full inline-flex space-x-4 items-center justify-start mb-6", styleContainer)}>
+            <div className={twMerge("flex items-center justify-center w-10 h-full p-2 bg-teal-50 dark:bg-teal-400 rounded-full", styleBgIcon)}>
+                <Icon className={twMerge("flex-1 h-full text-teal-500 dark:text-teal-700", styleIcon)}/>
             </div>
             <p className="text-base font-semibold leading-6 text-gray-900 dark:text-white">{title}</p>
         </div>
@@ -79,21 +83,23 @@ const ModalBody = ({children} : ModalBodyProps) => {
 
 export interface FooterProps {
     onClose?: () => void;
+    text?: string;
+    style?: string;
+    onClick?: () => void;
 }
 
-const ModalFooter = ({ onClose } : FooterProps) => {
+const ModalFooter = ({ onClose, text, style, onClick } : FooterProps) => {
     return(
         <div className="w-full inline-flex space-x-3 mt-4 items-center justify-end px-6 py-3 bg-white dark:bg-gray-800 rounded-b-lg" >
-            <button className="flex items-center justify-center px-4 py-2 bg-white shadow border rounded-md border-gray-300"
+            <button className="flex items-center justify-center px-4 py-2 bg-white dark:bg-gray-600 shadow border rounded-md border-gray-300 dark:border-gray-700"
                 onClick={onClose}
             >
-                <p className="text-sm font-medium leading-tight text-gray-700">Cancelar</p>
+                <p className="text-sm font-medium leading-tight text-gray-700 dark:text-white">Cancelar</p>
             </button>
-            <button className="flex items-center justify-center px-4 py-2 bg-teal-500 shadow rounded-md"
-                // disabled={isSubmitting}
-                // onClick={handleStep}
+            <button className={twMerge("flex items-center justify-center px-4 py-2 bg-teal-500 shadow rounded-md", style)}
+                onClick={onClick}
             >
-                <p className="text-sm font-medium leading-tight text-white">Cadastrar</p>
+                <p className="text-sm font-medium leading-tight text-white">{text === undefined ? "Cadastrar" : text}</p>
             </button>
         </div> 
     )
