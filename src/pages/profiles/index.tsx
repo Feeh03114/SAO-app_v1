@@ -45,7 +45,6 @@ export default function Profiles(): JSX.Element {
             const { data:RespAPI } = await api.get("api/profiles", {
                 params: params
             });
-            console.log(RespAPI);
             setData(RespAPI.data);
             setCurrentPage(RespAPI.page);
             setTotalElements(RespAPI.totalElement);

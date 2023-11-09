@@ -1,5 +1,7 @@
+/* eslint-disable jsx-a11y/role-supports-aria-props */
 /* eslint-disable @typescript-eslint/no-empty-function */
 import { Control, Controller, FieldValues } from "react-hook-form";
+import { twMerge } from "tailwind-merge";
 
 export interface Option {
     id: number;
@@ -15,9 +17,10 @@ export interface RegisterModelProps {
     children?: React.ReactNode;
     control: Control<FieldValues>;
     disabled?: boolean;
+    className?: string;
 }
 
-function Select({ name, label, placeHolder, valueDefault='', data=[], control, disabled }:RegisterModelProps & { control: Control }): JSX.Element {
+function Select({ name, label, placeHolder, valueDefault='', data=[], control, disabled, className }:RegisterModelProps & { control: Control }): JSX.Element {
     return(
         <Controller
             name={name}
@@ -29,7 +32,9 @@ function Select({ name, label, placeHolder, valueDefault='', data=[], control, d
                         disabled={disabled}
                         value={field.value}
                         onChange={(e) => field.onChange(e.target.value)}
-                        className={`${label === undefined && 'mt-5'} w-full h-7 md:h-10 px-4 py-0 md:py-2 text-sm shadow-sm border rounded-lg border-gray-300 dark:border-gray-500 truncate placeholder-gray-500 focus:border-teal-400 focus:outline-none focus:ring-teal-400`}
+                        className={twMerge("aria-checked:mt-5 w-full h-7 md:h-10 px-4 py-0 md:py-2 text-sm shadow-sm border rounded-lg border-gray-300 dark:border-gray-500 truncate placeholder-gray-500 focus:border-teal-400 focus:outline-none focus:ring-teal-400", 
+                        className)}
+                        aria-checked={!label}
                         placeholder="Selecione o serviço odontológico"
                     >
                         <option value={valueDefault} disabled selected>{placeHolder}</option>
