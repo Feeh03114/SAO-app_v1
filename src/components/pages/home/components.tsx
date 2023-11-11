@@ -24,13 +24,13 @@ interface IHomeProps {
 
 export function CartInfo({icon:Icon, title, description}:IHomeProps){
     return(
-    <div className='w-80 lg:w-auto h-14 lg:h-20 flex px-4 bg-gradient-96 from-teal-500 to-teal-600 rounded-xl gap-3 items-center'>
+    <div className='w-80 md:w-auto h-14 md:h-20 flex px-4 bg-gradient-96 from-teal-500 to-teal-600 rounded-xl gap-3 items-center'>
         {Icon&&<Icon className='w-10 h-10 text-white'/>}
         <div className='flex flex-col w-auto'>
-            <span className="text-white text-sm lg:text-lg font-semibold leading-normal">
+            <span className="text-white text-sm md:text-lg font-semibold leading-normal">
                 {title}
             </span>
-            <span className={twMerge(sora.className,"hidden lg:block max-w-[14rem] opacity-80 text-white text-xs font-normal leading-none")}>
+            <span className={twMerge(sora.className,"hidden md:block max-w-[14rem] opacity-80 text-white text-xs font-normal leading-none")}>
                 {description}
             </span>
         </div>

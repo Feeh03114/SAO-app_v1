@@ -34,7 +34,7 @@ export default function Home():JSX.Element {
 
   return (
     <>
-      <div className="fixed right-0 z-10 h-full">
+      <div className="fixed right-0 z-50 h-full">
         <div className="w-full h-full bg-white dark:bg-gray-800 transform duration-500 ease-in-out fixed inline-flex flex-col items-start justify-start shadow" 
           style={{transform: `${isMenuExpanded ? 'translateX(-100%)' : 'translateX(0%)'}`}}
           aria-label="Sidebar">
@@ -62,18 +62,18 @@ export default function Home():JSX.Element {
         </div>
       </div>
 
-      <div className={twMerge("w-screen bg-white dark:bg-gray-800 flex flex-col justify-center items-center overflow-hidden", poppins.className)}>
+      <div className={twMerge("w-screen bg-white dark:bg-gray-800 flex flex-col justify-center items-center", poppins.className)}>
       <img 
-          className="w-[90rem] h-[49.125rem] resize-none absolute top-0 left-0 z-0 dark:hidden md:block "
+          className="w-full absolute top-0 left-0 z-0 dark:hidden md:block "
           src="/assets/bubble.png"
           alt='bolhas-de-fundo'
         />
         <img 
-          className="w-[90rem] h-[49.125rem] resize-none absolute top-0 left-0 z-0 hidden dark:md:block "
+          className="w-full absolute top-0 left-0 z-0 hidden dark:md:block"
           src="/assets/bubble_dark.png"
           alt='bolhas-de-fundo'
         />
-        <div className="w-full h-20 md:w-11/12 pt-4 flex flex-row flex-nowrap items-center justify-between relative top-0 left-0 z-10">
+        <div className="w-full h-20 md:w-11/12 pt-4 flex flex-row flex-nowrap items-center justify-between z-10">
           <div className="w-full flex flex-row items-center justify-start">
             <img
               width={157}
@@ -94,7 +94,7 @@ export default function Home():JSX.Element {
             </div>
           </div>
      
-          <div className="hidden lg:flex items-center relative top-0 left-0 z-10">
+          <div className="hidden lg:flex items-center z-10">
             <div className={twMerge("text-base font-medium leading-normal whitespace-nowrap text-gray-800 dark:text-white", inter.className)}>Pagina Inicial</div>
             <div className={twMerge("ml-3 text-base font-medium leading-normal whitespace-nowrap text-gray-800 dark:text-white", inter.className)}>Sobre</div>
             <div className={twMerge("ml-3 text-base font-medium leading-normal whitespace-nowrap text-gray-800 dark:text-white", inter.className)}>Contato</div>
@@ -112,7 +112,7 @@ export default function Home():JSX.Element {
           <GiHamburgerMenu className="w-6 h-6 lg:hidden mr-6" onClick={() => setIsMenuExpanded(!isMenuExpanded)}/>
         </div>
 
-        <div className="w-full mt-6 md:mt-32 md:px-6 flex flex-row items-center justify-center relative top-0 left-0 z-10">
+        <div className="w-full mt-6 md:mt-32 md:px-6 flex flex-row items-center justify-center z-10">
           <div className="flex flex-row justify-center items-center">
             <div className="hidden md:flex flex-col justify-start">
               <span className={twMerge("text-5xl font-bold leading-10 text-black dark:text-white", poppins.className)}>
@@ -136,7 +136,7 @@ export default function Home():JSX.Element {
                 alt='odonto_homePage'
             /> 
 
-            <div className="w-80 flex md:hidden flex-col items-center relative top-0 left-0 z-10">
+            <div className="w-80 flex md:hidden flex-col items-center z-10">
               <span className={twMerge("text-xl font-bold leading-7 text-black dark:text-white", poppins.className)}>
                 O seu aliado na gestão odontológica.
               </span>
@@ -159,25 +159,28 @@ export default function Home():JSX.Element {
           </div>
         </div>
               
-        <div className="w-full md:pt-4 mt-7 md:mt-24 gap-7 flex flex-col md:flex-row justify-center items-center bg-teal-50 dark:bg-gray-700 relative top-0 left-0 z-10">
-          <CartInfo
-            icon={LuClock}
-            title="Agenda Clinica"
-            description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-          />
-          <CartInfo
-            icon={MdCheckCircle}
-            title="Acesso Fácil"
-            description="Lorem ipsum dolor sit amet, con sectetur adipiscing elit."
-          />
-          <CartInfo
-            icon={RiOrganizationChart}
-            title="Organização"
-            description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-          />
-        </div>
+        <div className="w-full">
+          <div className="w-full pt-4 mt-7 md:mt-24 gap-7 flex flex-col md:flex-row justify-center items-center relative z-10">
+            <CartInfo
+              icon={LuClock}
+              title="Agenda Clinica"
+              description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+            />
+            <CartInfo
+              icon={MdCheckCircle}
+              title="Acesso Fácil"
+              description="Lorem ipsum dolor sit amet, con sectetur adipiscing elit."
+            />
+            <CartInfo
+              icon={RiOrganizationChart}
+              title="Organização"
+              description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+            />
+          </div>   
+          <div className="w-full h-20 -mt-10 relative z-0 bg-teal-50 dark:bg-gray-700"></div>
+        </div>      
 
-        <div className="w-full flex flex-col md:flex-row justify-start md:justify-evenly items-center pt-12 md:pt-24 bg-teal-50 dark:bg-gray-700">
+        <div className="w-full pb-4 flex flex-col md:flex-row justify-start md:justify-evenly items-center pt-12 md:pt-24 bg-teal-50 dark:bg-gray-700 relative">
           <Image
             width={157}
             height={157}
@@ -198,7 +201,7 @@ export default function Home():JSX.Element {
           </div>
         </div>
 
-        <div className="w-80 md:w-full flex flex-col gap-6 mt-24">
+        <div className="w-80 pb-4 md:w-full flex flex-col gap-6 mt-20">
           <div className="mx-auto flex flex-col md:gap-3">
             <span className={twMerge("px-10 text-xl md:text-5xl font-bold leading-7 md:leading-10 text-black dark:text-white", poppins.className)}>
               Nossos serviços
@@ -259,7 +262,7 @@ export default function Home():JSX.Element {
           </div>
         </div>
 
-        <div className="w-full flex flex-col gap-6 py-12 md:mt-24 bg-teal-50 dark:bg-gray-700">
+        <div className="w-full flex flex-col gap-6 py-10 md:mt-20 bg-teal-50 dark:bg-gray-700">
           <div className="flex flex-col justify-center items-center md:gap-3">
             <span className={twMerge("text-center text-black dark:text-white text-xl md:text-5xl font-bold leading-7 md:leading-10 px-10 md:whitespace-nowrap", poppins.className)}>
               Conheça os Desenvolvedores.
@@ -395,7 +398,7 @@ export default function Home():JSX.Element {
         </div>
       </div>
 
-      <div className="w-full py-10 pb-10 flex flex-row flex-wrap items-center justify-center relative bg-gradient-96 from-teal-500 to-teal-600 overflow-hidden">
+      <div className="w-full py-10 pb-10 flex flex-row flex-wrap items-center justify-center bg-gradient-96 from-teal-500 to-teal-600 overflow-hidden">
         <div className="w-5/6 flex flex-row flex-wrap justify-center md:justify-evenly items-center ">
           <div className="w-auto flex flex-col justify-center md:justify-between">
             <Image
