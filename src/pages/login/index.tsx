@@ -17,7 +17,7 @@ export default function Login(): JSX.Element{
     const [isSendedEmail, setIsSendedEmail] = useState(false);
 
     return(
-        <div className="flex items-center h-screen w-full dark:bg-slate-800">
+        <div className="flex items-center h-screen w-full bg-white dark:bg-slate-800">
             <Head>
                 <title>
                     SAO - Login
