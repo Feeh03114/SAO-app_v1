@@ -38,7 +38,7 @@ export function CartInfo({icon:Icon, title, description}:IHomeProps){
   )
 }
 
-export function CartInfo2({title, description}:IHomeProps){
+export function CardInfo2({title, description}:IHomeProps){
     return(
         <div className="flex p-8 w-80 bg-white dark:bg-gradient-96 dark:from-gray-600 dark:to-gray-700 rounded-3xl shadow-md flex-col justify-start items-start gap-3">
             <span className="text-center text-black dark:text-white text-xl md:text-2xl font-medium leading-tight">
@@ -51,19 +51,19 @@ export function CartInfo2({title, description}:IHomeProps){
     )
 }
 
-export function CartInfo2Mobile({title, description}:IHomeProps){
+export function CardInfo2Mobile({title, description}:IHomeProps){
     const [isExpanded, setIsExpanded] = useState(true);
     
     return(
-        <div className="w-80 p-8 flex flex-col justify-center items-center bg-white rounded-3xl shadow gap-3"
+        <div className="w-80 px-8 py-4 flex flex-col justify-center items-center bg-white dark:bg-gradient-96 dark:from-gray-600 dark:to-gray-700 rounded-xl shadow gap-3"
             onClick={() => setIsExpanded(!isExpanded)}>
-            <div className="flex flex-row justify-center items-center">
-                <span className="mr-12 text-center text-xl md:text-2xl font-medium leading-tight text-black">
+            <div className="w-full px-4 flex flex-row justify-between items-center">
+                <span className="mr-12 text-center text-black dark:text-white text-xl md:text-2xl font-medium leading-tight">
                     {title}
                 </span>
-                <IoIosArrowDown/>
+                <IoIosArrowDown className="dark:text-white text-right"/>
             </div>
-            <span className={twMerge(sora.className,"aria-hidden:hidden mt-2 text-center text-slate-500 text-sm font-normal leading-tight")}
+            <span className={twMerge(sora.className,"aria-hidden:hidden mt-2 text-slate-500 dark:text-white text-left text-sm font-normal leading-tight")}
                 aria-hidden={isExpanded}>
                 {description}
             </span>

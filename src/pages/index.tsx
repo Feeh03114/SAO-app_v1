@@ -1,5 +1,5 @@
 import { Input } from '@/components/elementTag/input';
-import { CartInfo, CartInfo2, CartInfo2Mobile, CartIntegrantes } from '@/components/pages/home/components';
+import { CardInfo2, CardInfo2Mobile, CartInfo, CartIntegrantes } from '@/components/pages/home/components';
 import { GetServerSideProps } from 'next';
 import { getSession, signOut } from 'next-auth/react';
 import { Inter, Poppins, Sora } from 'next/font/google';
@@ -111,7 +111,7 @@ export default function Home():JSX.Element {
               <p className={twMerge("text-white text-lg font-medium leading-5 truncate", inter.className)}>Acesse a plataforma</p>
             </button>
           </div>
-          <GiHamburgerMenu className="w-6 h-6 lg:hidden mr-6" onClick={() => setIsMenuExpanded(!isMenuExpanded)}/>
+          <GiHamburgerMenu className="w-6 h-6 lg:hidden mr-6 dark:text-white" onClick={() => setIsMenuExpanded(!isMenuExpanded)}/>
         </div>
 
         <div className="w-full mt-6 md:mt-32 md:px-6 flex flex-row items-center justify-center z-10">
@@ -182,28 +182,38 @@ export default function Home():JSX.Element {
           <div className="w-full h-20 -mt-10 relative z-0 bg-teal-50 dark:bg-gray-700"></div>
         </div>      
 
-        <div className="w-full pb-4 flex flex-col md:flex-row justify-start md:justify-evenly items-center pt-12 md:pt-24 bg-teal-50 dark:bg-gray-700 relative">
-          <Image
-            width={157}
-            height={157}
-            className="w-1/2"
-            src="/assets/SVG/fotoUniso_homePage.svg"
-            alt='doutores_homePage'
-          /> 
-          <div className="w-80 md:w-1/3 flex flex-col justify-center gap-2 md:gap-4">
-            <span className={twMerge("text-teal-500 text-sm md:text-xl font-medium leading-normal tracking-wide", poppins.className)}>
-              Sobre o Sistema
-            </span>
-            <span className={twMerge("text-lg md:text-3xl leading-normal font-semibold text-black dark:text-white", poppins.className)}>
-              Um sistema voltado para o controle e organização de sua clinica
-            </span>
-            <span className={twMerge("text-sm md:text-base font-normal font-['Sora'] leading-normal text-slate-500 dark:text-gray-300", sora.className)}>
-              O Sistema de Agendamento Odontológico é um sistema de gestão odontológica desenvolvido como Trabalho de Conclusão de curso por alunos do curso de Engenharia da Computação. O sistema é voltado para clinicas odontológicas de todos os tamanhos e oferece uma solução completa para a gestão da clinica
-            </span>
+        <div className="w-full flex justify-center bg-teal-50 dark:bg-gray-700">
+          <div className="pb-10 flex flex-col md:flex-row justify-start md:justify-evenly items-center md:pt-24 relative"
+            style={{
+              maxWidth: '1110px',
+            }}
+          >
+            <Image
+              width={157}
+              height={157}
+              className="w-1/2"
+              src="/assets/SVG/fotoUniso_homePage.svg"
+              alt='doutores_homePage'
+            /> 
+            <div className="w-80 md:w-1/3 flex flex-col justify-center gap-2 md:gap-4">
+              <span className={twMerge("text-teal-500 text-sm md:text-xl font-medium leading-normal tracking-wide", poppins.className)}>
+                Sobre o Sistema
+              </span>
+              <span className={twMerge("text-lg md:text-3xl leading-normal font-semibold text-black dark:text-white", poppins.className)}>
+                Um sistema voltado para o controle e organização de sua clinica
+              </span>
+              <span className={twMerge("text-sm md:text-base font-normal font-['Sora'] leading-normal text-slate-500 dark:text-gray-300", sora.className)}>
+                O Sistema de Agendamento Odontológico é um sistema de gestão odontológica desenvolvido como Trabalho de Conclusão de curso por alunos do curso de Engenharia da Computação. O sistema é voltado para clinicas odontológicas de todos os tamanhos e oferece uma solução completa para a gestão da clinica
+              </span>
+            </div>
           </div>
         </div>
 
-        <div className="w-80 pb-4 md:w-full flex flex-col gap-6 mt-20">
+        <div className="my-10 md:mt-20 pb-4 md:w-full flex flex-col gap-6"
+          style={{
+            maxWidth: '1110px',
+          }}
+        >
           <div className="mx-auto flex flex-col md:gap-3">
             <span className={twMerge("px-10 text-xl md:text-5xl font-bold leading-7 md:leading-10 text-black dark:text-white", poppins.className)}>
               Nossos serviços
@@ -211,58 +221,58 @@ export default function Home():JSX.Element {
             <div className="w-full h-1 mt-1 bg-teal-500 rounded-3xl" />
           </div>
           <div className="w-full hidden md:flex justify-center items-center flex-wrap gap-9">
-            <CartInfo2
+            <CardInfo2
               title='Agendamento'
               description='Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
             />
-            <CartInfo2
+            <CardInfo2
               title='Fila de espera'
               description='Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
             />
-            <CartInfo2
+            <CardInfo2
               title='Financeiro'
               description='Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
             />
-            <CartInfo2
+            <CardInfo2
               title='Pacientes'
               description='Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
             />
-            <CartInfo2
+            <CardInfo2
               title='Disciplinas'
               description='Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
             />
-            <CartInfo2
+            <CardInfo2
               title='Usuários'
               description='Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
             />
           </div>
-          <div className="w-full md:hidden flex justify-center items-center flex-wrap gap-4">
-            <CartInfo2Mobile
+          <div className="w-full md:hidden flex flex-col justify-center items-center flex-wrap gap-4">
+            <CardInfo2Mobile
               title='Agendamento'
               description='Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
             />
-            <CartInfo2Mobile
+            <CardInfo2Mobile
               title='Fila de espera'
               description='Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
             />
-            <CartInfo2Mobile
+            <CardInfo2Mobile
               title='Financeiro'
               description='Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
             />
-            <CartInfo2Mobile
+            <CardInfo2Mobile
               title='Pacientes'
               description='Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
             />
-            <CartInfo2Mobile
+            <CardInfo2Mobile
               title='Disciplinas'
               description='Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
             />
-            <CartInfo2Mobile
+            <CardInfo2Mobile
               title='Usuários'
               description='Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
             />
           </div>
-        </div>
+        </div>    
 
         <div className="w-full flex flex-col gap-6 py-10 md:mt-20 bg-teal-50 dark:bg-gray-700">
           <div className="flex flex-col justify-center items-center md:gap-3">
@@ -336,67 +346,70 @@ export default function Home():JSX.Element {
           </div>
         </div>
 
-        <div className="w-full py-12 flex flex-col justify-center items-center bg-teal-50 dark:bg-gray-700">
-          <div className="flex flex-col justify-center items-center md:gap-3">
-            <span className={twMerge("px-20 md:px-10 text-black dark:text-white text-center text-xl md:text-5xl font-bold leading-7 md:leading-10 md:whitespace-nowrap", poppins.className)}>
-              Tem interesse em nosso sistema?
-            </span>
-            <span className={twMerge("text-slate-500 dark:text-gray-300 text-center text-xs md:text-2xl font-bold leading-5 px-10 md:whitespace-nowrap", poppins.className)}>
-              Entre em contato com a gen por aqui
-            </span>
-            <div className="w-60 md:w-full h-1 mt-1 bg-teal-500 rounded-3xl" />
-          </div>
-          <form className="w-5/6 mt-8 md:mt-0 flex flex-row flex-wrap justify-center items-center">
-            <div className="w-full md:w-1/2 mt-2 md:mt-8 md:pr-8">
-              <Input 
-                id="name"
-                type="text"
-                className="w-full rounded-lg px-4 py-2 shadow border border-gray-300 text-gray-900 placeholder-gray-500 focus:border-teal-400 focus:outline-none focus:ring-teal-400 md:text-sm"
-                label="Nome"
-                placeholder="Nome"
-                // {...register("name")}
-                // error={errors.name}
-              />
+        <div className="w-full flex justify-center bg-teal-50 dark:bg-gray-700">
+          <div className="py-12 flex flex-col justify-center items-center"
+            style={{
+              maxWidth: '1110px',
+            }}
+          >
+            <div className="flex flex-col justify-center items-center md:gap-3">
+              <span className={twMerge("px-20 md:px-10 text-black dark:text-white text-center text-xl md:text-5xl font-bold leading-7 md:leading-10 md:whitespace-nowrap", poppins.className)}>
+                Tem interesse em nosso sistema?
+              </span>
+              <span className={twMerge("text-slate-500 dark:text-gray-300 text-center text-xs md:text-2xl font-bold leading-5 px-10 md:whitespace-nowrap", poppins.className)}>
+                Entre em contato com a gen por aqui
+              </span>
+              <div className="w-60 md:w-full h-1 mt-1 bg-teal-500 rounded-3xl" />
             </div>
-            <div className="w-full md:w-1/2 mt-2 md:mt-8">
-              <Input 
-                id="phone"
-                type="text"
-                className="w-full rounded-lg px-4 py-2 shadow border border-gray-300 text-gray-900 placeholder-gray-50 focus:border-teal-400 focus:outline-none focus:ring-teal-400 md:text-sm"
-                label="Telefone"
-                placeholder="Telefone"
-                // {...register("name")}
-                // error={errors.name}
-              />
-            </div>
-            <div className="w-full mt-2 md:mt-8">
-              <Input 
-                id="email"
-                type="text"
-                className="w-full rounded-lg px-4 py-2 shadow border border-gray-300 text-gray-900 placeholder-gray-500 focus:border-teal-400 focus:outline-none focus:ring-teal-400 md:text-sm"
-                label="E-mail"
-                placeholder="E-mail"
-                // {...register("name")}
-                // error={errors.name}
-              />
-            </div>
-            <div className="w-full flex items-center mt-2 md:mt-8">
-              <div className="w-full">
-                <label className="pl-4 text-sm font-medium leading-tight text-gray-700">Mensagem</label>
-                <textarea 
-                    id="mensagem"
-                    className="w-full h-40 text-sm rounded-lg px-4 py-2  shadow border border-gray-300 text-gray-900 placeholder-gray-500  focus:border-teal-400 focus:outline-none focus:ring-teal-400 resize-none"
-                    placeholder="O que você precisa?"
-                    // {...register("queixa")}
+            <form className="w-5/6 mt-8 md:mt-0 flex flex-row flex-wrap justify-center items-center">
+              <div className="w-full md:w-1/2 mt-2 md:mt-8 md:pr-8">
+                <Input 
+                  id="name"
+                  type="text"
+                  label="Nome"
+                  placeholder="Nome"
+                  // {...register("name")}
+                  // error={errors.name}
                 />
               </div>
-            </div>
-            <div className="w-full md:w-72 h-10 md:h-16 mt-6 flex justify-center items-center bg-gradient-96 from-teal-500 to-teal-600 rounded-full shadow">
-              <button className={twMerge("text-white text-lg font-semibold", sora.className)}>
-                Envia Mensagem
-              </button>
-            </div>
-          </form>
+              <div className="w-full md:w-1/2 mt-2 md:mt-8">
+                <Input 
+                  id="phone"
+                  type="text"
+                  label="Telefone"
+                  placeholder="Telefone"
+                  // {...register("name")}
+                  // error={errors.name}
+                />
+              </div>
+              <div className="w-full mt-2 md:mt-8">
+                <Input 
+                  id="email"
+                  type="text"
+                  label="E-mail"
+                  placeholder="E-mail"
+                  // {...register("name")}
+                  // error={errors.name}
+                />
+              </div>
+              <div className="w-full flex items-center mt-2 md:mt-8">
+                <div className="w-full">
+                  <label className="pl-4 text-sm font-medium leading-tight text-gray-700 dark:text-white">Mensagem</label>
+                  <textarea 
+                      id="mensagem"
+                      className="w-full h-40 px-4 py-2 text-sm font-medium leading-tight truncate dark:text-white placeholder-gray-500 dark:placeholder-white shadow-sm border rounded-lg border-gray-300 dark:border-gray-500  dark:bg-gray-700 focus:border-teal-400 focus:outline-none focus:ring-teal-400 resize-none"
+                      placeholder="O que você precisa?"
+                      // {...register("queixa")}
+                  />
+                </div>
+              </div>
+              <div className="w-full md:w-72 h-10 md:h-16 mt-6 flex justify-center items-center bg-gradient-96 from-teal-500 to-teal-600 rounded-full shadow">
+                <button className={twMerge("text-white text-lg font-semibold", sora.className)}>
+                  Envia Mensagem
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
 
