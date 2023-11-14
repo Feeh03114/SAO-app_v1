@@ -26,7 +26,7 @@ export default function Header({title, subtitle, textLeft, textRight, disabledLe
             case 'confirm':
                 return <HiOutlineCheck className="w-5 h-full rounded-lg text-white"/>
             case 'filter':
-                return <BiFilterAlt className="w-5 h-full rounded-lg text-black"/>
+                return <BiFilterAlt className="w-5 h-full rounded-lg dark:text-white"/>
             case 'files':
                 return <ImFilesEmpty className="w-5 h-full rounded-lg text-black"/>
         }
@@ -54,7 +54,7 @@ export default function Header({title, subtitle, textLeft, textRight, disabledLe
                 <p className="text-xs leading-none text-gray-400">{subtitle}</p>
             </div>
             <div className="flex">
-                <button className="flex space-x-2 items-center justify-center py-2 pl-3 pr-4 bg-white border rounded-md border-gray-300 cursor-pointer mr-[1rem] "
+                <button className="flex space-x-2 items-center justify-center py-2 pl-3 pr-4 dark:bg-gray-700 border rounded-md border-gray-300 dark:border-none cursor-pointer mr-[1rem] "
                     onClick={onClickLeft}
                     style={{
                         display: onClickLeft ? 'flex':'none',
@@ -62,7 +62,7 @@ export default function Header({title, subtitle, textLeft, textRight, disabledLe
                     disabled={disabledLeft}
                 >
                     {renderButtonLeft()}
-                    <p className="sm-mobile:hidden md:block text-sm font-medium leading-tight text-gray-700">{textLeft}</p>
+                    <p className="sm-mobile:hidden md:block text-sm font-medium leading-tight dark:text-white">{textLeft}</p>
                 </button>
                 <button className="flex space-x-2 items-center justify-center py-2 pl-3 pr-3 bg-teal-500 border rounded-md border-teal-500 cursor-pointer"
                     onClick={onClickRight}

@@ -3,10 +3,13 @@ import Select from "@/components/elementTag/select";
 import Modal from "@/components/modal";
 import { TypeUser } from "@/enum/typeUser.enum";
 import api from "@/service/api";
+import { reactSelectStyleDark, reactSelectStyleDisabledDark, reactSelectStyleDisabledLight, reactSelectStyleLight } from "@/styles/reactSelectStyle";
 import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { BsFillPersonPlusFill } from "react-icons/bs";
 import ReactSelect from "react-select";
+import makeAnimated from 'react-select/animated';
+import { colourOptions } from "./data";
 
 interface ModalUserProps{
     isOpen: boolean;
@@ -16,6 +19,8 @@ interface ModalUserProps{
 export function ModalUser({ isOpen, onClose }: ModalUserProps) {
     const { control, watch, register, handleSubmit, formState: { errors }  } = useForm();
     const [profiles, setProfiles] = useState([]) as any[];
+    const animatedComponents = makeAnimated();
+    const [isDarkMode, setIsDarkMode] = useState(true);
     
     const loadProfiles = async () => {
         try {
@@ -26,6 +31,7 @@ export function ModalUser({ isOpen, onClose }: ModalUserProps) {
                 }
             });
             setProfiles(RespAPI);
+            console.log(RespAPI);
         } catch (error) {
           console.log(error);
         }
@@ -45,7 +51,7 @@ export function ModalUser({ isOpen, onClose }: ModalUserProps) {
             <Modal.Body>
                 <div className="w-full">
                     <Select
-                        className="w-full h-10 rounded-lg px-4 py-2 dark:bg-gray-700 dark:text-white shadow border border-gray-300 text-gray-900 placeholder-gray-500 dark:placeholder-white focus:border-teal-400 focus:outline-none focus:ring-teal-400 md:text-sm"
+                        className="w-full"
                         label="Tipo do usuário"
                         name="typeUser"
                         placeHolder={"Tipo do usuário"}
@@ -56,12 +62,13 @@ export function ModalUser({ isOpen, onClose }: ModalUserProps) {
                         control={control as any} 
                     />
                 </div>
+              
                 <div className="w-full">
                     <label className="pl-4 text-sm font-medium leading-tight text-gray-700 dark:text-white">Nome</label>
                     <Input 
                         id="name"
                         type="text"
-                        className="w-full rounded-lg px-4 py-2 dark:bg-gray-700 dark:text-white shadow border border-gray-300 text-gray-900 placeholder-gray-500 dark:placeholder-white focus:border-teal-400 focus:outline-none focus:ring-teal-400 md:text-sm"
+                        className="w-full"
                         placeholder="Insira o nome"
                         {...register("name")}
                         error={errors.name}
@@ -72,7 +79,7 @@ export function ModalUser({ isOpen, onClose }: ModalUserProps) {
                     <Input 
                         id="ru"
                         type="text"
-                        className="w-full rounded-lg px-4 py-2 dark:bg-gray-700 dark:text-white shadow border border-gray-300 text-gray-900 placeholder-gray-500 dark:placeholder-white focus:border-teal-400 focus:outline-none focus:ring-teal-400 md:text-sm"
+                        className="w-full"
                         placeholder="Insira o RU"
                         {...register("ru")}
                         error={errors.ru}
@@ -83,7 +90,7 @@ export function ModalUser({ isOpen, onClose }: ModalUserProps) {
                     <Input 
                         id="email"
                         type="text"
-                        className="w-full rounded-lg px-4 py-2 dark:bg-gray-700 dark:text-white shadow border border-gray-300 text-gray-900 placeholder-gray-500 dark:placeholder-white focus:border-teal-400 focus:outline-none focus:ring-teal-400 md:text-sm"
+                        className="w-full"
                         placeholder="Insira o e-mail"
                         {...register("email")}
                         error={errors.email}
@@ -94,7 +101,7 @@ export function ModalUser({ isOpen, onClose }: ModalUserProps) {
                     <Input 
                         id="cro"
                         type="text"
-                        className="w-full rounded-lg px-4 py-2 dark:bg-gray-700 dark:text-white shadow border border-gray-300 text-gray-900 placeholder-gray-500 dark:placeholder-white focus:border-teal-400 focus:outline-none focus:ring-teal-400 md:text-sm"
+                        className="w-full"
                         placeholder="Insira o CRO"
                         {...register("cro")}
                         error={errors.cro}
@@ -108,13 +115,22 @@ export function ModalUser({ isOpen, onClose }: ModalUserProps) {
                         render={({field})=>(
                             <ReactSelect
                                 isMulti
-                                options={profiles}
-                                className="basic-multi-select"
-                                classNamePrefix="select"
-                                onChange={(e)=> field.onChange(e)}
+                                options={colourOptions}
                                 value={field.value}
-                                isDisabled={watch('typeUser') === -1}
-                            /> 
+                                closeMenuOnSelect={false}
+                                components={animatedComponents}
+                                onChange={(e)=> field.onChange(e)}
+                                isDisabled={watch('typeUser') === undefined}
+                                placeholder={watch('typeUser') === undefined ? 'Primeiro selecione o tipo de usuário' : "Selecione os perfis"}
+                                styles={(watch('typeUser') === undefined && isDarkMode)
+                                    ? reactSelectStyleDisabledDark 
+                                    : (watch('typeUser') === undefined && !isDarkMode)
+                                        ? reactSelectStyleDisabledLight
+                                        : (watch('typeUser') != undefined && isDarkMode)
+                                            ? reactSelectStyleDark
+                                            : reactSelectStyleLight
+                                }
+                            />
                         )}
                     />
                 </div>

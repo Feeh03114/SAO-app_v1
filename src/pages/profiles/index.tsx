@@ -2,6 +2,8 @@ import Header from "@/components/Header";
 import { Pagination } from "@/components/Table/Pagination";
 import Table from "@/components/Table/index";
 import Card from "@/components/elementTag/cardText";
+import { ModalDelete } from "@/components/elementTag/modalDelete";
+import { useDisclosure } from "@/hook/useDisclosure";
 import api from "@/service/api";
 import { withSSRAuth } from "@/util/withSSRAuth";
 import { GetServerSideProps } from "next";
@@ -16,6 +18,7 @@ interface Profile {
     name: string;
     permissions: [
         {
+            isRead: boolean;
             page: {
                     namePage: string;
             }
@@ -26,8 +29,10 @@ interface Profile {
 export default function Profiles(): JSX.Element {
     const router = useRouter();
     const [data, setData] = useState<Profile[]>([]);
+    const [idDelete, setIdDelete] = useState<string>("");
     // const [data, setData] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
+    const deleteDisposer = useDisclosure();
     const [totalElements, setTotalElements] = useState(rowsNumber);
     const [isLoading, setIsLoading] = useState(false);
 
@@ -48,6 +53,7 @@ export default function Profiles(): JSX.Element {
             setData(RespAPI.data);
             setCurrentPage(RespAPI.page);
             setTotalElements(RespAPI.totalElement);
+            console.log(RespAPI);
         } catch (error) {
           console.log(error);
         }
@@ -66,14 +72,21 @@ export default function Profiles(): JSX.Element {
         try {
             const resp = await api.delete(`api/profiles/${id}`);
             toast.success(resp.data.message);
+            deleteDisposer.close();
             await loadData();
         } catch (error) {
             console.log(error);
         }
     };
 
+    function deleteItem(id: string) {
+        setIdDelete(id);
+        deleteDisposer.open();
+    }
+
     return (
         <>
+            <ModalDelete isOpen={deleteDisposer.isOpen} onClose={deleteDisposer.close} onDelete={() => onDelete(idDelete)}></ModalDelete> 
             <Header 
                 title="Perfis"
                 subtitle="Consulte os perfis da plataforma"
@@ -85,17 +98,22 @@ export default function Profiles(): JSX.Element {
                 typeButtonRight="add"
             />
             <Table.Root tableHeight={String(rowsNumber)}>
+                <Table.Header>
+                    <Table.CellHeader style={"w-40 md:w-60"}>NOME</Table.CellHeader>
+                    <Table.CellHeader hiddenInMobile={true}>PÁGINAS</Table.CellHeader>
+                </Table.Header> 
+
                 {data.map((item: Profile, index: number) => (
                     <Table.Row 
                         key={index}
                         onView={()=> router.push(`/profiles/edit/${item.id}`)}
-                        onDelete={()=> onDelete(item.id)}
+                        onDelete={() => deleteItem(item.id)}
                     >
-                        <Table.CellBody style={"w-1/6"}><p className="font-medium dark:text-white">{item.name}</p></Table.CellBody>
-                        <Table.CellBody style={"w-4/6"}>
+                        <Table.CellBody><p className="font-medium dark:text-white">{item.name}</p></Table.CellBody>
+                        <Table.CellBody hiddenInMobile={true}>
                             <div className="py-1 flex flex-row flex-wrap">
                                 {item.permissions.map((item: any, index: number) => (
-                                    <Card.TextSelected key={index} text={item.page.namePage}></Card.TextSelected>
+                                    item.isRead && <Card.TextSelected key={index} text={item.page.namePage}></Card.TextSelected>
                                 ))}
                             </div>
                         </Table.CellBody>

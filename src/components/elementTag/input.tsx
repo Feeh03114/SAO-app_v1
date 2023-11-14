@@ -40,7 +40,7 @@ const InputBase:ForwardRefRenderFunction<HTMLInputElement, InputProps> = ({ pass
                 :
                 <>
                     <label className={`${label == undefined && "hidden"} pl-4 text-sm font-Inter font-medium leading-tight text-gray-700 dark:text-white truncate`}>{label}</label>
-                    <input className={twMerge("w-full h-10 px-4 py-2 text-sm font-medium leading-tigh truncate shadow-sm border rounded-lg border-gray-300 dark:border-gray-500 focus:border-teal-400 focus:outline-none focus:ring-teal-400", className)}
+                    <input className={twMerge("w-full h-10 px-4 py-2 text-sm font-medium leading-tight truncate dark:text-white placeholder-gray-500 dark:placeholder-white shadow-sm border rounded-lg border-gray-300 dark:border-gray-500  dark:bg-gray-700 focus:border-teal-400 focus:outline-none focus:ring-teal-400", className)}
                         {...rest}
                         ref={ref}
                     />
