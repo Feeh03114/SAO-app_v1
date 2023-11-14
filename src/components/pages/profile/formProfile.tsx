@@ -156,7 +156,7 @@ export default function FormProfile({edit, isPermissionWrite=true, onSave}:FormP
                                             checked={field.value}
                                             onChange={(e)=>field.onChange(e.target.checked)}
                                         />
-                                        Padrão
+                                        <span className="dark:text-white">Padrão</span>
                                     </label>
                                 )}
                             />

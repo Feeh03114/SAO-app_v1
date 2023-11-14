@@ -75,7 +75,7 @@ interface ModalBodyProps {
 
 const ModalBody = ({children} : ModalBodyProps) => {
     return(
-        <div className="w-full space-y-4 overflow-y-auto flex flex-wrap">
+        <div className="w-full space-y-4 flex flex-wrap">
             {children}
         </div>
     )

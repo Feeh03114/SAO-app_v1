@@ -32,7 +32,7 @@ function Select({ name, label, placeHolder, valueDefault='', data=[], control, d
                         disabled={disabled}
                         value={field.value}
                         onChange={(e) => field.onChange(e.target.value)}
-                        className={twMerge("aria-checked:mt-5 w-full h-7 md:h-10 px-4 py-0 md:py-2 text-sm shadow-sm border rounded-lg border-gray-300 dark:border-gray-500 truncate placeholder-gray-500 focus:border-teal-400 focus:outline-none focus:ring-teal-400", 
+                        className={twMerge("aria-checked:mt-5 w-full h-10 px-4 py-0 md:py-2 text-sm shadow-sm dark:text-white border rounded-lg border-gray-300 dark:border-gray-500 truncate placeholder-gray-500 dark:bg-gray-700 focus:border-teal-400 focus:outline-none focus:ring-teal-400", 
                         className)}
                         aria-checked={!label}
                         placeholder="Selecione o serviço odontológico"

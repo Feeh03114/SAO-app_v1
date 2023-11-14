@@ -69,10 +69,12 @@ export default function Home():JSX.Element {
           alt='bolhas-de-fundo'
         />
         <img 
-          className="w-full absolute top-0 left-0 z-0 hidden dark:md:block"
+          className="w-full absolute top-0 z-0 hidden dark:md:block"
           src="/assets/bubble_dark.png"
           alt='bolhas-de-fundo'
         />
+        <p style={{backgroundImage: "url('bubble_dark.png')"}}></p>
+        
         <div className="w-full h-20 md:w-11/12 pt-4 flex flex-row flex-nowrap items-center justify-between z-10">
           <div className="w-full flex flex-row items-center justify-start">
             <img

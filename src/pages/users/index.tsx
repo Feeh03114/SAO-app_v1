@@ -33,7 +33,7 @@ export default function Users(): JSX.Element {
         pageSize: rowsNumber,
         sortOrder: 'ASC',
         sortField: 'id',
-        status: 0,
+        status: 2,
     });
 
     const loadData = async () => {

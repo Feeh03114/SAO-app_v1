@@ -142,7 +142,3 @@ const Table = {
 }
 
 export default Table;
-
-function handleClick() {
-    throw new Error("Function not implemented.");
-}
