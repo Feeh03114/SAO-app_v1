@@ -28,11 +28,9 @@ export default function Login(): JSX.Element{
             </div>
 
             <div className={`${isResetPassword ? "hidden md:block" : "block"} w-full right-0 md:w-1/2 text-center fixed`}>
-                <div className="dark:hidden w-full flex justify-center items-center">
-                    <Image className='h-24 w-24' src="/assets/logo4.png" width={150} height={150} alt="logoMobile"/>
-                </div>
-                <div className="dark:flex hidden w-full justify-center items-center">
-                    <Image className='h-24 w-24' src="/assets/logo3.png" width={150} height={150} alt="logoMobile"/>
+                <div className=" w-full flex justify-center items-center">
+                    <Image className='h-24 w-24 dark:hidden' src="/assets/logo4.png" width={150} height={150} alt="logoMobile"/>
+                    <Image className='h-24 w-24 hidden dark:flex' src="/assets/logo3.png" width={150} height={150} alt="logoMobile"/>
                 </div>
                 <form className="inline-flex flex-col items-center justify-center px-12 md:px-[calc(100vw*0.08)] lg:px-32 bg-white dark:bg-slate-800 w-full max-w-2xl"
                     id='loginForm'
