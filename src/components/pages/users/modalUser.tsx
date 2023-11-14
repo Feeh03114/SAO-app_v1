@@ -9,7 +9,6 @@ import { Controller, useForm } from "react-hook-form";
 import { BsFillPersonPlusFill } from "react-icons/bs";
 import ReactSelect from "react-select";
 import makeAnimated from 'react-select/animated';
-import { colourOptions } from "./data";
 
 interface ModalUserProps{
     isOpen: boolean;
@@ -115,7 +114,7 @@ export function ModalUser({ isOpen, onClose }: ModalUserProps) {
                         render={({field})=>(
                             <ReactSelect
                                 isMulti
-                                options={colourOptions}
+                                options={profiles}
                                 value={field.value}
                                 closeMenuOnSelect={false}
                                 components={animatedComponents}

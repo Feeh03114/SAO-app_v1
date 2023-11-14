@@ -1,6 +1,7 @@
 import Header from "@/components/Header";
 import Table from "@/components/Table";
 import { Pagination } from "@/components/Table/Pagination";
+import { ModalDelete } from "@/components/elementTag/modalDelete";
 import { ModalUser } from "@/components/pages/users/modalUser";
 import { useDisclosure } from "@/hook/useDisclosure";
 import api from "@/service/api";
@@ -8,6 +9,7 @@ import { withSSRAuth } from "@/util/withSSRAuth";
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 const TOTAL_ELEMENTS = 25;
 const rowsNumber = 6;
@@ -26,7 +28,8 @@ export default function Users(): JSX.Element {
     const [currentPage, setCurrentPage] = useState(1);
     const [totalElements, setTotalElements] = useState(TOTAL_ELEMENTS);
     const [isLoading, setIsLoading] = useState(false);
-
+    const [idDelete, setIdDelete] = useState<string>("");
+    const deleteDisposer = useDisclosure();
 
     const [params, setParams] = useState({
         page: currentPage,
@@ -45,6 +48,7 @@ export default function Users(): JSX.Element {
             setData(RespAPI.data);
             setCurrentPage(RespAPI.page);
             setTotalElements(RespAPI.totalElement);
+            console.log(RespAPI.data);
         } catch (error) {
           console.log(error);
         }
@@ -60,6 +64,21 @@ export default function Users(): JSX.Element {
         // loadDataMock();
     }, [currentPage]);
 
+    const onDelete = async (id: string) => {
+        try {
+            const resp = await api.delete(`api/users/${id}`);
+            toast.success(resp.data.message);
+            deleteDisposer.close();
+            await loadData();
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    function deleteItem(id: string) {
+        setIdDelete(id);
+        deleteDisposer.open();
+    }
 
     return (
         <div className="flex flex-col flex-wrap">
@@ -67,6 +86,7 @@ export default function Users(): JSX.Element {
                 isOpen={newUserDisposer.isOpen}
                 onClose={newUserDisposer.close}
             />
+            <ModalDelete isOpen={deleteDisposer.isOpen} onClose={deleteDisposer.close} onDelete={() => onDelete(idDelete)}></ModalDelete> 
             <Header 
                 title="Usuários"
                 subtitle="Consulte os usuários da plataforma"
@@ -87,8 +107,8 @@ export default function Users(): JSX.Element {
                 {data.map((item: { id:string, name: string, email: string, ru: string }, index: number) => (
                     <Table.Row 
                         key={index}                        
-                        onView={()=> router.push(`/profiles/edit/${item.id}`)}
-                        onDelete={()=> console.log('delete')}
+                        onView={()=> router.push(`/users/edit/${item.id}`)}
+                        onDelete={() => deleteItem(item.id)}
                     >
                         <Table.CellBody><p className="font-medium dark:text-white">{item.name}</p></Table.CellBody>
                         <Table.CellBody hiddenInMobile={true}>{item.email}</Table.CellBody>

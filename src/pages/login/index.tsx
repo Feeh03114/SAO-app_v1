@@ -70,7 +70,7 @@ export default function Login(): JSX.Element{
                                     id="password"
                                     autoComplete="current-password"
                                     required
-                                    className="w-full h-10 text-sm font-normal leading-tight rounded-lg px-4 shadow border border-gray-300 text-gray-900 placeholder-gray-500 focus:border-teal-400 focus:outline-none focus:ring-teal-400"
+                                    className="w-full"
                                     placeholder="Insira sua senha"
                                     {...register("password")}
                                     password
@@ -145,14 +145,14 @@ export default function Login(): JSX.Element{
                                         id="email"
                                         type="text"
                                         required
-                                        className="w-3/5 h-10 text-sm font-medium leading-tight left-0 rounded-l-lg rounded-r-none px-4 py-2 shadow border border-gray-300 text-gray-900 placeholder-gray-500 focus:border-teal-400 focus:outline-none focus:ring-teal-400"
+                                        className="w-3/5 left-0 rounded-l-lg rounded-r-none"
                                         placeholder="Insira seu RU"
                                         {...register2("email")}
                                         error={errors2.email}
                                     />
-                                    <div className="w-2/5 h-10 right-0 inline-flex justify-evenly items-center bg-gray-100 rounded-r-lg shadow border border-l-0 border-gray-300 text-gray-900 placeholder-gray-500">
-                                        <MdEmail className=" text-gray-400 hidden text-xl md:hidden xl:block"/>
-                                        <p className="text-sm font-medium leading-tight truncate hover:text-clip"> @aluno.uniso.br</p>
+                                    <div className="w-2/5 h-10 right-0 inline-flex justify-evenly items-center bg-gray-100 dark:bg-gray-600 rounded-r-lg shadow border dark:border-gray-500   text-gray-900 placeholder-gray-500">
+                                        <MdEmail className=" text-gray-400 dark:bg-gray-600 hidden text-xl md:hidden xl:block"/>
+                                        <p className="text-sm dark:text-white dark:bg-gray-600 font-medium leading-tight truncate hover:text-clip"> @aluno.uniso.br</p>
                                     </div>
                                 </div>
                             </div>
@@ -204,9 +204,9 @@ export default function Login(): JSX.Element{
                             className="w-3/5 left-0 rounded-l-lg rounded-r-none"
                             placeholder="Insira seu RU"
                         />
-                        <div className="w-2/5 h-10 right-0 inline-flex justify-evenly items-center bg-gray-100 rounded-r-lg shadow border border-l-0 border-gray-300 text-gray-900 placeholder-gray-500">
-                            <MdEmail className=" text-gray-400 hidden text-xl md:hidden xl:block"/>
-                            <p className="text-sm font-medium leading-tight truncate hover:text-clip">@aluno.uniso.br</p>
+                        <div className="w-2/5 h-10 right-0 inline-flex justify-evenly items-center bg-gray-100 dark:bg-gray-600 rounded-r-lg shadow border dark:border-gray-500   text-gray-900 placeholder-gray-500">
+                            <MdEmail className=" text-gray-400 dark:bg-gray-600 hidden text-xl md:hidden xl:block"/>
+                            <p className="text-sm dark:text-white dark:bg-gray-600 font-medium leading-tight truncate hover:text-clip"> @aluno.uniso.br</p>
                         </div>
                     </div>
 

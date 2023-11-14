@@ -46,7 +46,7 @@ export default function UsersEdit(): JSX.Element {
     const loadProfile = async () => {
         const profileNames = await Promise.all(data.profilesIds.map(async (id) => {
             try {
-                const { data: RespAPI } = await api.get(`api/profiles/${id}`);
+                const { data: RespAPI } = await api.get(`api/users/${id}`);
                 return RespAPI.name;
             } catch (error) {
                 console.log(error);
