@@ -21,7 +21,7 @@ const reactSelectStyleDisabledLight: StylesConfig<true> = {
     borderRadius: 8,
     borderColor: gray300,
     backgroundColor: 'white', 
-    cursor: 'not-allowed',
+    cursor: 'default',
   }),
   dropdownIndicator: (styles) => ({
     ...styles,
@@ -44,7 +44,7 @@ const reactSelectStyleDisabledDark: StylesConfig<true> = {
     borderRadius: 8,
     borderColor: gray500,
     backgroundColor: gray700, 
-    cursor: 'not-allowed',
+    cursor: 'default',
   }),
   placeholder: (styles) => ({
     ...styles,
@@ -81,12 +81,10 @@ const reactSelectStyleLight: StylesConfig<true> = {
       backgroundColor:
        isFocused
         ? teal400
-        : 'white'
-        ? isDisabled
+        : isDisabled
           ? gray200
-          : 'white'
           : 'white',
-      cursor: isDisabled ? 'not-allowed' : 'pointer',
+      cursor: isDisabled ? 'default' : 'pointer',
       color: 
         isDisabled 
           ? gray400 
@@ -169,7 +167,7 @@ const reactSelectStyleDark: StylesConfig<true> = {
       borderColor: isFocused ? teal400 : gray500,
     },
     backgroundColor: gray700, 
-    cursor: isDisabled ? 'not-allowed' : 'pointer',
+    cursor: isDisabled ? 'default' : 'pointer',
   }),
   option: (styles, { isDisabled, isFocused }) => {
     return {
@@ -182,7 +180,7 @@ const reactSelectStyleDark: StylesConfig<true> = {
         ? gray600
         : gray700
         : gray700,
-      cursor: isDisabled ? 'not-allowed' : 'pointer',
+      cursor: isDisabled ? 'default' : 'pointer',
       color: isDisabled ? gray400 : 'white',
     };
   },
@@ -246,5 +244,22 @@ const reactSelectStyleDark: StylesConfig<true> = {
   }),
 };
 
-export { reactSelectStyleDark, reactSelectStyleDisabledDark, reactSelectStyleDisabledLight, reactSelectStyleLight };
+function reactSelectStyle(isDisabled: boolean) {
+  const html = document.querySelector('html') as HTMLElement;
+  const isDarkMode = html.classList.contains('dark');
+  if(isDisabled) 
+    if(isDarkMode) {
+      return reactSelectStyleDisabledDark;
+    } else {
+      return reactSelectStyleDisabledLight;
+    }
+  else 
+    if(isDarkMode) {
+      return reactSelectStyleDark;
+    } else {
+      return reactSelectStyleLight;
+    }
+}
+
+export { reactSelectStyle };
 

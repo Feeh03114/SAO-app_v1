@@ -1,4 +1,5 @@
 
+import packageJson from '@/../package.json';
 import { useSession } from "next-auth/react";
 import Head from "next/head";
 import Image from "next/image";
@@ -54,7 +55,8 @@ export function SideBar({title, children, ...rest}:SidebarProps){
                     </div>
                 </div>
                 <MenuAvatar open={isOpenUser} onClose={setIsOpenUser}/>
-                <main className="flex-1 dark:bg-gray-900">
+                <main className="flex-1 dark:bg-gray-900 relative">
+                    <span className="absolute bottom-0 right-2">{`v ${packageJson.version}`}</span>
                     {children}
                 </main>
             </div>

@@ -3,7 +3,7 @@ import Select from "@/components/elementTag/select";
 import Modal from "@/components/modal";
 import { TypeUser } from "@/enum/typeUser.enum";
 import api from "@/service/api";
-import { reactSelectStyleDark, reactSelectStyleDisabledDark, reactSelectStyleDisabledLight, reactSelectStyleLight } from "@/styles/reactSelectStyle";
+import { reactSelectStyle } from "@/styles/reactSelectStyle";
 import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { BsFillPersonPlusFill } from "react-icons/bs";
@@ -121,14 +121,7 @@ export function ModalUser({ isOpen, onClose }: ModalUserProps) {
                                 onChange={(e)=> field.onChange(e)}
                                 isDisabled={watch('typeUser') === undefined}
                                 placeholder={watch('typeUser') === undefined ? 'Primeiro selecione o tipo de usuário' : "Selecione os perfis"}
-                                styles={(watch('typeUser') === undefined && isDarkMode)
-                                    ? reactSelectStyleDisabledDark 
-                                    : (watch('typeUser') === undefined && !isDarkMode)
-                                        ? reactSelectStyleDisabledLight
-                                        : (watch('typeUser') != undefined && isDarkMode)
-                                            ? reactSelectStyleDark
-                                            : reactSelectStyleLight
-                                }
+                                styles={reactSelectStyle(watch('typeUser') === undefined)}
                             />
                         )}
                     />
