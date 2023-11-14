@@ -13,16 +13,6 @@ import { FiXCircle } from "react-icons/fi";
 import { MdCheckCircleOutline } from "react-icons/md";
 import * as yup from 'yup';
 
-const mock = [
-    { id: 1, name: 'Exemplo 1' },
-    { id: 2, name: 'Exemplo 2' },
-    { id: 3, name: 'Exemplo 3' },
-    { id: 4, name: 'Exemplo 4' },
-    { id: 5, name: 'Exemplo 5' },
-    { id: 6, name: 'Exemplo 6' },
-    { id: 7, name: 'Exemplo 7' },
-]
-
 const schemaPermission = yup.object().shape({
     isRead: yup.boolean().optional(),
     isCreate: yup.boolean().optional(),

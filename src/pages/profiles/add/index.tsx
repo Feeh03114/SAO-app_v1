@@ -48,7 +48,7 @@ export default function ProfileAdd(): JSX.Element {
         try {
             const resp = await api.post(`/api/profiles`, data);
             console.log(resp.data);
-            toast.success('Perfil editado com sucesso!');
+            toast.success('Perfil criado com sucesso!');
             router.back();
         } catch (error) {
             console.log(error);
@@ -61,7 +61,7 @@ export default function ProfileAdd(): JSX.Element {
     return (
         <>
             <Header 
-                title="Editar Perfil"
+                title="Criar Perfil"
                 subtitle="Confira os dados do perfil"
                 textLeft="Voltar"
                 textRight="Salvar informações"

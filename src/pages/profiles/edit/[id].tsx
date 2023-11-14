@@ -17,22 +17,22 @@ interface Permission {
     isDelete: boolean;
     filter: boolean;
     page: Page;
-  }
+}
   
-  interface Page {
-    id: string;
+interface Page {
+id: string;
     namePage: string;
     url: string;
     icon: string;
     ordem: number;
-  }
-  
-  export interface Profile {
+}
+
+export interface Profile {
     id: string;
     name: string;
     typeUser: number;
     permissions: Permission[];
-  }
+}
 
 export default function RolesEdit(): JSX.Element {
     const router = useRouter();

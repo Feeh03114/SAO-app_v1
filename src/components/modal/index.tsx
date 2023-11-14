@@ -86,9 +86,10 @@ export interface FooterProps {
     text?: string;
     style?: string;
     onClick?: () => void;
+    form?: string;
 }
 
-const ModalFooter = ({ onClose, text, style, onClick } : FooterProps) => {
+const ModalFooter = ({ onClose, text, style, onClick, form } : FooterProps) => {
     return(
         <div className="w-full inline-flex space-x-3 mt-4 items-center justify-end px-6 py-3 bg-white dark:bg-gray-800 rounded-b-lg" >
             <button className="flex items-center justify-center px-4 py-2 bg-white dark:bg-gray-600 shadow border rounded-md border-gray-300 dark:border-gray-700"
@@ -98,6 +99,8 @@ const ModalFooter = ({ onClose, text, style, onClick } : FooterProps) => {
             </button>
             <button className={twMerge("flex items-center justify-center px-4 py-2 bg-teal-500 shadow rounded-md", style)}
                 onClick={onClick}
+                form={form}
+                type="submit"
             >
                 <p className="text-sm font-medium leading-tight text-white">{text === undefined ? "Cadastrar" : text}</p>
             </button>

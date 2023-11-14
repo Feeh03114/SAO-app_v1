@@ -45,7 +45,8 @@ export default function Users(): JSX.Element {
             const { data:RespAPI } = await api.get("api/users", {
                 params: params
             });
-            setData(RespAPI.data);
+            console.log(RespAPI.data);
+            verifyActive(RespAPI.data);
             setCurrentPage(RespAPI.page);
             setTotalElements(RespAPI.totalElement);
             console.log(RespAPI.data);
@@ -54,6 +55,12 @@ export default function Users(): JSX.Element {
         }
         setIsLoading(false);
     };
+
+    function verifyActive(data: any) {
+        data.map((item: any) => {
+            item.active && setData(data);
+        });
+    }
     
     useEffect(() => {
         loadData();

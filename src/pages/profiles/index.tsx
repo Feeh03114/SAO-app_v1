@@ -53,7 +53,6 @@ export default function Profiles(): JSX.Element {
             setData(RespAPI.data);
             setCurrentPage(RespAPI.page);
             setTotalElements(RespAPI.totalElement);
-            console.log(RespAPI);
         } catch (error) {
           console.log(error);
         }
