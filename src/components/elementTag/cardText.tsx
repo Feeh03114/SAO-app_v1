@@ -1,17 +1,19 @@
 import { InputHTMLAttributes } from "react";
 import { HiOutlinePlus } from "react-icons/hi";
+import { twMerge } from "tailwind-merge";
 
 export interface CardTextProps extends InputHTMLAttributes<HTMLInputElement> {
     children?: React.ReactNode;
     label?: string;
     text?: string;
     width?: string;
+    styles?: string;
     onClickButton?: () => void;
 }
 
-function CardRoot({children} : CardTextProps): JSX.Element {
+function CardRoot({children, styles} : CardTextProps): JSX.Element {
     return(
-        <div className="md:mx-10 md:mb-10 px-3 md:pt-6 pb-6 flex items-center justify-centers flex-row flex-wrap md:border border-gray-200 dark:border-gray-500 shadow-sm rounded-lg overflow-y-auto">
+        <div className={twMerge("md:mx-10 md:mb-10 px-3 md:pt-6 pb-6 flex items-center justify-centers flex-row flex-wrap md:border border-gray-200 dark:border-gray-500 shadow-sm rounded-lg overflow-y-auto", styles)}>
            {children}
         </div>
     );
@@ -43,9 +45,9 @@ const CardButton = ({text, width, onClickButton} : CardTextProps) => {
     )
 }
 
-const CardSelected = ({children, label, width} : CardTextProps) => {
+const CardSelected = ({children, label, styles} : CardTextProps) => {
     return (
-        <div className={`${width} mb-3 md:mb-6 px-3 flex items-center justify-centers flex-col flex-wrap`}>
+        <div className={twMerge("px-3 flex items-center justify-centers flex-col", styles)}>
             <div className="w-full pl-4 inline-flex items-center justify-start">
                 <p className="text-xs md:text-sm font-Inter font-medium leading-tight text-gray-700 dark:text-gray-300 truncate">{label}</p>
             </div>

@@ -100,31 +100,63 @@ export default function FormUser({edit, isPermissionWrite=true, onSave, profiles
     return (
         <form id='formUser' onSubmit={handleSubmit(onSave)}>
             <div className="w-screen">
-                <Card.Root>
-                    {/* <Card.Text label="Registro Universitário" text={user.ru} width="w-full md:w-1/4"></Card.Text>
-                    <Card.Text label="Nome" text={user.name} width="w-full md:w-1/4"></Card.Text>
-                    <Card.Text label="E-mail" text={user.email} width="w-full md:w-1/4"></Card.Text>
-                    <Card.Text label="CRO" text={user.cro} width="w-full md:w-1/4"></Card.Text> */}
-                    <div className="w-full md:w-1/2 px-2">
+                <Card.Root styles="gap-y-6">
+                    <div className="w-full md:w-1/4 px-2">
                         <Input 
-                            id="nomePerfil"
+                            id="ru"
                             type="text"
-                            label="Nome do Perfil"
-                            placeholder="Insira o perfil"
+                            label="Registro Universitário"
+                            placeholder="Insira o RU"
+                            className="read-only:bg-gray-200 read-only:cursor-default"
+                            {...register("ru")}
+                            error={errors.ru}
+                            readOnly={!isPermissionWrite}
+                        />
+                    </div>
+                    <div className="w-full md:w-1/4 px-2">
+                        <Input 
+                            id="name"
+                            type="text"
+                            label="Nome"
+                            placeholder="Insira o nome"
                             className="read-only:bg-gray-200 read-only:cursor-default"
                             {...register("name")}
                             error={errors.name}
                             readOnly={!isPermissionWrite}
                         />
                     </div>
+                    <div className="w-full md:w-1/4 px-2">
+                        <Input 
+                            id="email"
+                            type="text"
+                            label="E-mail"
+                            placeholder="Insira o email"
+                            className="read-only:bg-gray-200 read-only:cursor-default"
+                            {...register("email")}
+                            error={errors.email}
+                            readOnly={!isPermissionWrite}
+                        />
+                    </div>
+                    <div className="w-full md:w-1/4 px-2">
+                        <Input 
+                            id="cro"
+                            type="text"
+                            label="CRO"
+                            placeholder="Insira o CRO"
+                            className="read-only:bg-gray-200 read-only:cursor-default"
+                            {...register("cro")}
+                            error={errors.cro}
+                            readOnly={!isPermissionWrite}
+                        />
+                    </div>
 
-                    <Card.CardSelected label="Perfis" width="w-full md:w-1/2">
+                    <Card.CardSelected label="Perfis" styles="w-full md:w-1/2">
                         {profiles.map((profile, index) => (
                             <Card.TextSelected key={index} text={String(profile)}></Card.TextSelected>
                         ))}
                     </Card.CardSelected>
 
-                    <Card.CardSelected label="Disciplinas" width="w-full md:w-1/2">
+                    <Card.CardSelected label="Disciplinas" styles="w-full md:w-1/2">
                     </Card.CardSelected>
                     
                     <Table.Root tableHeight={String(6)} style="mx-3" label="Pacientes">

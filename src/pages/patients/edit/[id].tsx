@@ -160,12 +160,12 @@ export default function PatientsEdit(): JSX.Element {
                     <Card.Text label="Nacionalidade" text={data.nacionalidade} width="w-1/2 md:w-1/4"></Card.Text>
                     <Card.Text label="Naturalidade" text={data.naturalidade} width="w-1/2 md:w-1/4"></Card.Text>
 
-                    <Card.CardSelected label="Endereços" width="w-full">
+                    <Card.CardSelected label="Endereços" styles="w-full mb-3 md:mb-6">
                         {data.enderecos.map((endereco, index) => (
                             <Card.TextSelected key={index} text={endereco}></Card.TextSelected>
                         ))}
                     </Card.CardSelected>
-                    <Card.CardSelected label="Guardiões" width="w-full">
+                    <Card.CardSelected label="Guardiões" styles="w-full mb-3 md:mb-6">
                         {data.guardioes.map((guardiao, index) => (
                             <Card.TextSelected key={index} text={guardiao}></Card.TextSelected>
                         ))}
