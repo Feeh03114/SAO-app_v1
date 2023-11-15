@@ -1,6 +1,5 @@
 import Header from "@/components/Header";
-import Table from "@/components/Table";
-import Card from "@/components/elementTag/cardText";
+import FormUser from "@/components/pages/users/formUser";
 import { useDisclosure } from "@/hook/useDisclosure";
 import api from "@/service/api";
 import { withSSRAuth } from "@/util/withSSRAuth";
@@ -8,26 +7,43 @@ import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
-interface UserData {
+export interface User {
+    id: string;
     ru: string;
     name: string;
     email: string;
     cro: string;
     profilesIds: [];
+    permissions: Permission[];
+}
+
+interface Permission {
+    profile_id: string;
+    page_id: string;
+    isRead: boolean;
+    isCreate: boolean;
+    isEdit: boolean;
+    isDelete: boolean;
+    filter: boolean;
+    page: Page;
+}
+
+interface Page {
+    id: string;
+    namePage: string;
+    url: string;
+    icon: string;
+    ordem: number;
 }
 
 export default function UsersEdit(): JSX.Element {
-    const [data, setData] = useState<UserData>({
-        ru: "",
-        name: "",
-        email: "",
-        cro: "",
-        profilesIds: [],
-    });
+    const [user, setData] = useState<User>({} as User);
     const [profiles, setProfiles] = useState<string[]>([]);
     const newUserDisposer = useDisclosure();
+    const permiteEdit = useDisclosure();
     const router = useRouter();
     const id = router.query.id;
+    const [isLoading, setIsLoading] = useState(false);
     
     const loadData = async () => {
         try {
@@ -44,26 +60,53 @@ export default function UsersEdit(): JSX.Element {
     }, []);
 
     const loadProfile = async () => {
-        const profileNames = await Promise.all(data.profilesIds.map(async (id) => {
-            try {
-                const { data: RespAPI } = await api.get(`api/users/${id}`);
-                return RespAPI.name;
-            } catch (error) {
-                console.log(error);
-            }
-        }));
-        setProfiles(profileNames);
+        if (user.profilesIds) {
+            const profileNames = await Promise.all(user.profilesIds.map(async (id) => {
+                try {
+                    const { data: RespAPI } = await api.get(`api/users/${id}`);
+                    return RespAPI.name;
+                } catch (error) {
+                    console.log(error);
+                }
+            }));
+            setProfiles(profileNames);
+        }
     };
 
     useEffect(() => {
         loadProfile();
-    }, [data.profilesIds]);
+    }, [user.profilesIds]);
+
+    function handleEdit() {
+        if(!permiteEdit.isOpen)
+            permiteEdit.open();
+        else{
+            const form = document.getElementById('formUser');
+            form?.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
+        }
+    }
+
+    const onSave = async (data:any) => {
+        console.log(data);
+        setIsLoading(true);
+        try {
+            // const resp = await api.put(`/api/users/${id}`, data);
+            // console.log(resp);
+            // toast.success('Usuário atualizado com sucesso!');
+            // router.back();
+        } catch (error) {
+            console.log(error);
+        }
+        finally{
+            setIsLoading(false);
+        }
+    }
     
     return (
         <>
             <Header 
-                title={data.name}
-                subtitle={"RU: " + data.ru}
+                title={user.name}
+                subtitle={"RU: " + user.ru}
                 textLeft="Voltar"
                 textRight="Editar"
                 onClickLeft={()=> console.log('Voltar')}
@@ -71,12 +114,19 @@ export default function UsersEdit(): JSX.Element {
                 typeButtonRight="edit"
             />
 
-            <div className="w-screen">
+            <FormUser 
+                isPermissionWrite={permiteEdit.isOpen}	
+                edit={user}
+                onSave={onSave}
+                profiles={profiles}
+            />
+
+            {/* <div className="w-screen">
                 <Card.Root>
-                    <Card.Text label="Registro Universitário" text={data.ru} width="w-full md:w-1/4"></Card.Text>
-                    <Card.Text label="Nome" text={data.name} width="w-full md:w-1/4"></Card.Text>
-                    <Card.Text label="E-mail" text={data.email} width="w-full md:w-1/4"></Card.Text>
-                    <Card.Text label="CRO" text={data.cro} width="w-full md:w-1/4"></Card.Text>
+                    <Card.Text label="Registro Universitário" text={user.ru} width="w-full md:w-1/4"></Card.Text>
+                    <Card.Text label="Nome" text={user.name} width="w-full md:w-1/4"></Card.Text>
+                    <Card.Text label="E-mail" text={user.email} width="w-full md:w-1/4"></Card.Text>
+                    <Card.Text label="CRO" text={user.cro} width="w-full md:w-1/4"></Card.Text>
 
                     <Card.CardSelected label="Perfis" width="w-full md:w-1/2">
                         {profiles.map((profile, index) => (
@@ -95,7 +145,7 @@ export default function UsersEdit(): JSX.Element {
                         </Table.Header>
                     </Table.Root> 
                 </Card.Root>
-            </div>
+            </div> */}
         </>
     )
 }

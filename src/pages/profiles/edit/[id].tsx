@@ -20,7 +20,7 @@ interface Permission {
 }
   
 interface Page {
-id: string;
+    id: string;
     namePage: string;
     url: string;
     icon: string;
@@ -40,6 +40,7 @@ export default function RolesEdit(): JSX.Element {
     const permiteEdit = useDisclosure();
     const [profile, setProfile] = useState<Profile>({} as Profile);
     const [isLoading, setIsLoading] = useState(false);
+
 
     const loadingProfile = async () => {
         try {
@@ -77,6 +78,8 @@ export default function RolesEdit(): JSX.Element {
             setIsLoading(false);
         }
     }
+
+    console.log(profile);
 
     return <>
         <Header 
