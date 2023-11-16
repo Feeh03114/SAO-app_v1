@@ -99,7 +99,8 @@ export default function UsersEdit(): JSX.Element {
             />
 
             <FormUser 
-                isPermissionWrite={permiteEdit.isOpen}	
+                // isPermissionWrite={permiteEdit.isOpen}	
+                isPermissionWrite={true}
                 edit={user}
                 onSave={onSave}
                 profiles={profiles}

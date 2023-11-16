@@ -3,12 +3,30 @@ import Card from "@/components/elementTag/cardText";
 import { Input } from "@/components/elementTag/input";
 import { User } from "@/pages/users/edit/[id]";
 import api from "@/service/api";
+import { reactSelectStyle } from "@/styles/reactSelectStyle";
 import { withSSRAuth } from "@/util/withSSRAuth";
 import { GetServerSideProps } from "next";
 import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
+import ReactSelect from "react-select";
+import makeAnimated from 'react-select/animated';
 import { toast } from "react-toastify";
 import * as yup from 'yup';
+
+const mockDisciplinas = [
+    {
+        label: "Disciplina 1",
+        value: "1"
+    },
+    {
+        label: "Disciplina 2",
+        value: "2"
+    },
+    {
+        label: "Disciplina 3",
+        value: "3"
+    },
+];
 
 const schemaPermission = yup.object().shape({
     isRead: yup.boolean().optional(),
@@ -51,16 +69,19 @@ interface options {
 
 export default function FormUser({edit, isPermissionWrite=true, onSave, profiles}:FormUserProps): JSX.Element {
     const [optionsProfiles, setOptionsProfiles] = useState<options[]>([] as options[]);
-    const { reset, control, register, handleSubmit, formState: { errors } } = useForm();
+    const { reset, control, watch, register, handleSubmit, formState: { errors } } = useForm();
+    const [profilesName, setProfilesName] = useState([]) as any[];
+    const animatedComponents = makeAnimated();
     
     const loadOptionsProfiles = async () => {
         try {
+            console.log(edit);
+            console.log("isPermissionWrite: " + isPermissionWrite);
             const resp = await api.get('api/profiles/options/select',{
                 params: {
                     typeUser: edit?.typeUser
                 }
             });
-            console.log(resp.data);
             setOptionsProfiles(resp.data);
         } catch (error:any) {
             if(error.response)
@@ -72,8 +93,28 @@ export default function FormUser({edit, isPermissionWrite=true, onSave, profiles
 
     useEffect(() => {
         loadOptionsProfiles();
+        getprofilesName();
         reset(edit)
     }, [edit]);
+
+    const getprofilesName = async () => {
+        try {
+            const newProfilesName = [];
+            for (const id of edit?.profilesIds || []) {
+                const resp = await api.get(`api/profiles/${id}`);
+                const profileObject = {
+                    label: resp.data.name,
+                    value: resp.data.id
+                };
+                newProfilesName.push(profileObject);
+            }
+            setProfilesName(newProfilesName);
+            console.log(profilesName);
+            console.log(mockDisciplinas);
+        } catch (error) {
+            console.log(error);
+        }
+    };
     
     return (
         <form id='formUser' onSubmit={handleSubmit(onSave)}>
@@ -128,22 +169,48 @@ export default function FormUser({edit, isPermissionWrite=true, onSave, profiles
                         />
                     </div>
 
-                    <Card.CardSelected label="Perfis" styles="w-full md:w-1/2">
-                        {edit?.profilesIds?.map((id, index) => {
-                            console.log(id, optionsProfiles.find((x:any)=>x.value==id)?.label||'');
-                            return (
-                                <Card.TextSelected 
-                                    key={index} 
-                                    text={optionsProfiles?.length > 0?
-                                    (optionsProfiles.find((x:any)=>x.value==id)?.label||'')
-                                    :''}
+                    <div className="w-1/2 px-2">
+                        <label className="pl-4 text-sm font-medium leading-tight text-gray-700 dark:text-white">Perfis</label>
+                        <Controller
+                            name="perfis"
+                            control={control}
+                            render={({field})=>(
+                                <ReactSelect
+                                    defaultValue={profilesName}
+                                    isMulti
+                                    options={profilesName}
+                                    value={field.value}
+                                    closeMenuOnSelect={false}
+                                    components={animatedComponents}
+                                    onChange={(e)=> field.onChange(e)}
+                                    isDisabled={!isPermissionWrite}
+                                    placeholder={watch('typeUser') === undefined && "Selecione os perfis"}
+                                    styles={reactSelectStyle(watch('typeUser') === undefined)}
                                 />
-                            )
-                        })}
-                    </Card.CardSelected>
-
-                    <Card.CardSelected label="Disciplinas" styles="w-full md:w-1/2">
-                    </Card.CardSelected>
+                            )}
+                        />
+                    </div>
+                    <div className="w-1/2 px-2">
+                        <label className="pl-4 text-sm font-medium leading-tight text-gray-700 dark:text-white">Disciplinas</label>
+                        <Controller
+                            name="disciplines"
+                            control={control}
+                            render={({field})=>(
+                                <ReactSelect
+                                    defaultValue={mockDisciplinas}
+                                    isMulti
+                                    options={mockDisciplinas}
+                                    value={field.value}
+                                    closeMenuOnSelect={false}
+                                    components={animatedComponents}
+                                    onChange={(e)=> field.onChange(e)}
+                                    isDisabled={!isPermissionWrite}
+                                    placeholder={watch('typeUser') === undefined && "Selecione as disciplinas"}
+                                    styles={reactSelectStyle(watch('typeUser') === undefined)}
+                                />
+                            )}
+                        />
+                    </div>
                     
                     <Table.Root tableHeight={String(6)} style="mx-3" label="Pacientes">
                         <Table.Header>

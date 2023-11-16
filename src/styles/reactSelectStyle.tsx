@@ -245,8 +245,9 @@ const reactSelectStyleDark: StylesConfig<true> = {
 };
 
 function reactSelectStyle(isDisabled: boolean) {
-  const html = document.querySelector('html') as HTMLElement;
-  const isDarkMode = html.classList.contains('dark');
+  // const html = document.querySelector('html') as HTMLElement;
+  // const isDarkMode = html.classList.contains('dark');
+  const isDarkMode = true;
   if(isDisabled) 
     if(isDarkMode) {
       return reactSelectStyleDisabledDark;
