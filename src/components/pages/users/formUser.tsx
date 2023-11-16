@@ -4,10 +4,10 @@ import { Input } from "@/components/elementTag/input";
 import { User } from "@/pages/users/edit/[id]";
 import api from "@/service/api";
 import { withSSRAuth } from "@/util/withSSRAuth";
-import { yupResolver } from "@hookform/resolvers/yup";
 import { GetServerSideProps } from "next";
-import { useEffect } from "react";
-import { useFieldArray, useForm } from "react-hook-form";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 import * as yup from 'yup';
 
 const schemaPermission = yup.object().shape({
@@ -40,62 +40,40 @@ interface FormUserProps {
     profiles: string[];
 }
 
-export default function FormUser({edit, isPermissionWrite=true, onSave, profiles}:FormUserProps): JSX.Element {
-    const { reset, control, register, handleSubmit, formState: { errors } } = useForm({
-        resolver: yupResolver(validationFullModal)
-    });
-    const {fields, update} = useFieldArray({ control, name: 'permissions', keyName: 'permissions.page.id' });
-    console.log(edit);
+/* {
+    resolver: yupResolver(validationFullModal)
+} */
 
-    const loadingPages = async () =>{
+interface options {
+    label: string;
+    value: string;
+}
+
+export default function FormUser({edit, isPermissionWrite=true, onSave, profiles}:FormUserProps): JSX.Element {
+    const [optionsProfiles, setOptionsProfiles] = useState<options[]>([] as options[]);
+    const { reset, control, register, handleSubmit, formState: { errors } } = useForm();
+    
+    const loadOptionsProfiles = async () => {
         try {
-            console.log("Aqui 0");
-            const resp = await api.get('api/pages');
-            if(edit){
-                const permissions = [];
-                for (const page of resp.data) {
-                    const permission = edit.permissions.find((p:any)=>p.page.id === page.id);
-                    if(!permission) continue;
-                    permissions.push({
-                        page: page, 
-                        isRead: permission?.isRead || false, 
-                        isCreate: permission?.isCreate || false,
-                        isEdit: permission?.isEdit || false,
-                        isDelete: permission?.isDelete || false,
-                        filter: permission?.filter || false
-                    });
+            const resp = await api.get('api/profiles/options/select',{
+                params: {
+                    typeUser: edit?.typeUser
                 }
-                console.log("Aqui 1");
-                reset({
-                    ...edit,
-                    name: "teste",
-                    permissions,
-                })
-            }
+            });
+            console.log(resp.data);
+            setOptionsProfiles(resp.data);
+        } catch (error:any) {
+            if(error.response)
+                toast.error(error.response.data.message);
             else
-                console.log("Aqui 2");
-                reset({
-                    name: '',
-                    permissions: resp.data.map((e:any)=>{
-                        return {
-                            page: e, 
-                            isRead: false, 
-                            isCreate: false, 
-                            isEdit: false, 
-                            isDelete: false, 
-                            filter: false
-                        }
-                    }),
-                })
-        } catch (error) {
-            console.log(error);
+                toast.error(error.message);
         }
     }
 
     useEffect(() => {
-        loadingPages();
+        loadOptionsProfiles();
+        reset(edit)
     }, [edit]);
-
     
     return (
         <form id='formUser' onSubmit={handleSubmit(onSave)}>
@@ -151,9 +129,17 @@ export default function FormUser({edit, isPermissionWrite=true, onSave, profiles
                     </div>
 
                     <Card.CardSelected label="Perfis" styles="w-full md:w-1/2">
-                        {profiles.map((profile, index) => (
-                            <Card.TextSelected key={index} text={String(profile)}></Card.TextSelected>
-                        ))}
+                        {edit?.profilesIds?.map((id, index) => {
+                            console.log(id, optionsProfiles.find((x:any)=>x.value==id)?.label||'');
+                            return (
+                                <Card.TextSelected 
+                                    key={index} 
+                                    text={optionsProfiles?.length > 0?
+                                    (optionsProfiles.find((x:any)=>x.value==id)?.label||'')
+                                    :''}
+                                />
+                            )
+                        })}
                     </Card.CardSelected>
 
                     <Card.CardSelected label="Disciplinas" styles="w-full md:w-1/2">

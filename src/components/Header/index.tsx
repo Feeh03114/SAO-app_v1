@@ -48,7 +48,7 @@ export default function Header({title, subtitle, textLeft, textRight, disabledLe
     }
 
     return (
-        <div className="flex mt-24 items-center max-h-[3.125rem] w-full px-[2rem] my-[2rem] justify-between">
+        <div className="w-full flex mt-8 items-center max-h-[3.125rem] px-[2rem] my-[2rem] justify-between">
             <div className='text-start'>
                 <p className="text-sm md:text-2xl font-bold leading-loose text-gray-900 dark:text-white">{title}</p>
                 <p className="text-xs leading-none text-gray-400">{subtitle}</p>

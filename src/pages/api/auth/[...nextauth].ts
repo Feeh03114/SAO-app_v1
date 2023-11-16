@@ -2,8 +2,6 @@ import api from "@/service/api";
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
-
-
 interface ResponseSignIn {
     data?:DataProps;
     message: string;
@@ -44,9 +42,10 @@ export default NextAuth({
                         password: credentials.password,
                         rememberPassword: credentials?.remember_me||false,
                     });
+                    console.log('dados login', response.data)
                     return response.data;
                 } catch (error:any) {
-                    console.log("error", error.response.data);
+                    console.log("error login", error.response.data);
                     if(error?.response?.data?.message) throw new Error(error.response.data?.message);
                     throw new Error('Erro ao realizar login');
                 }

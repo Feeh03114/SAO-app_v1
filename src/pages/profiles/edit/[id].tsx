@@ -79,8 +79,6 @@ export default function RolesEdit(): JSX.Element {
         }
     }
 
-    console.log(profile);
-
     return <>
         <Header 
             title="Editar Perfil"

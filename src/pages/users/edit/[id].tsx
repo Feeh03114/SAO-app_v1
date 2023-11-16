@@ -1,5 +1,6 @@
 import Header from "@/components/Header";
 import FormUser from "@/components/pages/users/formUser";
+import { TypeUser } from "@/enum/typeUser.enum";
 import { useDisclosure } from "@/hook/useDisclosure";
 import api from "@/service/api";
 import { withSSRAuth } from "@/util/withSSRAuth";
@@ -13,6 +14,7 @@ export interface User {
     name: string;
     email: string;
     cro: string;
+    typeUser:TypeUser;
     profilesIds: [];
     permissions: Permission[];
 }
@@ -58,24 +60,6 @@ export default function UsersEdit(): JSX.Element {
     useEffect(() => {
         loadData();
     }, []);
-
-    const loadProfile = async () => {
-        if (user.profilesIds) {
-            const profileNames = await Promise.all(user.profilesIds.map(async (id) => {
-                try {
-                    const { data: RespAPI } = await api.get(`api/users/${id}`);
-                    return RespAPI.name;
-                } catch (error) {
-                    console.log(error);
-                }
-            }));
-            setProfiles(profileNames);
-        }
-    };
-
-    useEffect(() => {
-        loadProfile();
-    }, [user.profilesIds]);
 
     function handleEdit() {
         if(!permiteEdit.isOpen)

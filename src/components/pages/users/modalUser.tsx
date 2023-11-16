@@ -17,6 +17,7 @@ import * as yup from 'yup';
 interface ModalUserProps{
     isOpen: boolean;
     onClose: () => void;
+    loadData: () => void;
 }
 
 export interface User {
@@ -54,7 +55,7 @@ const validationFullModal = yup.object().shape({
     // permissions: yup.array().of(schemaPermission).required('Campo obrigatório'),
 });
 
-export function ModalUser({ isOpen, onClose }: ModalUserProps) {
+export function ModalUser({ isOpen, onClose, loadData }: ModalUserProps) {
     const { control, watch, register, handleSubmit, formState: { errors }  } = useForm({
         resolver: yupResolver(validationFullModal)
     });
@@ -87,11 +88,11 @@ export function ModalUser({ isOpen, onClose }: ModalUserProps) {
         userData.profilesIds = userData.profilesIds?.map((e: any) => e?.value);
         userData.active = true;
         setIsLoading(true);
-        console.log(userData);
         try {
             const resp = await api.post(`/api/users`, userData);
-            console.log(resp.data);
             toast.success('Usuário criado com sucesso!');
+            onClose();
+            await loadData();
         } catch (error) {
             console.log(error);
         }

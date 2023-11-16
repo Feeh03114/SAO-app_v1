@@ -36,7 +36,7 @@ export default function Users(): JSX.Element {
         pageSize: rowsNumber,
         sortOrder: 'ASC',
         sortField: 'id',
-        status: 2,
+        status:0,
     });
 
     const loadData = async () => {
@@ -89,10 +89,7 @@ export default function Users(): JSX.Element {
 
     return (
         <div className="flex flex-col flex-wrap">
-            <ModalUser
-                isOpen={newUserDisposer.isOpen}
-                onClose={newUserDisposer.close}
-            />
+            <ModalUser isOpen={newUserDisposer.isOpen} onClose={newUserDisposer.close} loadData={() => loadData()}/>
             <ModalDelete isOpen={deleteDisposer.isOpen} onClose={deleteDisposer.close} onDelete={() => onDelete(idDelete)}></ModalDelete> 
             <Header 
                 title="Usuários"
