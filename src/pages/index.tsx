@@ -30,6 +30,7 @@ const sora = Sora({
 
 export default function Home():JSX.Element {
   const [isMenuExpanded, setIsMenuExpanded] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(true); 
   const router = useRouter();
 
   return (
@@ -62,20 +63,19 @@ export default function Home():JSX.Element {
         </div>
       </div>
 
-      <div className={twMerge("w-screen bg-white dark:bg-gray-800 flex flex-col justify-center items-center", poppins.className)}>
-      <img 
-          className="w-full absolute top-0 left-0 z-0 dark:hidden md:block "
+      <div className={twMerge("w-screen bg-white dark:bg-gray-800 flex flex-col justify-center bg-none items-center bg-contain bg-no-repeat", poppins.className)}>
+        {/* <img 
+          className="w-full relative top-0 left-0 z-0 dark:hidden md:block "
           src="/assets/bubble.png"
           alt='bolhas-de-fundo'
         />
         <img 
-          className="w-full absolute top-0 z-0 hidden dark:md:block"
+          className="w-full relative top-0 left-0 z-0 hidden dark:md:block"
           src="/assets/bubble_dark.png"
           alt='bolhas-de-fundo'
-        />
-        <p style={{backgroundImage: "url('bubble_dark.png')"}}></p>
+        /> */}
         
-        <div className="w-full h-20 md:w-11/12 pt-4 flex flex-row flex-nowrap items-center justify-between z-10">
+        <div className="w-full h-20 md:w-11/12 pt-4 flex flex-row flex-nowrap items-center justify-between relative top-0 left-0 z-10">
           <div className="w-full flex flex-row items-center justify-start">
             <img
               width={157}
@@ -95,6 +95,7 @@ export default function Home():JSX.Element {
               Sistema de Agendamento Odontológico
             </div>
           </div>
+
      
           <div className="hidden lg:flex items-center z-10">
             <div className={twMerge("text-base font-medium leading-normal whitespace-nowrap text-gray-800 dark:text-white", inter.className)}>Pagina Inicial</div>
