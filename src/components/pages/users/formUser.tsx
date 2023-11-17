@@ -69,20 +69,21 @@ interface options {
 
 export default function FormUser({edit, isPermissionWrite=true, onSave, profiles}:FormUserProps): JSX.Element {
     const [optionsProfiles, setOptionsProfiles] = useState<options[]>([] as options[]);
-    const { reset, control, watch, register, handleSubmit, formState: { errors } } = useForm();
-    const [profilesName, setProfilesName] = useState([]) as any[];
+    const { reset, control, watch, register, setValue, handleSubmit, formState: { errors } } = useForm();
+    const [disciplinas, setDisciplinas] = useState<options[]>(mockDisciplinas);
     const animatedComponents = makeAnimated();
     
     const loadOptionsProfiles = async () => {
         try {
-            console.log(edit);
-            console.log("isPermissionWrite: " + isPermissionWrite);
             const resp = await api.get('api/profiles/options/select',{
                 params: {
                     typeUser: edit?.typeUser
                 }
             });
             setOptionsProfiles(resp.data);
+            if(edit?.profilesIds)
+            setValue('profiles', resp.data.filter((item:options) => watch('profilesIds')?.includes(item.value))||[]);
+            setValue('disciplines', mockDisciplinas);
         } catch (error:any) {
             if(error.response)
                 toast.error(error.response.data.message);
@@ -93,28 +94,10 @@ export default function FormUser({edit, isPermissionWrite=true, onSave, profiles
 
     useEffect(() => {
         loadOptionsProfiles();
-        getprofilesName();
-        reset(edit)
+        reset(edit);
     }, [edit]);
 
-    const getprofilesName = async () => {
-        try {
-            const newProfilesName = [];
-            for (const id of edit?.profilesIds || []) {
-                const resp = await api.get(`api/profiles/${id}`);
-                const profileObject = {
-                    label: resp.data.name,
-                    value: resp.data.id
-                };
-                newProfilesName.push(profileObject);
-            }
-            setProfilesName(newProfilesName);
-            console.log(profilesName);
-            console.log(mockDisciplinas);
-        } catch (error) {
-            console.log(error);
-        }
-    };
+    console.log("edit: ", optionsProfiles.filter((item:options) => watch('profilesIds')?.includes(item.value)));
     
     return (
         <form id='formUser' onSubmit={handleSubmit(onSave)}>
@@ -172,13 +155,12 @@ export default function FormUser({edit, isPermissionWrite=true, onSave, profiles
                     <div className="w-1/2 px-2">
                         <label className="pl-4 text-sm font-medium leading-tight text-gray-700 dark:text-white">Perfis</label>
                         <Controller
-                            name="perfis"
+                            name="profiles"
                             control={control}
                             render={({field})=>(
                                 <ReactSelect
-                                    defaultValue={profilesName}
                                     isMulti
-                                    options={profilesName}
+                                    options={optionsProfiles}
                                     value={field.value}
                                     closeMenuOnSelect={false}
                                     components={animatedComponents}
@@ -197,7 +179,6 @@ export default function FormUser({edit, isPermissionWrite=true, onSave, profiles
                             control={control}
                             render={({field})=>(
                                 <ReactSelect
-                                    defaultValue={mockDisciplinas}
                                     isMulti
                                     options={mockDisciplinas}
                                     value={field.value}

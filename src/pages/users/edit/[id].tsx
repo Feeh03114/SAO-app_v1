@@ -15,7 +15,7 @@ export interface User {
     email: string;
     cro: string;
     typeUser:TypeUser;
-    profilesIds: [];
+    profilesIds: string[];
     permissions: Permission[];
 }
 
@@ -99,38 +99,11 @@ export default function UsersEdit(): JSX.Element {
             />
 
             <FormUser 
-                // isPermissionWrite={permiteEdit.isOpen}	
-                isPermissionWrite={true}
+                isPermissionWrite={permiteEdit.isOpen}	
                 edit={user}
                 onSave={onSave}
                 profiles={profiles}
             />
-
-            {/* <div className="w-screen">
-                <Card.Root>
-                    <Card.Text label="Registro Universitário" text={user.ru} width="w-full md:w-1/4"></Card.Text>
-                    <Card.Text label="Nome" text={user.name} width="w-full md:w-1/4"></Card.Text>
-                    <Card.Text label="E-mail" text={user.email} width="w-full md:w-1/4"></Card.Text>
-                    <Card.Text label="CRO" text={user.cro} width="w-full md:w-1/4"></Card.Text>
-
-                    <Card.CardSelected label="Perfis" width="w-full md:w-1/2">
-                        {profiles.map((profile, index) => (
-                            <Card.TextSelected key={index} text={String(profile)}></Card.TextSelected>
-                        ))}
-                    </Card.CardSelected>
-
-                    <Card.CardSelected label="Disciplinas" width="w-full md:w-1/2">
-                    </Card.CardSelected>
-                    
-                    <Table.Root tableHeight={String(6)} style="mx-3" label="Pacientes">
-                        <Table.Header>
-                            <Table.CellHeader hiddenInMobile={false}>NOME</Table.CellHeader>
-                            <Table.CellHeader hiddenInMobile={true}>E-MAIL</Table.CellHeader>
-                            <Table.CellHeader hiddenInMobile={true}>REGISTRO UNIVERSITÁRIO</Table.CellHeader>
-                        </Table.Header>
-                    </Table.Root> 
-                </Card.Root>
-            </div> */}
         </>
     )
 }
