@@ -5,12 +5,19 @@ import { useDisclosure } from "@/hook/useDisclosure";
 import api from "@/service/api";
 import { withSSRAuth } from "@/util/withSSRAuth";
 import { GetServerSideProps } from "next";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
 const rowsNumber = 6;
 
+interface disciplines {
+    id: string;
+    name: string;
+}
+
 export default function Subjects(): JSX.Element {
     const newUserDisposer = useDisclosure();
+    const router = useRouter();
     const [data, setData] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalElements, setTotalElements] = useState(rowsNumber);
@@ -27,7 +34,7 @@ export default function Subjects(): JSX.Element {
     const loadData = async () => {
         setIsLoading(true);
         try {
-            const { data:RespAPI } = await api.get("api/discipline", {
+            const { data:RespAPI } = await api.get("api/disciplines", {
                 params: params
             });
             console.log(RespAPI);
@@ -56,7 +63,7 @@ export default function Subjects(): JSX.Element {
                 textLeft="Filtros"
                 textRight="Adicionar disciplina"
                 onClickLeft={()=> console.log('filter')}
-                onClickRight={newUserDisposer.open}
+                onClickRight={()=> router.push('/disciplines/add')}
                 typeButtonLeft="filter"
                 typeButtonRight="add"
             />
@@ -65,8 +72,12 @@ export default function Subjects(): JSX.Element {
                     <Table.CellHeader hiddenInMobile={false}>TÍTULO</Table.CellHeader>
                 </Table.Header>
 
-                {data.map((item: { name: string, email: string, ru: string }, index: number) => (
-                    <Table.Row key={index}>
+                {data.map((item: disciplines, index: number) => (
+                    <Table.Row 
+                        key={index}
+                        onView={()=> router.push(`/disciplines/edit/${item.id}`)}
+                        // onDelete={() => deleteItem(item.id)}
+                    >
                         <Table.CellBody><p className="font-medium dark:text-white">{item.name}</p></Table.CellBody>
                     </Table.Row>
                 ))}
