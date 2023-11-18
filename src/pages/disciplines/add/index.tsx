@@ -27,28 +27,45 @@ interface Permission {
     ordem: number;
   }
   
-  export interface Profile {
+export interface Discipline {
+    name: string;
+    service: Service[];
+}
+
+export interface Service {
     id: string;
     name: string;
-    typeUser: number;
-    permissions: Permission[];
-  }
+    description: string;
+    price: number;
+    duration_medio: number;
+    active_duration_medio: boolean;
+    ext: boolean;
+    availabilities: Availabilities[];
+}
+
+export interface Availabilities {
+    id: string;
+    day: number;
+    start: string;
+    end: string;
+}
 
 export default function DisciplineAdd(): JSX.Element {
     const router = useRouter();
     const [isLoading, setIsLoading] = useState(false);
 
-    function handleEdit() {
+    function handleSubmit() {
         const form = document.getElementById('formDiscipline');
         form?.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
     }
 
-    const onSave = async (data:Profile) => {
+    const onSave = async (data:Discipline) => {
+        console.log(data);
         setIsLoading(true);
         try {
-            const resp = await api.post(`/api/profiles`, data);
+            const resp = await api.post(`/api/disciplines`, data);
             console.log(resp.data);
-            toast.success('Perfil criado com sucesso!');
+            toast.success('Disciplina criada com sucesso!');
             router.back();
         } catch (error) {
             console.log(error);
@@ -61,17 +78,17 @@ export default function DisciplineAdd(): JSX.Element {
     return (
         <>
             <Header 
-                title="Criar Perfil"
-                subtitle="Confira os dados do perfil"
+                title="Nova Disciplina"
+                subtitle="Confira os dados da disciplina"
                 textLeft="Voltar"
                 textRight="Salvar informações"
                 onClickLeft={()=> router.back()}
-                onClickRight={handleEdit}
+                onClickRight={handleSubmit}
                 typeButtonRight="confirm"
                 disabledLeft={isLoading}
                 disabledRight={isLoading}
             />
-            <FormDiscipline onSave={onSave} />
+            <FormDiscipline onSave={onSave}/>
         </>
     )
 }
