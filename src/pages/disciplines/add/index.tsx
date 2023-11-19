@@ -53,17 +53,15 @@ export interface Availabilities {
 export default function DisciplineAdd(): JSX.Element {
     const router = useRouter();
     const [isLoading, setIsLoading] = useState(false);
+    const [fields, setFields] = useState<Discipline>({} as Discipline);
 
-    function handleSubmit() {
+    const sendForm = async () => {
         const form = document.getElementById('formDiscipline');
         form?.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
-    }
 
-    const onSave = async (data:Discipline) => {
-        console.log(data);
         setIsLoading(true);
         try {
-            const resp = await api.post(`/api/disciplines`, data);
+            const resp = await api.post(`/api/disciplines`, fields);
             console.log(resp.data);
             toast.success('Disciplina criada com sucesso!');
             router.back();
@@ -75,6 +73,11 @@ export default function DisciplineAdd(): JSX.Element {
         }
     }
 
+    const onSave = async (data:Discipline) => {
+        console.log("Enviado");
+        setFields(data);
+    }
+
     return (
         <>
             <Header 
@@ -83,7 +86,7 @@ export default function DisciplineAdd(): JSX.Element {
                 textLeft="Voltar"
                 textRight="Salvar informações"
                 onClickLeft={()=> router.back()}
-                onClickRight={handleSubmit}
+                onClickRight={sendForm}
                 typeButtonRight="confirm"
                 disabledLeft={isLoading}
                 disabledRight={isLoading}

@@ -3,6 +3,7 @@ import Modal from "@/components/modal";
 import { withSSRAuth } from "@/util/withSSRAuth";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { GetServerSideProps } from "next";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { HiOutlinePlus } from "react-icons/hi";
 import * as yup from 'yup';
@@ -17,9 +18,10 @@ interface ModalServiceDisciplineProps{
     isOpen: boolean;
     onClose: () => void;
     onSave:(data:any)=>void;
+    edit?:  typeof validationAvailabilities;
 }
 
-export default function FormAvailabilities({isOpen, onClose, onSave} : ModalServiceDisciplineProps): JSX.Element {
+export default function FormAvailabilities({isOpen, onClose, onSave, edit = {} as  typeof validationAvailabilities} : ModalServiceDisciplineProps): JSX.Element {
     const { control, register, reset, handleSubmit, formState: { errors }  } = useForm({
         resolver: yupResolver(validationAvailabilities)
     });
@@ -28,17 +30,21 @@ export default function FormAvailabilities({isOpen, onClose, onSave} : ModalServ
         const newData = { ...data };
         newData.start = newData.start.charAt(0) === '0' ? newData.start.slice(1) : newData.start;
         newData.end = newData.end.charAt(0) === '0' ? newData.end.slice(1) : newData.end;
-        console.log(newData);
-        
-        reset({
-            day: '',
-            start: '',
-            end: '',
-        });
 
         onClose();
         onSave(newData);
-    }
+    } 
+
+    useEffect(() => {
+        if (!isOpen) 
+            // reset({
+            //     day: '',
+            //     start: '',
+            //     end: '',
+            // });
+        if(Object.keys(edit).length > 0)
+            reset(edit)
+    }, [isOpen]);
 
     return (
         <Modal.Root

@@ -1,12 +1,14 @@
 import Header from "@/components/Header";
 import Table from "@/components/Table";
 import { Pagination } from "@/components/Table/Pagination";
+import { ModalDelete } from "@/components/elementTag/modalDelete";
 import { useDisclosure } from "@/hook/useDisclosure";
 import api from "@/service/api";
 import { withSSRAuth } from "@/util/withSSRAuth";
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 const rowsNumber = 6;
 
@@ -22,6 +24,8 @@ export default function Subjects(): JSX.Element {
     const [currentPage, setCurrentPage] = useState(1);
     const [totalElements, setTotalElements] = useState(rowsNumber);
     const [isLoading, setIsLoading] = useState(false);
+    const [idDelete, setIdDelete] = useState<string>("");
+    const deleteDisposer = useDisclosure();
 
     const [params, setParams] = useState({
         page: currentPage,
@@ -55,8 +59,25 @@ export default function Subjects(): JSX.Element {
         loadData();
     }, [currentPage]);
 
+    function deleteItem(id: string) {
+        setIdDelete(id);
+        deleteDisposer.open();
+    }
+
+    const onDelete = async (id: string) => {
+        try {
+            const resp = await api.delete(`api/disciplines/${id}`);
+            toast.success(resp.data.message);
+            deleteDisposer.close();
+            await loadData();
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
     return (
         <>
+            <ModalDelete isOpen={deleteDisposer.isOpen} onClose={deleteDisposer.close} onDelete={() => onDelete(idDelete)}></ModalDelete> 
             <Header 
                 title="Disciplinas"
                 subtitle="Consulte as disciplinas da plataforma"
@@ -76,7 +97,7 @@ export default function Subjects(): JSX.Element {
                     <Table.Row 
                         key={index}
                         onView={()=> router.push(`/disciplines/edit/${item.id}`)}
-                        // onDelete={() => deleteItem(item.id)}
+                        onDelete={() => deleteItem(item.id)}
                     >
                         <Table.CellBody><p className="font-medium dark:text-white">{item.name}</p></Table.CellBody>
                     </Table.Row>

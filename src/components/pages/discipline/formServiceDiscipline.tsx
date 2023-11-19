@@ -47,18 +47,18 @@ export default function FormServiceDiscipline({isOpen, onClose, onSave} : ModalS
 
         newData.availabilities = fields;
 
-        reset({
-            name: '',
-            description: '',
-            price: '',
-            duration_medio: '',
-            ext: false,
-            active_duration_auto: false,
-        });
+        // reset({
+        //     name: '',
+        //     description: '',
+        //     price: '',
+        //     duration_medio: '',
+        //     ext: false,
+        //     active_duration_auto: false,
+        // });
 
-        fields.forEach(() => {
-            remove();
-        });
+        // fields.forEach(() => {
+        //     remove();
+        // });
 
         onClose();
         onSave(newData);

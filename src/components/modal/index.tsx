@@ -94,6 +94,7 @@ const ModalFooter = ({ onClose, text, style, onClick, form } : FooterProps) => {
         <div className="w-full inline-flex space-x-3 mt-4 items-center justify-end px-6 py-3 bg-white dark:bg-gray-800 rounded-b-lg" >
             <button className="flex items-center justify-center px-4 py-2 bg-white dark:bg-gray-600 shadow border rounded-md border-gray-300 dark:border-gray-700"
                 onClick={onClose}
+                type="button"
             >
                 <p className="text-sm font-medium leading-tight text-gray-700 dark:text-white">Cancelar</p>
             </button>

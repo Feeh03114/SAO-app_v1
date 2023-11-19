@@ -6,6 +6,7 @@ import { Profile } from "@/pages/profiles/edit/[id]";
 import { withSSRAuth } from "@/util/withSSRAuth";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { GetServerSideProps } from "next";
+import { useEffect } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import * as yup from 'yup';
 import FormServiceDiscipline from "./formServiceDiscipline";
@@ -20,7 +21,7 @@ interface FormProfileProps {
     onSave:(data:any)=>void;
 }
 
-export default function FormDiscipline({edit, isPermissionWrite=true, onSave }:FormProfileProps): JSX.Element {
+export default function FormDiscipline({ isPermissionWrite=true, onSave }:FormProfileProps): JSX.Element {
     const { reset, control, register, watch, handleSubmit, formState: { errors } } = useForm({
         resolver: yupResolver(validationDiscipline)
     });
@@ -31,13 +32,20 @@ export default function FormDiscipline({edit, isPermissionWrite=true, onSave }:F
     const watchService= watch('service')
     const newServiceDisposer = useDisclosure();
 
-    function updateService(data: Service) {
-        append(data);
-    }
+    useEffect(() => {
+        console.log(fields);
+    }, [fields]);
 
     const onSaveDiscipline = async (data:any) => {
         data.service = fields;
         onSave(data);
+    }
+
+    function updateService(data: Service) {
+        append(data);
+        console.log("data");
+        console.log(data);
+        
     }
     
     return (
@@ -88,11 +96,11 @@ export default function FormDiscipline({edit, isPermissionWrite=true, onSave }:F
                                 key={item.id}
                                 onDelete={()=> remove(index)}
                             >
-                                <Table.CellBody><p className="text-ellipsis overflow-hidden">{watchService[index].name}</p></Table.CellBody>
-                                <Table.CellBody><p className="text-ellipsis overflow-hidden">{watchService[index].description}</p></Table.CellBody>
-                                <Table.CellBody>{watchService[index].duration_medio} h</Table.CellBody>
-                                <Table.CellBody>R$ {watchService[index].price}</Table.CellBody>
-                                <Table.CellBody>{watchService[index].ext ? "Sim" : "Não"}</Table.CellBody>
+                                <Table.CellBody><p className="text-ellipsis overflow-hidden">{watchService && watchService[index]?.name}</p></Table.CellBody>
+                                <Table.CellBody><p className="text-ellipsis overflow-hidden">{watchService && watchService[index]?.description}</p></Table.CellBody>
+                                <Table.CellBody>{watchService && watchService[index]?.duration_medio} h</Table.CellBody>
+                                <Table.CellBody>R$ {watchService && watchService[index]?.price}</Table.CellBody>
+                                <Table.CellBody>{watchService && watchService[index]?.ext ? "Sim" : "Não"}</Table.CellBody>
                             </Table.Row>
                         ))}
                         
