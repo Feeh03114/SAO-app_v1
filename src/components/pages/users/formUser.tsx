@@ -70,7 +70,6 @@ interface options {
 export default function FormUser({edit, isPermissionWrite=true, onSave, profiles}:FormUserProps): JSX.Element {
     const [optionsProfiles, setOptionsProfiles] = useState<options[]>([] as options[]);
     const { reset, control, watch, register, setValue, handleSubmit, formState: { errors } } = useForm();
-    const [disciplinas, setDisciplinas] = useState<options[]>(mockDisciplinas);
     const animatedComponents = makeAnimated();
     
     const loadOptionsProfiles = async () => {
@@ -97,8 +96,6 @@ export default function FormUser({edit, isPermissionWrite=true, onSave, profiles
         reset(edit);
     }, [edit]);
 
-    console.log("edit: ", optionsProfiles.filter((item:options) => watch('profilesIds')?.includes(item.value)));
-    
     return (
         <form id='formUser' onSubmit={handleSubmit(onSave)}>
             <div className="w-screen">

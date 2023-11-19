@@ -124,8 +124,7 @@ const TableCell = ({children, hiddenInMobile, hiddenInDesktop, style}:RegisterMo
         }
     }, [hiddenInMobile, hiddenInDesktop]);
 
-    const finalStyle = styleCell + " " + style;
-    
+    const finalStyle = styleCell + " " + (style||'');
     return(
         <td className={twMerge("pl-6 font-Inter text-sm font-normal leading-5 text-gray-500 dark:text-gray-200 border border-x-0 bg-white border-gray-200 dark:border-slate-700 dark:bg-slate-800", finalStyle)}>
             {children}

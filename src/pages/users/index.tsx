@@ -9,6 +9,8 @@ import { withSSRAuth } from "@/util/withSSRAuth";
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { FiXCircle } from "react-icons/fi";
+import { MdCheckCircleOutline } from "react-icons/md";
 import { toast } from "react-toastify";
 
 const TOTAL_ELEMENTS = 25;
@@ -25,14 +27,13 @@ export default function Users(): JSX.Element {
     // const [data, setData] = useState<User[]>([]);
     const [data, setData] = useState([]);
     const router = useRouter();
-    const [currentPage, setCurrentPage] = useState(1);
     const [totalElements, setTotalElements] = useState(TOTAL_ELEMENTS);
     const [isLoading, setIsLoading] = useState(false);
     const [idDelete, setIdDelete] = useState<string>("");
     const deleteDisposer = useDisclosure();
 
     const [params, setParams] = useState({
-        page: currentPage,
+        page: 1,
         pageSize: rowsNumber,
         sortOrder: 'ASC',
         sortField: 'id',
@@ -45,31 +46,22 @@ export default function Users(): JSX.Element {
             const { data:RespAPI } = await api.get("api/users", {
                 params: params
             });
-            console.log(RespAPI.data);
-            verifyActive(RespAPI.data);
-            setCurrentPage(RespAPI.page);
+            setData(RespAPI.data);
             setTotalElements(RespAPI.totalElement);
-            console.log(RespAPI.data);
         } catch (error) {
           console.log(error);
         }
         setIsLoading(false);
     };
 
-    function verifyActive(data: any) {
-        data.map((item: any) => {
-            item.active && setData(data);
-        });
-    }
-    
-    useEffect(() => {
-        loadData();
-    }, []);
 
     useEffect(() => {
         loadData();
-        // loadDataMock();
-    }, [currentPage]);
+    }, [params]);
+
+/*     useEffect(() => {
+        loadData();
+    }, [params]); */
 
     const onDelete = async (id: string) => {
         try {
@@ -86,6 +78,19 @@ export default function Users(): JSX.Element {
         setIdDelete(id);
         deleteDisposer.open();
     }
+
+    const onChangeStatusUser = async (id: string) => {
+        try {
+            await  api.put(`api/users/change-status/${id}`);
+            toast.success('Status alterado com sucesso!');
+            await loadData();
+        } catch (error:Error|any) {
+            if(error?.response?.data?.message)
+                toast.error(error.response.data.message);
+            else
+                toast.error(error.message);
+        }
+    };
 
     return (
         <div className="flex flex-col flex-wrap">
@@ -106,9 +111,10 @@ export default function Users(): JSX.Element {
                     <Table.CellHeader hiddenInMobile={false}>NOME</Table.CellHeader>
                     <Table.CellHeader hiddenInMobile={true}>E-MAIL</Table.CellHeader>
                     <Table.CellHeader hiddenInMobile={true}>REGISTRO UNIVERSITÁRIO</Table.CellHeader>
+                    <Table.CellHeader hiddenInMobile={true} style="text-end">STATUS</Table.CellHeader>
                 </Table.Header>
 
-                {data.map((item: { id:string, name: string, email: string, ru: string }, index: number) => (
+                {data.map((item: { id:string, name: string, email: string, ru: string, active:boolean }, index: number) => (
                     <Table.Row 
                         key={index}                        
                         onView={()=> router.push(`/users/edit/${item.id}`)}
@@ -117,6 +123,20 @@ export default function Users(): JSX.Element {
                         <Table.CellBody><p className="font-medium dark:text-white">{item.name}</p></Table.CellBody>
                         <Table.CellBody hiddenInMobile={true}>{item.email}</Table.CellBody>
                         <Table.CellBody hiddenInMobile={true}>{item.ru}</Table.CellBody>
+                        <Table.CellBody hiddenInMobile={true} style="text-end pr-6">
+                            <button className="h-full px-3 py-2 border dark:border-gray-500 rounded-md cursor-pointer aria-hidden:hidden"
+                                onClick={() => onChangeStatusUser(item.id)}   
+                            >
+                                <MdCheckCircleOutline 
+                                    className="w-5 h-5 text-teal-500 aria-hidden:hidden"
+                                    aria-hidden={!item.active}
+                                />
+                                <FiXCircle 
+                                    className="w-5 h-5 text-red-500 aria-hidden:hidden"
+                                    aria-hidden={item.active}
+                                />
+                            </button>
+                        </Table.CellBody>
                     </Table.Row>
                 ))}
             </Table.Root> 
@@ -124,8 +144,8 @@ export default function Users(): JSX.Element {
             <Pagination
                 pageSize={rowsNumber}
                 totalElements={totalElements}
-                currentPage={currentPage}
-                setCurrentPage={setCurrentPage}
+                currentPage={params.page}
+                setCurrentPage={(page: number) => setParams({...params, page: page})}
             />
         </div>
     );

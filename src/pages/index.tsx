@@ -1,17 +1,22 @@
 import { Input } from '@/components/elementTag/input';
 import { CardInfo2, CardInfo2Mobile, CartInfo, CartIntegrantes } from '@/components/pages/home/components';
+import api from '@/service/api';
+import { yupResolver } from '@hookform/resolvers/yup';
 import { GetServerSideProps } from 'next';
 import { getSession, signOut } from 'next-auth/react';
 import { Inter, Poppins, Sora } from 'next/font/google';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { BsChat } from 'react-icons/bs';
 import { GiHamburgerMenu } from 'react-icons/gi';
 import { LuClock } from 'react-icons/lu';
 import { MdCheckCircle, MdChevronRight } from 'react-icons/md';
 import { RiOrganizationChart } from 'react-icons/ri';
+import { toast } from 'react-toastify';
 import { twMerge } from 'tailwind-merge';
+import * as yup from 'yup';
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -30,8 +35,30 @@ const sora = Sora({
 
 export default function Home():JSX.Element {
   const [isMenuExpanded, setIsMenuExpanded] = useState(false);
-  const [isDarkMode, setIsDarkMode] = useState(true); 
   const router = useRouter();
+  const shema = yup.object().shape({
+    name: yup.string().required('Nome é obrigatório'),
+    telephone: yup.string().optional().test('len', 'Telefone deve ter 11 digitos', (val) => val? val.length === 11 : true),
+    email: yup.string().email().required('E-mail é obrigatório'),
+    message: yup.string().required('Mensagem é obrigatório').max(500, 'Mensagem deve ter no máximo 500 caracteres')
+  });
+  const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm({
+    resolver: yupResolver(shema)
+  });
+
+
+  const onSave = async (data: any) => {
+    try{
+      await api.post('api/interest-system', data);
+      toast.success('Obriagdo pelo seu interesse, retornaremos em breve');
+    }
+    catch(err:Error|any){
+      if(err.response?.data?.message)
+        toast.error(err.response.data.message);
+      else
+        toast.error('Erro ao enviar a mensagem, tente novamente mais tarde');
+    }
+  };
 
   return (
     <>
@@ -362,15 +389,18 @@ export default function Home():JSX.Element {
               </span>
               <div className="w-60 md:w-full h-1 mt-1 bg-teal-500 rounded-3xl" />
             </div>
-            <form className="w-5/6 mt-8 md:mt-0 flex flex-row flex-wrap justify-center items-center">
+            <form className="w-5/6 mt-8 md:mt-0 flex flex-row flex-wrap justify-center items-center" id='formInterestSystem'
+              onSubmit={handleSubmit(onSave)}
+            
+            >
               <div className="w-full md:w-1/2 mt-2 md:mt-8 md:pr-8">
                 <Input 
                   id="name"
                   type="text"
                   label="Nome"
                   placeholder="Nome"
-                  // {...register("name")}
-                  // error={errors.name}
+                  {...register("name")}
+                  error={errors.name}
                 />
               </div>
               <div className="w-full md:w-1/2 mt-2 md:mt-8">
@@ -379,8 +409,8 @@ export default function Home():JSX.Element {
                   type="text"
                   label="Telefone"
                   placeholder="Telefone"
-                  // {...register("name")}
-                  // error={errors.name}
+                  {...register("telephone")}
+                  error={errors.telephone}
                 />
               </div>
               <div className="w-full mt-2 md:mt-8">
@@ -389,8 +419,8 @@ export default function Home():JSX.Element {
                   type="text"
                   label="E-mail"
                   placeholder="E-mail"
-                  // {...register("name")}
-                  // error={errors.name}
+                  {...register("email")}
+                  error={errors.email}
                 />
               </div>
               <div className="w-full flex items-center mt-2 md:mt-8">
@@ -400,12 +430,19 @@ export default function Home():JSX.Element {
                       id="mensagem"
                       className="w-full h-40 px-4 py-2 text-sm font-medium leading-tight truncate dark:text-white placeholder-gray-500 dark:placeholder-white shadow-sm border rounded-lg border-gray-300 dark:border-gray-500  dark:bg-gray-700 focus:border-teal-400 focus:outline-none focus:ring-teal-400 resize-none"
                       placeholder="O que você precisa?"
-                      // {...register("queixa")}
+                      {...register("message")}
                   />
+                  {errors?.message && <span className="text-red-500 text-sm font-medium leading-tight">{errors?.message?.message?.toString()}</span>}
                 </div>
               </div>
-              <div className="w-full md:w-72 h-10 md:h-16 mt-6 flex justify-center items-center bg-gradient-96 from-teal-500 to-teal-600 rounded-full shadow">
-                <button className={twMerge("text-white text-lg font-semibold", sora.className)}>
+              <div className="w-full md:w-72 h-10 md:h-16 mt-6 flex justify-center items-center bg-gradient-96 from-teal-500 to-teal-600 rounded-full shadow
+               aria-disabled:from-teal-300 aria-disabled:to-teal-400"
+                aria-disabled={isSubmitting}
+              >
+                <button className={twMerge("text-white text-lg font-semibold", sora.className)}
+                  type='submit'
+                  disabled={isSubmitting}
+                >
                   Envia Mensagem
                 </button>
               </div>

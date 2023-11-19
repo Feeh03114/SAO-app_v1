@@ -7,6 +7,7 @@ import { withSSRAuth } from "@/util/withSSRAuth";
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 export interface User {
     id: string;
@@ -41,7 +42,6 @@ interface Page {
 export default function UsersEdit(): JSX.Element {
     const [user, setData] = useState<User>({} as User);
     const [profiles, setProfiles] = useState<string[]>([]);
-    const newUserDisposer = useDisclosure();
     const permiteEdit = useDisclosure();
     const router = useRouter();
     const id = router.query.id;
@@ -50,7 +50,6 @@ export default function UsersEdit(): JSX.Element {
     const loadData = async () => {
         try {
             const { data: RespAPI } = await api.get(`api/users/${id}`);
-            console.log(RespAPI);
             setData(RespAPI);
         } catch (error) {
           console.log(error);
@@ -71,13 +70,24 @@ export default function UsersEdit(): JSX.Element {
     }
 
     const onSave = async (data:any) => {
-        console.log(data);
         setIsLoading(true);
         try {
-            // const resp = await api.put(`/api/users/${id}`, data);
-            // console.log(resp);
-            // toast.success('Usuário atualizado com sucesso!');
-            // router.back();
+            const profilesIds = data.profiles.map((item:any) => item.value);
+            delete data.profiles;
+            delete data.disciplines;
+            delete data.createdBy;
+            delete data.criatedAt;
+            delete data.updatedAt;
+            delete data.updatedBy;
+            delete data.deletedAt;
+            delete data.deletedBy;
+            const body ={
+                ...data,
+                profilesIds: profilesIds,
+            }
+            await api.put(`/api/users/${id}`, body);
+            toast.success('Usuário atualizado com sucesso!');
+            router.back();
         } catch (error) {
             console.log(error);
         }
@@ -92,10 +102,10 @@ export default function UsersEdit(): JSX.Element {
                 title={user.name}
                 subtitle={"RU: " + user.ru}
                 textLeft="Voltar"
-                textRight="Editar"
+                textRight={permiteEdit.isOpen ? "Salvar" : "Editar"}
                 onClickLeft={()=> console.log('Voltar')}
-                onClickRight={newUserDisposer.open}
-                typeButtonRight="edit"
+                onClickRight={handleEdit}
+                typeButtonRight={permiteEdit.isOpen ? 'confirm' : 'edit'}
             />
 
             <FormUser 
