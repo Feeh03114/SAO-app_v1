@@ -18,11 +18,11 @@ interface ModalServiceDisciplineProps{
     isOpen: boolean;
     onClose: () => void;
     onSave:(data:any)=>void;
-    edit?:  typeof validationAvailabilities;
+    edit?:  any;
 }
 
-export default function FormAvailabilities({isOpen, onClose, onSave, edit = {} as  typeof validationAvailabilities} : ModalServiceDisciplineProps): JSX.Element {
-    const { register: register3, reset, handleSubmit: handleSubmit3, formState: { errors: errors3 }  } = useForm({
+export default function FormAvailabilities({isOpen, onClose, onSave, edit = {} } : ModalServiceDisciplineProps): JSX.Element {
+    const { register, reset, handleSubmit, formState: { errors }  } = useForm({
         resolver: yupResolver(validationAvailabilities)
     });
 
@@ -38,7 +38,7 @@ export default function FormAvailabilities({isOpen, onClose, onSave, edit = {} a
     useEffect(() => {
         if (!isOpen) 
             reset({
-                day: '',
+                day: 0,
                 start: '',
                 end: '',
             });
@@ -54,7 +54,7 @@ export default function FormAvailabilities({isOpen, onClose, onSave, edit = {} a
         >
             <Modal.Header title="Cadastrar Horário" icon={HiOutlinePlus} />
             <Modal.Body>
-                <form id='formAvailabilities' className="w-full space-y-4 flex flex-wrap" onSubmit={handleSubmit3(updateHandleSubmit)}>
+                <form id='formAvailabilities' className="w-full space-y-4 flex flex-wrap" onSubmit={handleSubmit(updateHandleSubmit)}>
                     <div className="w-full">
                         <label className="pl-4 text-sm font-medium leading-tight text-gray-700 dark:text-white">Dia da Semana</label>
                         <Input 
@@ -62,8 +62,8 @@ export default function FormAvailabilities({isOpen, onClose, onSave, edit = {} a
                             type="text"
                             className="w-full"
                             placeholder="Selecione o dia da semana"
-                            {...register3("day")}
-                            error={errors3.day}
+                            {...register("day")}
+                            error={errors.day}
                         />
                     </div>
                     <div className="flex flex-wrap md:flex-nowrap md:space-x-6">
@@ -73,8 +73,8 @@ export default function FormAvailabilities({isOpen, onClose, onSave, edit = {} a
                                 id="start"
                                 type="time"
                                 className="w-full"
-                                {...register3("start")}
-                                error={errors3.start}
+                                {...register("start")}
+                                error={errors.start}
                             />
                         </div>
                         <div className="w-full md:w-1/2">
@@ -83,8 +83,8 @@ export default function FormAvailabilities({isOpen, onClose, onSave, edit = {} a
                                 id="end"
                                 type="time"
                                 className="w-full"
-                                {...register3("end")}
-                                error={errors3.end}
+                                {...register("end")}
+                                error={errors.end}
                             />
                         </div>
                     </div>

@@ -4,7 +4,6 @@ import { useDisclosure } from "@/hook/useDisclosure";
 import { Service } from "@/pages/disciplines/add";
 import { Profile } from "@/pages/profiles/edit/[id]";
 import { withSSRAuth } from "@/util/withSSRAuth";
-import { yupResolver } from "@hookform/resolvers/yup";
 import { GetServerSideProps } from "next";
 import { useFieldArray, useForm } from "react-hook-form";
 import * as yup from 'yup';
@@ -19,20 +18,20 @@ interface FormProfileProps {
     isPermissionWrite?: boolean;
     onSave:(data:any)=>void;
 }
-
+/* {
+    resolver: yupResolver(validationDiscipline)
+} */
 export default function FormDiscipline({ isPermissionWrite=true, onSave }:FormProfileProps): JSX.Element {
-    const { control: control1, register: register1, watch: watch1, handleSubmit: handleSubmit1, formState: { errors: errors1 } } = useForm({
-        resolver: yupResolver(validationDiscipline)
-    });
+    const { control, register, watch, handleSubmit, formState: { errors: errors } } = useForm();
     const { fields, append, remove } = useFieldArray({
-        control: control1, 
+        control: control, 
         name: "service",
     });
-    const watchService= watch1('service')
+    const watchService= watch('service')
     const newServiceDisposer = useDisclosure();
 
     const onSaveDiscipline = async (data:any) => {
-        data.service = fields;
+        //data.service = fields;
         onSave(data);
     }
 
@@ -49,7 +48,7 @@ export default function FormDiscipline({ isPermissionWrite=true, onSave }:FormPr
     return (
         <>
             <FormServiceDiscipline isOpen={newServiceDisposer.isOpen} onClose={newServiceDisposer.close} onSave={updateService}/>
-            <form id='formDiscipline' onSubmit={handleSubmit1(onSaveDiscipline)}>
+            <form id='formDiscipline' onSubmit={handleSubmit(onSaveDiscipline)}>
                 
                 <div className="w-screen px-8">
                     <div className="w-full p-6 flex flex-row flex-wrap shadow-sm border rounded-lg border-gray-300 dark:border-gray-500">
@@ -60,8 +59,8 @@ export default function FormDiscipline({ isPermissionWrite=true, onSave }:FormPr
                                 label="Nome"
                                 placeholder="Nome da Disciplina"
                                 className="read-only:bg-gray-200 read-only:cursor-default"
-                                {...register1("name")}
-                                error={errors1.name}
+                                {...register("name")}
+                                error={errors.name}
                                 readOnly={!isPermissionWrite}
                             />
                         </div>
