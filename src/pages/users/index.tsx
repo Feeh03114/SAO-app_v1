@@ -47,7 +47,6 @@ export default function Users(): JSX.Element {
             });
             console.log(RespAPI.data);
             verifyActive(RespAPI.data);
-            setCurrentPage(RespAPI.page);
             setTotalElements(RespAPI.totalElement);
             console.log(RespAPI.data);
         } catch (error) {
@@ -67,9 +66,16 @@ export default function Users(): JSX.Element {
     }, []);
 
     useEffect(() => {
+        setParams({
+            ...params,
+            page: currentPage,
+        });
+    }, [currentPage]);
+
+    useEffect(() => {
         loadData();
         // loadDataMock();
-    }, [currentPage]);
+    }, [params]);
 
     const onDelete = async (id: string) => {
         try {

@@ -132,7 +132,7 @@ export default function FormServiceDiscipline({isOpen, onClose, onSave} : ModalS
                                 error={errors2.price}
                             />
                         </div>
-                        <div className="w-full md:w-1/2">
+                        <div className="w-full md:w-1/2 mt-4 md:mt-0">
                             <label className="pl-4 text-sm font-medium leading-tight text-gray-700 dark:text-white">Tempo médio de atendimento</label>
                             <Input 
                                 id="durationMedio"
@@ -171,7 +171,7 @@ export default function FormServiceDiscipline({isOpen, onClose, onSave} : ModalS
                             type="button"
                             onClick={() => newAvaliableTimeDisposer.open()}
                         >
-                            <p className="sm-mobile:hidden md:block text-sm font-medium leading-tight text-white">Adicionar horário</p>
+                            <p className="md:block text-sm font-medium leading-tight text-white">Adicionar horário</p>
                         </button>
                     </div>
                 

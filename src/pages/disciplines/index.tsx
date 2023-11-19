@@ -28,11 +28,11 @@ export default function Subjects(): JSX.Element {
     const deleteDisposer = useDisclosure();
 
     const [params, setParams] = useState({
-        page: currentPage,
+        page: 1,
         pageSize: rowsNumber,
         sortOrder: 'ASC',
-        sortField: 'id',
-        status: 2,
+        sortField: 'date',
+        status: 0,
       });
 
     const loadData = async () => {
@@ -41,9 +41,7 @@ export default function Subjects(): JSX.Element {
             const { data:RespAPI } = await api.get("api/disciplines", {
                 params: params
             });
-            console.log(RespAPI);
             setData(RespAPI.data);
-            setCurrentPage(RespAPI.page);
             setTotalElements(RespAPI.totalElement);
         } catch (error) {
           console.log(error);
@@ -56,8 +54,15 @@ export default function Subjects(): JSX.Element {
     }, []);
 
     useEffect(() => {
-        loadData();
+        setParams({
+            ...params,
+            page: currentPage,
+        });
     }, [currentPage]);
+
+    useEffect(() => {
+        loadData();
+    }, [params]);
 
     function deleteItem(id: string) {
         setIdDelete(id);

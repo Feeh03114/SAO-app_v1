@@ -70,7 +70,7 @@ const TableCellHeader = ({children, hiddenInMobile, hiddenInDesktop, style}:Regi
     const finalStyle = styleCell + " " + style;
 
     return(
-        <th className={twMerge("px-6 py-3 text-start font-Inter text-xs font-medium leading-4 tracking-wide text-gray-500 dark:text-gray-200", finalStyle)}>
+        <th className={twMerge("px-3 md:px-6 py-3 text-start font-Inter text-xs font-medium leading-4 tracking-wide text-gray-500 dark:text-gray-200", finalStyle)}>
             {children}
         </th>
     )
@@ -127,7 +127,7 @@ const TableCell = ({children, hiddenInMobile, hiddenInDesktop, style}:RegisterMo
     const finalStyle = styleCell + " " + style;
     
     return(
-        <td className={twMerge("pl-6 font-Inter text-sm font-normal leading-5 text-gray-500 dark:text-gray-200 border border-x-0 bg-white border-gray-200 dark:border-slate-700 dark:bg-slate-800", finalStyle)}>
+        <td className={twMerge("pl-3 md:pl-6 font-Inter text-sm font-normal leading-5 text-gray-500 dark:text-gray-200 border border-x-0 bg-white border-gray-200 dark:border-slate-700 dark:bg-slate-800", finalStyle)}>
             {children}
         </td>
     )

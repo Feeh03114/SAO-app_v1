@@ -41,7 +41,6 @@ export default function Finance(): JSX.Element {
     //         });
     //         console.log(RespAPI);
     //         setData(RespAPI.data);
-    //         setCurrentPage(RespAPI.page);
     //         setTotalElements(RespAPI.totalElement);
     //     } catch (error) {
     //       console.log(error);
@@ -50,8 +49,15 @@ export default function Finance(): JSX.Element {
     // };
     
     // useEffect(() => {
+    //     setParams({
+    //         ...params,
+    //         page: currentPage,
+    //     });
+    // }, [currentPage]);
+
+    // useEffect(() => {
     //     loadData();
-    // }, []);
+    // }, [params]);
 
     const mock: Finance[] = [];
     

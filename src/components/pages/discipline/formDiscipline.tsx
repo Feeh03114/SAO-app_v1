@@ -79,17 +79,17 @@ export default function FormDiscipline({ isPermissionWrite=true, onSave }:FormPr
                                 type="button"
                                 onClick={() => newServiceDisposer.open()}
                             >
-                                <p className="sm-mobile:hidden md:block text-sm font-medium leading-tight text-white">Adicionar horário</p>
+                                <p className="md:block text-sm font-medium leading-tight text-white">Adicionar horário</p>
                             </button>
                         </div>
                     
                         <Table.Root tableHeight={(watchService?.length + 1) <= 4 ? String(4) : (watchService?.length + 1).toString()}style="mt-8">
                             <Table.Header>
                                 <Table.CellHeader>NOME DO SERVIÇO</Table.CellHeader>
-                                <Table.CellHeader>DESCRIÇÃO DO SERVIÇO</Table.CellHeader>
+                                <Table.CellHeader hiddenInMobile={true}>DESCRIÇÃO DO SERVIÇO</Table.CellHeader>
                                 <Table.CellHeader>TEMPO DO SERVIÇO</Table.CellHeader>
-                                <Table.CellHeader>PREÇO</Table.CellHeader>
-                                <Table.CellHeader>EXTERNO</Table.CellHeader>
+                                <Table.CellHeader hiddenInMobile={true}>PREÇO</Table.CellHeader>
+                                <Table.CellHeader hiddenInMobile={true}>EXTERNO</Table.CellHeader>
                             </Table.Header>
                             {fields.map((item, index) => (
                                 <Table.Row
@@ -97,10 +97,10 @@ export default function FormDiscipline({ isPermissionWrite=true, onSave }:FormPr
                                     onDelete={()=> remove(index)}
                                 >
                                     <Table.CellBody><p className="text-ellipsis overflow-hidden">{watchService && watchService[index]?.name}</p></Table.CellBody>
-                                    <Table.CellBody><p className="text-ellipsis overflow-hidden">{watchService && watchService[index]?.description}</p></Table.CellBody>
+                                    <Table.CellBody hiddenInMobile={true}><p className="text-ellipsis overflow-hidden">{watchService && watchService[index]?.description}</p></Table.CellBody>
                                     <Table.CellBody>{watchService && convertMinutesToHours(watchService[index]?.duration_medio)} h</Table.CellBody>
-                                    <Table.CellBody>R$ {watchService && watchService[index]?.price}</Table.CellBody>
-                                    <Table.CellBody>{watchService && watchService[index]?.ext ? "Sim" : "Não"}</Table.CellBody>
+                                    <Table.CellBody hiddenInMobile={true}>R$ {watchService && watchService[index]?.price}</Table.CellBody>
+                                    <Table.CellBody hiddenInMobile={true}>{watchService && watchService[index]?.ext ? "Sim" : "Não"}</Table.CellBody>
                                 </Table.Row>
                             ))}
                             

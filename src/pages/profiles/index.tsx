@@ -51,7 +51,6 @@ export default function Profiles(): JSX.Element {
                 params: params
             });
             setData(RespAPI.data);
-            setCurrentPage(RespAPI.page);
             setTotalElements(RespAPI.totalElement);
         } catch (error) {
           console.log(error);
@@ -64,8 +63,15 @@ export default function Profiles(): JSX.Element {
     }, []);
 
     useEffect(() => {
-        loadData();
+        setParams({
+            ...params,
+            page: currentPage,
+        });
     }, [currentPage]);
+
+    useEffect(() => {
+        loadData();
+    }, [params]);
 
     const onDelete = async (id: string) => {
         try {
