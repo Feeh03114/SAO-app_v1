@@ -7,25 +7,6 @@ import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { toast } from "react-toastify";
-
-interface Permission {
-    profile_id: string;
-    page_id: string;
-    isRead: boolean;
-    isCreate: boolean;
-    isEdit: boolean;
-    isDelete: boolean;
-    filter: boolean;
-    page: Page;
-  }
-  
-  interface Page {
-    id: string;
-    namePage: string;
-    url: string;
-    icon: string;
-    ordem: number;
-  }
   
 export interface Discipline {
     name: string;

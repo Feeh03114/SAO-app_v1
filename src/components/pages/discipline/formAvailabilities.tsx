@@ -3,7 +3,6 @@ import Modal from "@/components/modal";
 import { withSSRAuth } from "@/util/withSSRAuth";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { GetServerSideProps } from "next";
-import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { HiOutlinePlus } from "react-icons/hi";
 import * as yup from 'yup';
@@ -22,7 +21,7 @@ interface ModalServiceDisciplineProps{
 }
 
 export default function FormAvailabilities({isOpen, onClose, onSave, edit = {} as  typeof validationAvailabilities} : ModalServiceDisciplineProps): JSX.Element {
-    const { control, register, reset, handleSubmit, formState: { errors }  } = useForm({
+    const { register: register3, reset, handleSubmit: handleSubmit3, formState: { errors: errors3 }  } = useForm({
         resolver: yupResolver(validationAvailabilities)
     });
 
@@ -35,16 +34,16 @@ export default function FormAvailabilities({isOpen, onClose, onSave, edit = {} a
         onSave(newData);
     } 
 
-    useEffect(() => {
-        if (!isOpen) 
+    // useEffect(() => {
+    //     if (!isOpen) 
             // reset({
             //     day: '',
             //     start: '',
             //     end: '',
             // });
-        if(Object.keys(edit).length > 0)
-            reset(edit)
-    }, [isOpen]);
+        // if(Object.keys(edit).length > 0)
+        //     reset(edit)
+    // }, [isOpen]);
 
     return (
         <Modal.Root
@@ -54,7 +53,7 @@ export default function FormAvailabilities({isOpen, onClose, onSave, edit = {} a
         >
             <Modal.Header title="Cadastrar Horário" icon={HiOutlinePlus} />
             <Modal.Body>
-                <form id='formAvailabilities' className="w-full space-y-4 flex flex-wrap" onSubmit={handleSubmit(updateHandleSubmit)}>
+                <form id='formAvailabilities' className="w-full space-y-4 flex flex-wrap" onSubmit={handleSubmit3(updateHandleSubmit)}>
                     <div className="w-full">
                         <label className="pl-4 text-sm font-medium leading-tight text-gray-700 dark:text-white">Dia da Semana</label>
                         <Input 
@@ -62,8 +61,8 @@ export default function FormAvailabilities({isOpen, onClose, onSave, edit = {} a
                             type="text"
                             className="w-full"
                             placeholder="Selecione o dia da semana"
-                            {...register("day")}
-                            error={errors.day}
+                            {...register3("day")}
+                            error={errors3.day}
                         />
                     </div>
                     <div className="flex flex-wrap md:flex-nowrap md:space-x-6">
@@ -73,8 +72,8 @@ export default function FormAvailabilities({isOpen, onClose, onSave, edit = {} a
                                 id="start"
                                 type="time"
                                 className="w-full"
-                                {...register("start")}
-                                error={errors.start}
+                                {...register3("start")}
+                                error={errors3.start}
                             />
                         </div>
                         <div className="w-full md:w-1/2">
@@ -83,8 +82,8 @@ export default function FormAvailabilities({isOpen, onClose, onSave, edit = {} a
                                 id="end"
                                 type="time"
                                 className="w-full"
-                                {...register("end")}
-                                error={errors.end}
+                                {...register3("end")}
+                                error={errors3.end}
                             />
                         </div>
                     </div>

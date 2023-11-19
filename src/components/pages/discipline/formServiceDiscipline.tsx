@@ -11,6 +11,27 @@ import { HiOutlinePlus } from "react-icons/hi";
 import * as yup from 'yup';
 import FormAvaliableTimes from "./formAvailabilities";
 
+function convertNumberToDay(day: number) {
+    switch (day) {
+        case 1:
+            return 'Segunda-feira';
+        case 2:
+            return 'Terça-feira';
+        case 3:
+            return 'Quarta-feira';
+        case 4:
+            return 'Quinta-feira';
+        case 5:
+            return 'Sexta-feira';
+        case 6:
+            return 'Sábado';
+        case 7:
+            return 'Domingo';
+        default:
+            return '';
+    }
+}
+
 const validationService = yup.object().shape({
     name: yup.string().required('Campo obrigatório'),
     description: yup.string().required('Campo obrigatório'),
@@ -25,14 +46,14 @@ interface ModalServiceDisciplineProps{
 }
 
 export default function FormServiceDiscipline({isOpen, onClose, onSave} : ModalServiceDisciplineProps): JSX.Element {
-    const { control, register, reset, watch, handleSubmit, formState: { errors }  } = useForm({
+    const { control: control2, register: register2, reset, watch: watch2, handleSubmit: handleSubmit2, formState: { errors: errors2 }  } = useForm({
         resolver: yupResolver(validationService)
     });
     const { fields, append, remove } = useFieldArray({
-        control, 
+        control: control2, 
         name: "availabilities",
     });
-    const watchAvailabilities = watch('availabilities')
+    const watchAvailabilities = watch2('availabilities')
     const newAvaliableTimeDisposer = useDisclosure();
 
     const updateHandleSubmit = async (data: any) => {
@@ -77,7 +98,7 @@ export default function FormServiceDiscipline({isOpen, onClose, onSave} : ModalS
             <FormAvaliableTimes isOpen={newAvaliableTimeDisposer.isOpen} onClose={newAvaliableTimeDisposer.close} onSave={updateAvailabilities}/>
             <Modal.Header title="Cadastrar Serviço" icon={HiOutlinePlus} />
             <Modal.Body>
-                <form id='formService' className="w-full space-y-4 flex flex-wrap" onSubmit={handleSubmit(updateHandleSubmit)}>
+                <form id='formService' className="w-full space-y-4 flex flex-wrap" onSubmit={handleSubmit2(updateHandleSubmit)}>
                     <div className="w-full">
                         <label className="pl-4 text-sm font-medium leading-tight text-gray-700 dark:text-white">Nome do Serviço</label>
                         <Input 
@@ -85,8 +106,8 @@ export default function FormServiceDiscipline({isOpen, onClose, onSave} : ModalS
                             type="text"
                             className="w-full"
                             placeholder="Insira o nome do serviço"
-                            {...register("name")}
-                            error={errors.name}
+                            {...register2("name")}
+                            error={errors2.name}
                         />
                     </div>
                     <div className="w-full">
@@ -95,9 +116,9 @@ export default function FormServiceDiscipline({isOpen, onClose, onSave} : ModalS
                             id="description"
                             className="w-full h-24 px-4 py-2 text-sm font-medium leading-tight truncate dark:text-white placeholder-gray-500 dark:placeholder-white shadow-sm border rounded-lg border-gray-300 dark:border-gray-500  dark:bg-gray-700 focus:border-teal-400 focus:outline-none focus:ring-teal-400 resize-none"
                             placeholder=""
-                            {...register("description")}
+                            {...register2("description")}
                         />
-                        <p className="text-red-500 text-sm">{errors?.message?.toString()}</p>
+                        <p className="text-red-500 text-sm">{errors2?.message?.toString()}</p>
                     </div>
                     <div className="flex flex-wrap md:flex-nowrap md:space-x-6">
                         <div className="w-full md:w-1/2">
@@ -107,8 +128,8 @@ export default function FormServiceDiscipline({isOpen, onClose, onSave} : ModalS
                                 type="text"
                                 className="w-full"
                                 placeholder="Insira o valor do serviço"
-                                {...register("price")}
-                                error={errors.price}
+                                {...register2("price")}
+                                error={errors2.price}
                             />
                         </div>
                         <div className="w-full md:w-1/2">
@@ -118,8 +139,8 @@ export default function FormServiceDiscipline({isOpen, onClose, onSave} : ModalS
                                 type="time"
                                 className="w-full"
                                 placeholder="Insira o valor do serviço"
-                                {...register("duration_medio")}
-                                error={errors.duration_medio}
+                                {...register2("duration_medio")}
+                                error={errors2.duration_medio}
                             />
                         </div>
                     </div>
@@ -127,7 +148,7 @@ export default function FormServiceDiscipline({isOpen, onClose, onSave} : ModalS
                         <input
                             type="checkbox"
                             id="ext"
-                            {...register("ext")}
+                            {...register2("ext")}
                         />
                         <label className="pl-2 text-sm font-medium leading-tight text-gray-700 dark:text-white">Serviço Externo</label>
                     </div>
@@ -135,7 +156,7 @@ export default function FormServiceDiscipline({isOpen, onClose, onSave} : ModalS
                         <input
                             type="checkbox"
                             id="active_duration_auto"
-                            {...register("active_duration_auto")}
+                            {...register2("active_duration_auto")}
                         />
                         <label className="pl-2 text-sm font-medium leading-tight text-gray-700 dark:text-white">Ativar duração automatica?</label>
                     </div>
@@ -166,7 +187,7 @@ export default function FormServiceDiscipline({isOpen, onClose, onSave} : ModalS
                             >
                                 <Table.CellBody>
                                     <p className="text-ellipsis overflow-hidden">
-                                        {watchAvailabilities && watchAvailabilities[index]?.day}
+                                        {convertNumberToDay(watchAvailabilities && watchAvailabilities[index]?.day)}
                                     </p>
                                 </Table.CellBody>
                                 <Table.CellBody>
