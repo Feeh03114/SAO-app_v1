@@ -3,6 +3,7 @@ import Modal from "@/components/modal";
 import { withSSRAuth } from "@/util/withSSRAuth";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { GetServerSideProps } from "next";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { HiOutlinePlus } from "react-icons/hi";
 import * as yup from 'yup';
@@ -34,16 +35,16 @@ export default function FormAvailabilities({isOpen, onClose, onSave, edit = {} a
         onSave(newData);
     } 
 
-    // useEffect(() => {
-    //     if (!isOpen) 
-            // reset({
-            //     day: '',
-            //     start: '',
-            //     end: '',
-            // });
-        // if(Object.keys(edit).length > 0)
-        //     reset(edit)
-    // }, [isOpen]);
+    useEffect(() => {
+        if (!isOpen) 
+            reset({
+                day: '',
+                start: '',
+                end: '',
+            });
+        if(Object.keys(edit).length > 0)
+            reset(edit)
+    }, [isOpen]);
 
     return (
         <Modal.Root

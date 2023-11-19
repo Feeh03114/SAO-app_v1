@@ -6,7 +6,6 @@ import { Profile } from "@/pages/profiles/edit/[id]";
 import { withSSRAuth } from "@/util/withSSRAuth";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { GetServerSideProps } from "next";
-import { useEffect } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import * as yup from 'yup';
 import FormServiceDiscipline from "./formServiceDiscipline";
@@ -31,10 +30,6 @@ export default function FormDiscipline({ isPermissionWrite=true, onSave }:FormPr
     });
     const watchService= watch1('service')
     const newServiceDisposer = useDisclosure();
-
-    useEffect(() => {
-        console.log(fields);
-    }, [fields]);
 
     const onSaveDiscipline = async (data:any) => {
         data.service = fields;
