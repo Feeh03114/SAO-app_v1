@@ -58,9 +58,11 @@ const CardSelected = ({children, label, styles} : CardTextProps) => {
     )
 }
 
-const TextSelected = ({text} : CardTextProps) => {
+const TextSelected = ({text, onClick} : CardTextProps) => {
     return (
-        <div className="px-2 m-1 border rounded-2xl bg-teal-100">
+        <div className="px-2 m-1 border rounded-2xl bg-teal-100 hover:cursor-pointer hover:bg-teal-200"
+            onClick={onClick}
+        >
             <p className="text-xs font-Inter font-medium leading-4 text-teal-800">{text}</p>
         </div>
     )

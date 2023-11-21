@@ -8,22 +8,21 @@ import { ToastContainer, toast } from 'react-toastify';
 import { getUppercaseFirstLetter } from '../../util/util';
 import { Input } from '../elementTag/input';
 import { fieldsProps, metaDataCreateEditProps, optionsProps } from './type';
+
 interface FilterProps{
     axios?:AxiosInstance
     endpoint?: string;
     metaData?: metaDataCreateEditProps;
-    datas?: any[];
 }
 
 export function CreateEditTable({
     endpoint = "", 
     axios:axiosProperty = axios,
     metaData = {title: "Dynamic Table", fields: []},
-    datas = [],
     
 }: FilterProps){
     const [metadata, setMetadata] = useState<metaDataCreateEditProps>(metaData);
-    const [data, setData] = useState<any>(datas);
+    const [data, setData] = useState<any>({});
     const router = useRouter();
     const {id} = router.query;
 

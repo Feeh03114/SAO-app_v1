@@ -27,7 +27,7 @@ function Select({ name, label, placeHolder, valueDefault='', data=[], control, d
             control={control}
             render={({ field }) => (
                 <>
-                    <label className={`${label === undefined && 'hidden'}pl-4 text-sm font-Inter font-medium leading-tight text-gray-700 dark:text-white`}>{label}</label>
+                    <label className={`${label === undefined && 'hidden'} pl-4 text-sm font-Inter font-medium leading-tight text-gray-700 dark:text-white`}>{label}</label>
                     <select
                         disabled={disabled}
                         value={field.value}

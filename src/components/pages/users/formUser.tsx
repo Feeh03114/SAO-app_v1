@@ -96,8 +96,6 @@ export default function FormUser({edit, isPermissionWrite=true, onSave, profiles
         loadOptionsProfiles();
         reset(edit);
     }, [edit]);
-
-    console.log("edit: ", optionsProfiles.filter((item:options) => watch('profilesIds')?.includes(item.value)));
     
     return (
         <form id='formUser' onSubmit={handleSubmit(onSave)}>

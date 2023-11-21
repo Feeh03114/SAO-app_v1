@@ -30,7 +30,7 @@ export default function Patients(): JSX.Element {
         pageSize: rowsNumber,
         sortOrder: 'ASC',
         sortField: 'id',
-        status: 2,
+        status: 0,
       });
 
     // const loadData = async () => {
@@ -88,7 +88,7 @@ export default function Patients(): JSX.Element {
                 textLeft="Filtros"
                 textRight="Adicionar paciente"
                 onClickLeft={()=> console.log('filter')}
-                onClickRight={newUserDisposer.open}
+                onClickRight={()=> router.push('/patients/add')}
                 typeButtonLeft="filter"
                 typeButtonRight="add"
             />

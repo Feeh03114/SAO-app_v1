@@ -1,6 +1,6 @@
 
 import Header from "@/components/Header";
-import FormDiscipline from "@/components/pages/discipline/formDiscipline";
+import FormPatient from "@/components/pages/patient/formPatient";
 import api from "@/service/api";
 import { withSSRAuth } from "@/util/withSSRAuth";
 import { GetServerSideProps } from "next";
@@ -8,43 +8,45 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import { toast } from "react-toastify";
   
-export interface Discipline {
+export interface Patient {
+    guardian: string[];
+    medicaRecord: string;
+    stats: string;
+    people: People;
+    educationLevel: string;
+}
+
+export interface People {
+    birthDate: string;
     name: string;
-    service: Service[];
+    lastName: string;
+    cpf: string;
+    rg: string;
+    genre: string;
+    ethnicity: string;
+    email: string;
+    phoneNumber: string;
+    profession: string;
+    nationality: string;
+    naturalness: string;
+    adress: string[];
 }
 
-export interface Service {
-    id: string;
-    name: string;
-    description: string;
-    price: number;
-    duration_medio: number;
-    active_duration_medio: boolean;
-    ext: boolean;
-    availabilities: Availabilities[];
-}
-
-export interface Availabilities {
-    id: string;
-    day: number;
-    start: string;
-    end: string;
-}
-
-export default function DisciplineAdd(): JSX.Element {
+export default function PatientAdd(): JSX.Element {
     const router = useRouter();
     const [isLoading, setIsLoading] = useState(false);
+
     function handleEdit() {
-        const form = document.getElementById('formDiscipline');
+        const form = document.getElementById('formPatient');
         form?.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
     }
 
-    const onSave = async (data:Discipline) => {
+    const onSave = async (data:Patient) => {
         setIsLoading(true);
         try {
-            const resp = await api.post(`/api/disciplines`, data);
+            const resp = await api.post(`/api/patients`, data);
             console.log(resp.data);
-            toast.success('Disciplina criada com sucesso!');
+            toast.success('Paciente criado com sucesso!');
             router.back();
         } catch (error) {
             console.log(error);
@@ -57,8 +59,8 @@ export default function DisciplineAdd(): JSX.Element {
     return (
         <>
             <Header 
-                title="Nova Disciplina"
-                subtitle="Confira os dados da disciplina"
+                title="Cadastrar Paciente"
+                subtitle="Confira os dados do paciente"
                 textLeft="Voltar"
                 textRight="Salvar informações"
                 onClickLeft={()=> router.back()}
@@ -67,7 +69,7 @@ export default function DisciplineAdd(): JSX.Element {
                 disabledLeft={isLoading}
                 disabledRight={isLoading}
             />
-            <FormDiscipline onSave={onSave}/>
+            <FormPatient onSave={onSave}/>
         </>
     )
 }
