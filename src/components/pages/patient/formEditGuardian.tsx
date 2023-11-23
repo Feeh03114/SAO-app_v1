@@ -11,7 +11,7 @@ import { useEffect, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { HiOutlineCheck, HiOutlinePlus } from "react-icons/hi";
 import * as yup from 'yup';
-import FormAddress from "./formEditAddress";
+import { default as FormAddress, default as FormEditAddress } from "./formEditAddress";
 import { Address, Guardian, Option } from "./formPatient";
 
 const validationAddress = yup.object().shape({
@@ -30,9 +30,10 @@ interface ModalGuardianProps{
     onClose: () => void;
     guardian: Guardian;
     onSave:(data:any)=>void;
+    onDelete:() => void;
 }
 
-export default function FormEditGuardian({isOpen, onClose, guardian, onSave} : ModalGuardianProps): JSX.Element {
+export default function FormEditGuardian({isOpen, onClose, guardian, onSave, onDelete} : ModalGuardianProps): JSX.Element {
     const { control: controlGuardian, register: registerGuardian, reset, watch: watchGuardian, handleSubmit: handleSubmitGuardian, formState: { errors: errorsGuardian }  } = useForm({
         // resolver: yupResolver(validationAddress)
     });
@@ -45,12 +46,15 @@ export default function FormEditGuardian({isOpen, onClose, guardian, onSave} : M
     const editAddressDisposer = useDisclosure();
     const [selectedAddress, setSelectedAddress] = useState<Address>({} as Address);
     const [indexSelectedAddress, setIndexSelectedAddress] = useState<number>(0);
+    const gender = Object.values(Gender);
+    const ethnicity = Object.values(Ethnicity);
 
     function updateAddress(data: Address) {
         append(data);
     }
 
     useEffect(() => {
+        console.log(guardian);
         reset({
             // birthDate: guardian.birthDate,
             name: guardian.name,
@@ -68,6 +72,7 @@ export default function FormEditGuardian({isOpen, onClose, guardian, onSave} : M
     }, [isOpen]);
 
     const updateHandleSubmit = async (data: any) => {
+        remove();
         onClose();
         onSave(data);
     };
@@ -75,7 +80,7 @@ export default function FormEditGuardian({isOpen, onClose, guardian, onSave} : M
     function convertAddressToOptions() {
         const addressOptions: Option[] = [];
 
-        fields.map((item, index) => {
+        fields?.map((item, index) => {
             const addressOption = {
                 value: addressOptions.length + 1,
                 label: watch[index].name
@@ -102,7 +107,8 @@ export default function FormEditGuardian({isOpen, onClose, guardian, onSave} : M
         >
             <Modal.Header title="Cadastrar Guardião" icon={HiOutlinePlus} />
             <Modal.Body>
-                <FormAddress isOpen={addressDisposer.isOpen} onClose={addressDisposer.close} address={selectedAddress} onSave={updateEditAddress} onDelete={deleteAddress}/>
+                <FormAddress isOpen={addressDisposer.isOpen} onClose={addressDisposer.close} address={selectedAddress} onSave={updateAddress} onDelete={deleteAddress}/>
+                <FormEditAddress isOpen={editAddressDisposer.isOpen} onClose={editAddressDisposer.close} address={selectedAddress} onSave={updateEditAddress} onDelete={deleteAddress}/>
                 <form id='formEditGuardian' className="w-full gap-y-4 flex flex-wrap" onSubmit={handleSubmitGuardian(updateHandleSubmit)}>
                     <div className="w-1/2 md:w-1/4 px-2">
                         <Input 
@@ -169,9 +175,9 @@ export default function FormEditGuardian({isOpen, onClose, guardian, onSave} : M
                             placeHolder={"Selecione o gênero"}
                             valueDefault={-1}
                             data={
-                                Object.keys(Gender).map((key) => ({
-                                    id: parseInt(key),
-                                    name: Gender[key as keyof typeof Gender],
+                                gender.map((item, index) => ({
+                                    id: index,
+                                    name: item,
                                 }))
                             }
                             control={controlGuardian}
@@ -184,9 +190,9 @@ export default function FormEditGuardian({isOpen, onClose, guardian, onSave} : M
                             placeHolder={"Selecione a etnia"}
                             valueDefault={-1}
                             data={
-                                Object.keys(Ethnicity).map((key) => ({
-                                    id: parseInt(key),
-                                    name: Ethnicity[key as keyof typeof Ethnicity],
+                                ethnicity.map((item, index) => ({
+                                    id: index,
+                                    name: item,
                                 }))
                             }
                             control={controlGuardian}

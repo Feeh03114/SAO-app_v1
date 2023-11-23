@@ -13,7 +13,6 @@ const validationAddress = yup.object().shape({
     cep: yup.string().required('Campo obrigatório'),
     streetAddress: yup.string().required('Campo obrigatório'),
     number: yup.string().required('Campo obrigatório'),
-    complement: yup.string(),
     district: yup.string().required('Campo obrigatório'),
     city: yup.string().required('Campo obrigatório'),
     state: yup.string().required('Campo obrigatório'),
@@ -56,7 +55,7 @@ export default function FormAddress({isOpen, onClose, onSave} : ModalAddressProp
         >
             <Modal.Header title={"Cadastrar Endereço"} icon={HiOutlinePlus}/>
             <Modal.Body>
-                <form id='formEditAddress' className="w-full space-y-4 flex flex-wrap" onSubmit={handleSubmit(updateHandleSubmit)}>
+                <form id='formAddress' className="w-full space-y-4 flex flex-wrap" onSubmit={handleSubmit(updateHandleSubmit)}>
                     <div className="w-full px-2">
                         <Input 
                             id="name"
@@ -150,7 +149,7 @@ export default function FormAddress({isOpen, onClose, onSave} : ModalAddressProp
             </Modal.Body>
             <Modal.Footer
                 onClose={onClose}
-                form="formEditAddress"
+                form="formAddress"
             />
         </Modal.Root>
     )     

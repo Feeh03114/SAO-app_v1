@@ -18,9 +18,10 @@ export interface RegisterModelProps {
     control: Control<FieldValues>;
     disabled?: boolean;
     className?: string;
+    valueTypeName?: boolean;
 }
 
-function Select({ name, label, placeHolder, valueDefault='', data=[], control, disabled, className }:RegisterModelProps & { control: Control }): JSX.Element {
+function Select({ name, label, placeHolder, valueDefault='', data=[], control, disabled, className, valueTypeName=false }:RegisterModelProps & { control: Control }): JSX.Element {
     return(
         <Controller
             name={name}
@@ -39,7 +40,7 @@ function Select({ name, label, placeHolder, valueDefault='', data=[], control, d
                     >
                         <option value={valueDefault} disabled selected>{placeHolder}</option>
                         {Array.isArray(data) && data.map((item: Option) => (
-                            <option key={item.id} value={item.id}>{item.name}</option>
+                            <option key={item.id} value={ valueTypeName ? item.name : item.id}>{item.name}</option>
                         ))}
                     </select>
                 </>

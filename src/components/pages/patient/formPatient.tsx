@@ -1,76 +1,34 @@
 import Card from "@/components/elementTag/cardText";
 import { Input } from "@/components/elementTag/input";
 import Select from "@/components/elementTag/select";
+import { EduacationLevel } from "@/enum/educationLevel.enum";
 import { Ethnicity } from "@/enum/ethnicity.enum";
 import { Gender } from "@/enum/gender.enum";
 import { useDisclosure } from "@/hook/useDisclosure";
+import { Address, Guardian, Patient } from "@/pages/patients";
 import { withSSRAuth } from "@/util/withSSRAuth";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { GetServerSideProps } from "next";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { HiOutlineCheck } from "react-icons/hi";
-import makeAnimated from 'react-select/animated';
 import * as yup from 'yup';
 import FormAddress from "./formAddress";
 import FormEditAddress from "./formEditAddress";
+import FormEditGuardian from "./formEditGuardian";
 import FormGuardian from "./formGuardian";
 
-const validationDiscipline = yup.object().shape({
+const validationPatient = yup.object().shape({
     name: yup.string().required('Campo obrigatório'),
+    lastName: yup.string().required('Campo obrigatório'),
+    cpf: yup.string().required('Campo obrigatório'),
+    rg: yup.string().required('Campo obrigatório'),
+    birthDate: yup.string().required('Campo obrigatório'),
+    gender: yup.string().required('Campo obrigatório'),
+    ethnicity: yup.string().required('Campo obrigatório'),
+    email: yup.string().required('Campo obrigatório'),
+    phoneNumber: yup.string().required('Campo obrigatório'),
 });
-
-export interface Patient {
-    guardian: Guardian[];
-    stats: string;
-    people: People;
-    educationLevel: string;
-}
-
-export interface Guardian {
-    birthDate: string;
-    name: string;
-    lastName: string;
-    cpf: string;
-    rg: string;
-    genre: string;
-    ethnicity: string;
-    email: string;
-    phoneNumber: string;
-    profession: string;
-    nationality: string;
-    naturalness: string;
-    address: Address[];
-}
-
-export interface People {
-    birthDate: string,
-    name: string,
-    lastName: string,
-    cpf: string,
-    rg: string,
-    genre: string,
-    ethnicity: string,
-    email: string,
-    phoneNumber: string,
-    profession: string,
-    nationality: string,
-    naturalness: string,
-    address: Address[],
-    educationLevel: string,
-}
-
-export interface Address {
-    id: string;
-    name: string;
-    cep: string;
-    streetAddress: string;
-    number: string;
-    complement: string;
-    district: string;
-    city: string;
-    state: string;
-}
 
 export interface Option {
     value: number;
@@ -85,13 +43,13 @@ interface FormPatientProps {
 
 export default function FormPatient({ isPermissionWrite=true, onSave }:FormPatientProps): JSX.Element {
     const { control: control1, register: register1, watch, handleSubmit: handleSubmit1, formState: { errors: errors1 } } = useForm({
-        resolver: yupResolver(validationDiscipline)
+        resolver: yupResolver(validationPatient)
     });
     const { fields, append, update, remove } = useFieldArray({
         control: control1, 
         name: "address",
     });
-    const { fields: fieldsGuardian, append: appendGuardian, update: upadateGuardian, remove: removeGuardian } = useFieldArray({
+    const { fields: fieldsGuardian, append: appendGuardian, update: updateGuardian, remove: removeGuardian } = useFieldArray({
         control: control1, 
         name: "guardian",
     });
@@ -100,15 +58,15 @@ export default function FormPatient({ isPermissionWrite=true, onSave }:FormPatie
     const newGuardianDisposer = useDisclosure();
     const addressDisposer = useDisclosure();
     const editAddressDisposer = useDisclosure();
+    const editGuardianDisposer = useDisclosure();
     const [selectedAddress, setSelectedAddress] = useState<Address>({} as Address);
     const [selectedGuardian, setSelectedGuardian] = useState<Guardian>({} as Guardian);
     const [indexSelectedAddress, setIndexSelectedAddress] = useState<number>(0);
     const [indexSelectedGuardian, setIndexSelecteGuardian] = useState<number>(0);
-    const animatedComponents = makeAnimated();
-
-    useEffect(() => {
-    }, [fields]);
-
+    const gender = Object.values(Gender);
+    const ethnicity = Object.values(Ethnicity);
+    const eduacationLevel = Object.values(EduacationLevel);
+    
     function updateAddress(data: Address) {
         append(data);
     }
@@ -116,7 +74,8 @@ export default function FormPatient({ isPermissionWrite=true, onSave }:FormPatie
     function convertAddressToOptions() {
         const addressOptions: Option[] = [];
 
-        fields.map((item, index) => {
+        if (watchAddress === undefined) return addressOptions;
+        fields?.map((item, index) => {
             const addressOption = {
                 value: addressOptions.length + 1,
                 label: watchAddress[index].name
@@ -128,7 +87,6 @@ export default function FormPatient({ isPermissionWrite=true, onSave }:FormPatie
     }
 
     function updateEditAddress(data: Address) {
-        console.log(indexSelectedAddress)
         update(indexSelectedAddress, data);
     }
 
@@ -136,14 +94,15 @@ export default function FormPatient({ isPermissionWrite=true, onSave }:FormPatie
         remove(indexSelectedAddress);
     }
 
-    function updateGuardian(data: Guardian) {
+    function updateGuardianForm(data: Guardian) {
         appendGuardian(data);
     }
 
     function convertGuardianToOptions() {
         const guadianOptions: Option[] = [];
 
-        fieldsGuardian.map((item, index) => {
+        if (watchGuardian === undefined) return guadianOptions;
+        fieldsGuardian?.map((item, index) => {
             const guadianOption = {
                 value: guadianOptions.length + 1,
                 label: watchGuardian[index].name
@@ -154,12 +113,22 @@ export default function FormPatient({ isPermissionWrite=true, onSave }:FormPatie
         return guadianOptions;
     }
 
+    function updateEditGuardian(data: Guardian) {
+        updateGuardian(indexSelectedGuardian, data);
+    }
+
+    function deleteGuardian() {
+        remove(indexSelectedGuardian);
+    }
+
     const onSavePatient = async (data:any) => {
-       const patient = {
-            guardian: fieldsGuardian,
+        delete data.guardian;
+
+        const patient = {
+            guardian: watchGuardian,
             stats: "Ativo",
             people: data,
-       }
+        } as Patient;
 
         console.log(patient);
         onSave(patient);
@@ -169,8 +138,8 @@ export default function FormPatient({ isPermissionWrite=true, onSave }:FormPatie
         <div className="gap-y-3 md:gap-y-6 md:mx-10 md:mb-10 px-3 md:pt-6 pb-6 flex items-center justify-centers flex-row flex-wrap md:border border-gray-200 dark:border-gray-500 shadow-sm rounded-lg">
             <FormAddress isOpen={addressDisposer.isOpen} onClose={addressDisposer.close} onSave={updateAddress}/>
             <FormEditAddress isOpen={editAddressDisposer.isOpen} onClose={editAddressDisposer.close} address={selectedAddress} onSave={updateEditAddress} onDelete={deleteAddress}/>
-            <FormGuardian isOpen={newGuardianDisposer.isOpen} onClose={newGuardianDisposer.close} onSave={updateGuardian}/>
-            {/* <FormEditGuardian isOpen={editAddressDisposer.isOpen} onClose={editAddressDisposer.close} address={selectedAddress} onSave={updateEditAddress} onDelete={deleteAddress}/> */}
+            <FormGuardian isOpen={newGuardianDisposer.isOpen} onClose={newGuardianDisposer.close} onSave={updateGuardianForm}/>
+            <FormEditGuardian isOpen={editGuardianDisposer.isOpen} onClose={editGuardianDisposer.close} guardian={selectedGuardian} onSave={updateEditGuardian} onDelete={deleteGuardian}/>
             <form id='formPatient' onSubmit={handleSubmit1(onSavePatient)} className="gap-y-3 md:gap-y-6 flex items-center justify-centers flex-row flex-wrap">
                 <div className="w-full md:w-1/4 px-2">
                     <Input 
@@ -242,10 +211,11 @@ export default function FormPatient({ isPermissionWrite=true, onSave }:FormPatie
                         disabled={!isPermissionWrite}
                         placeHolder={"Selecione o gênero"}
                         valueDefault={-1}
+                        valueTypeName={true}
                         data={
-                            Object.keys(Gender).map((key) => ({
-                                id: parseInt(key),
-                                name: Gender[key as keyof typeof Gender],
+                            gender.map((item, index) => ({
+                                id: index,
+                                name: item,
                             }))
                         }
                         control={control1}
@@ -258,10 +228,11 @@ export default function FormPatient({ isPermissionWrite=true, onSave }:FormPatie
                         disabled={!isPermissionWrite}
                         placeHolder={"Selecione a etnia"}
                         valueDefault={-1}
+                        valueTypeName={true}
                         data={
-                            Object.keys(Ethnicity).map((key) => ({
-                                id: parseInt(key),
-                                name: Ethnicity[key as keyof typeof Ethnicity],
+                            ethnicity.map((item, index) => ({
+                                id: index,
+                                name: item,
                             }))
                         }
                         control={control1}
@@ -305,15 +276,20 @@ export default function FormPatient({ isPermissionWrite=true, onSave }:FormPatie
                     />
                 </div>
                 <div className="w-full md:w-1/2 px-2">
-                    <Input 
-                        id="educationLevel"
-                        type="text"
+                    <Select
                         label="Escolaridade"
-                        placeholder="Insira o nivel de escolaridade"
-                        className="read-only:bg-gray-200 read-only:cursor-default"
-                        {...register1("educationLevel")}
-                        error={errors1.educationLevel}
-                        readOnly={!isPermissionWrite}
+                        name="educationLevel"
+                        disabled={!isPermissionWrite}
+                        placeHolder={"Selecione o nivel de escolaridade"}
+                        valueDefault={-1}
+                        valueTypeName={true}
+                        data={
+                            eduacationLevel.map((item, index) => ({
+                                id: index,
+                                name: item,
+                            }))
+                        }
+                        control={control1}
                     />
                 </div>
                 <div className="w-full md:w-1/2 px-2">
@@ -340,7 +316,6 @@ export default function FormPatient({ isPermissionWrite=true, onSave }:FormPatie
                         readOnly={!isPermissionWrite}
                     />
                 </div>
-            
                 
                 <div className="w-full pt-6 px-2 border-t border-gray-300 dark:border-gray-500">
                     <div className="flex items-center justify-between">
@@ -389,7 +364,7 @@ export default function FormPatient({ isPermissionWrite=true, onSave }:FormPatie
                                 const selectedGuardian = watchGuardian[index] as Guardian;
                                 setIndexSelecteGuardian(index);
                                 setSelectedGuardian(selectedGuardian);
-                                newGuardianDisposer.open(); 
+                                editGuardianDisposer.open(); 
                             }}
                         />
                     ))}
