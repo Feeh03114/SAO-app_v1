@@ -1,17 +1,19 @@
 import Header from "@/components/Header";
 import Table from "@/components/Table";
 import { Pagination } from "@/components/Table/Pagination";
+import { ModalDelete } from "@/components/elementTag/modalDelete";
 import { useDisclosure } from "@/hook/useDisclosure";
 import api from "@/service/api";
 import { withSSRAuth } from "@/util/withSSRAuth";
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
-const TOTAL_ELEMENTS = 25;
 const rowsNumber = 6;
 
 export interface Patient {
+    id: string;
     guardian: Guardian[];
     stats: string;
     people: People;
@@ -63,18 +65,19 @@ export interface Address {
 }
 
 export default function Patients(): JSX.Element {
-    const newUserDisposer = useDisclosure();
     const router = useRouter();
     const [data, setData] = useState<Patient[]>([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalElements, setTotalElements] = useState(rowsNumber);
     const [isLoading, setIsLoading] = useState(false);
+    const deleteDisposer = useDisclosure();
+    const [idDelete, setIdDelete] = useState<string>("");
 
     const [params, setParams] = useState({
-        page: currentPage,
+        page: 1,
         pageSize: rowsNumber,
         sortOrder: 'ASC',
-        sortField: 'id',
+        sortField: 'date',
         status: 0,
       });
 
@@ -84,9 +87,7 @@ export default function Patients(): JSX.Element {
             const { data:RespAPI } = await api.get("api/patients", {
                 params: params
             });
-            console.log(RespAPI);
             setData(RespAPI.data);
-            setCurrentPage(RespAPI.page);
             setTotalElements(RespAPI.totalElement);
         } catch (error) {
           console.log(error);
@@ -99,11 +100,35 @@ export default function Patients(): JSX.Element {
     }, []);
     
     useEffect(() => {
-        loadData();
+        setParams({
+            ...params,
+            page: currentPage,
+        });
     }, [currentPage]);
+
+    useEffect(() => {
+        loadData();
+    }, [params]);
+
+    function deleteItem(id: string) {
+        setIdDelete(id);
+        deleteDisposer.open();
+    }
+
+    const onDelete = async (id: string) => {
+        try {
+            const resp = await api.delete(`api/patients/${id}`);
+            toast.success(resp.data.message);
+            deleteDisposer.close();
+            await loadData();
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
     return (
         <>
+            <ModalDelete isOpen={deleteDisposer.isOpen} onClose={deleteDisposer.close} onDelete={() => onDelete(idDelete)}></ModalDelete> 
             <Header 
                 title="Pacientes"
                 subtitle="Consulte os pacientes da plataforma"
@@ -125,7 +150,7 @@ export default function Patients(): JSX.Element {
                     <Table.Row 
                         key={index}
                         onView={()=> router.push(`/patients/edit/${item.people.name}`)}
-                        onDelete={()=> console.log('delete')} 
+                        onDelete={() => deleteItem(item.id)}
                     >
                         <Table.CellBody><p className="font-medium dark:text-white"></p>{item.people.name}</Table.CellBody>
                         <Table.CellBody><p className="font-medium dark:text-white">{item.people.name}</p></Table.CellBody>

@@ -14,15 +14,8 @@ import { toast } from "react-toastify";
 const TOTAL_ELEMENTS = 25;
 const rowsNumber = 6;
 
-export default function Users(): JSX.Element {
-    // interface User {
-    //     name: string;
-    //     email: string;
-    //     ru: string;
-    // }
-    
+export default function Users(): JSX.Element { 
     const newUserDisposer = useDisclosure();
-    // const [data, setData] = useState<User[]>([]);
     const [data, setData] = useState([]);
     const router = useRouter();
     const [currentPage, setCurrentPage] = useState(1);
@@ -32,11 +25,11 @@ export default function Users(): JSX.Element {
     const deleteDisposer = useDisclosure();
 
     const [params, setParams] = useState({
-        page: currentPage,
+        page: 1,
         pageSize: rowsNumber,
         sortOrder: 'ASC',
-        sortField: 'id',
-        status:0,
+        sortField: 'date',
+        status: 0,
     });
 
     const loadData = async () => {
@@ -45,10 +38,8 @@ export default function Users(): JSX.Element {
             const { data:RespAPI } = await api.get("api/users", {
                 params: params
             });
-            console.log(RespAPI.data);
             verifyActive(RespAPI.data);
             setTotalElements(RespAPI.totalElement);
-            console.log(RespAPI.data);
         } catch (error) {
           console.log(error);
         }
@@ -74,7 +65,6 @@ export default function Users(): JSX.Element {
 
     useEffect(() => {
         loadData();
-        // loadDataMock();
     }, [params]);
 
     const onDelete = async (id: string) => {

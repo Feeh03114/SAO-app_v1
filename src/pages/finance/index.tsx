@@ -26,10 +26,10 @@ export default function Finance(): JSX.Element {
     const [isLoading, setIsLoading] = useState(false);
 
     const [params, setParams] = useState({
-        page: currentPage,
+        page: 1,
         pageSize: rowsNumber,
         sortOrder: 'ASC',
-        sortField: 'id',
+        sortField: 'date',
         status: 2,
       });
 
@@ -40,7 +40,6 @@ export default function Finance(): JSX.Element {
     //             params: params
     //         });
     //         console.log(RespAPI);
-    //         setData(RespAPI.data);
     //         setTotalElements(RespAPI.totalElement);
     //     } catch (error) {
     //       console.log(error);

@@ -37,10 +37,10 @@ export default function Profiles(): JSX.Element {
     const [isLoading, setIsLoading] = useState(false);
 
     const [params, setParams] = useState({
-        page: currentPage,
+        page: 1,
         pageSize: rowsNumber,
         sortOrder: 'ASC',
-        sortField: 'id',
+        sortField: 'date',
         status: 0,
     });
 
