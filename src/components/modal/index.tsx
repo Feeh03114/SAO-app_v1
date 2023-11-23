@@ -71,11 +71,12 @@ const headerModal= ({title, icon:Icon=BsFillPersonPlusFill, styleContainer, styl
 
 interface ModalBodyProps {
     children: ReactNode;
+    style?: string;
 }
 
-const ModalBody = ({children} : ModalBodyProps) => {
+const ModalBody = ({children, style} : ModalBodyProps) => {
     return(
-        <div className="w-full space-y-4 flex flex-wrap">
+        <div className={twMerge("w-full space-y-4 flex flex-wrap", style)}>
             {children}
         </div>
     )

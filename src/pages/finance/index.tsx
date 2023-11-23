@@ -1,6 +1,8 @@
 import Header from "@/components/Header";
 import Table from "@/components/Table";
 import { Pagination } from "@/components/Table/Pagination";
+import { ModalDelete } from "@/components/elementTag/modalDelete";
+import { useDisclosure } from "@/hook/useDisclosure";
 import { withSSRAuth } from "@/util/withSSRAuth";
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
@@ -10,6 +12,7 @@ const TOTAL_ELEMENTS = 300;
 const rowsNumber = 6;
 
 interface Finance {
+    id: string;
     prontuario: string;
     nome: string;
     servico: string;
@@ -23,6 +26,8 @@ export default function Finance(): JSX.Element {
     const router = useRouter();
     const [currentPage, setCurrentPage] = useState(1);
     const [totalElements, setTotalElements] = useState(rowsNumber);
+    const deleteDisposer = useDisclosure();
+    const [idDelete, setIdDelete] = useState<string>("");
     const [isLoading, setIsLoading] = useState(false);
 
     const [params, setParams] = useState({
@@ -30,7 +35,7 @@ export default function Finance(): JSX.Element {
         pageSize: rowsNumber,
         sortOrder: 'ASC',
         sortField: 'date',
-        status: 2,
+        status: 0,
       });
 
     // const loadData = async () => {
@@ -65,6 +70,7 @@ export default function Finance(): JSX.Element {
         const randomNumber = Math.floor(Math.random() * 10000000);
         const randomPrice = Math.floor(Math.random() * 100);
         mock.push({
+            id: String(index),
             prontuario: String(randomNumber),
             nome: "Nome " + index.toString(),
             servico: "Consulta",
@@ -87,8 +93,26 @@ export default function Finance(): JSX.Element {
         // loadData();
     }, [currentPage]);
 
+    function deleteItem(id: string) {
+        setIdDelete(id);
+        deleteDisposer.open();
+    }
+
+    const onDelete = async (id: string) => {
+        // try {
+        //     const resp = await api.delete(`api/finance/${id}`);
+        //     toast.success(resp.data.message);
+        //     deleteDisposer.close();
+        //     loadData();
+        // } catch (error) {
+        //     console.log(error);
+        // }
+        deleteDisposer.close();
+    };
+
     return (
         <>
+            <ModalDelete isOpen={deleteDisposer.isOpen} onClose={deleteDisposer.close} onDelete={() => onDelete(idDelete)}></ModalDelete> 
             <Header 
                 title="Financeiro (Mockado)"
                 subtitle="Consulte os pagamentos de serviços"
@@ -109,7 +133,7 @@ export default function Finance(): JSX.Element {
                     <Table.Row 
                         key={index}
                         onView={()=> router.push(`/finance/edit/${item.prontuario}`)}
-                        onDelete={()=> console.log('delete')}
+                        onDelete={() => deleteItem(item.id)}
                     >
                         <Table.CellBody hiddenInMobile={true}><p className="font-medium dark:text-white">{item.prontuario}</p></Table.CellBody>
                         <Table.CellBody><p className="font-medium dark:text-white">{item.nome}</p></Table.CellBody>
@@ -131,3 +155,7 @@ export default function Finance(): JSX.Element {
 }
 
 export const getServerSideProps: GetServerSideProps = withSSRAuth();
+
+function loadData() {
+    throw new Error("Function not implemented.");
+}
