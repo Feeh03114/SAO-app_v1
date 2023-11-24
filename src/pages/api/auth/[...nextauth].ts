@@ -42,7 +42,6 @@ export default NextAuth({
                         password: credentials.password,
                         rememberPassword: credentials?.remember_me||false,
                     });
-                    console.log('dados login', response.data)
                     return response.data;
                 } catch (error:any) {
                     console.log("error login", error.response.data);

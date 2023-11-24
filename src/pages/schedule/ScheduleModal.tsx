@@ -1,4 +1,5 @@
 import { Input } from '@/components/elementTag/input';
+import api from '@/service/api';
 import { Dialog, Transition } from '@headlessui/react';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Fragment, useEffect } from 'react';
@@ -14,16 +15,17 @@ type ScheduleModalProps = {
 
 const validationFullModal = yup.object().shape({
     prontuario: yup.string().required('O prontuario é obrigatório'),
+    idPatient: yup.string().required('O id do paciente é obrigatório'),
     nome: yup.string().required('O nome é obrigatório'),
     data: yup.date().min(new Date(Date.now() - 86400000), 'A data deve ser igual ou posterior ao dia atual').required('A data é obrigatória'),
     horario: yup.string().required('O horário é obrigatório'),
     typeConsult: yup.string().required('O tipo da consulta é obrigatório'),
-    servico: yup.number().test('isNumber', 'O serviço é obrigatório', function(value) {
+    tratamento: yup.string().test('isNumber', 'O serviço é obrigatório', function(value:any) {
         const {typeConsult} = this.parent;
-        if(typeConsult === 'novaConsulta') return value !== undefined;
+        if(typeConsult === 'retorno') return value !== undefined;
         return true;
     }),
-    queixa: yup.string().test('isString', 'A queixa é obrigatória', function(value) {
+    queixa: yup.string().test('isString', 'A queixa é obrigatória', function(value:any) {
         const {typeConsult} = this.parent;
         if(typeConsult === 'novaConsulta') return value !== undefined;
         return true;
@@ -50,15 +52,35 @@ export default function ScheduleModal({ open=false, setOpen, cancelButtonRef }: 
 
     useEffect(() => {
         if(!open) reset({
+            idPatient: '',
             prontuario: '',
             nome: '',
             data: new Date(),
             horario: '',
             typeConsult: 'retorno',
-            servico: undefined,
-            queixa: undefined,
+            tratamento: '',
+            queixa: '',
         });
     }, [open]);
+
+    const getPatient = async () => {
+        try {
+            const resp = await api.get('api/patients/userSchedule',{
+                params: {
+                    cpf: watch('prontuario'),
+                    name: watch('nome'),
+                }
+            });
+            if(!watch('pronuario'))
+                setValue('prontuario', resp.data.people.cpf);
+            if(!watch('nome'))
+                setValue('nome', resp.data.people.name);
+
+            setValue('idPatient', resp.data.id);
+        } catch (error) {
+            console.log(error);
+        }
+    }
       
     return (
       <Transition.Root show={open} as={Fragment}>
@@ -109,43 +131,22 @@ export default function ScheduleModal({ open=false, setOpen, cancelButtonRef }: 
                                         placeholder="Insira seu prontuário"
                                         {...register("prontuario")}
                                         error={errors.prontuario}
+                                        onBlur={(e:any)=>e.target.value && getPatient()}
                                     />
                                 </div>
                                 <div className="col-span-2 sm:col-span-1">
                                     <label className="pl-4 text-sm font-medium leading-tight text-gray-700 dark:text-white">Nome do Paciente</label>
-                                    <input 
+                                    <Input 
                                         id="nome"
                                         type="text"
                                         className="w-full rounded-lg px-4 py-2 dark:bg-gray-700 dark:text-white shadow border border-gray-300 text-gray-900 placeholder-gray-500 dark:placeholder-white focus:border-teal-400 focus:outline-none focus:ring-teal-400 sm:text-sm"
                                         placeholder="Insira seu nome do paciente"
                                         required
                                         {...register("nome")}
+                                        error={errors.nome}
+                                        onBlur={(e:any)=>e.target.value && getPatient()}
                                     />
                                 </div>
-
-                                <div>
-                                    <label className="pl-4 text-sm font-medium leading-tight text-gray-700 dark:text-white">Data</label>
-                                    <input 
-                                        id="data"
-                                        type="date"
-                                        className="w-full cursor-text rounded-lg px-4 py-2 dark:bg-gray-700 dark:text-white shadow border border-gray-300 text-gray-900 placeholder-gray-500 focus:border-teal-400 focus:outline-none focus:ring-teal-400 sm:text-sm"
-                                        placeholder="dd/mm/aaaa"
-                                        required
-                                        {...register("data")}
-                                    />
-                                </div>
-                                <div>
-                                    <label className="pl-4 text-sm font-medium leading-tight text-gray-700 dark:text-white">Horário</label>
-                                    <input 
-                                        id="horario"
-                                        type="time"
-                                        className="w-full cursor-text rounded-lg px-4 py-2 dark:bg-gray-700 dark:text-white shadow border border-gray-300 text-gray-900 placeholder-gray-500 focus:border-teal-400 focus:outline-none focus:ring-teal-400 sm:text-sm"
-                                        placeholder="00h00"
-                                        required
-                                        {...register("horario")}
-                                    />
-                                </div>
-
                                 <label className="pl-4 text-sm font-medium leading-tight text-gray-700 dark:text-white">Tipo de consulta</label>
                                 <div id="tipoDeConsulta" className="col-span-2">
                                     <Controller
@@ -182,21 +183,21 @@ export default function ScheduleModal({ open=false, setOpen, cancelButtonRef }: 
                                     />
                                 </div>
                                 <div className="col-span-2 aria-hidden:hidden"
-                                    aria-hidden={watch('typeConsult') === 'retorno' ? true : false}
+                                    aria-hidden={watch('typeConsult') !== 'retorno'}
                                 >
                                     <Controller
-                                        name='servico'
+                                        name='tratamento'
                                         control={control}
                                         render={({ field }) => (
                                             <>
-                                                <label className="pl-4 text-sm font-medium leading-tight text-gray-700 dark:text-white">Serviço Odontológico</label>
+                                                <label className="pl-4 text-sm font-medium leading-tight text-gray-700 dark:text-white">Tratamento Odontológico</label>
                                                 <select 
                                                     value={field.value}
                                                     onChange={(e) => field.onChange(e.target.value)}
                                                     className="w-full cursor-text rounded-lg px-4 py-2 dark:bg-gray-700 dark:text-white shadow border border-gray-300 text-gray-900 placeholder-gray-500 focus:border-teal-400 focus:outline-none focus:ring-teal-400 sm:text-sm"
                                                     placeholder="Selecione o serviço odontológico"
                                                 >
-                                                    <option value="" disabled selected>Selecione o serviço</option>
+                                                    <option value="" disabled selected>Selecione o tratamento</option>
                                                     {mock.map((item) => (
                                                         <option key={item.id} value={item.id}>{item.name}</option>
                                                     ))}
@@ -207,7 +208,7 @@ export default function ScheduleModal({ open=false, setOpen, cancelButtonRef }: 
                                 </div>
 
                                 <div className="col-span-2 aria-hidden:hidden"
-                                    aria-hidden={watch('typeConsult') === 'retorno' ? true : false}
+                                    aria-hidden={watch('typeConsult') === 'retorno'}
                                 >
                                     <label className="pl-4 text-sm font-medium leading-tight text-gray-700 dark:text-white">Queixa</label>
                                     <textarea 
@@ -215,6 +216,32 @@ export default function ScheduleModal({ open=false, setOpen, cancelButtonRef }: 
                                         className="w-full h-20 rounded-lg px-4 py-2 dark:bg-gray-700 dark:text-white shadow border border-gray-300 text-gray-900 placeholder-gray-500 dark:placeholder-white focus:border-teal-400 focus:outline-none focus:ring-teal-400 sm:text-sm"
                                         placeholder="Descrever o que aconteceu com o paciente"
                                         {...register("queixa")}
+                                    />
+                                </div>
+                                <div>
+                                    <label className="pl-4 text-sm font-medium leading-tight text-gray-700 dark:text-white">Data</label>
+                                    <Input 
+                                        id="data"
+                                        type="date"
+                                        className="w-full cursor-text rounded-lg px-4 py-2 dark:bg-gray-700 dark:text-white shadow border border-gray-300 text-gray-900 placeholder-gray-500 focus:border-teal-400 focus:outline-none focus:ring-teal-400 sm:text-sm"
+                                        placeholder="dd/mm/aaaa"
+                                        required
+                                        {...register("data")}
+                                        error={errors.data}
+                                        disabled={watch('typeConsult') === 'retorno'}
+                                    />
+                                </div>
+                                <div>
+                                    <label className="pl-4 text-sm font-medium leading-tight text-gray-700 dark:text-white">Horário</label>
+                                    <Input 
+                                        id="horario"
+                                        type="time"
+                                        className="w-full cursor-text rounded-lg px-4 py-2 dark:bg-gray-700 dark:text-white shadow border border-gray-300 text-gray-900 placeholder-gray-500 focus:border-teal-400 focus:outline-none focus:ring-teal-400 sm:text-sm"
+                                        placeholder="00h00"
+                                        required
+                                        {...register("horario")}
+                                        error={errors.horario}
+                                        disabled={watch('typeConsult') === 'retorno'}
                                     />
                                 </div>
                                 <div className="px-4 py-3 flex justify-end sm:px-6 col-span-2 dark:bg-gray-800">
