@@ -77,7 +77,7 @@ export default function FormAvailabilities({isOpen, onClose, onSave, edit = {} }
                                 error={errors.start}
                             />
                         </div>
-                        <div className="w-full md:w-1/2">
+                        <div className="w-full md:w-1/2 mt-4 md:mt-0">
                             <label className="pl-4 text-sm font-medium leading-tight text-gray-700 dark:text-white">Fim do Expediente</label>
                             <Input 
                                 id="end"

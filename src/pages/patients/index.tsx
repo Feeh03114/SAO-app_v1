@@ -1,94 +1,141 @@
 import Header from "@/components/Header";
 import Table from "@/components/Table";
 import { Pagination } from "@/components/Table/Pagination";
+import { ModalDelete } from "@/components/elementTag/modalDelete";
 import { useDisclosure } from "@/hook/useDisclosure";
+import api from "@/service/api";
 import { withSSRAuth } from "@/util/withSSRAuth";
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
-const TOTAL_ELEMENTS = 25;
 const rowsNumber = 6;
 
-interface Patients {
-    prontuario: string;
-    nome: string;
+export interface Patient {
+    id: string;
+    guardian: Guardian[];
+    stats: string;
+    people: People;
+}
+
+export interface Guardian {
+    birthDate: string;
+    name: string;
+    lastName: string;
+    cpf: string;
+    rg: string;
+    gender: string;
+    ethnicity: string;
     email: string;
+    phoneNumber: string;
+    profession: string;
+    nationality: string;
+    naturalness: string;
+    address: Address[];
+}
+
+export interface People {
+    birthDate: string,
+    name: string,
+    lastName: string,
+    cpf: string,
+    rg: string,
+    gender: string,
+    ethnicity: string,
+    email: string,
+    phoneNumber: string,
+    profession: string,
+    nationality: string,
+    naturalness: string,
+    address: Address[],
+    educationLevel: string,
+}
+
+export interface Address {
+    id: string;
+    name: string;
+    cep: string;
+    streetAddress: string;
+    number: string;
+    complement: string;
+    district: string;
+    city: string;
+    state: string;
 }
 
 export default function Patients(): JSX.Element {
-    const newUserDisposer = useDisclosure();
     const router = useRouter();
-    const [data, setData] = useState<Patients[]>([]);
-    // const [data, setData] = useState([]);
+    const [data, setData] = useState<Patient[]>([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalElements, setTotalElements] = useState(rowsNumber);
     const [isLoading, setIsLoading] = useState(false);
+    const deleteDisposer = useDisclosure();
+    const [idDelete, setIdDelete] = useState<string>("");
 
     const [params, setParams] = useState({
-        page: currentPage,
+        page: 1,
         pageSize: rowsNumber,
         sortOrder: 'ASC',
-        sortField: 'id',
-        status: 2,
+        sortField: 'date',
+        status: 0,
       });
 
-    // const loadData = async () => {
-    //     setIsLoading(true);
-    //     try {
-    //         const { data:RespAPI } = await api.get("api/patient", {
-    //             params: params
-    //         });
-    //         console.log(RespAPI);
-    //         setData(RespAPI.data);
-    //         setCurrentPage(RespAPI.page);
-    //         setTotalElements(RespAPI.totalElement);
-    //     } catch (error) {
-    //       console.log(error);
-    //     }
-    //     setIsLoading(false);
-    // };
+    const loadData = async () => {
+        setIsLoading(true);
+        try {
+            const { data:RespAPI } = await api.get("api/patients", {
+                params: params
+            });
+            setData(RespAPI.data);
+            setTotalElements(RespAPI.totalElement);
+        } catch (error) {
+          console.log(error);
+        }
+        setIsLoading(false);
+    };
     
-    // useEffect(() => {
-    //     loadData();
-    // }, []);
-
-    const mock: Patients[] = [];
+    useEffect(() => {
+        loadData();
+    }, []);
     
-    for (let index = 1; index <= TOTAL_ELEMENTS; index++) {
-        const status = index % 2 === 0 ? true : false;
-        const randomNumber = Math.floor(Math.random() * 10000000);
-        const randomPrice = Math.floor(Math.random() * 100);
-        mock.push({
-            prontuario: String(randomNumber),
-            nome: "Nome " + index.toString(),
-            email: "exemple" + index.toString() + "@email.com",
+    useEffect(() => {
+        setParams({
+            ...params,
+            page: currentPage,
         });
-    }
-    
-    const start = currentPage * rowsNumber - rowsNumber;
-    const newMock = mock.slice(start, start + rowsNumber);
-    
-    const loadDataMock = async () => {
-        setData(newMock);
-        setCurrentPage(currentPage);
-        setTotalElements(TOTAL_ELEMENTS);
-    }
+    }, [currentPage]);
 
     useEffect(() => {
-        loadDataMock();
-        // loadData();
-    }, [currentPage]);
+        loadData();
+    }, [params]);
+
+    function deleteItem(id: string) {
+        setIdDelete(id);
+        deleteDisposer.open();
+    }
+
+    const onDelete = async (id: string) => {
+        try {
+            const resp = await api.delete(`api/patients/${id}`);
+            toast.success(resp.data.message);
+            deleteDisposer.close();
+            await loadData();
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
     return (
         <>
+            <ModalDelete isOpen={deleteDisposer.isOpen} onClose={deleteDisposer.close} onDelete={() => onDelete(idDelete)}></ModalDelete> 
             <Header 
-                title="Pacientes (Mockado)"
+                title="Pacientes"
                 subtitle="Consulte os pacientes da plataforma"
                 textLeft="Filtros"
                 textRight="Adicionar paciente"
                 onClickLeft={()=> console.log('filter')}
-                onClickRight={newUserDisposer.open}
+                onClickRight={()=> router.push('/patients/add')}
                 typeButtonLeft="filter"
                 typeButtonRight="add"
             />
@@ -99,15 +146,15 @@ export default function Patients(): JSX.Element {
                     <Table.CellHeader hiddenInMobile={true}>E-MAIL</Table.CellHeader>
                 </Table.Header>
 
-                {data.map((item: Patients, index: number) => (
+                {data.map((item: Patient, index: number) => (
                     <Table.Row 
                         key={index}
-                        onView={()=> router.push(`/patients/edit/${item.prontuario}`)}
-                        onDelete={()=> console.log('delete')} 
+                        onView={()=> router.push(`/patients/edit/${item.people.name}`)}
+                        onDelete={() => deleteItem(item.id)}
                     >
-                        <Table.CellBody><p className="font-medium dark:text-white"></p>{item.prontuario}</Table.CellBody>
-                        <Table.CellBody><p className="font-medium dark:text-white">{item.nome}</p></Table.CellBody>
-                        <Table.CellBody hiddenInMobile={true}><p className="font-medium dark:text-white">{item.email}</p></Table.CellBody>
+                        <Table.CellBody><p className="font-medium dark:text-white"></p>{item.people.name}</Table.CellBody>
+                        <Table.CellBody><p className="font-medium dark:text-white">{item.people.name}</p></Table.CellBody>
+                        <Table.CellBody hiddenInMobile={true}><p className="font-medium dark:text-white">{item.people.email}</p></Table.CellBody>
                     </Table.Row>
                 ))}
             </Table.Root> 

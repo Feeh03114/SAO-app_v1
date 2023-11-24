@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/role-supports-aria-props */
 /* eslint-disable @typescript-eslint/no-empty-function */
-import { Control, Controller, FieldValues } from "react-hook-form";
+import { Control, Controller, FieldError, FieldErrorsImpl, FieldValues, Merge } from "react-hook-form";
 import { twMerge } from "tailwind-merge";
 
 export interface Option {
@@ -18,16 +18,18 @@ export interface RegisterModelProps {
     control: Control<FieldValues>;
     disabled?: boolean;
     className?: string;
+    valueTypeName?: boolean;
+    error?: FieldError | Merge<FieldError, FieldErrorsImpl<any>> | null;
 }
 
-function Select({ name, label, placeHolder, valueDefault='', data=[], control, disabled, className }:RegisterModelProps & { control: Control }): JSX.Element {
+function Select({ error, name, label, placeHolder, valueDefault='', data=[], control, disabled, className, valueTypeName=false }:RegisterModelProps & { control: Control }): JSX.Element {
     return(
         <Controller
             name={name}
             control={control}
             render={({ field }) => (
                 <>
-                    <label className={`${label === undefined && 'hidden'}pl-4 text-sm font-Inter font-medium leading-tight text-gray-700 dark:text-white`}>{label}</label>
+                    <label className={`${label === undefined && 'hidden'} pl-4 text-sm font-Inter font-medium leading-tight text-gray-700 dark:text-white`}>{label}</label>
                     <select
                         disabled={disabled}
                         value={field.value}
@@ -39,9 +41,12 @@ function Select({ name, label, placeHolder, valueDefault='', data=[], control, d
                     >
                         <option value={valueDefault} disabled selected>{placeHolder}</option>
                         {Array.isArray(data) && data.map((item: Option) => (
-                            <option key={item.id} value={item.id}>{item.name}</option>
+                            <option key={item.id} value={ valueTypeName ? item.name : item.id}>{item.name}</option>
                         ))}
                     </select>
+                    {!!error && (
+                        <p className="text-red-500 text-sm">{error?.message?.toString()}</p>
+                    )}
                 </>
             )}
         />

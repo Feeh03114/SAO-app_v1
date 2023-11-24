@@ -16,15 +16,8 @@ import { toast } from "react-toastify";
 const TOTAL_ELEMENTS = 25;
 const rowsNumber = 6;
 
-export default function Users(): JSX.Element {
-    // interface User {
-    //     name: string;
-    //     email: string;
-    //     ru: string;
-    // }
-    
+export default function Users(): JSX.Element { 
     const newUserDisposer = useDisclosure();
-    // const [data, setData] = useState<User[]>([]);
     const [data, setData] = useState([]);
     const router = useRouter();
     const [totalElements, setTotalElements] = useState(TOTAL_ELEMENTS);
@@ -36,8 +29,8 @@ export default function Users(): JSX.Element {
         page: 1,
         pageSize: rowsNumber,
         sortOrder: 'ASC',
-        sortField: 'id',
-        status:0,
+        sortField: 'date',
+        status: 0,
     });
 
     const loadData = async () => {

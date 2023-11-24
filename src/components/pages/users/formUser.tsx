@@ -95,7 +95,7 @@ export default function FormUser({edit, isPermissionWrite=true, onSave, profiles
         loadOptionsProfiles();
         reset(edit);
     }, [edit]);
-
+    
     return (
         <form id='formUser' onSubmit={handleSubmit(onSave)}>
             <div className="w-screen">

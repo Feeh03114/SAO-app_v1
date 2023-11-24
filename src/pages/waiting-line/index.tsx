@@ -1,4 +1,4 @@
-import Header from "@/components/Header";
+import Header from "@/components/Header/multipleButtons";
 import Table from "@/components/Table";
 import { Pagination } from "@/components/Table/Pagination";
 import { ModalDelete } from "@/components/elementTag/modalDelete";
@@ -11,17 +11,25 @@ import { useEffect, useState } from "react";
 const TOTAL_ELEMENTS = 300;
 const rowsNumber = 6;
 
-interface Finance {
+export interface WaitingLine {
     id: string;
-    prontuario: string;
+    medicalRecord: string;
     nome: string;
-    servico: string;
-    preco: string;
-    status: boolean;
+    cameFrom: string;
+    forwardedTo: string;
+    date: string;
+    status: string;
+    approvalStatus: boolean;
+    approver: string;
+    birthDate: string;
+    email: string;
+    cellPhone: string;
+    complaint: string;
+    report: string;
 }
 
-export default function Finance(): JSX.Element {
-    const [data, setData] = useState<Finance[]>([]);
+export default function WaitingLineIndex(): JSX.Element {
+    const [data, setData] = useState<WaitingLine[]>([]);
     // const [data, setData] = useState([]);
     const router = useRouter();
     const [currentPage, setCurrentPage] = useState(1);
@@ -63,19 +71,26 @@ export default function Finance(): JSX.Element {
     //     loadData();
     // }, [params]);
 
-    const mock: Finance[] = [];
+    const mock: WaitingLine[] = [];
     
     for (let index = 1; index <= TOTAL_ELEMENTS; index++) {
         const status = index % 2 === 0 ? true : false;
         const randomNumber = Math.floor(Math.random() * 10000000);
-        const randomPrice = Math.floor(Math.random() * 100);
         mock.push({
             id: String(index),
-            prontuario: String(randomNumber),
+            medicalRecord: String(randomNumber),
             nome: "Nome " + index.toString(),
-            servico: "Consulta",
-            preco: randomPrice + ",00",
-            status: status
+            cameFrom: "Triagem",
+            forwardedTo: "Odonto 1",
+            date: "2021-09-01",
+            status: "Em tratamento",
+            approvalStatus: status,
+            approver: "Professor",
+            birthDate: "2021-09-01",
+            email: "email" + index.toString() + "@gmail.com",
+            cellPhone: "123456789",
+            complaint: "Queixa teste",
+            report: "Relatório teste"
         });
     }
     
@@ -113,36 +128,44 @@ export default function Finance(): JSX.Element {
     return (
         <>
             <ModalDelete isOpen={deleteDisposer.isOpen} onClose={deleteDisposer.close} onDelete={() => onDelete(idDelete)}></ModalDelete> 
-            <Header 
-                title="Financeiro (Mockado)"
+            <Header.Root 
+                title="Fila de espera (Mockado)"
                 subtitle="Consulte os pagamentos de serviços"
-                textLeft="Filtros"
-                onClickLeft={()=> console.log('filter')}
-                typeButtonLeft="filter"
-            />
-            <Table.Root tableHeight={String(rowsNumber)}>
+            >
+                <Header.Button 
+                    text={"Filtros"} 
+                    onClick={()=> console.log('filter')}
+                    typeButton="filter"
+                />
+            </Header.Root>
+            
+            <Table.NewRoot>
                 <Table.Header>
                     <Table.CellHeader hiddenInMobile={true}>PRONTUÁRIO</Table.CellHeader>
                     <Table.CellHeader hiddenInMobile={false}>NOME</Table.CellHeader>
-                    <Table.CellHeader hiddenInMobile={true}>SERVIÇO</Table.CellHeader>
-                    <Table.CellHeader hiddenInMobile={true}>PREÇO</Table.CellHeader>
+                    <Table.CellHeader hiddenInMobile={true}>VEIO DE</Table.CellHeader>
+                    <Table.CellHeader hiddenInMobile={true}>ENCAMINHADO PARA</Table.CellHeader>
+                    <Table.CellHeader hiddenInMobile={false}>DATA DE ENCAMINHAMENTO</Table.CellHeader>
                     <Table.CellHeader hiddenInMobile={false}>STATUS</Table.CellHeader>
                 </Table.Header>
 
-                {data.map((item: Finance, index: number) => (
-                    <Table.Row 
-                        key={index}
-                        onView={()=> router.push(`/finance/edit/${item.prontuario}`)}
-                        onDelete={() => deleteItem(item.id)}
-                    >
-                        <Table.CellBody hiddenInMobile={true}><p className="font-medium dark:text-white">{item.prontuario}</p></Table.CellBody>
-                        <Table.CellBody><p className="font-medium dark:text-white">{item.nome}</p></Table.CellBody>
-                        <Table.CellBody hiddenInMobile={true}><p className="font-medium dark:text-white">{item.servico}</p></Table.CellBody>
-                        <Table.CellBody hiddenInMobile={true}>R$ {item.preco}</Table.CellBody>
-                        <Table.CellBody><div className={`w-3 h-3 ml-4 rounded-full ${item.status ? 'bg-green-300' : 'bg-yellow-300'}`}></div></Table.CellBody>
-                    </Table.Row>
-                ))}
-            </Table.Root> 
+                <Table.Body>
+                    {data.map((item: WaitingLine, index: number) => (
+                        <Table.NewRow
+                            key={index}
+                            onView={()=> router.push(`/waiting-line/edit/${item.id}`)}
+                            onDelete={() => deleteItem(item.id)}
+                        >
+                            <Table.CellBody hiddenInMobile={true}><p className="font-medium dark:text-white">{item.medicalRecord}</p></Table.CellBody>
+                            <Table.CellBody><p className="font-medium dark:text-white">{item.nome}</p></Table.CellBody>
+                            <Table.CellBody hiddenInMobile={true}><p className="font-medium dark:text-white">{item.cameFrom}</p></Table.CellBody>
+                            <Table.CellBody hiddenInMobile={true}><p className="font-medium dark:text-white">{item.forwardedTo}</p></Table.CellBody>
+                            <Table.CellBody><p className="font-medium dark:text-white">{item.date}</p></Table.CellBody>
+                            <Table.CellBody><div className={`w-3 h-3 ml-4 rounded-full ${item.approvalStatus ? 'bg-green-300' : 'bg-yellow-300'}`}></div></Table.CellBody>
+                        </Table.NewRow>
+                    ))}
+                </Table.Body>
+            </Table.NewRoot> 
 
             <Pagination
                 pageSize={rowsNumber}

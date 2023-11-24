@@ -31,9 +31,9 @@ export default function TermsPrivacy() {
 
     const [params, setParams] = useState({
         page: currentPage,
-        pageSize: rowsNumber,
+        pageSize: 1,
         sortOrder: 'ASC',
-        sortField: 'id',
+        sortField: 'date',
         status: 0,
     });
 
@@ -44,7 +44,6 @@ export default function TermsPrivacy() {
                 params: params
             });
             setData(RespAPI.data);
-            setCurrentPage(RespAPI.page);
             setTotalElements(RespAPI.totalElement);
         } catch (error) {
           console.log(error);
@@ -57,8 +56,16 @@ export default function TermsPrivacy() {
     }, []);
 
     useEffect(() => {
-        loadData();
+        setParams({
+            ...params,
+            page: currentPage,
+        });
     }, [currentPage]);
+
+    useEffect(() => {
+        loadData();
+    }, [params]);
+    
   return (
     <>
         <Header 

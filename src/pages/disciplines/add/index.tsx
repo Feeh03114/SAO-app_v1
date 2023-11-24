@@ -34,8 +34,6 @@ export interface Availabilities {
 export default function DisciplineAdd(): JSX.Element {
     const router = useRouter();
     const [isLoading, setIsLoading] = useState(false);
-    const [fields, setFields] = useState<Discipline>({} as Discipline);
-
     function handleEdit() {
         const form = document.getElementById('formDiscipline');
         form?.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
