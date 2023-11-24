@@ -12,9 +12,21 @@ import { GetServerSideProps } from "next";
 import { useEffect, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { HiOutlineCheck, HiOutlinePlus } from "react-icons/hi";
+import { toast } from "react-toastify";
 import * as yup from 'yup';
 import { default as FormAddress, default as FormEditAddress } from "./formEditAddress";
 import { Option } from "./formPatient";
+
+const validationAddress = yup.object().shape({
+    name: yup.string().required('Campo obrigatório'),
+    cep: yup.string().required('Campo obrigatório'),
+    street: yup.string().required('Campo obrigatório'),
+    number: yup.string().required('Campo obrigatório'),
+    complement: yup.string().required('Campo obrigatório'),
+    neighborhood: yup.string().required('Campo obrigatório'),
+    city: yup.string().required('Campo obrigatório'),
+    state: yup.string().required('Campo obrigatório'),
+}); 
 
 const validationGuardian = yup.object().shape({
     name: yup.string().required('Campo obrigatório'),
@@ -22,23 +34,28 @@ const validationGuardian = yup.object().shape({
     cpf: yup.string().required('Campo obrigatório'),
     rg: yup.string().required('Campo obrigatório'),
     birthDate: yup.string().required('Campo obrigatório'),
+    gender: yup.string().required('Campo obrigatório'),
+    ethnicity: yup.string().required('Campo obrigatório'),
     email: yup.string().required('Campo obrigatório'),
     phoneNumber: yup.string().required('Campo obrigatório'),
+    address: yup.array().of(validationAddress).min(1, 'Precisa ter pelo menos um endereço'),
 });
 
 interface ModalGuardianProps{
+    edit:any;
     isOpen: boolean;
     onClose: () => void;
     onSave:(data:any)=>void;
 }
 
-export default function FormGuardian({isOpen, onClose, onSave} : ModalGuardianProps): JSX.Element {
+export default function FormGuardian({edit={}, isOpen, onClose, onSave} : ModalGuardianProps): JSX.Element {
     const { control: controlGuardian, register: registerGuardian, reset, watch: watchGuardian, handleSubmit: handleSubmitGuardian, formState: { errors: errorsGuardian }  } = useForm({
         resolver: yupResolver(validationGuardian)
     });
     const { fields, append, update, remove } = useFieldArray({
         control: controlGuardian, 
         name: "address",
+        keyName: "adress.id",
     });
     const watch = watchGuardian('address');
     const addressDisposer = useDisclosure();
@@ -48,12 +65,12 @@ export default function FormGuardian({isOpen, onClose, onSave} : ModalGuardianPr
     const gender = Object.values(Gender);
     const ethnicity = Object.values(Ethnicity);
 
-    function updateAddress(data: Address) {
-        append(data);
-    }
+    const updateAddress = (data: Address) => append(data);
 
     useEffect(() => {
-        reset({
+        if(isOpen && Object.keys(edit).length > 0) 
+            reset(edit);
+        else reset({
             name: '',
             lastName: '',
             cpf: '',
@@ -64,6 +81,7 @@ export default function FormGuardian({isOpen, onClose, onSave} : ModalGuardianPr
             profession: '',
             nationality: '',
             naturalness: '',
+            address: []
         });
     }, [isOpen]);
 
@@ -87,13 +105,22 @@ export default function FormGuardian({isOpen, onClose, onSave} : ModalGuardianPr
         return addressOptions;
     }
 
-    function updateEditAddress(data: Address) {
-        update(indexSelectedAddress, data);
-    }
+    const updateEditAddress = (data: Address) => update(indexSelectedAddress, data);
 
-    function deleteAddress() {
-        remove(indexSelectedAddress);
-    }
+    const deleteAddress = () =>remove(indexSelectedAddress);
+
+    useEffect(() => {
+        if(errorsGuardian.address)
+        {
+            if(errorsGuardian.address?.message) toast.error(errorsGuardian.address.message.toString());
+            else if (Array.isArray(errorsGuardian.address)) 
+                for (const item of errorsGuardian.address) {
+                    for (const key in Object.keys(item)) {
+                        toast.error(item[key].message);
+                    }
+                }
+        }
+    }, [errorsGuardian]);
 
     return (
         <Modal.Root
@@ -177,6 +204,7 @@ export default function FormGuardian({isOpen, onClose, onSave} : ModalGuardianPr
                                 }))
                             }
                             control={controlGuardian}
+                            error={errorsGuardian.gender}
                         />
                     </div>
                     <div className="w-1/2 md:w-1/4 px-2">
@@ -192,6 +220,7 @@ export default function FormGuardian({isOpen, onClose, onSave} : ModalGuardianPr
                                 }))
                             }
                             control={controlGuardian}
+                            error={errorsGuardian.ethnicity}
                         />
                     </div>
                     <div className="w-1/2 md:w-1/4 px-2">

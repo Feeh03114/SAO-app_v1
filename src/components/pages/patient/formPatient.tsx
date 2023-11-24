@@ -9,14 +9,26 @@ import { Address, Guardian, Patient } from "@/pages/patients";
 import { withSSRAuth } from "@/util/withSSRAuth";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { GetServerSideProps } from "next";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { HiOutlineCheck } from "react-icons/hi";
+import { toast } from "react-toastify";
 import * as yup from 'yup';
 import FormAddress from "./formAddress";
 import FormEditAddress from "./formEditAddress";
 import FormEditGuardian from "./formEditGuardian";
 import FormGuardian from "./formGuardian";
+
+const validationAddress = yup.object().shape({
+    name: yup.string().required('Campo obrigatório'),
+    cep: yup.string().required('Campo obrigatório'),
+    street: yup.string().required('Campo obrigatório'),
+    number: yup.string().required('Campo obrigatório'),
+    complement: yup.string().required('Campo obrigatório'),
+    neighborhood: yup.string().required('Campo obrigatório'),
+    city: yup.string().required('Campo obrigatório'),
+    state: yup.string().required('Campo obrigatório'),
+}); 
 
 const validationPatient = yup.object().shape({
     name: yup.string().required('Campo obrigatório'),
@@ -28,6 +40,7 @@ const validationPatient = yup.object().shape({
     ethnicity: yup.string().required('Campo obrigatório'),
     email: yup.string().required('Campo obrigatório'),
     phoneNumber: yup.string().required('Campo obrigatório'),
+    address: yup.array().of(validationAddress).min(1, 'Precisa ter pelo menos um endereço'),
 });
 
 export interface Option {
@@ -133,12 +146,25 @@ export default function FormPatient({ isPermissionWrite=true, onSave }:FormPatie
         console.log(patient);
         onSave(patient);
     }
+
+    useEffect(() => {
+        if(errors1.address)
+        {
+            if(errors1.address?.message) toast.error(errors1.address.message.toString());
+            else if (Array.isArray(errors1.address)) 
+                for (const item of errors1.address) {
+                    for (const key in Object.keys(item)) {
+                        toast.error(item[key].message);
+                    }
+                }
+        }
+    }, [errors1]);
     
     return (
         <div className="gap-y-3 md:gap-y-6 md:mx-10 md:mb-10 px-3 md:pt-6 pb-6 flex items-center justify-centers flex-row flex-wrap md:border border-gray-200 dark:border-gray-500 shadow-sm rounded-lg">
             <FormAddress isOpen={addressDisposer.isOpen} onClose={addressDisposer.close} onSave={updateAddress}/>
             <FormEditAddress isOpen={editAddressDisposer.isOpen} onClose={editAddressDisposer.close} address={selectedAddress} onSave={updateEditAddress} onDelete={deleteAddress}/>
-            <FormGuardian isOpen={newGuardianDisposer.isOpen} onClose={newGuardianDisposer.close} onSave={updateGuardianForm}/>
+            <FormGuardian isOpen={newGuardianDisposer.isOpen} onClose={newGuardianDisposer.close} onSave={updateGuardianForm} edit={true}/>
             <FormEditGuardian isOpen={editGuardianDisposer.isOpen} onClose={editGuardianDisposer.close} guardian={selectedGuardian} onSave={updateEditGuardian} onDelete={deleteGuardian}/>
             <form id='formPatient' onSubmit={handleSubmit1(onSavePatient)} className="gap-y-3 md:gap-y-6 flex items-center justify-centers flex-row flex-wrap">
                 <div className="w-full md:w-1/4 px-2">
@@ -317,10 +343,10 @@ export default function FormPatient({ isPermissionWrite=true, onSave }:FormPatie
                     />
                 </div>
                 
-                <div className="w-full pt-6 px-2 border-t border-gray-300 dark:border-gray-500">
+                <div className="w-full pt-6 border-t border-gray-300 dark:border-gray-500">
                     <div className="flex items-center justify-between">
                         <label className="pl-4 text-sm font-medium leading-tight text-gray-700 dark:text-white">Endereços</label>
-                        <button className="h-10 mb-1 space-x-2 flex items-center justify-center px-3 bg-teal-500 border rounded-md border-teal-500 cursor-pointer"
+                        <button className="h-10 mr-2 mb-1 space-x-2 flex items-center justify-center px-3 bg-teal-500 border rounded-md border-teal-500 cursor-pointer"
                             type="button"
                             onClick={() => {addressDisposer.open()}}
                         >
@@ -344,10 +370,10 @@ export default function FormPatient({ isPermissionWrite=true, onSave }:FormPatie
                     </Card.CardSelected>
                 </div>
             </form>
-            <div className="w-full pt-6 px-2 border-t border-gray-300 dark:border-gray-500">
+            <div className="w-full pt-6 border-t border-gray-300 dark:border-gray-500">
                 <div className="flex items-center justify-between">
                     <label className="pl-4 text-sm font-medium leading-tight text-gray-700 dark:text-white">Guardiões</label>
-                    <button className="h-10 mb-1 space-x-2 flex items-center justify-center px-3 bg-teal-500 border rounded-md border-teal-500 cursor-pointer"
+                    <button className="h-10 mr-2 mb-1 space-x-2 flex items-center justify-center px-3 bg-teal-500 border rounded-md border-teal-500 cursor-pointer"
                         type="button"
                         onClick={() => newGuardianDisposer.open()}
                     >

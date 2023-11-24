@@ -145,6 +145,7 @@ export default function FormPaymentData({ onSave }:FormPatientProps): JSX.Elemen
                     control={control} 
                     name="guardianName"
                     valueDefault={-1}
+                    error={errors?.guardianName}
                 />
             </div>
 
@@ -282,6 +283,8 @@ export default function FormPaymentData({ onSave }:FormPatientProps): JSX.Elemen
                 />
             </div>
 
+            <div className="w-full border-t border-gray-300 dark:border-gray-500"></div>
+
             <div className="w-full md:w-2/6 px-2">
                 <Select
                     label="Forma de pagamento"
@@ -296,6 +299,7 @@ export default function FormPaymentData({ onSave }:FormPatientProps): JSX.Elemen
                         }))
                     }
                     control={control}
+                    error={errors.paymentMethod}
                 />
             </div>
             <div className="w-1/2 md:w-1/6 px-2">
@@ -312,6 +316,7 @@ export default function FormPaymentData({ onSave }:FormPatientProps): JSX.Elemen
                         }))
                     }
                     control={control}
+                    error={errors.installment}
                 />
             </div>
             <div className="w-1/2 md:w-1/4 px-2">
@@ -350,7 +355,11 @@ export default function FormPaymentData({ onSave }:FormPatientProps): JSX.Elemen
                         placeholder="Descrever o que aconteceu com o paciente"
                         {...register("observation")}
                     />
+                    {!!errors.observation && (
+                        <p className="text-red-500 text-sm">{errors.observation.message?.toString()}</p>
+                    )}
                 </div>
+                
             </div>
         </form>
     );

@@ -19,7 +19,7 @@ function TableRoot({ children, tableHeight, style, label } : RegisterModelProps)
     if (tableHeight == undefined) {
         tableHeight = "calc(100vh-24rem)";
     } else {
-        tableHeight = `${Number(tableHeight) * 48 + 42}px`;
+        tableHeight = `${Number(tableHeight) * 48 + 56.4}px`;
     }
 
     return(
@@ -39,6 +39,59 @@ function TableRoot({ children, tableHeight, style, label } : RegisterModelProps)
             </div>
         </div>
     );
+}
+
+function NewTableRoot({ children, label } : RegisterModelProps): JSX.Element {
+    return(
+        <div className="w-screen flex items-center justify-centers flex-col flex-wrap">
+            {label != undefined &&
+                <div className="w-full pl-4 inline-flex items-center justify-start">
+                    <p className="text-xs md:text-sm font-Inter font-medium leading-tight text-gray-700 dark:text-gray-300 truncate">{label}</p>
+                </div>
+            }
+            <div className="m-6 flex items-start justify-centers flex-col flex-wrap border bg-gray-50 dark:bg-slate-800 dark:border-slate-700 border-solid border-gray-200 shadow-md rounded-lg overflow-hidden border-separate">
+                <table className="w-full table-fixed">
+                    {children}
+                </table>
+            </div>
+        </div>
+    );
+}
+
+function TableBody({ children, tableHeight } : RegisterModelProps): JSX.Element {
+    tableHeight = `h-[${Number(tableHeight) * 48}px]`;
+   
+    return (
+        <tbody className={tableHeight}>
+            {children}
+        </tbody>
+    );
+}
+
+const NewTableRow = ({children, style, onView, onDelete }:TableRowProps) => {
+    return(
+        <tr className="h-12">
+            {children}
+            <td className={twMerge("h-full px-0 border font-Inter border-x-0 bg-white border-gray-200 dark:border-slate-700 dark:bg-slate-800 text-sm font-normal leading-5 text-gray-500 dark:text-gray-200 aria-hidden:hidden", style)}
+                aria-hidden={(onView == undefined && onDelete == undefined) ? true : false}
+            >
+                <div className="flex items-center justify-end">
+                    <button className="h-full mr-4 px-3 py-2 border dark:border-gray-500 rounded-md cursor-pointer aria-hidden:hidden"
+                        onClick={onView}
+                        aria-hidden={onView == undefined ? true : false}
+                    >
+                        <AiOutlineEye className="w-5 h-5 text-teal-500"/>
+                    </button>
+                    <button className="h-full mr-4 px-3 py-2 border dark:border-gray-500 rounded-md cursor-pointer aria-hidden:hidden"
+                        onClick={onDelete}
+                        aria-hidden={onDelete == undefined ? true : false}    
+                    >
+                        <FiTrash2 className="w-5 h-5 text-teal-500"/>
+                    </button>
+                </div>
+            </td>
+        </tr>
+    )
 }
 
 const TableHeader = ({children, style} : RegisterModelProps) => {
@@ -135,8 +188,11 @@ const TableCell = ({children, hiddenInMobile, hiddenInDesktop, style}:RegisterMo
 
 const Table = {
     Root: TableRoot,
+    NewRoot: NewTableRoot,
+    Body: TableBody,
     Header: TableHeader,
     CellHeader: TableCellHeader,
+    NewRow: NewTableRow,
     Row: TableRow,
     CellBody: TableCell
 }
