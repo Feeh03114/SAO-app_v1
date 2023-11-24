@@ -1,12 +1,12 @@
 import { Input } from "@/components/elementTag/input";
 import Modal from "@/components/modal";
+import { Address } from "@/pages/patients";
 import { withSSRAuth } from "@/util/withSSRAuth";
 import { GetServerSideProps } from "next";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { HiOutlinePencilAlt } from "react-icons/hi";
 import * as yup from 'yup';
-import { Address } from "./formPatient";
 
 const validationAddress = yup.object().shape({
     name: yup.string().required('Campo obrigatório'),

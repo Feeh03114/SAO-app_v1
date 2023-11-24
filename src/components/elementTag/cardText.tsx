@@ -64,7 +64,7 @@ interface CardLineProps {
 
 const CardLine = ({style} : CardLineProps) => {
     return (
-        <div className={twMerge("w-full mb-6 mx-4 shadow-sm border rounded-lg border-gray-300 dark:border-gray-500 bg-white dark:bg-slate-700", style)}/>
+        <div className={twMerge("w-full mb-6 mx-4 border rounded-lg border-gray-200 dark:border-gray-500 bg-white dark:bg-slate-700", style)}/>
     )
 }
 
