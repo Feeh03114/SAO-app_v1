@@ -8,12 +8,14 @@ import { useForm } from "react-hook-form";
 import { HiOutlinePlus } from "react-icons/hi";
 import * as yup from 'yup';
 
-const validationAddress = yup.object().shape({
+export const validationAddress = yup.object().shape({
+    id: yup.string().optional(),
     name: yup.string().required('Campo obrigatório'),
     cep: yup.string().required('Campo obrigatório'),
     streetAddress: yup.string().required('Campo obrigatório'),
     number: yup.string().required('Campo obrigatório'),
-    district: yup.string().required('Campo obrigatório'),
+    complement: yup.string().optional(),
+    neighborhood: yup.string().required('Campo obrigatório'),
     city: yup.string().required('Campo obrigatório'),
     state: yup.string().required('Campo obrigatório'),
 });
@@ -36,7 +38,7 @@ export default function FormAddress({isOpen, onClose, onSave} : ModalAddressProp
             streetAddress: '',
             number: '',
             complement: '',
-            district: '',
+            neighborhood: '',
             city: '',
             state: '',
         });
@@ -114,13 +116,13 @@ export default function FormAddress({isOpen, onClose, onSave} : ModalAddressProp
                     </div>
                     <div className="w-full px-2">
                         <Input 
-                            id="district"
+                            id="neighborhood"
                             type="text"
                             label="Bairro"
                             className="w-full"
                             placeholder="Insira o bairro"
-                            {...register("district")}
-                            error={errors.district}
+                            {...register("neighborhood")}
+                            error={errors.neighborhood}
                         />
                     </div>
                     <div className="w-full md:w-1/2 px-2">

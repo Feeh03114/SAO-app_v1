@@ -4,7 +4,6 @@ import { Installment } from "@/enum/installment.enum";
 import { PaymentMethod } from "@/enum/paymentMethod.enum";
 import { Patient } from "@/pages/patients";
 import { withSSRAuth } from "@/util/withSSRAuth";
-import { yupResolver } from "@hookform/resolvers/yup";
 import { GetServerSideProps } from "next";
 import { Controller, useForm } from "react-hook-form";
 import * as yup from 'yup';
@@ -77,7 +76,7 @@ interface FormPatientProps {
 
 export default function FormPaymentData({ onSave }:FormPatientProps): JSX.Element {
     const { control, register, handleSubmit, formState: { errors } } = useForm({
-        resolver: yupResolver(validationPaymentData)
+        // resolver: yupResolver(validationPaymentData)
     });
     const paymentMethod = Object.values(PaymentMethod);
     const installment = Object.values(Installment);

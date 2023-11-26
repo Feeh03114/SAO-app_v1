@@ -59,7 +59,7 @@ export interface Address {
     streetAddress: string;
     number: string;
     complement: string;
-    district: string;
+    neighborhood: string;
     city: string;
     state: string;
 }

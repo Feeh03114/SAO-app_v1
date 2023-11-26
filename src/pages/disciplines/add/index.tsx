@@ -20,6 +20,7 @@ export interface Service {
     price: number;
     duration_medio: number;
     active_duration_medio: boolean;
+    active_duration_auto: boolean;
     ext: boolean;
     availabilities: Availabilities[];
 }

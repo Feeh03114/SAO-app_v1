@@ -14,21 +14,10 @@ import { useFieldArray, useForm } from "react-hook-form";
 import { HiOutlineCheck } from "react-icons/hi";
 import { toast } from "react-toastify";
 import * as yup from 'yup';
-import FormAddress from "./formAddress";
+import FormAddress, { validationAddress } from "./formAddress";
 import FormEditAddress from "./formEditAddress";
 import FormEditGuardian from "./formEditGuardian";
 import FormGuardian from "./formGuardian";
-
-const validationAddress = yup.object().shape({
-    name: yup.string().required('Campo obrigatório'),
-    cep: yup.string().required('Campo obrigatório'),
-    street: yup.string().required('Campo obrigatório'),
-    number: yup.string().required('Campo obrigatório'),
-    complement: yup.string().required('Campo obrigatório'),
-    neighborhood: yup.string().required('Campo obrigatório'),
-    city: yup.string().required('Campo obrigatório'),
-    state: yup.string().required('Campo obrigatório'),
-}); 
 
 const validationPatient = yup.object().shape({
     name: yup.string().required('Campo obrigatório'),

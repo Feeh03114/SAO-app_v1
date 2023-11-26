@@ -8,20 +8,27 @@ import { useForm } from "react-hook-form";
 import { HiOutlinePlus } from "react-icons/hi";
 import * as yup from 'yup';
 
-const validationAvailabilities = yup.object().shape({
+export const validationAvailabilities = yup.object().shape({
     day: yup.number().required('Campo obrigatório'),
     start: yup.string().required('Campo obrigatório'),
     end: yup.string().required('Campo obrigatório'),
 });
 
+interface AvailabilitiesProps{
+    id: number;
+    day: number;
+    start: string;
+    end: string;
+}
+
 interface ModalServiceDisciplineProps{
     isOpen: boolean;
     onClose: () => void;
     onSave:(data:any)=>void;
-    edit?:  typeof validationAvailabilities;
+    edit?: AvailabilitiesProps;
 }
 
-export default function FormAvailabilities({isOpen, onClose, onSave, edit = {} as  typeof validationAvailabilities} : ModalServiceDisciplineProps): JSX.Element {
+export default function FormAvailabilities({isOpen, onClose, onSave, edit = {} as AvailabilitiesProps} : ModalServiceDisciplineProps): JSX.Element {
     const { register: register3, reset, handleSubmit: handleSubmit3, formState: { errors: errors3 }  } = useForm({
         resolver: yupResolver(validationAvailabilities)
     });
@@ -38,7 +45,7 @@ export default function FormAvailabilities({isOpen, onClose, onSave, edit = {} a
     useEffect(() => {
         if (!isOpen) 
             reset({
-                day: '',
+                day: 0,
                 start: '',
                 end: '',
             });

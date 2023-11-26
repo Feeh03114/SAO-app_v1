@@ -8,10 +8,11 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { GetServerSideProps } from "next";
 import { useFieldArray, useForm } from "react-hook-form";
 import * as yup from 'yup';
-import FormServiceDiscipline from "./formServiceDiscipline";
+import FormServiceDiscipline, { validationService } from "./formServiceDiscipline";
 
 const validationDiscipline = yup.object().shape({
     name: yup.string().required('Campo obrigatório'),
+    service: yup.array().of(validationService),
 });
 
 interface FormProfileProps {
@@ -21,14 +22,14 @@ interface FormProfileProps {
 }
 
 export default function FormDiscipline({ isPermissionWrite=true, onSave }:FormProfileProps): JSX.Element {
-    const { control: control1, register: register1, watch: watch1, handleSubmit: handleSubmit1, formState: { errors: errors1 } } = useForm({
+    const { control, register, watch, handleSubmit, formState: { errors } } = useForm({
         resolver: yupResolver(validationDiscipline)
     });
     const { fields, append, remove } = useFieldArray({
-        control: control1, 
+        control, 
         name: "service",
     });
-    const watchService= watch1('service')
+    const watchService = watch('service')
     const newServiceDisposer = useDisclosure();
 
     const onSaveDiscipline = async (data:any) => {
@@ -45,11 +46,16 @@ export default function FormDiscipline({ isPermissionWrite=true, onSave }:FormPr
         const minutesRest = minutes % 60;
         return `${hours}:${minutesRest}`;
     }
+
+    function tableHeight() {
+        if (watchService === undefined) return String(4);
+        return (watchService?.length + 1) <= 4 ? String(4) : (watchService?.length + 1).toString()
+    }
     
     return (
         <>
             <FormServiceDiscipline isOpen={newServiceDisposer.isOpen} onClose={newServiceDisposer.close} onSave={updateService}/>
-            <form id='formDiscipline' onSubmit={handleSubmit1(onSaveDiscipline)}>
+            <form id='formDiscipline' onSubmit={handleSubmit(onSaveDiscipline)}>
                 
                 <div className="w-screen px-8">
                     <div className="w-full p-6 flex flex-row flex-wrap shadow-sm border rounded-lg border-gray-300 dark:border-gray-500">
@@ -60,8 +66,8 @@ export default function FormDiscipline({ isPermissionWrite=true, onSave }:FormPr
                                 label="Nome"
                                 placeholder="Nome da Disciplina"
                                 className="read-only:bg-gray-200 read-only:cursor-default"
-                                {...register1("name")}
-                                error={errors1.name}
+                                {...register("name")}
+                                error={errors.name}
                                 readOnly={!isPermissionWrite}
                             />
                         </div>
@@ -83,7 +89,7 @@ export default function FormDiscipline({ isPermissionWrite=true, onSave }:FormPr
                             </button>
                         </div>
                     
-                        <Table.Root tableHeight={(watchService?.length + 1) <= 4 ? String(4) : (watchService?.length + 1).toString()}style="mt-8">
+                        <Table.Root tableHeight={tableHeight()}style="mt-8">
                             <Table.Header>
                                 <Table.CellHeader>NOME DO SERVIÇO</Table.CellHeader>
                                 <Table.CellHeader hiddenInMobile={true}>DESCRIÇÃO DO SERVIÇO</Table.CellHeader>

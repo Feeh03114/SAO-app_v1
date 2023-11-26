@@ -6,18 +6,7 @@ import { GetServerSideProps } from "next";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { HiOutlinePencilAlt } from "react-icons/hi";
-import * as yup from 'yup';
 
-const validationAddress = yup.object().shape({
-    name: yup.string().required('Campo obrigatório'),
-    cep: yup.string().required('Campo obrigatório'),
-    streetAddress: yup.string().required('Campo obrigatório'),
-    number: yup.string().required('Campo obrigatório'),
-    complement: yup.string(),
-    district: yup.string().required('Campo obrigatório'),
-    city: yup.string().required('Campo obrigatório'),
-    state: yup.string().required('Campo obrigatório'),
-});
 interface ModalAddressProps{
     isOpen: boolean;
     onClose: () => void;
@@ -38,7 +27,7 @@ export default function FormEditAddress({isOpen, onClose, address, onSave, onDel
             streetAddress: address.streetAddress,
             number: address.number,
             complement: address.complement,
-            district: address.district,
+            neighborhood: address.neighborhood,
             city: address.city,
             state: address.state,
         });
@@ -116,13 +105,13 @@ export default function FormEditAddress({isOpen, onClose, address, onSave, onDel
                     </div>
                     <div className="w-full px-2">
                         <Input 
-                            id="district"
+                            id="neighborhood"
                             type="text"
                             label="Bairro"
                             className="w-full"
                             placeholder="Insira o bairro"
-                            {...register("district")}
-                            error={errors.district}
+                            {...register("neighborhood")}
+                            error={errors.neighborhood}
                         />
                     </div>
                     <div className="w-full md:w-1/2 px-2">
