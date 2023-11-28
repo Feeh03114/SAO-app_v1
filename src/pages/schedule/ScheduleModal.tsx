@@ -71,7 +71,7 @@ export default function ScheduleModal({ open=false, setOpen, cancelButtonRef }: 
                     name: watch('nome'),
                 }
             });
-            if(!watch('pronuario'))
+            if(!watch('prontuario'))
                 setValue('prontuario', resp.data.people.cpf);
             if(!watch('nome'))
                 setValue('nome', resp.data.people.name);
