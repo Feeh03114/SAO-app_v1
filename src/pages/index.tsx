@@ -104,14 +104,14 @@ export default function Home():JSX.Element {
         
         <div className="w-full h-20 md:w-11/12 pt-4 flex flex-row flex-nowrap items-center justify-between relative top-0 left-0 z-10">
           <div className="w-full flex flex-row items-center justify-start">
-            <img
+            <Image
               width={157}
               height={157}
               className="w-20 h-20 dark:hidden ml-5 md:ml-0 mr-24 md:mr-0 resize-none"
               src="/assets/logo_black.png"
               alt='logo-sao'
             />
-            <img
+            <Image
               width={157}
               height={157}
               className="w-20 h-20 hidden dark:flex ml-5 md:ml-0 mr-24 md:mr-0 resize-none"
@@ -128,7 +128,7 @@ export default function Home():JSX.Element {
             <div className={twMerge("text-base font-medium leading-normal whitespace-nowrap text-gray-800 dark:text-white", inter.className)}>Pagina Inicial</div>
             <div className={twMerge("ml-3 text-base font-medium leading-normal whitespace-nowrap text-gray-800 dark:text-white", inter.className)}>Sobre</div>
             <div className={twMerge("ml-3 text-base font-medium leading-normal whitespace-nowrap text-gray-800 dark:text-white", inter.className)}>Contato</div>
-            <button className="h-11 ml-3 px-4 py-2 rounded-full shadow border border-teal-500 flex justify-center items-center text-gray-800 dark:text-white"
+            <button className="h-11 ml-3 px-4 py-2 rounded-full shadow border border-teal-500 flex justify-center items-center text-gray-800 dark:text-white aria-hidden:hidden"
               aria-hidden="true"
             >
               <div className={twMerge("text-teal-500 text-lg font-medium leading-5 whitespace-nowrap", inter.className)}>Agendar Consulta</div>
@@ -355,21 +355,52 @@ export default function Home():JSX.Element {
             <div className="w-full h-1 mt-1 bg-teal-500 rounded-3xl"/>
           </div>
           <div className="md:mt-20 flex flex-row flex-wrap justify-center">
-            <img
-              className="h-14 md:h-20 mt-8 md:mt-0 resize-none"
+            <Image
               src="/assets/log1.png"
               alt='logo-sao'
+              width={200}
+              height={200}
+              className="h-14 md:h-20 mt-8 md:mt-0 resize-none"
             />
-            <img
-              className="h-14 md:h-20 mt-8 md:mt-0 dark:hidden resize-none"
+            <Image
               src="/assets/logo_nucleo_ti.png"
               alt='logo-nucleo-ti-uniso'
+              width={200}
+              height={200}
+              className="h-14 md:h-20 mt-8 md:mt-0 dark:hidden resize-none"
             />
             <div className="h-14 md:h-20 dark:mx-10 dark:border-l-2 hidden md:flex dark:border-white"></div>
-            <img
-              className="h-14 md:h-20 mt-8 md:mt-0 hidden dark:flex dark:border-l-4 dark:border-white resize-none"
+            <Image
               src="/assets/logo-extensiva-color.png"
               alt='logo-nucleo-ti-uniso'
+              width={200}
+              height={200}
+              className="h-14 md:h-20 mt-8 md:mt-0 hidden dark:flex dark:border-l-4 dark:border-white resize-none"
+            />
+          </div>
+          <div className="md:mt-20 flex flex-row flex-wrap justify-center">
+            <Image
+              src="/assets/EvolutionSoft.png"
+              alt='logo-EvolutionSoft'
+              width={200}
+              height={200}
+              className="h-14 md:h-20 mt-8 md:mt-0 resize-none"
+            />
+            
+            <Image
+              src="/assets/logo_nucleo_ti.png"
+              alt='logo-nucleo-ti-uniso'
+              width={200}
+              height={200}
+              className="h-14 md:h-20 mt-8 md:mt-0 dark:hidden resize-none"
+            />
+            <div className="h-14 md:h-20 dark:mx-10 dark:border-l-2 hidden md:flex dark:border-white"></div>
+            <Image
+              src="/assets/logo-extensiva-color.png"
+              alt='logo-nucleo-ti-uniso'
+              width={200}
+              height={200}
+              className="h-14 md:h-20 mt-8 md:mt-0 hidden dark:flex dark:border-l-4 dark:border-white resize-none"
             />
           </div>
         </div>

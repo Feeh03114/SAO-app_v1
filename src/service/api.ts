@@ -3,11 +3,11 @@ import { getSession } from 'next-auth/react';
 
 //import env from '../lib/env';
 const api = axios.create({
-  baseURL:   `http://localhost:3001`,
+  baseURL:   process.env.NEXTAUTH_URL || 'https://backend-odonto.labprivate.cloud/',
   //withCredentials: true,
-  headers: {
+  /* headers: {
     "ngrok-skip-browser-warning":"any"
-  },
+  }, */
 })
 
 /* let isRefreshing = false
