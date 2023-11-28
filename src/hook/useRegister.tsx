@@ -7,8 +7,8 @@ import * as yup from 'yup';
 
 export function useRegister(){
   const registerSchema = yup.object({
-      nome: yup.string().required("Por favor, insira seu nome"),
-      email: yup.string().typeError('O e-mail deve usar somente números').required("Por favor, insira seu email")
+    nome: yup.string().required("Por favor, insira seu nome"),
+    email: yup.string().typeError('O e-mail deve usar somente números').required("Por favor, insira seu email")
   });
 
   const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm({
@@ -19,8 +19,8 @@ export function useRegister(){
     try {
       const response = await api.post('api/users/create-student', {
           name: credentials.nome,
-          email: `${credentials.email}`,
-          ru: 'sadsad45s',//credentials.email,
+          email: `${credentials.email}@aluno.uniso.br`,
+          ru: credentials.email,
       });
       if(response?.data?.message)
         toast.success(response?.data?.message);

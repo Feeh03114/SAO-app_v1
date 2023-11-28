@@ -3,7 +3,7 @@ import { getSession } from 'next-auth/react';
 
 //import env from '../lib/env';
 const api = axios.create({
-  baseURL:  process.env.URL_BACKEND || `https://backend-odonto.labprivate.cloud/`,
+  baseURL:   `http://localhost:3001`,
   //withCredentials: true,
   headers: {
     "ngrok-skip-browser-warning":"any"
@@ -18,7 +18,7 @@ let failedRequestsQueue: {
  */
 api.interceptors.request.use(
   async (config: any): Promise<any> => {
-    const session: any = await getSession();   
+    const session: any = await getSession();
     if (session) {
       config.headers.Authorization = `Bearer ${session.accessToken}`;
     }

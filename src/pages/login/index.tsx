@@ -1,13 +1,26 @@
 /* eslint-disable react/jsx-no-undef */
+import IsLoading from '@/components/elementTag/isLoading';
 import { useLogin } from '@/hook/useLogin';
 import { useRegister } from '@/hook/useRegister';
+import api from '@/service/api';
+import { yupResolver } from '@hookform/resolvers/yup';
 import { GetServerSideProps } from 'next';
 import { getSession, signOut } from 'next-auth/react';
 import Head from 'next/head';
 import Image from 'next/image';
 import { useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { MdEmail } from 'react-icons/md';
+import { toast } from 'react-toastify';
+import * as yup from 'yup';
 import { Input } from '../../components/elementTag/input';
+const shemaForgo = yup.object({
+    email: yup.string().required('É obrigatório')
+    .test('email', 'Insira um e-mail válido', (val) => {
+        if(/^[a-z0-9.]+@[a-z0-9]+\.[a-z]+\.([a-z]+)?$/i.test(val)) return false;
+        else return true;
+    })
+})
 
 export default function Login(): JSX.Element{
     const { register, handleSubmit, ValidCredentials, errors, isSubmitting } = useLogin();
@@ -15,6 +28,24 @@ export default function Login(): JSX.Element{
     const [isLogin, setIsLogin] = useState(true);
     const [isResetPassword, setIsResetPassword] = useState(false);
     const [isSendedEmail, setIsSendedEmail] = useState(false);
+    const form = useForm({
+        resolver: yupResolver(shemaForgo)
+    });
+
+    async function onReset(data:any){
+        try {
+            const resp = await api.post('api/users/reset-password',{
+                email: `${data.email}@aluno.uniso.br`
+            });
+            toast.success(resp.data.mensagem);
+            setIsSendedEmail(true);
+        }catch (error:Error|any) {
+            if(error?.response?.data?.mensagem)
+                toast.error(error.response.data.mensagem);
+            else
+                toast.error('Erro ao conectar com o servidor');
+       }
+    }
 
     return(
         <div className="flex items-center h-screen w-full bg-white dark:bg-slate-800">
@@ -85,12 +116,16 @@ export default function Login(): JSX.Element{
                             disabled={isSubmitting}
                             form='loginForm'
                         >
-                            {/* {isSubmitted? 
-                            <p className="text-base font-medium leading-normal text-white">
-                                Carregando...
+                            <IsLoading
+                                isVisible={isSubmitting}
+                                textLoading='Entrando...'
+                                className='text-white'
+                            />
+                            <p className="text-base font-medium leading-normal text-white aria-hidden:hidden"
+                                aria-hidden={isSubmitting}
+                            >
+                                Entrar
                             </p>
-                            :<p className="text-base font-medium leading-normal text-white">Entrar</p>} */}
-                            <p className="text-base font-medium leading-normal text-white">Entrar</p>
                         </button>
                     </div>
 
@@ -157,14 +192,19 @@ export default function Login(): JSX.Element{
                         </div>
                         <button className="h-10 mt-8 inline-flex items-center justify-center px-4 py-2 bg-teal-200 shadow rounded-md w-full transition-all duration-500 aria-hidden:hidden"
                             type="submit"
+                            form='registerForm'
                             disabled={isSubmitting2}
                         >
-                            {/* {isSubmitted2? 
-                            <p className="text-base font-medium leading-normal text-teal-700">
-                                Carregando...
+                            <IsLoading
+                                isVisible={isSubmitting2}
+                                textLoading='Enviando...'
+                                className='text-white'
+                            />
+                            <p className="text-base font-medium leading-normal text-teal-700 aria-hidden:hidden"
+                                aria-hidden={isSubmitting2}
+                            >
+                                Criar minha conta
                             </p>
-                            :<p className="text-base font-medium leading-normal text-teal-700">Criar minha conta</p>} */}
-                            <p className="text-base font-medium leading-normal text-teal-700">Criar minha conta</p>
                         </button>
                     </div>
                     <button 
@@ -181,6 +221,7 @@ export default function Login(): JSX.Element{
             <div className={`${isResetPassword ? "block" : "hidden md:block"} w-full left-0 md:w-1/2 text-center fixed`}>
                 <form className="space-y-8 inline-flex flex-col items-center justify-center px-12 md:px-[calc(100vw*0.08)] lg:px-32 bg-white dark:bg-slate-800 w-full max-w-2xl"
                     id='restPasswordForm'
+                    onSubmit={form.handleSubmit(onReset)}
                 >
                     <div className="dark:hidden w-full flex justify-center items-center">
                         <Image className='h-24 w-24' src="/assets/logo4.png" width={150} height={150} alt="logoMobile"/>
@@ -201,6 +242,8 @@ export default function Login(): JSX.Element{
                             required
                             className="w-3/5 left-0 rounded-l-lg rounded-r-none"
                             placeholder="Insira seu RU"
+                            {...form.register('email')}
+                            error={form.formState.errors.email}
                         />
                         <div className="w-2/5 h-10 right-0 inline-flex justify-evenly items-center bg-gray-100 dark:bg-gray-600 rounded-r-lg shadow border dark:border-gray-500   text-gray-900 placeholder-gray-500">
                             <MdEmail className=" text-gray-400 dark:bg-gray-600 hidden text-xl md:hidden xl:block"/>
@@ -210,16 +253,33 @@ export default function Login(): JSX.Element{
 
                     <button 
                         className="h-10 inline-flex items-center justify-center px-4 py-2 bg-teal-200 shadow rounded-md w-full"
-                        onClick={() => {setIsSendedEmail(true)}}
-                        type='button'
+                        form='restPasswordForm'
+                        type='submit'
+                        disabled={form.formState.isSubmitting}	
                     >
-                        <p className="text-base font-medium leading-normal text-teal-700">Enviar instruções</p>
+                        <IsLoading
+                            isVisible={form.formState.isSubmitting}
+                            textLoading={isSendedEmail? 'Renviando...': 'Enviando...'}
+                            className='text-white'
+                        />
+                        <p 
+                            className="text-base font-medium leading-normal text-teal-700 aria-hidden:hidden"
+                            aria-hidden={form.formState.isSubmitting}
+                        >
+                            {
+                            isSendedEmail? 
+                            'Renviar Email': 
+                            'Enviar instruções'
+                            }
+                        </p>
                     </button>
 
                     <button 
-                        className="h-10 inline-flex items-center justify-center px-4 py-2 bg-white shadow border border-teal-100 rounded-md w-full"
+                        className="h-10 inline-flex items-center justify-center px-4 py-2 
+                        bg-white shadow border border-teal-100 rounded-md w-full disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-500"
                         onClick={() => {setIsResetPassword(false), setIsSendedEmail(false)}}
                         type='button'
+                        disabled={form.formState.isSubmitting}
                     >
                         <p className="text-base font-medium leading-normal text-teal-700">Voltar ao login</p>
                     </button>
