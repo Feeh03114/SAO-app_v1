@@ -8,11 +8,18 @@ import { useForm } from "react-hook-form";
 import { HiOutlinePlus } from "react-icons/hi";
 import * as yup from 'yup';
 
-const validationAvailabilities = yup.object().shape({
+export const validationAvailabilities = yup.object().shape({
     day: yup.number().required('Campo obrigatório'),
     start: yup.string().required('Campo obrigatório'),
     end: yup.string().required('Campo obrigatório'),
 });
+
+interface AvailabilitiesProps{
+    id: number;
+    day: number;
+    start: string;
+    end: string;
+}
 
 interface ModalServiceDisciplineProps{
     isOpen: boolean;

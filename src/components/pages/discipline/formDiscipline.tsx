@@ -7,10 +7,11 @@ import { withSSRAuth } from "@/util/withSSRAuth";
 import { GetServerSideProps } from "next";
 import { useFieldArray, useForm } from "react-hook-form";
 import * as yup from 'yup';
-import FormServiceDiscipline from "./formServiceDiscipline";
+import FormServiceDiscipline, { validationService } from "./formServiceDiscipline";
 
 const validationDiscipline = yup.object().shape({
     name: yup.string().required('Campo obrigatório'),
+    service: yup.array().of(validationService),
 });
 
 interface FormProfileProps {
@@ -43,6 +44,11 @@ export default function FormDiscipline({ isPermissionWrite=true, onSave }:FormPr
         const hours = Math.floor(minutes / 60);
         const minutesRest = minutes % 60;
         return `${hours}:${minutesRest}`;
+    }
+
+    function tableHeight() {
+        if (watchService === undefined) return String(4);
+        return (watchService?.length + 1) <= 4 ? String(4) : (watchService?.length + 1).toString()
     }
     
     return (
@@ -82,7 +88,7 @@ export default function FormDiscipline({ isPermissionWrite=true, onSave }:FormPr
                             </button>
                         </div>
                     
-                        <Table.Root tableHeight={(watchService?.length + 1) <= 4 ? String(4) : (watchService?.length + 1).toString()}style="mt-8">
+                        <Table.Root tableHeight={tableHeight()}style="mt-8">
                             <Table.Header>
                                 <Table.CellHeader>NOME DO SERVIÇO</Table.CellHeader>
                                 <Table.CellHeader hiddenInMobile={true}>DESCRIÇÃO DO SERVIÇO</Table.CellHeader>

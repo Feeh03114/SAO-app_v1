@@ -5,25 +5,18 @@ import Modal from "@/components/modal";
 import { Ethnicity } from "@/enum/ethnicity.enum";
 import { Gender } from "@/enum/gender.enum";
 import { useDisclosure } from "@/hook/useDisclosure";
+import { Address, Guardian } from "@/pages/patients";
 import { withSSRAuth } from "@/util/withSSRAuth";
 import { GetServerSideProps } from "next";
 import { useEffect, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { HiOutlineCheck, HiOutlinePlus } from "react-icons/hi";
-import * as yup from 'yup';
 import { default as FormAddress, default as FormEditAddress } from "./formEditAddress";
-import { Address, Guardian, Option } from "./formPatient";
 
-const validationAddress = yup.object().shape({
-    name: yup.string().required('Campo obrigatório'),
-    cep: yup.string().required('Campo obrigatório'),
-    streetAddress: yup.string().required('Campo obrigatório'),
-    number: yup.string().required('Campo obrigatório'),
-    complement: yup.string(),
-    district: yup.string().required('Campo obrigatório'),
-    city: yup.string().required('Campo obrigatório'),
-    state: yup.string().required('Campo obrigatório'),
-});
+interface Option {
+    value: number;
+    label: string;
+}
 
 interface ModalGuardianProps{
     isOpen: boolean;

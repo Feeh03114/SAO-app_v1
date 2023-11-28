@@ -8,7 +8,7 @@ import { GetServerSideProps } from "next";
 import { useFieldArray, useForm } from "react-hook-form";
 import { HiOutlinePlus } from "react-icons/hi";
 import * as yup from 'yup';
-import FormAvaliableTimes from "./formAvailabilities";
+import FormAvaliableTimes, { validationAvailabilities } from "./formAvailabilities";
 
 function convertNumberToDay(day: number) {
     switch (day) {
@@ -31,11 +31,16 @@ function convertNumberToDay(day: number) {
     }
 }
 
-const validationService = yup.object().shape({
+export const validationService = yup.object().shape({
+    id: yup.string().optional(),
     name: yup.string().required('Campo obrigatório'),
     description: yup.string().required('Campo obrigatório'),
-    price: yup.string().required('Campo obrigatório'),
-    duration_medio: yup.string().required('Campo obrigatório'),
+    price: yup.number().required('Campo obrigatório'),
+    duration_medio: yup.number().required('Campo obrigatório'),
+    active_duration_medio: yup.boolean().optional(),
+    active_duration_auto: yup.boolean().optional(),
+    ext: yup.boolean().optional(),
+    availabilities: yup.array().of(validationAvailabilities),
 });
 
 interface ModalServiceDisciplineProps{
@@ -72,8 +77,8 @@ export default function FormServiceDiscipline({isOpen, onClose, onSave} : ModalS
         reset({
             name: '',
             description: '',
-            price: '',
-            duration_medio: '',
+            price: 0,
+            duration_medio: 0,
             ext: false,
             active_duration_auto: false,
         });
@@ -117,7 +122,7 @@ export default function FormServiceDiscipline({isOpen, onClose, onSave} : ModalS
                             placeholder=""
                             {...register("description")}
                         />
-                        <p className="text-red-500 text-sm">{errors?.message?.toString()}</p>
+                        <p className="text-red-500 text-sm">{errors?.description?.message?.toString()}</p>
                     </div>
                     <div className="flex flex-wrap md:flex-nowrap md:space-x-6">
                         <div className="w-full md:w-1/2">
@@ -186,7 +191,7 @@ export default function FormServiceDiscipline({isOpen, onClose, onSave} : ModalS
                             >
                                 <Table.CellBody>
                                     <p className="text-ellipsis overflow-hidden">
-                                        {convertNumberToDay(watchAvailabilities && watchAvailabilities[index]?.day)}
+                                        {watchAvailabilities && convertNumberToDay(Number(watchAvailabilities[index]?.day))}
                                     </p>
                                 </Table.CellBody>
                                 <Table.CellBody>

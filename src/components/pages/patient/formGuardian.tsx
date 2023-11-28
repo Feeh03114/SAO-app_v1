@@ -14,30 +14,23 @@ import { useFieldArray, useForm } from "react-hook-form";
 import { HiOutlineCheck, HiOutlinePlus } from "react-icons/hi";
 import { toast } from "react-toastify";
 import * as yup from 'yup';
+import { validationAddress } from "./formAddress";
 import { default as FormAddress, default as FormEditAddress } from "./formEditAddress";
 import { Option } from "./formPatient";
 
-const validationAddress = yup.object().shape({
-    name: yup.string().required('Campo obrigatório'),
-    cep: yup.string().required('Campo obrigatório'),
-    street: yup.string().required('Campo obrigatório'),
-    number: yup.string().required('Campo obrigatório'),
-    complement: yup.string().required('Campo obrigatório'),
-    neighborhood: yup.string().required('Campo obrigatório'),
-    city: yup.string().required('Campo obrigatório'),
-    state: yup.string().required('Campo obrigatório'),
-}); 
-
-const validationGuardian = yup.object().shape({
+export const validationGuardian = yup.object().shape({
     name: yup.string().required('Campo obrigatório'),
     lastName: yup.string().required('Campo obrigatório'),
     cpf: yup.string().required('Campo obrigatório'),
     rg: yup.string().required('Campo obrigatório'),
     birthDate: yup.string().required('Campo obrigatório'),
     gender: yup.string().required('Campo obrigatório'),
+    profession: yup.string().optional(),
     ethnicity: yup.string().required('Campo obrigatório'),
     email: yup.string().required('Campo obrigatório'),
     phoneNumber: yup.string().required('Campo obrigatório'),
+    nationality: yup.string().optional(),
+    naturalness: yup.string().optional(),
     address: yup.array().of(validationAddress).min(1, 'Precisa ter pelo menos um endereço'),
 });
 
@@ -203,7 +196,7 @@ export default function FormGuardian({edit={}, isOpen, onClose, onSave} : ModalG
                                     name: item,
                                 }))
                             }
-                            control={controlGuardian}
+                            control={controlGuardian as any}
                             error={errorsGuardian.gender}
                         />
                     </div>
@@ -219,7 +212,7 @@ export default function FormGuardian({edit={}, isOpen, onClose, onSave} : ModalG
                                     name: item,
                                 }))
                             }
-                            control={controlGuardian}
+                            control={controlGuardian as any}
                             error={errorsGuardian.ethnicity}
                         />
                     </div>
@@ -295,11 +288,13 @@ export default function FormGuardian({edit={}, isOpen, onClose, onSave} : ModalG
                             {convertAddressToOptions().map((item, index) => (
                                 <Card.TextSelected 
                                     key={index} 
-                                    text={watch[index].name} 
+                                    text={watch === undefined ? "" : watch[index].name} 
                                     onClick={() => {
-                                        const selectedAddress = watch[index] as Address;
-                                        setIndexSelectedAddress(index);
-                                        setSelectedAddress(selectedAddress);
+                                        if (watch != undefined) {
+                                            const selectedAddress = watch[index] as Address;
+                                            setIndexSelectedAddress(index);
+                                            setSelectedAddress(selectedAddress);
+                                        }
                                         editAddressDisposer.open(); 
                                     }}
                                 />

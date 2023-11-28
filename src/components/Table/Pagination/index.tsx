@@ -80,7 +80,7 @@ export function Pagination({pageSize=5, totalElements=5, currentPage=1, setCurre
               {Array.from( {length: Math.min(MAX_ITEMS, pages)} )
                 .map((_, index) => enumerateArray(index))
                 .map((page) => ( 
-                  <div key={page} className={`hidden md:inline-flex w-9 h-9 flex-col items-center justify-center px-4 py-2 ${page === currentPage && 'border-teal-500' } bg-white dark:bg-slate-800 dark:text-gray-300 border border-gray-300 dark:border-none cursor-pointer`}
+                  <div key={page} className={`hidden md:inline-flex w-9 h-9 flex-col items-center justify-center px-4 py-2 ${page === currentPage ? 'border-teal-500' : 'dark:border-none'} bg-white dark:bg-slate-800 dark:text-gray-300 border border-gray-300 cursor-pointer`}
                     onClick={() => setCurrentPage(page)}
                   >
                     <p className={`text-sm font-medium leading-tight text-center text-gray-600}`}>{page}</p>
