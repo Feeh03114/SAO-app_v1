@@ -18,7 +18,7 @@ import { validationAddress } from "./formAddress";
 import { default as FormAddress, default as FormEditAddress } from "./formEditAddress";
 import { Option } from "./formPatient";
 
-const validationGuardian = yup.object().shape({
+export const validationGuardian = yup.object().shape({
     name: yup.string().required('Campo obrigatório'),
     lastName: yup.string().required('Campo obrigatório'),
     cpf: yup.string().required('Campo obrigatório'),
@@ -196,7 +196,7 @@ export default function FormGuardian({edit={}, isOpen, onClose, onSave} : ModalG
                                     name: item,
                                 }))
                             }
-                            control={controlGuardian}
+                            control={controlGuardian as any}
                             error={errorsGuardian.gender}
                         />
                     </div>
@@ -212,7 +212,7 @@ export default function FormGuardian({edit={}, isOpen, onClose, onSave} : ModalG
                                     name: item,
                                 }))
                             }
-                            control={controlGuardian}
+                            control={controlGuardian as any}
                             error={errorsGuardian.ethnicity}
                         />
                     </div>
@@ -288,11 +288,13 @@ export default function FormGuardian({edit={}, isOpen, onClose, onSave} : ModalG
                             {convertAddressToOptions().map((item, index) => (
                                 <Card.TextSelected 
                                     key={index} 
-                                    text={watch[index].name} 
+                                    text={watch === undefined ? "" : watch[index].name} 
                                     onClick={() => {
-                                        const selectedAddress = watch[index] as Address;
-                                        setIndexSelectedAddress(index);
-                                        setSelectedAddress(selectedAddress);
+                                        if (watch != undefined) {
+                                            const selectedAddress = watch[index] as Address;
+                                            setIndexSelectedAddress(index);
+                                            setSelectedAddress(selectedAddress);
+                                        }
                                         editAddressDisposer.open(); 
                                     }}
                                 />

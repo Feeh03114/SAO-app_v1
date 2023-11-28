@@ -17,7 +17,7 @@ import * as yup from 'yup';
 import FormAddress, { validationAddress } from "./formAddress";
 import FormEditAddress from "./formEditAddress";
 import FormEditGuardian from "./formEditGuardian";
-import FormGuardian from "./formGuardian";
+import FormGuardian, { validationGuardian } from "./formGuardian";
 
 const validationPatient = yup.object().shape({
     name: yup.string().required('Campo obrigatório'),
@@ -28,8 +28,12 @@ const validationPatient = yup.object().shape({
     gender: yup.string().required('Campo obrigatório'),
     ethnicity: yup.string().required('Campo obrigatório'),
     email: yup.string().required('Campo obrigatório'),
+    profession: yup.string().optional(),
     phoneNumber: yup.string().required('Campo obrigatório'),
+    nationality: yup.string().optional(),
+    naturalness: yup.string().optional(),
     address: yup.array().of(validationAddress).min(1, 'Precisa ter pelo menos um endereço'),
+    guardian: yup.array().of(validationGuardian),
 });
 
 export interface Option {
@@ -127,7 +131,6 @@ export default function FormPatient({ isPermissionWrite=true, onSave }:FormPatie
         delete data.guardian;
 
         const patient = {
-            guardian: watchGuardian,
             stats: "Ativo",
             people: data,
         } as Patient;
@@ -233,7 +236,7 @@ export default function FormPatient({ isPermissionWrite=true, onSave }:FormPatie
                                 name: item,
                             }))
                         }
-                        control={control1}
+                        control={control1 as any}
                     />
                 </div>
                 <div className="w-full md:w-1/4 px-2">
@@ -250,7 +253,7 @@ export default function FormPatient({ isPermissionWrite=true, onSave }:FormPatie
                                 name: item,
                             }))
                         }
-                        control={control1}
+                        control={control1 as any}
                     />
                 </div>
                 <div className="w-full md:w-1/4 px-2">
@@ -304,7 +307,7 @@ export default function FormPatient({ isPermissionWrite=true, onSave }:FormPatie
                                 name: item,
                             }))
                         }
-                        control={control1}
+                        control={control1 as any}
                     />
                 </div>
                 <div className="w-full md:w-1/2 px-2">
@@ -347,11 +350,13 @@ export default function FormPatient({ isPermissionWrite=true, onSave }:FormPatie
                         {convertAddressToOptions().map((item, index) => (
                             <Card.TextSelected 
                                 key={index} 
-                                text={watchAddress[index].name} 
+                                text={watchAddress === undefined ? "" : watchAddress[index].name} 
                                 onClick={() => {
-                                    const selectedAddress = watchAddress[index] as Address;
-                                    setIndexSelectedAddress(index);
-                                    setSelectedAddress(selectedAddress);
+                                    if (watchAddress != undefined) {
+                                         const selectedAddress = watchAddress[index] as Address;
+                                        setIndexSelectedAddress(index);
+                                        setSelectedAddress(selectedAddress);
+                                    }
                                     editAddressDisposer.open(); 
                                 }}
                             />
@@ -374,11 +379,13 @@ export default function FormPatient({ isPermissionWrite=true, onSave }:FormPatie
                     {convertGuardianToOptions().map((item, index) => (
                         <Card.TextSelected 
                             key={index} 
-                            text={watchGuardian[index].name} 
+                            text={watchGuardian === undefined ? "" : watchGuardian[index].name} 
                             onClick={() => {
-                                const selectedGuardian = watchGuardian[index] as Guardian;
-                                setIndexSelecteGuardian(index);
-                                setSelectedGuardian(selectedGuardian);
+                                if (watchGuardian != undefined){
+                                    const selectedGuardian = watchGuardian[index] as Guardian;
+                                    setIndexSelecteGuardian(index);
+                                    setSelectedGuardian(selectedGuardian);
+                                }
                                 editGuardianDisposer.open(); 
                             }}
                         />
