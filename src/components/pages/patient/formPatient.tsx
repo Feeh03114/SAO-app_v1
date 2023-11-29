@@ -369,7 +369,7 @@ export default function FormPatient({ isPermissionWrite=true, onSave }:FormPatie
             </form>
             <div className="w-full pt-6 border-t border-gray-300 dark:border-gray-500">
                 <div className="flex items-center justify-between">
-                    <label className="pl-4 text-sm font-medium leading-tight text-gray-700 dark:text-white">Guardiões</label>
+                    <label className="pl-4 text-sm font-medium leading-tight text-gray-700 dark:text-white">Guardiões  (Responsáveis)</label>
                     <button className="h-10 mr-2 mb-1 space-x-2 flex items-center justify-center px-3 bg-teal-500 border rounded-md border-teal-500 cursor-pointer"
                         type="button"
                         onClick={() => newGuardianDisposer.open()}

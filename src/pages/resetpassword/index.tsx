@@ -15,13 +15,14 @@ export default function ResetPassword(): JSX.Element{
                 </title>
             </Head>
             <div className="w-screen flex items-center justify-center">
-                <div className="p-6 space-y-6 md:border rounded-lg md:shadow-md overflow-auto">
+                <div className="p-6 space-y-6 md:border rounded-lg md:shadow-md overflow-auto dark:bg-slate-800 border-gray-300 dark:border-gray-500">
                     <div className="w-full flex justify-center items-center">
-                        <Image className='h-24 w-24' src="/assets/logo4.png" width={150} height={150} alt="logoMobile"/>
+                        <Image className='h-24 w-24 dark:hidden' src="/assets/logo4.png" width={150} height={150} alt="logoMobile"/>
+                        <Image className='h-24 w-24 hidden dark:block' src="/assets/logo_white.png" width={150} height={150} alt="logoMobile"/>
                     </div>
                     <div className="w-96 h-full mt-4 bg-white dark:bg-gray-800 text-left">
-                        <p className="text-3xl font-Inter font-extrabold leading-9 text-gray-900">Criar nova senha</p>
-                        <p className="text-lg font-Inter font-medium leading-6 text-gray-500">Sua senha nova devera ser diferente das senhas utilizadas anteriormente</p>
+                        <p className="text-3xl font-Inter font-extrabold leading-9 text-gray-900 dark:text-white">Criar nova senha</p>
+                        <p className="text-lg font-Inter font-medium leading-6 text-gray-500 dark:text-gray-300">Sua senha nova devera ser diferente das senhas utilizadas anteriormente</p>
                     </div>
                     
                     <div>
@@ -50,7 +51,7 @@ export default function ResetPassword(): JSX.Element{
                         />
                     </div>
 
-                    <p className=""> <span className="text-red-500">Atenção:</span> Sua senha deverá possuir ao menos 8 caracteres,<br/>
+                    <p className="dark:text-gray-300"> <span className="text-red-500">Atenção:</span> Sua senha deverá possuir ao menos 8 caracteres,<br/>
                         sendo eles obrigatórios:<br/>
                     &emsp;1 Letra maiúscula<br/>
                     &emsp;1 Letra minúscula<br/>

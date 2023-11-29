@@ -3,7 +3,7 @@ import { getSession } from 'next-auth/react';
 
 //import env from '../lib/env';
 const api = axios.create({
-  baseURL:  process.env.URL_BACKEND || `https://243e-177-126-99-230.ngrok-free.app`,
+  baseURL:  process.env.URL_BACKEND || `https://8648-177-126-99-230.ngrok-free.app`,
   //withCredentials: true,
   headers: {
     "ngrok-skip-browser-warning":"any"

@@ -43,24 +43,12 @@ const schemaPermission = yup.object().shape({
     }),
 });
 
-const validationFullModal = yup.object().shape({
-    id: yup.string().optional(),
-    name: yup.string().required('Campo obrigatório'),
-    typeUser: yup.number().required('Campo obrigatório'),
-    default: yup.boolean().optional(),
-    permissions: yup.array().of(schemaPermission).required('Campo obrigatório'),
-});
-
 interface FormUserProps {
     edit?: User;
     isPermissionWrite?: boolean;
     onSave:(data:any)=>void;
     profiles: string[];
 }
-
-/* {
-    resolver: yupResolver(validationFullModal)
-} */
 
 interface options {
     label: string;
@@ -70,7 +58,6 @@ interface options {
 export default function FormUser({edit, isPermissionWrite=true, onSave, profiles}:FormUserProps): JSX.Element {
     const [optionsProfiles, setOptionsProfiles] = useState<options[]>([] as options[]);
     const { reset, control, watch, register, setValue, handleSubmit, formState: { errors } } = useForm();
-    const [disciplinas, setDisciplinas] = useState<options[]>(mockDisciplinas);
     const animatedComponents = makeAnimated();
     
     const loadOptionsProfiles = async () => {
