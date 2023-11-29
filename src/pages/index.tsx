@@ -149,7 +149,7 @@ export default function Home():JSX.Element {
                 O seu aliado na gestão odontológica.
               </span>
               <div className={twMerge("w-96 mt-6 text-base font-normal leading-normal font-['Sora'] text-slate-500 dark:text-gray-300", sora.className)}>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Elementum eget vel, nunc nulla feugiat. Metus ut.
+                Agendamento, fila de espera, financeiro, pacientes, disciplinas e usuários tudo em um só lugar.
               </div>
               <div className="w-56 mt-6 px-7 py-4 bg-gradient-96 from-teal-500 to-teal-600 rounded-full shadow justify-start items-start inline-flex">
                 <button className={twMerge("text-white text-lg font-semibold flex flex-row justify-between whitespace-nowrap", sora.className)}>
@@ -178,7 +178,7 @@ export default function Home():JSX.Element {
                 alt='odonto_homePage'
               /> 
               <div className={twMerge("mt-6 text-sm font-normal leading-5 text-slate-500 dark:text-gray-300", sora.className)}>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Elementum eget vel, nunc nulla feugiat. Metus ut.
+                Agendamento, fila de espera, financeiro, pacientes, disciplinas e usuários tudo em um só lugar.
               </div>
               <div className="w-48 h-10 mt-6 px-7 flex justify-center items-center bg-gradient-96 from-teal-500 to-teal-600 rounded-full shadow">
                 <button className={twMerge("text-white text-sm font-semibold", sora.className)} >
@@ -194,17 +194,17 @@ export default function Home():JSX.Element {
             <CartInfo
               icon={LuClock}
               title="Agenda Clinica"
-              description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+              description="Tenha um melhor controle dos seus atendimentos diários."
             />
             <CartInfo
               icon={MdCheckCircle}
               title="Acesso Fácil"
-              description="Lorem ipsum dolor sit amet, con sectetur adipiscing elit."
+              description="Plataforma com suporte para desktop e mobile."
             />
             <CartInfo
               icon={RiOrganizationChart}
               title="Organização"
-              description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+              description="Melhore a organização da sua clinica."
             />
           </div>   
           <div className="w-full h-20 -mt-10 relative z-0 bg-teal-50 dark:bg-gray-700"></div>
@@ -251,53 +251,53 @@ export default function Home():JSX.Element {
           <div className="w-full hidden md:flex justify-center items-center flex-wrap gap-9">
             <CardInfo2
               title='Agendamento'
-              description='Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
+              description='Oferece aos pacientes a capacidade de agendar consultas com um dentista ou outro profissional de saúde.'
             />
             <CardInfo2
               title='Fila de espera'
-              description='Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
+              description='Oferece o controle da fila de espera, assim como a possibilidade de verificar o status do serviço realizado.'
             />
             <CardInfo2
               title='Financeiro'
-              description='Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
+              description='Oferece  o controle financeiro dos procedimentos realizados que necessitam de pagamentos.'
             />
             <CardInfo2
               title='Pacientes'
-              description='Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
+              description='Parte destinada para o controle dos pacientes, incluindo a ficha de cada um, status e gerenciamento de arquivos.'
             />
             <CardInfo2
               title='Disciplinas'
-              description='Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
+              description='Oferece a possibilidade de criar novas disciplinas, serviços e realizar o gerenciamento delas.'
             />
             <CardInfo2
               title='Usuários'
-              description='Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
+              description='Permite gerenciar, criar e editar os usuários que utilizam o  sistema, tendo um controle amplo do nível de acesso.'
             />
           </div>
           <div className="w-full md:hidden flex flex-col justify-center items-center flex-wrap gap-4">
             <CardInfo2Mobile
               title='Agendamento'
-              description='Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
+              description='Oferece aos pacientes a capacidade de agendar consultas com um dentista ou outro profissional de saúde.'
             />
             <CardInfo2Mobile
               title='Fila de espera'
-              description='Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
+              description='Oferece o controle da fila de espera, assim como a possibilidade de verificar o status do serviço realizado.'
             />
             <CardInfo2Mobile
               title='Financeiro'
-              description='Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
+              description='Oferece  o controle financeiro dos procedimentos realizados que necessitam de pagamentos.'
             />
             <CardInfo2Mobile
               title='Pacientes'
-              description='Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
+              description='Parte destinada para o controle dos pacientes, incluindo a ficha de cada um, status e gerenciamento de arquivos.'
             />
             <CardInfo2Mobile
               title='Disciplinas'
-              description='Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
+              description='Oferece a possibilidade de criar novas disciplinas, serviços e realizar o gerenciamento delas.'
             />
             <CardInfo2Mobile
               title='Usuários'
-              description='Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
+              description='Permite gerenciar, criar e editar os usuários que utilizam o  sistema, tendo um controle amplo do nível de acesso.'
             />
           </div>
         </div>    

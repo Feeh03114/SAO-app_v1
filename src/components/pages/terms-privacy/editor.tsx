@@ -30,6 +30,7 @@ import {
 } from '@ckeditor/ckeditor5-table';
 import { TextTransformation } from '@ckeditor/ckeditor5-typing';
 
+
 export const defaultConfig = {
     toolbar: {
         items: [
@@ -84,7 +85,6 @@ export const defaultConfig = {
         ]
     }
 };
-
 export const builtinPlugins = [
     Alignment,
     Autoformat,

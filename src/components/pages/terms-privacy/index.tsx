@@ -71,7 +71,7 @@ export default function TermsPrivacyForm({
                             render={({ field }) => (
                                 <CKEditor
                                     editor={ ClassicEditor }
-                                    data={field.value}
+                                    data={field.value || ''}
                                     onChange={(event, editor) => {
                                         const data = editor.getData();
                                         field.onChange(data);
