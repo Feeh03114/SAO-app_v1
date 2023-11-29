@@ -10,7 +10,7 @@ import { withSSRAuth } from "@/util/withSSRAuth";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { GetServerSideProps } from "next";
 import { useEffect, useState } from "react";
-import { useFieldArray, useForm } from "react-hook-form";
+import { Control, FieldValues, useFieldArray, useForm } from "react-hook-form";
 import { HiOutlineCheck, HiOutlinePlus } from "react-icons/hi";
 import { toast } from "react-toastify";
 import * as yup from 'yup';
@@ -34,23 +34,26 @@ export const validationGuardian = yup.object().shape({
     address: yup.array().of(validationAddress).min(1, 'Precisa ter pelo menos um endereço'),
 });
 
+type IvalidationGuardian = {
+    [K in keyof yup.InferType<typeof validationGuardian>]: yup.InferType<typeof validationGuardian>[K];
+};
+
 interface ModalGuardianProps{
-    edit:any;
     isOpen: boolean;
     onClose: () => void;
     onSave:(data:any)=>void;
 }
 
-export default function FormGuardian({edit={}, isOpen, onClose, onSave} : ModalGuardianProps): JSX.Element {
-    const { control: controlGuardian, register: registerGuardian, reset, watch: watchGuardian, handleSubmit: handleSubmitGuardian, formState: { errors: errorsGuardian }  } = useForm({
+export default function FormGuardian({isOpen, onClose, onSave} : ModalGuardianProps): JSX.Element {
+    const { control: controlGuardian, register: registerGuardian, reset, watch: watchGuardian, handleSubmit: handleSubmitGuardian, formState: { errors: errorsGuardian }  } = 
+    useForm<IvalidationGuardian>({
         resolver: yupResolver(validationGuardian)
     });
     const { fields, append, update, remove } = useFieldArray({
         control: controlGuardian, 
         name: "address",
-        keyName: "adress.id",
+        keyName: "address.id",
     });
-    const watch = watchGuardian('address');
     const addressDisposer = useDisclosure();
     const editAddressDisposer = useDisclosure();
     const [selectedAddress, setSelectedAddress] = useState<Address>({} as Address);
@@ -61,9 +64,7 @@ export default function FormGuardian({edit={}, isOpen, onClose, onSave} : ModalG
     const updateAddress = (data: Address) => append(data);
 
     useEffect(() => {
-        if(isOpen && Object.keys(edit).length > 0) 
-            reset(edit);
-        else reset({
+        reset({
             name: '',
             lastName: '',
             cpf: '',
@@ -86,11 +87,10 @@ export default function FormGuardian({edit={}, isOpen, onClose, onSave} : ModalG
     function convertAddressToOptions() {
         const addressOptions: Option[] = [];
 
-        if (watch === undefined) return addressOptions;
         fields?.map((item, index) => {
             const addressOption = {
                 value: addressOptions.length + 1,
-                label: watch[index].name
+                label: item.name,
             };
             addressOptions.push(addressOption);
         });
@@ -196,7 +196,7 @@ export default function FormGuardian({edit={}, isOpen, onClose, onSave} : ModalG
                                     name: item,
                                 }))
                             }
-                            control={controlGuardian as any}
+                            control={controlGuardian as unknown as Control<FieldValues, any>}
                             error={errorsGuardian.gender}
                         />
                     </div>
@@ -212,7 +212,7 @@ export default function FormGuardian({edit={}, isOpen, onClose, onSave} : ModalG
                                     name: item,
                                 }))
                             }
-                            control={controlGuardian as any}
+                            control={controlGuardian as unknown as Control<FieldValues, any>}
                             error={errorsGuardian.ethnicity}
                         />
                     </div>
@@ -288,10 +288,10 @@ export default function FormGuardian({edit={}, isOpen, onClose, onSave} : ModalG
                             {convertAddressToOptions().map((item, index) => (
                                 <Card.TextSelected 
                                     key={index} 
-                                    text={watch === undefined ? "" : watch[index].name} 
+                                    text={item.label} 
                                     onClick={() => {
-                                        if (watch != undefined) {
-                                            const selectedAddress = watch[index] as Address;
+                                        if (fields != undefined) {
+                                            const selectedAddress = fields[index] as Address;
                                             setIndexSelectedAddress(index);
                                             setSelectedAddress(selectedAddress);
                                         }

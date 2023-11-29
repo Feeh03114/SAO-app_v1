@@ -15,7 +15,7 @@ export const validationAddress = yup.object().shape({
     streetAddress: yup.string().required('Campo obrigatório'),
     number: yup.string().required('Campo obrigatório'),
     complement: yup.string().optional(),
-    neighborhood: yup.string().required('Campo obrigatório'),
+    district: yup.string().required('Campo obrigatório'),
     city: yup.string().required('Campo obrigatório'),
     state: yup.string().required('Campo obrigatório'),
 });
@@ -38,7 +38,7 @@ export default function FormAddress({isOpen, onClose, onSave} : ModalAddressProp
             streetAddress: '',
             number: '',
             complement: '',
-            neighborhood: '',
+            district: '',
             city: '',
             state: '',
         });
@@ -116,13 +116,13 @@ export default function FormAddress({isOpen, onClose, onSave} : ModalAddressProp
                     </div>
                     <div className="w-full px-2">
                         <Input 
-                            id="neighborhood"
+                            id="district"
                             type="text"
                             label="Bairro"
                             className="w-full"
                             placeholder="Insira o bairro"
-                            {...register("neighborhood")}
-                            error={errors.neighborhood}
+                            {...register("district")}
+                            error={errors.district}
                         />
                     </div>
                     <div className="w-full md:w-1/2 px-2">

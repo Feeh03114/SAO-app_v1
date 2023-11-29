@@ -15,7 +15,7 @@ export interface RegisterModelProps {
     valueDefault?:any;
     data?: Option[];
     children?: React.ReactNode;
-    control: Control<FieldValues>;
+    control: Control<FieldValues, any>;
     disabled?: boolean;
     className?: string;
     valueTypeName?: boolean;
