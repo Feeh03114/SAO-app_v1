@@ -1,6 +1,7 @@
 import Table from "@/components/Table";
 import Card from "@/components/elementTag/cardText";
 import { Input } from "@/components/elementTag/input";
+import { TypeUser } from "@/enum/typeUser.enum";
 import { User } from "@/pages/users/edit/[id]";
 import api from "@/service/api";
 import { reactSelectStyle } from "@/styles/reactSelectStyle";
@@ -100,7 +101,9 @@ export default function FormUser({edit, isPermissionWrite=true, onSave, profiles
         <form id='formUser' onSubmit={handleSubmit(onSave)}>
             <div className="w-screen">
                 <Card.Root styles="gap-y-6">
-                    <div className="w-full md:w-1/4 px-2">
+                    <div className="w-full md:w-1/4 px-2 aria-selected:md:w-1/4"
+                        aria-selected={watch('typeUser') === TypeUser.Aluno}
+                    >
                         <Input 
                             id="ru"
                             type="text"
@@ -112,7 +115,9 @@ export default function FormUser({edit, isPermissionWrite=true, onSave, profiles
                             readOnly={!isPermissionWrite}
                         />
                     </div>
-                    <div className="w-full md:w-1/4 px-2">
+                    <div className="w-full md:w-1/4 px-2 aria-selected:md:w-1/2"
+                        aria-selected={watch('typeUser') === TypeUser.Aluno}
+                    >
                         <Input 
                             id="name"
                             type="text"
@@ -124,7 +129,9 @@ export default function FormUser({edit, isPermissionWrite=true, onSave, profiles
                             readOnly={!isPermissionWrite}
                         />
                     </div>
-                    <div className="w-full md:w-1/4 px-2">
+                    <div className="w-full md:w-1/4 px-2 aria-selected:md:w-1/4"
+                     aria-selected={watch('typeUser') === TypeUser.Aluno}
+                    >
                         <Input 
                             id="email"
                             type="text"
@@ -136,7 +143,9 @@ export default function FormUser({edit, isPermissionWrite=true, onSave, profiles
                             readOnly={!isPermissionWrite}
                         />
                     </div>
-                    <div className="w-full md:w-1/4 px-2">
+                    <div className="w-full md:w-1/4 px-2 aria-hidden:hidden"
+                        aria-hidden={watch('typeUser') === TypeUser.Aluno}
+                    >
                         <Input 
                             id="cro"
                             type="text"

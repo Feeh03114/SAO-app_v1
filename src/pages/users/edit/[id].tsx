@@ -88,8 +88,10 @@ export default function UsersEdit(): JSX.Element {
             await api.put(`/api/users/${id}`, body);
             toast.success('Usuário atualizado com sucesso!');
             router.back();
-        } catch (error) {
-            console.log(error);
+        } catch (error:any) {
+            if(error?.response?.data?.message)
+                toast.error(error.response.data.message);
+            else toast.error('Erro ao atualizar usuário!');
         }
         finally{
             setIsLoading(false);
