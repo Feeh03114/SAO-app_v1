@@ -165,7 +165,7 @@ export default function PatientsEdit(): JSX.Element {
                             <Card.TextSelected key={index} text={endereco}></Card.TextSelected>
                         ))}
                     </Card.CardSelected>
-                    <Card.CardSelected label="Guardiões" styles="w-full mb-3 md:mb-6">
+                    <Card.CardSelected label="Guardiões (Responsáveis)" styles="w-full mb-3 md:mb-6">
                         {data.guardioes.map((guardiao, index) => (
                             <Card.TextSelected key={index} text={guardiao}></Card.TextSelected>
                         ))}

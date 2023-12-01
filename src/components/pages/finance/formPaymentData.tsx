@@ -32,7 +32,7 @@ interface PaymentData {
     street: string;
     number: string;
     uf: string;
-    neighborhood: string;
+    district: string;
     complement: string;
     paymentMethod: string;
     installment: string;
@@ -54,7 +54,7 @@ const validationPaymentData = yup.object().shape({
     street: yup.string().required('Campo obrigatório'),
     number: yup.string().required('Campo obrigatório'),
     uf: yup.string().required('Campo obrigatório'),
-    neighborhood: yup.string().required('Campo obrigatório'),
+    district: yup.string().required('Campo obrigatório'),
     complement: yup.string().required('Campo obrigatório'),
     paymentMethod: yup.string().required('Campo obrigatório'),
     installment: yup.string().required('Campo obrigatório'),
@@ -263,12 +263,12 @@ export default function FormPaymentData({ onSave }:FormPatientProps): JSX.Elemen
 
             <div className="w-full md:w-1/4 px-2">
                 <Input 
-                    id="neighborhood"
+                    id="district"
                     type="text"
                     label="Bairro"
                     placeholder="Insira o bairro"
-                    {...register("neighborhood")}
-                    error={errors.neighborhood}
+                    {...register("district")}
+                    error={errors.district}
                 />
             </div>
             <div className="w-full md:w-2/4 px-2">

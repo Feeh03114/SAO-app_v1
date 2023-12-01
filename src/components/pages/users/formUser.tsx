@@ -44,24 +44,12 @@ const schemaPermission = yup.object().shape({
     }),
 });
 
-const validationFullModal = yup.object().shape({
-    id: yup.string().optional(),
-    name: yup.string().required('Campo obrigatório'),
-    typeUser: yup.number().required('Campo obrigatório'),
-    default: yup.boolean().optional(),
-    permissions: yup.array().of(schemaPermission).required('Campo obrigatório'),
-});
-
 interface FormUserProps {
     edit?: User;
     isPermissionWrite?: boolean;
     onSave:(data:any)=>void;
     profiles: string[];
 }
-
-/* {
-    resolver: yupResolver(validationFullModal)
-} */
 
 interface options {
     label: string;

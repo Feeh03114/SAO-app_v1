@@ -9,6 +9,7 @@ import { Address, Guardian, Patient } from "@/pages/patients";
 import { withSSRAuth } from "@/util/withSSRAuth";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { GetServerSideProps } from "next";
+import { useRouter } from 'next/router';
 import { useEffect, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { HiOutlineCheck } from "react-icons/hi";
@@ -65,6 +66,7 @@ export default function FormPatient({ isPermissionWrite=true, onSave }:FormPatie
     const addressDisposer = useDisclosure();
     const editAddressDisposer = useDisclosure();
     const editGuardianDisposer = useDisclosure();
+    const router = useRouter();
     const [selectedAddress, setSelectedAddress] = useState<Address>({} as Address);
     const [selectedGuardian, setSelectedGuardian] = useState<Guardian>({} as Guardian);
     const [indexSelectedAddress, setIndexSelectedAddress] = useState<number>(0);
@@ -137,6 +139,7 @@ export default function FormPatient({ isPermissionWrite=true, onSave }:FormPatie
 
         console.log(patient);
         onSave(patient);
+        router.back();
     }
 
     useEffect(() => {
@@ -156,7 +159,7 @@ export default function FormPatient({ isPermissionWrite=true, onSave }:FormPatie
         <div className="gap-y-3 md:gap-y-6 md:mx-10 md:mb-10 px-3 md:pt-6 pb-6 flex items-center justify-centers flex-row flex-wrap md:border border-gray-200 dark:border-gray-500 shadow-sm rounded-lg">
             <FormAddress isOpen={addressDisposer.isOpen} onClose={addressDisposer.close} onSave={updateAddress}/>
             <FormEditAddress isOpen={editAddressDisposer.isOpen} onClose={editAddressDisposer.close} address={selectedAddress} onSave={updateEditAddress} onDelete={deleteAddress}/>
-            <FormGuardian isOpen={newGuardianDisposer.isOpen} onClose={newGuardianDisposer.close} onSave={updateGuardianForm} edit={true}/>
+            <FormGuardian isOpen={newGuardianDisposer.isOpen} onClose={newGuardianDisposer.close} onSave={updateGuardianForm}/>
             <FormEditGuardian isOpen={editGuardianDisposer.isOpen} onClose={editGuardianDisposer.close} guardian={selectedGuardian} onSave={updateEditGuardian} onDelete={deleteGuardian}/>
             <form id='formPatient' onSubmit={handleSubmit1(onSavePatient)} className="gap-y-3 md:gap-y-6 flex items-center justify-centers flex-row flex-wrap">
                 <div className="w-full md:w-1/4 px-2">
@@ -366,7 +369,7 @@ export default function FormPatient({ isPermissionWrite=true, onSave }:FormPatie
             </form>
             <div className="w-full pt-6 border-t border-gray-300 dark:border-gray-500">
                 <div className="flex items-center justify-between">
-                    <label className="pl-4 text-sm font-medium leading-tight text-gray-700 dark:text-white">Guardiões</label>
+                    <label className="pl-4 text-sm font-medium leading-tight text-gray-700 dark:text-white">Guardiões  (Responsáveis)</label>
                     <button className="h-10 mr-2 mb-1 space-x-2 flex items-center justify-center px-3 bg-teal-500 border rounded-md border-teal-500 cursor-pointer"
                         type="button"
                         onClick={() => newGuardianDisposer.open()}

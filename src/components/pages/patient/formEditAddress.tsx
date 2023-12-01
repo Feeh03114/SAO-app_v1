@@ -27,7 +27,7 @@ export default function FormEditAddress({isOpen, onClose, address, onSave, onDel
             streetAddress: address.streetAddress,
             number: address.number,
             complement: address.complement,
-            neighborhood: address.neighborhood,
+            district: address.district,
             city: address.city,
             state: address.state,
         });
@@ -105,13 +105,13 @@ export default function FormEditAddress({isOpen, onClose, address, onSave, onDel
                     </div>
                     <div className="w-full px-2">
                         <Input 
-                            id="neighborhood"
+                            id="district"
                             type="text"
                             label="Bairro"
                             className="w-full"
                             placeholder="Insira o bairro"
-                            {...register("neighborhood")}
-                            error={errors.neighborhood}
+                            {...register("district")}
+                            error={errors.district}
                         />
                     </div>
                     <div className="w-full md:w-1/2 px-2">
