@@ -75,11 +75,11 @@ export default function Home():JSX.Element {
               <p className={twMerge("text-base font-medium text-gray-800 dark:text-white", poppins.className)}>Pagina Inicial</p>
               <p className={twMerge("text-base font-medium text-gray-800 dark:text-white", poppins.className)}>Sobre</p>
               <p className={twMerge("text-base font-medium text-gray-800 dark:text-white", poppins.className)}>Contato</p>
-              <button className="h-11 ml-3 px-4 py-2 rounded-full shadow border border-teal-500 justify-center items-center flex"
+              {/* <button className="h-11 ml-3 px-4 py-2 rounded-full shadow border border-teal-500 justify-center items-center flex"
                 aria-hidden="true"
               >
                 <div className={twMerge("text-teal-500 text-lg font-medium leading-5 whitespace-nowrap", inter.className)}>Agendar Consulta</div>
-              </button>
+              </button> */}
               <button className="h-14 ml-3 px-4 py-2 bg-teal-500 rounded-full shadow justify-center items-center flex"
                 onClick={() => router.push('/login')}
               >
@@ -128,11 +128,11 @@ export default function Home():JSX.Element {
             <div className={twMerge("text-base font-medium leading-normal whitespace-nowrap text-gray-800 dark:text-white", inter.className)}>Pagina Inicial</div>
             <div className={twMerge("ml-3 text-base font-medium leading-normal whitespace-nowrap text-gray-800 dark:text-white", inter.className)}>Sobre</div>
             <div className={twMerge("ml-3 text-base font-medium leading-normal whitespace-nowrap text-gray-800 dark:text-white", inter.className)}>Contato</div>
-            <button className="h-11 ml-3 px-4 py-2 rounded-full shadow border border-teal-500 flex justify-center items-center text-gray-800 dark:text-white aria-hidden:hidden"
+            {/* <button className="h-11 ml-3 px-4 py-2 rounded-full shadow border border-teal-500 flex justify-center items-center text-gray-800 dark:text-white aria-hidden:hidden"
               aria-hidden="true"
             >
               <div className={twMerge("text-teal-500 text-lg font-medium leading-5 whitespace-nowrap", inter.className)}>Agendar Consulta</div>
-            </button>
+            </button> */}
             <button className="h-14 ml-3 px-4 py-2 bg-teal-500 rounded-full shadow justify-center items-center flex"
               onClick={() => router.push('/login')}
             >

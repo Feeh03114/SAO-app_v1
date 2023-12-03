@@ -1,46 +1,29 @@
 import Table from "@/components/Table";
 import { Input } from "@/components/elementTag/input";
 import Modal from "@/components/modal";
+import { DaysWeek } from "@/enum/daysWeek.enum";
 import { useDisclosure } from "@/hook/useDisclosure";
-import { Availabilities } from "@/pages/disciplines/add";
+import { Availabilities } from "@/pages/disciplines";
 import { withSSRAuth } from "@/util/withSSRAuth";
+import { yupResolver } from "@hookform/resolvers/yup";
 import { GetServerSideProps } from "next";
+import { useEffect } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { HiOutlinePlus } from "react-icons/hi";
+import { toast } from "react-toastify";
 import * as yup from 'yup';
 import FormAvaliableTimes, { validationAvailabilities } from "./formAvailabilities";
-
-function convertNumberToDay(day: number) {
-    switch (day) {
-        case 1:
-            return 'Segunda-feira';
-        case 2:
-            return 'Terça-feira';
-        case 3:
-            return 'Quarta-feira';
-        case 4:
-            return 'Quinta-feira';
-        case 5:
-            return 'Sexta-feira';
-        case 6:
-            return 'Sábado';
-        case 7:
-            return 'Domingo';
-        default:
-            return '';
-    }
-}
 
 export const validationService = yup.object().shape({
     id: yup.string().optional(),
     name: yup.string().required('Campo obrigatório'),
     description: yup.string().required('Campo obrigatório'),
     price: yup.number().required('Campo obrigatório'),
-    duration_medio: yup.number().required('Campo obrigatório'),
+    duration_medio: yup.string().required('Campo obrigatório'),
     active_duration_medio: yup.boolean().optional(),
     active_duration_auto: yup.boolean().optional(),
     ext: yup.boolean().optional(),
-    availabilities: yup.array().of(validationAvailabilities),
+    availabilities: yup.array().of(validationAvailabilities).min(1, 'Precisa ter pelo menos um horário para o serviço'),
 });
 
 interface ModalServiceDisciplineProps{
@@ -48,19 +31,31 @@ interface ModalServiceDisciplineProps{
     onClose: () => void;
     onSave:(data:any)=>void;
 }
-/*
-    {
-        resolver: yupResolver(validationService)
-    } 
- */
+
 export default function FormServiceDiscipline({isOpen, onClose, onSave} : ModalServiceDisciplineProps): JSX.Element {
-    const { control, register, reset, watch, handleSubmit, formState: { errors }  } = useForm();
+    const { control, register, reset, watch, handleSubmit, formState: { errors }  } = useForm({
+        resolver: yupResolver(validationService)
+    });
     const { fields, append, remove } = useFieldArray({
         control: control, 
         name: "availabilities",
     });
     const watchAvailabilities = watch('availabilities')
     const newAvaliableTimeDisposer = useDisclosure();
+    const daysWeek = Object.values(DaysWeek);
+
+    useEffect(() => {
+        if(errors.availabilities)
+        {
+            if(errors.availabilities?.message) toast.error(errors.availabilities.message.toString());
+            else if (Array.isArray(errors.availabilities)) 
+                for (const item of errors.availabilities) {
+                    for (const key in Object.keys(item)) {
+                        toast.error(item[key].message);
+                    }
+                }
+        }
+    }, [errors]);
 
     const updateHandleSubmit = async (data: any) => {
         const newData = { ...data };
@@ -142,7 +137,6 @@ export default function FormServiceDiscipline({isOpen, onClose, onSave} : ModalS
                                 id="durationMedio"
                                 type="time"
                                 className="w-full"
-                                placeholder="Insira o valor do serviço"
                                 {...register("duration_medio")}
                                 error={errors.duration_medio}
                             />
@@ -191,7 +185,7 @@ export default function FormServiceDiscipline({isOpen, onClose, onSave} : ModalS
                             >
                                 <Table.CellBody>
                                     <p className="text-ellipsis overflow-hidden">
-                                        {watchAvailabilities && convertNumberToDay(Number(watchAvailabilities[index]?.day))}
+                                        {watchAvailabilities && daysWeek[watchAvailabilities[index]?.day]}
                                     </p>
                                 </Table.CellBody>
                                 <Table.CellBody>

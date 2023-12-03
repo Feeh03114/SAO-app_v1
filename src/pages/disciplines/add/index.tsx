@@ -7,30 +7,8 @@ import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { toast } from "react-toastify";
-  
-export interface Discipline {
-    name: string;
-    service: Service[];
-}
+import { Discipline } from "..";
 
-export interface Service {
-    id: string;
-    name: string;
-    description: string;
-    price: number;
-    duration_medio: number;
-    active_duration_medio: boolean;
-    active_duration_auto: boolean;
-    ext: boolean;
-    availabilities: Availabilities[];
-}
-
-export interface Availabilities {
-    id: string;
-    day: number;
-    start: string;
-    end: string;
-}
 
 export default function DisciplineAdd(): JSX.Element {
     const router = useRouter();
@@ -42,8 +20,11 @@ export default function DisciplineAdd(): JSX.Element {
 
     const onSave = async (data:Discipline) => {
         setIsLoading(true);
+        console.log("Data: ");
+        console.log(data);
         try {
             const resp = await api.post(`/api/disciplines`, data);
+            console.log("Resp: ");
             console.log(resp.data);
             toast.success('Disciplina criada com sucesso!');
             router.back();

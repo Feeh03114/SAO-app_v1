@@ -41,7 +41,6 @@ export default function RolesEdit(): JSX.Element {
     const [profile, setProfile] = useState<Profile>({} as Profile);
     const [isLoading, setIsLoading] = useState(false);
 
-
     const loadingProfile = async () => {
         try {
             const resp = await api.get(`/api/profiles/${id}`);

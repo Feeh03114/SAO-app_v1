@@ -12,9 +12,29 @@ import { toast } from "react-toastify";
 
 const rowsNumber = 6;
 
-interface disciplines {
+export interface Discipline {
     id: string;
     name: string;
+    service: Service[];
+}
+
+export interface Service {
+    id: string;
+    name: string;
+    description: string;
+    price: number;
+    duration_medio: number;
+    active_duration_medio: boolean;
+    active_duration_auto: boolean;
+    ext: boolean;
+    availabilities: Availabilities[];
+}
+
+export interface Availabilities {
+    id: string;
+    day: number;
+    start: string;
+    end: string;
 }
 
 export default function Subjects(): JSX.Element {
@@ -98,7 +118,7 @@ export default function Subjects(): JSX.Element {
                     <Table.CellHeader hiddenInMobile={false}>TÍTULO</Table.CellHeader>
                 </Table.Header>
 
-                {data.map((item: disciplines, index: number) => (
+                {data.map((item: Discipline, index: number) => (
                     <Table.Row 
                         key={index}
                         onView={()=> router.push(`/disciplines/edit/${item.id}`)}

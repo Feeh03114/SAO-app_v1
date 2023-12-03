@@ -1,5 +1,7 @@
 import { Input } from "@/components/elementTag/input";
+import Select from "@/components/elementTag/select";
 import Modal from "@/components/modal";
+import { DaysWeek } from "@/enum/daysWeek.enum";
 import { withSSRAuth } from "@/util/withSSRAuth";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { GetServerSideProps } from "next";
@@ -14,13 +16,6 @@ export const validationAvailabilities = yup.object().shape({
     end: yup.string().required('Campo obrigatório'),
 });
 
-interface AvailabilitiesProps{
-    id: number;
-    day: number;
-    start: string;
-    end: string;
-}
-
 interface ModalServiceDisciplineProps{
     isOpen: boolean;
     onClose: () => void;
@@ -29,14 +24,18 @@ interface ModalServiceDisciplineProps{
 }
 
 export default function FormAvailabilities({isOpen, onClose, onSave, edit = {} } : ModalServiceDisciplineProps): JSX.Element {
-    const { register, reset, handleSubmit, formState: { errors }  } = useForm({
+    const { control, register, reset, handleSubmit, formState: { errors }  } = useForm({
         resolver: yupResolver(validationAvailabilities)
     });
+    const daysWeek = Object.values(DaysWeek);
 
     const updateHandleSubmit = async (data:any) => {
         const newData = { ...data };
         newData.start = newData.start.charAt(0) === '0' ? newData.start.slice(1) : newData.start;
         newData.end = newData.end.charAt(0) === '0' ? newData.end.slice(1) : newData.end;
+
+        console.log(newData.day);
+        console.log(daysWeek[newData.day]);
 
         onClose();
         onSave(newData);
@@ -63,14 +62,18 @@ export default function FormAvailabilities({isOpen, onClose, onSave, edit = {} }
             <Modal.Body>
                 <form id='formAvailabilities' className="w-full space-y-4 flex flex-wrap" onSubmit={handleSubmit(updateHandleSubmit)}>
                     <div className="w-full">
-                        <label className="pl-4 text-sm font-medium leading-tight text-gray-700 dark:text-white">Dia da Semana</label>
-                        <Input 
-                            id="day"
-                            type="text"
-                            className="w-full"
-                            placeholder="Selecione o dia da semana"
-                            {...register("day")}
-                            error={errors.day}
+                        <Select
+                            label="Selecione o dia da semana"
+                            name="day"
+                            placeHolder={"Selecione o dia da semana"}
+                            valueDefault={-1}
+                            data={
+                                daysWeek.map((item, index) => ({
+                                    id: index,
+                                    name: item,
+                                }))
+                            }
+                            control={control}
                         />
                     </div>
                     <div className="flex flex-wrap md:flex-nowrap md:space-x-6">

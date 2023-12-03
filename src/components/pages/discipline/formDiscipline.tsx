@@ -1,29 +1,32 @@
 import Table from "@/components/Table";
 import { Input } from "@/components/elementTag/input";
 import { useDisclosure } from "@/hook/useDisclosure";
-import { Service } from "@/pages/disciplines/add";
-import { Profile } from "@/pages/profiles/edit/[id]";
+import { Discipline, Service } from "@/pages/disciplines";
 import { withSSRAuth } from "@/util/withSSRAuth";
+import { yupResolver } from "@hookform/resolvers/yup";
 import { GetServerSideProps } from "next";
+import { useEffect } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 import * as yup from 'yup';
 import FormServiceDiscipline, { validationService } from "./formServiceDiscipline";
 
 const validationDiscipline = yup.object().shape({
     name: yup.string().required('Campo obrigatório'),
-    service: yup.array().of(validationService),
+    service: yup.array().of(validationService).min(1, 'Precisa ter pelo menos um serviço'),
 });
 
 interface FormProfileProps {
-    edit?: Profile;
+    edit?: Discipline;
     isPermissionWrite?: boolean;
     onSave:(data:any)=>void;
 }
-/* {
-    resolver: yupResolver(validationDiscipline)
-} */
-export default function FormDiscipline({ isPermissionWrite=true, onSave }:FormProfileProps): JSX.Element {
-    const { control, register, watch, handleSubmit, formState: { errors: errors } } = useForm();
+
+export default function FormDiscipline({edit, isPermissionWrite=true, onSave}:FormProfileProps): JSX.Element {
+    const { control, reset, register, watch, handleSubmit, formState: { errors } } = useForm({
+        resolver: yupResolver(validationDiscipline)
+    });
+  
     const { fields, append, remove } = useFieldArray({
         control: control, 
         name: "service",
@@ -31,8 +34,42 @@ export default function FormDiscipline({ isPermissionWrite=true, onSave }:FormPr
     const watchService= watch('service')
     const newServiceDisposer = useDisclosure();
 
+    const loadingPages = async () =>{
+        try {
+            if(edit){
+                reset({
+                    ...edit,
+                })
+            }
+            else
+                reset({
+                    name: '',
+                    service: [],
+                })
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    useEffect(() => {
+        loadingPages();
+    }, [edit]);
+
+    useEffect(() => {
+        if(errors.service)
+        {
+            if(errors.service?.message) toast.error(errors.service.message.toString());
+            else if (Array.isArray(errors.service)) 
+                for (const item of errors.service) {
+                    for (const key in Object.keys(item)) {
+                        toast.error(item[key].message);
+                    }
+                }
+        }
+    }, [errors]);
+
     const onSaveDiscipline = async (data:any) => {
-        //data.service = fields;
+        // data.duration_medio = Number(data.duration_medio);
         onSave(data);
     }
 
