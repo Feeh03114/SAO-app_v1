@@ -40,7 +40,6 @@ export default function FormServiceDiscipline({isOpen, onClose, onSave} : ModalS
         control: control, 
         name: "availabilities",
     });
-    const watchAvailabilities = watch('availabilities')
     const newAvaliableTimeDisposer = useDisclosure();
     const daysWeek = Object.values(DaysWeek);
 
@@ -64,10 +63,10 @@ export default function FormServiceDiscipline({isOpen, onClose, onSave} : ModalS
         const durationMedio = newData.duration_medio;
         const hours = parseInt(durationMedio.split(':')[0]);
         const minutes = parseInt(durationMedio.split(':')[1]);
-        const totalMinutes = hours * 60 + minutes;
+        const totalMinutes = (hours * 60) + minutes;
         newData.duration_medio = Number(totalMinutes);
 
-        newData.availabilities = fields;
+        //newData.availabilities = fields;
 
         reset({
             name: '',
@@ -178,19 +177,19 @@ export default function FormServiceDiscipline({isOpen, onClose, onSave} : ModalS
                             <Table.CellHeader>DIA DA SEMANA</Table.CellHeader>
                             <Table.CellHeader>HORÁRIO</Table.CellHeader>
                         </Table.Header>
-                        {fields.map((item, index) => (
+                        {fields.map((item:any, index) => (
                             <Table.Row
                                 key={item.id}
                                 onDelete={() => remove(index)}
                             >
                                 <Table.CellBody>
                                     <p className="text-ellipsis overflow-hidden">
-                                        {watchAvailabilities && daysWeek[watchAvailabilities[index]?.day]}
+                                        {daysWeek[item?.dayWeek]}
                                     </p>
                                 </Table.CellBody>
                                 <Table.CellBody>
                                     <p className="text-ellipsis overflow-hidden">
-                                        {watchAvailabilities && watchAvailabilities[index]?.start} - {watchAvailabilities && watchAvailabilities[index]?.end}
+                                        {item.initHour} - {item.endHour}
                                     </p>
                                 </Table.CellBody>
                             </Table.Row>

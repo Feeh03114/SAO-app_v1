@@ -11,9 +11,9 @@ import { HiOutlinePlus } from "react-icons/hi";
 import * as yup from 'yup';
 
 export const validationAvailabilities = yup.object().shape({
-    day: yup.number().required('Campo obrigatório'),
-    start: yup.string().required('Campo obrigatório'),
-    end: yup.string().required('Campo obrigatório'),
+    dayWeek: yup.number().required('Campo obrigatório'),
+    initHour: yup.string().required('Campo obrigatório'),
+    endHour: yup.string().required('Campo obrigatório'),
 });
 
 interface ModalServiceDisciplineProps{
@@ -31,11 +31,8 @@ export default function FormAvailabilities({isOpen, onClose, onSave, edit = {} }
 
     const updateHandleSubmit = async (data:any) => {
         const newData = { ...data };
-        newData.start = newData.start.charAt(0) === '0' ? newData.start.slice(1) : newData.start;
-        newData.end = newData.end.charAt(0) === '0' ? newData.end.slice(1) : newData.end;
-
-        console.log(newData.day);
-        console.log(daysWeek[newData.day]);
+        newData.initHour = newData.initHour.charAt(0) === '0' ? newData.initHour.slice(1) : newData.initHour;
+        newData.endHour = newData.endHour.charAt(0) === '0' ? newData.endHour.slice(1) : newData.endHour;
 
         onClose();
         onSave(newData);
@@ -44,9 +41,9 @@ export default function FormAvailabilities({isOpen, onClose, onSave, edit = {} }
     useEffect(() => {
         if (!isOpen) 
             reset({
-                day: 0,
-                start: '',
-                end: '',
+                dayWeek: 0,
+                initHour: '',
+                endHour: '',
             });
         if(Object.keys(edit).length > 0)
             reset(edit)
@@ -64,7 +61,7 @@ export default function FormAvailabilities({isOpen, onClose, onSave, edit = {} }
                     <div className="w-full">
                         <Select
                             label="Selecione o dia da semana"
-                            name="day"
+                            name="dayWeek"
                             placeHolder={"Selecione o dia da semana"}
                             valueDefault={-1}
                             data={
@@ -83,8 +80,8 @@ export default function FormAvailabilities({isOpen, onClose, onSave, edit = {} }
                                 id="start"
                                 type="time"
                                 className="w-full"
-                                {...register("start")}
-                                error={errors.start}
+                                {...register("initHour")}
+                                error={errors.initHour}
                             />
                         </div>
                         <div className="w-full md:w-1/2 mt-4 md:mt-0">
@@ -93,8 +90,8 @@ export default function FormAvailabilities({isOpen, onClose, onSave, edit = {} }
                                 id="end"
                                 type="time"
                                 className="w-full"
-                                {...register("end")}
-                                error={errors.end}
+                                {...register("endHour")}
+                                error={errors.endHour}
                             />
                         </div>
                     </div>

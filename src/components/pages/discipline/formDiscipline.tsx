@@ -13,7 +13,7 @@ import FormServiceDiscipline, { validationService } from "./formServiceDisciplin
 
 const validationDiscipline = yup.object().shape({
     name: yup.string().required('Campo obrigatório'),
-    service: yup.array().of(validationService).min(1, 'Precisa ter pelo menos um serviço'),
+    services: yup.array().of(validationService).min(1, 'Precisa ter pelo menos um serviço'),
 });
 
 interface FormProfileProps {
@@ -29,9 +29,9 @@ export default function FormDiscipline({edit, isPermissionWrite=true, onSave}:Fo
   
     const { fields, append, remove } = useFieldArray({
         control: control, 
-        name: "service",
+        name: "services",
     });
-    const watchService= watch('service')
+    const watchService= watch('services')
     const newServiceDisposer = useDisclosure();
 
     const loadingPages = async () =>{
@@ -44,7 +44,7 @@ export default function FormDiscipline({edit, isPermissionWrite=true, onSave}:Fo
             else
                 reset({
                     name: '',
-                    service: [],
+                    services: [],
                 })
         } catch (error) {
             console.log(error);
@@ -139,9 +139,16 @@ export default function FormDiscipline({edit, isPermissionWrite=true, onSave}:Fo
                                     onDelete={()=> remove(index)}
                                 >
                                     <Table.CellBody><p className="text-ellipsis overflow-hidden">{watchService && watchService[index]?.name}</p></Table.CellBody>
-                                    <Table.CellBody hiddenInMobile={true}><p className="text-ellipsis overflow-hidden">{watchService && watchService[index]?.description}</p></Table.CellBody>
+                                    <Table.CellBody hiddenInMobile={true}><p className="text-ellipsis overflow-hidden truncate">{watchService && watchService[index]?.description}</p></Table.CellBody>
                                     <Table.CellBody>{watchService && convertMinutesToHours(watchService[index]?.duration_medio)} h</Table.CellBody>
-                                    <Table.CellBody hiddenInMobile={true}>R$ {watchService && watchService[index]?.price}</Table.CellBody>
+                                    <Table.CellBody hiddenInMobile={true}>
+                                        {
+                                            watchService && watchService[index]?.price.toLocaleString('pt-BR', {
+                                                style: 'currency',
+                                                currency: 'BRL',
+                                            })
+                                        }
+                                    </Table.CellBody>
                                     <Table.CellBody hiddenInMobile={true}>{watchService && watchService[index]?.ext ? "Sim" : "Não"}</Table.CellBody>
                                 </Table.Row>
                             ))}
