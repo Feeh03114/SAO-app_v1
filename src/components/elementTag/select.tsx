@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/role-supports-aria-props */
 /* eslint-disable @typescript-eslint/no-empty-function */
-import { Control, Controller, FieldError, FieldErrorsImpl, FieldValues, Merge } from "react-hook-form";
+import { Control, Controller, FieldError, FieldErrorsImpl, Merge } from "react-hook-form";
 import { twMerge } from "tailwind-merge";
 
 export interface Option {
@@ -15,14 +15,14 @@ export interface RegisterModelProps {
     valueDefault?:any;
     data?: Option[];
     children?: React.ReactNode;
-    control: Control<FieldValues, any>;
+    control: Control<any>;
     disabled?: boolean;
     className?: string;
     valueTypeName?: boolean;
     error?: FieldError | Merge<FieldError, FieldErrorsImpl<any>> | null;
 }
 
-function Select({ error, name, label, placeHolder, valueDefault='', data=[], control, disabled, className, valueTypeName=false }:RegisterModelProps & { control: Control }): JSX.Element {
+function Select({ error, name, label, placeHolder, valueDefault='', data=[], control, disabled, className, valueTypeName=false }:RegisterModelProps): JSX.Element {
     return(
         <Controller
             name={name}
@@ -33,6 +33,7 @@ function Select({ error, name, label, placeHolder, valueDefault='', data=[], con
                     <select
                         disabled={disabled}
                         value={field.value}
+                        defaultValue={valueDefault}
                         onChange={(e) => field.onChange(e.target.value)}
                         className={twMerge("aria-checked:mt-5 w-full h-10 px-4 py-0 md:py-2 text-sm shadow-sm dark:text-white border rounded-lg border-gray-300 dark:border-gray-500 truncate placeholder-gray-500 dark:bg-gray-700 focus:border-teal-400 focus:outline-none focus:ring-teal-400", 
                         className)}

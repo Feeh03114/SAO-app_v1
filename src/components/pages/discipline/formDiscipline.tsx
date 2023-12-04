@@ -1,7 +1,7 @@
 import Table from "@/components/Table";
 import { Input } from "@/components/elementTag/input";
 import { useDisclosure } from "@/hook/useDisclosure";
-import { Discipline, Service } from "@/pages/disciplines";
+import { Discipline } from "@/pages/disciplines";
 import { withSSRAuth } from "@/util/withSSRAuth";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { GetServerSideProps } from "next";
@@ -56,11 +56,11 @@ export default function FormDiscipline({edit, isPermissionWrite=true, onSave}:Fo
     }, [edit]);
 
     useEffect(() => {
-        if(errors.service)
+        if(errors?.services)
         {
-            if(errors.service?.message) toast.error(errors.service.message.toString());
-            else if (Array.isArray(errors.service)) 
-                for (const item of errors.service) {
+            if(errors.services?.message) toast.error(errors.services.message.toString());
+            else if (Array.isArray(errors.services)) 
+                for (const item of errors.services) {
                     for (const key in Object.keys(item)) {
                         toast.error(item[key].message);
                     }
@@ -68,14 +68,9 @@ export default function FormDiscipline({edit, isPermissionWrite=true, onSave}:Fo
         }
     }, [errors]);
 
-    const onSaveDiscipline = async (data:any) => {
-        // data.duration_medio = Number(data.duration_medio);
-        onSave(data);
-    }
+    const onSaveDiscipline = async (data:any) => onSave(data);
 
-    function updateService(data: Service) {
-        append(data);
-    }
+    const updateService = (data: any) => append(data);
 
     function convertMinutesToHours(minutes: number) {
         const hours = Math.floor(minutes / 60);
@@ -133,23 +128,23 @@ export default function FormDiscipline({edit, isPermissionWrite=true, onSave}:Fo
                                 <Table.CellHeader hiddenInMobile={true}>PREÇO</Table.CellHeader>
                                 <Table.CellHeader hiddenInMobile={true}>EXTERNO</Table.CellHeader>
                             </Table.Header>
-                            {fields.map((item, index) => (
+                            {fields.map((item:any, index) => (
                                 <Table.Row
                                     key={item.id}
                                     onDelete={()=> remove(index)}
                                 >
-                                    <Table.CellBody><p className="text-ellipsis overflow-hidden">{watchService && watchService[index]?.name}</p></Table.CellBody>
-                                    <Table.CellBody hiddenInMobile={true}><p className="text-ellipsis overflow-hidden truncate">{watchService && watchService[index]?.description}</p></Table.CellBody>
-                                    <Table.CellBody>{watchService && convertMinutesToHours(watchService[index]?.duration_medio)} h</Table.CellBody>
+                                    <Table.CellBody><p className="text-ellipsis overflow-hidden">{item?.name}</p></Table.CellBody>
+                                    <Table.CellBody hiddenInMobile={true}><p className="text-ellipsis overflow-hidden truncate">{item?.description}</p></Table.CellBody>
+                                    <Table.CellBody>{convertMinutesToHours(item?.duration_medio||0)} h</Table.CellBody>
                                     <Table.CellBody hiddenInMobile={true}>
                                         {
-                                            watchService && watchService[index]?.price.toLocaleString('pt-BR', {
+                                            item?.price.toLocaleString('pt-BR', {
                                                 style: 'currency',
                                                 currency: 'BRL',
                                             })
                                         }
                                     </Table.CellBody>
-                                    <Table.CellBody hiddenInMobile={true}>{watchService && watchService[index]?.ext ? "Sim" : "Não"}</Table.CellBody>
+                                    <Table.CellBody hiddenInMobile={true}>{item?.ext ? "Sim" : "Não"}</Table.CellBody>
                                 </Table.Row>
                             ))}
                             

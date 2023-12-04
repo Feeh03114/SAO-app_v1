@@ -3,7 +3,6 @@ import { Input } from "@/components/elementTag/input";
 import Modal from "@/components/modal";
 import { DaysWeek } from "@/enum/daysWeek.enum";
 import { useDisclosure } from "@/hook/useDisclosure";
-import { Availabilities } from "@/pages/disciplines";
 import { withSSRAuth } from "@/util/withSSRAuth";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { GetServerSideProps } from "next";
@@ -19,7 +18,7 @@ export const validationService = yup.object().shape({
     name: yup.string().required('Campo obrigatório'),
     description: yup.string().required('Campo obrigatório'),
     price: yup.number().required('Campo obrigatório'),
-    duration_medio: yup.string().required('Campo obrigatório'),
+    duration_medio: yup.number().required('Campo obrigatório'),
     active_duration_medio: yup.boolean().optional(),
     active_duration_auto: yup.boolean().optional(),
     ext: yup.boolean().optional(),
@@ -85,7 +84,7 @@ export default function FormServiceDiscipline({isOpen, onClose, onSave} : ModalS
         onSave(newData);
     };
 
-    const updateAvailabilities=(data: Availabilities) => append(data);
+    const updateAvailabilities=(data: any) => append(data);
 
     return (
         <Modal.Root
