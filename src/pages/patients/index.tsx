@@ -17,6 +17,7 @@ export interface Patient {
     guardian: Guardian[];
     stats: string;
     people: People;
+    medicalRecord: string;
 }
 
 export interface Guardian {

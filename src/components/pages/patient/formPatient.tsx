@@ -21,6 +21,7 @@ import FormEditGuardian from "./formEditGuardian";
 import FormGuardian, { validationGuardian } from "./formGuardian";
 
 const validationPatient = yup.object().shape({
+    medicalRecord: yup.string().required('Campo obrigatório'),
     name: yup.string().required('Campo obrigatório'),
     lastName: yup.string().required('Campo obrigatório'),
     cpf: yup.string().required('Campo obrigatório'),
@@ -75,9 +76,7 @@ export default function FormPatient({ isPermissionWrite=true, onSave }:FormPatie
     const ethnicity = Object.values(Ethnicity);
     const eduacationLevel = Object.values(EduacationLevel);
     
-    function updateAddress(data: Address) {
-        append(data);
-    }
+    const updateAddress=(data: Address) => append(data);
 
     function convertAddressToOptions() {
         const addressOptions: Option[] = [];
@@ -94,18 +93,12 @@ export default function FormPatient({ isPermissionWrite=true, onSave }:FormPatie
         return addressOptions;
     }
 
-    function updateEditAddress(data: Address) {
-        update(indexSelectedAddress, data);
-    }
+    const updateEditAddress =(data: Address) => update(indexSelectedAddress, data);
 
-    function deleteAddress() {
-        remove(indexSelectedAddress);
-    }
-
-    function updateGuardianForm(data: Guardian) {
-        appendGuardian(data);
-    }
-
+    const deleteAddress = () => remove(indexSelectedAddress);
+    
+    const updateGuardianForm = (data: Guardian) => appendGuardian(data);
+    
     function convertGuardianToOptions() {
         const guadianOptions: Option[] = [];
 
@@ -121,23 +114,22 @@ export default function FormPatient({ isPermissionWrite=true, onSave }:FormPatie
         return guadianOptions;
     }
 
-    function updateEditGuardian(data: Guardian) {
-        updateGuardian(indexSelectedGuardian, data);
-    }
-
-    function deleteGuardian() {
-        remove(indexSelectedGuardian);
-    }
-
+    const updateEditGuardian = (data: Guardian) => updateGuardian(indexSelectedGuardian, data);
+    
+    const deleteGuardian = () => remove(indexSelectedGuardian);
+    
     const onSavePatient = async (data:any) => {
+        const guardian = data.guardian;
         delete data.guardian;
-
+        const medicalRecord = data.medicalRecord;
+        delete data.medicalRecord;
         const patient = {
             stats: "Ativo",
             people: data,
+            guardian,
+            medicalRecord,
         } as Patient;
 
-        console.log(patient);
         onSave(patient);
         router.back();
     }
@@ -162,6 +154,19 @@ export default function FormPatient({ isPermissionWrite=true, onSave }:FormPatie
             <FormGuardian isOpen={newGuardianDisposer.isOpen} onClose={newGuardianDisposer.close} onSave={updateGuardianForm}/>
             <FormEditGuardian isOpen={editGuardianDisposer.isOpen} onClose={editGuardianDisposer.close} guardian={selectedGuardian} onSave={updateEditGuardian} onDelete={deleteGuardian}/>
             <form id='formPatient' onSubmit={handleSubmit1(onSavePatient)} className="gap-y-3 md:gap-y-6 flex items-center justify-centers flex-row flex-wrap">
+                <div className="w-full md:w-1/4 px-2">
+                    <Input 
+                        id="name"
+                        type="text"
+                        label="Prontuário"
+                        placeholder="Insira o prontuário"
+                        className="read-only:bg-gray-200 read-only:cursor-default"
+                        autoComplete="new-password"
+                        {...register1("medicalRecord")}
+                        error={errors1.medicalRecord}
+                        readOnly={!isPermissionWrite}
+                    />
+                </div>
                 <div className="w-full md:w-1/4 px-2">
                     <Input 
                         id="name"
