@@ -146,7 +146,7 @@ export default function Home():JSX.Element {
           <div className="flex flex-row justify-center items-center">
             <div className="hidden md:flex flex-col justify-start">
               <span className={twMerge("text-5xl font-bold leading-10 text-black dark:text-white", poppins.className)}>
-                O seu aliado na gestão odontológica.
+                O seu aliado na gestão odontológica
               </span>
               <div className={twMerge("w-96 mt-6 text-base font-normal leading-normal font-['Sora'] text-slate-500 dark:text-gray-300", sora.className)}>
                 Agendamento, fila de espera, financeiro, pacientes, disciplinas e usuários tudo em um só lugar.
@@ -168,7 +168,7 @@ export default function Home():JSX.Element {
 
             <div className="w-80 flex md:hidden flex-col items-center z-10">
               <span className={twMerge("text-xl font-bold leading-7 text-black dark:text-white", poppins.className)}>
-                O seu aliado na gestão odontológica.
+                O seu aliado na gestão odontológica
               </span>
               <Image
                 width={200}
@@ -305,7 +305,7 @@ export default function Home():JSX.Element {
         <div className="w-full flex flex-col gap-6 py-10 md:mt-20 bg-teal-50 dark:bg-gray-700">
           <div className="flex flex-col justify-center items-center md:gap-3">
             <span className={twMerge("text-center text-black dark:text-white text-xl md:text-5xl font-bold leading-7 md:leading-10 px-10 md:whitespace-nowrap", poppins.className)}>
-              Conheça os Desenvolvedores.
+              Conheça os Desenvolvedores
             </span>
             <div className="w-60 md:w-[52rem] h-1 mt-1 bg-teal-500 rounded-3xl" />
           </div>
@@ -350,58 +350,50 @@ export default function Home():JSX.Element {
         <div className="w-full py-4 md:py-12 flex flex-col justify-center items-center bg-white dark:bg-slate-800">
           <div className="mx-auto flex flex-col md:gap-3">
             <span className={twMerge("text-black dark:text-white text-xl md:text-5xl font-bold leading-7 md:leading-10 px-10 whitespace-nowrap", poppins.className)}>
-              Nossos parceiros.
+              Nossos parceiros
             </span>
             <div className="w-full h-1 mt-1 bg-teal-500 rounded-3xl"/>
           </div>
           <div className="md:mt-20 flex flex-row flex-wrap justify-center">
-            <Image
-              src="/assets/log1.png"
-              alt='logo-sao'
-              width={200}
-              height={200}
-              className="h-14 md:h-20 mt-8 md:mt-0 resize-none"
-            />
-            <Image
-              src="/assets/logo_nucleo_ti.png"
-              alt='logo-nucleo-ti-uniso'
-              width={200}
-              height={200}
-              className="h-14 md:h-20 mt-8 md:mt-0 dark:hidden resize-none"
-            />
+            <div className="w-96 flex justify-center">
+              <img
+                src="/assets/log1.png"
+                alt='logo-sao'
+                className="h-14 md:h-20 mt-8 md:mt-0 resize-none"
+              />
+              <img
+                src="/assets/logo_nucleo_ti.png"
+                alt='logo-nucleo-ti-uniso'
+                className="h-14 md:h-20 mt-8 md:mt-0 dark:hidden resize-none"
+              />
+            </div>
             <div className="h-14 md:h-20 dark:mx-10 dark:border-l-2 hidden md:flex dark:border-white"></div>
-            <Image
-              src="/assets/logo-extensiva-color.png"
-              alt='logo-nucleo-ti-uniso'
-              width={200}
-              height={200}
-              className="h-14 md:h-20 mt-8 md:mt-0 hidden dark:flex dark:border-l-4 dark:border-white resize-none"
-            />
+            <div className="w-96 flex justify-center">
+              <img
+                src="/assets/logo-extensiva-color.png"
+                alt='logo-nucleo-ti-uniso'
+                className="h-14 md:h-20 mt-8 md:mt-0 hidden dark:flex dark:border-l-4 dark:border-white resize-none"
+              />
+            </div>
           </div>
+
           <div className="md:mt-20 flex flex-row flex-wrap justify-center">
-            <Image
-              src="/assets/EvolutionSoft.png"
-              alt='logo-EvolutionSoft'
-              width={200}
-              height={200}
-              className="h-14 md:h-20 mt-8 md:mt-0 resize-none"
-            />
-            
-            <Image
-              src="/assets/logo_nucleo_ti.png"
-              alt='logo-nucleo-ti-uniso'
-              width={200}
-              height={200}
-              className="h-14 md:h-20 mt-8 md:mt-0 dark:hidden resize-none"
-            />
+            <div className="w-96 flex justify-center">
+              <img
+                src="/assets/EvolutionSoft.png"
+                alt='logo-EvolutionSoft'
+                className="h-14 md:h-20 mt-8 md:mt-0 resize-none"
+              />
+            </div>
             <div className="h-14 md:h-20 dark:mx-10 dark:border-l-2 hidden md:flex dark:border-white"></div>
-            <Image
-              src="/assets/logo-extensiva-color.png"
-              alt='logo-nucleo-ti-uniso'
-              width={200}
-              height={200}
-              className="h-14 md:h-20 mt-8 md:mt-0 hidden dark:flex dark:border-l-4 dark:border-white resize-none"
-            />
+            <div className="w-96 mt-8 md:mt-0 gap-2 md:gap-4 flex items-center justify-center">
+              <img
+                src="/assets/logo_odonto.png"
+                alt='logo_odonto'
+                className="h-14 md:h-20 md:mt-0 resize-none"
+              />
+              <h1 className="text-xl md:text-3xl text-center dark:text-white">UNISO ODONTOLOGIA</h1>
+            </div>
           </div>
         </div>
 
@@ -422,7 +414,6 @@ export default function Home():JSX.Element {
             </div>
             <form className="w-5/6 mt-8 md:mt-0 flex flex-row flex-wrap justify-center items-center" id='formInterestSystem'
               onSubmit={handleSubmit(onSave)}
-            
             >
               <div className="w-full md:w-1/2 mt-2 md:mt-8 md:pr-8">
                 <Input 
