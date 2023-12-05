@@ -2,7 +2,7 @@ import { Input } from '@/components/elementTag/input';
 import api from '@/service/api';
 import { Dialog, Transition } from '@headlessui/react';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Fragment, useEffect } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { AiOutlinePlus } from 'react-icons/ai';
 import * as yup from 'yup';
@@ -33,7 +33,7 @@ const validationFullModal = yup.object().shape({
 
 });
 
-const mock = [
+const mock2 = [
     { id: 1, name: 'Exemplo 1' },
     { id: 2, name: 'Exemplo 2' },
     { id: 3, name: 'Exemplo 3' },
@@ -43,7 +43,30 @@ const mock = [
     { id: 7, name: 'Exemplo 7' },
 ]
 
+const serviceTriagem = {
+    id: '4b78c451-47be-423d-9da0-a96227197382',
+    name: 'Triagem',
+    description:
+      'Um processo de separação que determina a prioridade de atendimento e tratamento de pacientes, sempre com base na gravidade da sua condição.',
+    price: '0.00',
+    duration_medio: 20,
+    active_duration_auto: true,
+    ext: false,
+    availabilities: [
+      {
+        id: '2511fe8a-1f45-426c-a18f-6e452cb7c64c',
+        dayWeek: 0,
+        initHour: '8:00',
+        endHour: '16:00',
+        service_id: '4b78c451-47be-423d-9da0-a96227197382',
+        createdBy: 'System',
+      },
+    ],
+    createdBy: 'System',
+  };
+
 export default function ScheduleModal({ open=false, setOpen, cancelButtonRef }: ScheduleModalProps):JSX.Element  {
+    const [service, setService] = useState(serviceTriagem);
     const { reset, control, register, setValue, watch, handleSubmit, formState: { errors } } = useForm({
         resolver: yupResolver(validationFullModal)
     });
@@ -63,6 +86,17 @@ export default function ScheduleModal({ open=false, setOpen, cancelButtonRef }: 
         });
     }, [open]);
 
+   /*  useEffect(() => {
+        const hoje = new Date();
+        const d1 = hoje.getDay();
+        const d2 = service.availabilities.find((item) => item.dayWeek === d1);
+        switch (d1) {}
+        let today = new Date();
+        today.setDate(today.getDate() + dias); //Voalá
+        today = today.toISOString().split('T')[0];
+        document.getElementsByName("date")[0].setAttribute('min', today);
+    }, [service]); */
+
     const getPatient = async () => {
         try {
             const resp = await api.get('api/patients/userSchedule',{
@@ -80,6 +114,15 @@ export default function ScheduleModal({ open=false, setOpen, cancelButtonRef }: 
         } catch (error) {
             console.log(error);
         }
+    }
+
+    const getHours = () =>{
+        const date = new Date(watch('data'));
+        const availability = service.availabilities.find((item) => item.dayWeek === date.getDay());
+
+        const initHour = availability?.initHour;
+        const endHour = availability?.endHour;
+        return {initHour, endHour};
     }
       
     return (
@@ -198,7 +241,7 @@ export default function ScheduleModal({ open=false, setOpen, cancelButtonRef }: 
                                                     placeholder="Selecione o serviço odontológico"
                                                 >
                                                     <option value="" disabled selected>Selecione o tratamento</option>
-                                                    {mock.map((item) => (
+                                                    {mock2.map((item) => (
                                                         <option key={item.id} value={item.id}>{item.name}</option>
                                                     ))}
                                                 </select>
@@ -229,6 +272,7 @@ export default function ScheduleModal({ open=false, setOpen, cancelButtonRef }: 
                                         {...register("data")}
                                         error={errors.data}
                                         disabled={watch('typeConsult') === 'retorno'}
+                                        
                                     />
                                 </div>
                                 <div>
@@ -242,6 +286,8 @@ export default function ScheduleModal({ open=false, setOpen, cancelButtonRef }: 
                                         {...register("horario")}
                                         error={errors.horario}
                                         disabled={watch('typeConsult') === 'retorno'}
+                                        min={getHours().initHour}
+                                        max={getHours().endHour}
                                     />
                                 </div>
                                 <div className="px-4 py-3 flex justify-end sm:px-6 col-span-2 dark:bg-gray-800">
