@@ -9,7 +9,6 @@ import { Address, Guardian, Patient } from "@/pages/patients";
 import { withSSRAuth } from "@/util/withSSRAuth";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { GetServerSideProps } from "next";
-import { useRouter } from 'next/router';
 import { useEffect, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { HiOutlineCheck } from "react-icons/hi";
@@ -66,7 +65,6 @@ export default function FormPatient({ isPermissionWrite=true, onSave }:FormPatie
     const addressDisposer = useDisclosure();
     const editAddressDisposer = useDisclosure();
     const editGuardianDisposer = useDisclosure();
-    const router = useRouter();
     const [selectedAddress, setSelectedAddress] = useState<Address>({} as Address);
     const [selectedGuardian, setSelectedGuardian] = useState<Guardian>({} as Guardian);
     const [indexSelectedAddress, setIndexSelectedAddress] = useState<number>(0);
@@ -139,7 +137,6 @@ export default function FormPatient({ isPermissionWrite=true, onSave }:FormPatie
 
         console.log(patient);
         onSave(patient);
-        router.back();
     }
 
     useEffect(() => {
@@ -156,7 +153,7 @@ export default function FormPatient({ isPermissionWrite=true, onSave }:FormPatie
     }, [errors1]);
     
     return (
-        <div className="gap-y-3 md:gap-y-6 md:mx-10 md:mb-10 px-3 md:pt-6 pb-6 flex items-center justify-centers flex-row flex-wrap md:border border-gray-200 dark:border-gray-500 shadow-sm rounded-lg">
+        <div className="gap-y-3 md:gap-y-6 md:mx-10 md:mb-10 px-3 md:pt-6 pb-6 flex items-center justify-centers flex-row flex-wrap md:border border-gray-200 dark:border-gray-500 dark:bg-slate-800 shadow-sm rounded-lg">
             <FormAddress isOpen={addressDisposer.isOpen} onClose={addressDisposer.close} onSave={updateAddress}/>
             <FormEditAddress isOpen={editAddressDisposer.isOpen} onClose={editAddressDisposer.close} address={selectedAddress} onSave={updateEditAddress} onDelete={deleteAddress}/>
             <FormGuardian isOpen={newGuardianDisposer.isOpen} onClose={newGuardianDisposer.close} onSave={updateGuardianForm}/>

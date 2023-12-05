@@ -141,7 +141,7 @@ export default function Patients(): JSX.Element {
             />
             <Table.Root tableHeight={String(rowsNumber)}>
                 <Table.Header>
-                    <Table.CellHeader hiddenInMobile={false}>PRONTUÁRIO</Table.CellHeader>
+                    <Table.CellHeader hiddenInMobile={true}>PRONTUÁRIO</Table.CellHeader>
                     <Table.CellHeader hiddenInMobile={false}>NOME</Table.CellHeader>
                     <Table.CellHeader hiddenInMobile={true}>E-MAIL</Table.CellHeader>
                 </Table.Header>
@@ -152,8 +152,8 @@ export default function Patients(): JSX.Element {
                         onView={()=> router.push(`/patients/edit/${item.people.name}`)}
                         onDelete={() => deleteItem(item.id)}
                     >
-                        <Table.CellBody><p className="font-medium dark:text-white"></p>{item.people.name}</Table.CellBody>
-                        <Table.CellBody><p className="font-medium dark:text-white">{item.people.name}</p></Table.CellBody>
+                        <Table.CellBody hiddenInMobile={true}><p className="font-medium dark:text-white"></p>{item.people.name}</Table.CellBody>
+                        <Table.CellBody hiddenInMobile={false}><p className="font-medium dark:text-white">{item.people.name}</p></Table.CellBody>
                         <Table.CellBody hiddenInMobile={true}><p className="font-medium dark:text-white">{item.people.email}</p></Table.CellBody>
                     </Table.Row>
                 ))}

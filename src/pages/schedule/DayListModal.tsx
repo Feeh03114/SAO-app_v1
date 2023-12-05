@@ -1,6 +1,7 @@
 import api from '@/service/api';
 import { isEqualArray } from '@/util/util';
 import { Dialog, Transition } from '@headlessui/react';
+import { useRouter } from 'next/router';
 import React, { Fragment, useEffect, useState } from 'react';
 import { useFieldArray, useForm } from 'react-hook-form';
 import { AiOutlinePlus } from 'react-icons/ai';
@@ -24,6 +25,7 @@ const mock = [
 ]
 
 export default function DayListModal({ openDayList, setOpenDayList, setOpen, cancelButtonRefDayList, eventsForDay }: ScheduleModalProps): JSX.Element {   
+    const router = useRouter();
     const { control, reset } = useForm();
     const { fields, update } = useFieldArray({ control, name: 'consultas' });
     const [isLoading, setIsLoading] = useState(false);
@@ -110,7 +112,7 @@ export default function DayListModal({ openDayList, setOpenDayList, setOpen, can
                                     <div className="hidden md:block text-base text-gray-900 dark:text-white w-1/4">{eventsForDay?.length > 0 && eventsForDay[0].date.format('DD/MM/YYYY')}</div>
                                 </div>
 
-                                <div className="grid grid-cols-5 mt-4 md:ml-4 p-2 rounded-t-lg shadow bg-gray-50 py-2 dark:bg-gray-700">
+                                <div className="grid grid-cols-5 mt-4 md:ml-4 p-2 rounded-t-lg shadow bg-gray-50 py-2 dark:bg-slate-700">
                                     <p className="col-span-3 md:col-span-1 mt-0 pl-3 md:pl-0 flex justify-start items-center dark:text-white text-gray-500 text-xs leading-5 font-medium">NOME</p>
                                     <p className="hidden md:col-span-1 mt-0 md:flex justify-start items-center dark:text-white text-gray-500 text-xs leading-5 font-medium">SERVIÇO</p>
                                     <p className="col-span-2 md:col-span-1 mt-0 flex justify-start items-center dark:text-white text-gray-500 text-xs leading-5 font-medium">HORÁRIO</p>
@@ -121,7 +123,9 @@ export default function DayListModal({ openDayList, setOpenDayList, setOpen, can
                                     {eventsForDay?.map((value: any, index) => {
                                         return (
                                             <>
-                                                <div key={index} className="grid grid-cols-5 md:ml-4 py-1 px-3 border-b-2 dark:border-gray-500">
+                                                <div key={index} className="grid grid-cols-5 md:ml-4 py-1 px-3 border-b-2 dark:border-gray-600 hover:cursor-pointer hover:border-teal-500 hover:dark:border-teal-500 hover:border"
+                                                    onClick={()=> router.push(`/schedule/edit/${index}`)}
+                                                >
                                                     <div className="col-span-3 md:col-span-1 flex justify-start items-center dark:text-white text-gray-900 text-sm leading-5 h-16 font-medium">{value.name}</div>
                                                     <div className="hidden md:col-span-1 md:flex justify-start items-center dark:text-white text-gray-500 text-sm leading-5 h-16 font-normal">{value.service}</div>
                                                     <div className="col-span-2 md:col-span-1 flex justify-around md:justify-start items-center dark:text-white text-gray-500 text-sm leading-5 h-16 font-normal">{value.date.format('h:mm')}
@@ -135,7 +139,7 @@ export default function DayListModal({ openDayList, setOpenDayList, setOpen, can
                                                         <select 
                                                             value={value.status}
                                                             onChange={(e)=>update(index, { ...value, status: e.target.value })}
-                                                            className="w-3/4 cursor-text rounded-lg px-4 py-2 dark:bg-gray-700 dark:text-white shadow border border-gray-300 text-gray-900 placeholder-gray-500 focus:border-teal-400 focus:outline-none focus:ring-teal-400 text-sm"
+                                                            className="w-3/4 cursor-text rounded-lg px-4 py-2 dark:bg-slate-700 dark:text-white shadow border border-gray-300 text-gray-900 placeholder-gray-500 focus:border-teal-400 focus:outline-none focus:ring-teal-400 text-sm"
                                                             placeholder="Não definido"
                                                             disabled={isLoading}
                                                         >
@@ -159,7 +163,7 @@ export default function DayListModal({ openDayList, setOpenDayList, setOpen, can
                                                                     <select
                                                                         value={value.status}
                                                                         onChange={(e) => update(index, { ...value, status: e.target.value })}
-                                                                        className="w-full col-span-2 cursor-text rounded-lg px-4 py-2 dark:bg-gray-700 dark:text-white shadow border border-gray-300 text-gray-900 placeholder-gray-500 focus:border-teal-400 focus:outline-none focus:ring-teal-400 text-sm"
+                                                                        className="w-full col-span-2 cursor-text rounded-lg px-4 py-2 dark:bg-slate-700 dark:text-white shadow border border-gray-300 text-gray-900 placeholder-gray-500 focus:border-teal-400 focus:outline-none focus:ring-teal-400 text-sm"
                                                                         placeholder="Não definido"
                                                                         disabled={isLoading}
                                                                     >
@@ -186,17 +190,17 @@ export default function DayListModal({ openDayList, setOpenDayList, setOpen, can
                                         );
                                     })}
                                 </div>  
-                                <div className="px-4 py-3 mt-2 flex justify-end md:px-6 dark:bg-gray-800 w-full">
+                                <div className="px-4 py-3 flex justify-end md:px-6 dark:bg-gray-800 w-full">
                                     <button
                                         type="button"
-                                        className="rounded-md bg-white px-3 py-2 text-sm text-gray-900 shadow ring-1 ring-inset ring-gray-300 hover:bg-gray-50 md:mt-0 md:w-auto"
+                                        className="rounded-md bg-white dark:bg-slate-700 px-3 py-2 text-sm text-gray-900 shadow hover:bg-gray-50 md:mt-0 md:w-auto"
                                         onClick={() => setOpenDayList(false)}
                                         ref={cancelButtonRefDayList}>
-                                            Voltar
+                                            <p className="dark:text-white">Voltar</p>
                                     </button>
                                     <button
                                         type="submit"
-                                        className="ml-4 rounded-md bg-teal-500 dark:bg-teal-700 px-3 py-2 text-sm text-white shadow md:ml-3 ring-1 ring-inset md:w-auto"
+                                        className="ml-4 rounded-md bg-teal-500 dark:bg-teal-700 px-3 py-2 text-sm text-white shadow md:ml-3 md:w-auto"
                                         onClick={() => {setOpen(true), setOpenDayList(false)}}>  
                                            Adicionar consulta
                                     </button>

@@ -111,7 +111,7 @@ export default function FormServiceDiscipline({isOpen, onClose, onSave} : ModalS
                         <label className="pl-4 text-sm font-medium leading-tight text-gray-700 dark:text-white">Descrição</label>
                         <textarea 
                             id="description"
-                            className="w-full h-24 px-4 py-2 text-sm font-medium leading-tight truncate dark:text-white placeholder-gray-500 dark:placeholder-white shadow-sm border rounded-lg border-gray-300 dark:border-gray-500  dark:bg-gray-700 focus:border-teal-400 focus:outline-none focus:ring-teal-400 resize-none"
+                            className="w-full h-24 px-4 py-2 text-sm font-medium leading-tight truncate dark:text-white placeholder-gray-500 dark:placeholder-white shadow-sm border rounded-lg border-gray-300 dark:border-gray-500  dark:bg-slate-700 focus:border-teal-400 focus:outline-none focus:ring-teal-400 resize-none"
                             placeholder=""
                             {...register("description")}
                         />

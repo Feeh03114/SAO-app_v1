@@ -70,7 +70,16 @@ export default function WaitingLineEdit(): JSX.Element {
             >
                 <Header.Button 
                     text="Voltar"
-                    onClick={()=> router.back()}
+                    style="hidden md:block"
+                    disabled={isLoading}
+                    onClick={() => router.back()}
+                />
+                <Header.Button 
+                    text="Voltar"
+                    typeButton="return"
+                    style="md:hidden"
+                    disabled={isLoading}
+                    onClick={() => router.back()}
                 />
                 <Header.Button 
                     text="Reprovar encaminhamento"

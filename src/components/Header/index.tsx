@@ -60,7 +60,7 @@ export default function Header({title, subtitle, textLeft, textRight, disabledLe
                 <p className="text-xs leading-none text-gray-400">{subtitle}</p>
             </div>
             <div className="flex">
-                <button className="flex space-x-2 items-center justify-center py-2 pl-3 pr-4 dark:bg-gray-700 border rounded-md border-gray-300 dark:border-none cursor-pointer mr-[1rem] "
+                <button className="flex space-x-2 items-center justify-center py-2 pl-3 pr-4 dark:bg-slate-700 border rounded-md border-gray-300 dark:border-none cursor-pointer mr-[1rem] "
                     onClick={onClickLeft}
                     style={{
                         display: onClickLeft ? 'flex':'none',

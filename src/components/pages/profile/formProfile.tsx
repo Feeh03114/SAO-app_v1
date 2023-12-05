@@ -96,11 +96,10 @@ export default function FormProfile({edit, isPermissionWrite=true, onSave}:FormP
         loadingPages();
     }, [edit]);
 
-    
     return (
         <form id='formProfile' onSubmit={handleSubmit(onSave)}>
             <div className="w-screen px-8">
-                <div className="w-full p-6 flex flex-row flex-wrap shadow-sm border rounded-lg border-gray-300 dark:border-gray-500">
+                <div className="w-full p-6 flex flex-row flex-wrap shadow-sm border rounded-lg border-gray-300 dark:border-gray-500 dark:bg-slate-800">
                     <div className="w-full md:w-1/2 px-2">
                         <Input 
                             id="nomePerfil"

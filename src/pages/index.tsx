@@ -207,10 +207,10 @@ export default function Home():JSX.Element {
               description="Melhore a organização da sua clinica."
             />
           </div>   
-          <div className="w-full h-20 -mt-10 relative z-0 bg-teal-50 dark:bg-gray-700"></div>
+          <div className="w-full h-20 -mt-10 relative z-0 bg-teal-50 dark:bg-slate-700"></div>
         </div>      
 
-        <div className="w-full flex justify-center bg-teal-50 dark:bg-gray-700">
+        <div className="w-full flex justify-center bg-teal-50 dark:bg-slate-700">
           <div className="pb-10 flex flex-col md:flex-row justify-start md:justify-evenly items-center md:pt-24 relative"
             style={{
               maxWidth: '1110px',
@@ -302,7 +302,7 @@ export default function Home():JSX.Element {
           </div>
         </div>    
 
-        <div className="w-full flex flex-col gap-6 py-10 md:mt-20 bg-teal-50 dark:bg-gray-700">
+        <div className="w-full flex flex-col gap-6 py-10 md:mt-20 bg-teal-50 dark:bg-slate-700">
           <div className="flex flex-col justify-center items-center md:gap-3">
             <span className={twMerge("text-center text-black dark:text-white text-xl md:text-5xl font-bold leading-7 md:leading-10 px-10 md:whitespace-nowrap", poppins.className)}>
               Conheça os Desenvolvedores
@@ -359,20 +359,25 @@ export default function Home():JSX.Element {
               <img
                 src="/assets/log1.png"
                 alt='logo-sao'
-                className="h-14 md:h-20 mt-8 md:mt-0 resize-none"
+                className="h-14 md:h-20 mt-8 md:mt-0 dark:hidden resize-none"
               />
+              <img
+                src="/assets/logo_uniso_white.png"
+                alt='logo-sao'
+                className="h-14 md:h-20 mt-8 md:mt-0 hidden dark:flex resize-none"
+              />
+            </div>
+            <div className="h-14 md:h-20 mx-10 border-l-2 hidden md:flex dark:border-white"></div>
+            <div className="w-96 flex justify-center">
               <img
                 src="/assets/logo_nucleo_ti.png"
                 alt='logo-nucleo-ti-uniso'
                 className="h-14 md:h-20 mt-8 md:mt-0 dark:hidden resize-none"
               />
-            </div>
-            <div className="h-14 md:h-20 dark:mx-10 dark:border-l-2 hidden md:flex dark:border-white"></div>
-            <div className="w-96 flex justify-center">
               <img
                 src="/assets/logo-extensiva-color.png"
                 alt='logo-nucleo-ti-uniso'
-                className="h-14 md:h-20 mt-8 md:mt-0 hidden dark:flex dark:border-l-4 dark:border-white resize-none"
+                className="h-14 md:h-20 mt-8 md:mt-0 hidden dark:flex resize-none"
               />
             </div>
           </div>
@@ -385,7 +390,7 @@ export default function Home():JSX.Element {
                 className="h-14 md:h-20 mt-8 md:mt-0 resize-none"
               />
             </div>
-            <div className="h-14 md:h-20 dark:mx-10 dark:border-l-2 hidden md:flex dark:border-white"></div>
+            <div className="h-14 md:h-20 mx-10 border-l-2 hidden md:flex dark:border-white"></div>
             <div className="w-96 mt-8 md:mt-0 gap-2 md:gap-4 flex items-center justify-center">
               <img
                 src="/assets/logo_odonto.png"
@@ -397,7 +402,7 @@ export default function Home():JSX.Element {
           </div>
         </div>
 
-        <div className="w-full flex justify-center bg-teal-50 dark:bg-gray-700">
+        <div className="w-full flex justify-center bg-teal-50 dark:bg-slate-700">
           <div className="py-12 flex flex-col justify-center items-center"
             style={{
               maxWidth: '1110px',
@@ -450,7 +455,7 @@ export default function Home():JSX.Element {
                   <label className="pl-4 text-sm font-medium leading-tight text-gray-700 dark:text-white">Mensagem</label>
                   <textarea 
                       id="mensagem"
-                      className="w-full h-40 px-4 py-2 text-sm font-medium leading-tight truncate dark:text-white placeholder-gray-500 dark:placeholder-white shadow-sm border rounded-lg border-gray-300 dark:border-gray-500  dark:bg-gray-700 focus:border-teal-400 focus:outline-none focus:ring-teal-400 resize-none"
+                      className="w-full h-40 px-4 py-2 text-sm font-medium leading-tight truncate dark:text-white placeholder-gray-500 dark:placeholder-white shadow-sm border rounded-lg border-gray-300 dark:border-gray-500  dark:bg-slate-700 focus:border-teal-400 focus:outline-none focus:ring-teal-400 resize-none"
                       placeholder="O que você precisa?"
                       {...register("message")}
                   />
