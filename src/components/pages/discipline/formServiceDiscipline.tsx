@@ -18,7 +18,7 @@ export const validationService = yup.object().shape({
     name: yup.string().required('Campo obrigatório'),
     description: yup.string().required('Campo obrigatório'),
     price: yup.number().required('Campo obrigatório'),
-    duration_medio: yup.number().required('Campo obrigatório'),
+    duration_medio: yup.string().required('Campo obrigatório'),
     active_duration_medio: yup.boolean().optional(),
     active_duration_auto: yup.boolean().optional(),
     ext: yup.boolean().optional(),

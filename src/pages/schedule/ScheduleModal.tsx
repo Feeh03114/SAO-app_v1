@@ -311,7 +311,7 @@ export default function ScheduleModal({ open=false, setOpen, cancelButtonRef }: 
                                     <label className="pl-4 text-sm font-medium leading-tight text-gray-700 dark:text-white">Queixa</label>
                                     <textarea 
                                         id="queixa"
-                                        className="w-full h-20 rounded-lg px-4 py-2 dark:bg-slate-700 dark:text-white shadow border border-gray-300 text-gray-900 placeholder-gray-500 dark:placeholder-white focus:border-teal-400 focus:outline-none focus:ring-teal-400 sm:text-sm"
+                                        className="w-full h-20 rounded-lg px-4 py-2 dark:bg-slate-700 dark:text-white shadow border border-gray-300 dark:border-gray-500 text-gray-900 placeholder-gray-500 dark:placeholder-white focus:border-teal-400 focus:outline-none focus:ring-teal-400 sm:text-sm"
                                         placeholder="Descrever o que aconteceu com o paciente"
                                         {...register("complaint_text")}
                                     />
@@ -322,7 +322,7 @@ export default function ScheduleModal({ open=false, setOpen, cancelButtonRef }: 
                                     }
                                 </div>
                                 <div className='flex flex-col gap-1'>
-                                    <label className="pl-4 text-sm font-medium leading-tight text-gray-700 dark:text-white">Data</label>
+                                    <label className="pl-4 text-sm font-medium leading-tight text-slate-700 dark:text-white">Data</label>
                                     <Controller
                                         control={control}
                                         name="data"
@@ -342,7 +342,7 @@ export default function ScheduleModal({ open=false, setOpen, cancelButtonRef }: 
                                                         field.onChange(e?.toDate());
                                                     }}
                                                     className='teal bg-dark-perso'
-                                                    inputClass='w-full rounded-lg px-4 py-2 dark:bg-gray-700 dark:text-white shadow border border-gray-300 text-gray-900 placeholder-gray-500 focus:border-teal-400 focus:outline-none focus:ring-teal-400 sm:text-sm'
+                                                    inputClass='w-full rounded-lg px-4 py-2 dark:bg-slate-700 dark:text-white shadow border border-gray-300 dark:border-gray-500 text-gray-900 placeholder-gray-500 focus:border-teal-400 focus:outline-none focus:ring-teal-400 sm:text-sm'
                                                     containerClassName=''
                                                     readOnly={Object.keys(service).length === 0}
                                                     format='DD/MM/YYYY'
@@ -363,11 +363,11 @@ export default function ScheduleModal({ open=false, setOpen, cancelButtonRef }: 
                                     />
                                 </div>
                                 <div>
-                                    <label className="pl-4 text-sm font-medium leading-tight text-gray-700 dark:text-white">Horário</label>
+                                    <label className="pl-4 text-sm font-medium leading-tight  text-slate-700 dark:text-white">Horário</label>
                                     <Input 
                                         id="horario"
                                         type="time"
-                                        className="w-full cursor-text rounded-lg px-4 py-2 dark:bg-gray-700 dark:text-white shadow border border-gray-300 text-gray-900 placeholder-gray-500 focus:border-teal-400 focus:outline-none focus:ring-teal-400 sm:text-sm"
+                                        className="w-full cursor-text rounded-lg px-4 py-2 dark:bg-slate-700 dark:text-white shadow border border-gray-300 dark:border-gray-500 text-gray-900 placeholder-slate-500 focus:border-teal-400 focus:outline-none focus:ring-teal-400 sm:text-sm"
                                         placeholder="00:00"
                                         required
                                         {...register("horario")}
@@ -381,7 +381,7 @@ export default function ScheduleModal({ open=false, setOpen, cancelButtonRef }: 
                                 <div className="px-4 py-3 flex justify-end sm:px-6 col-span-2 dark:bg-gray-800">
                                     <button
                                         type="button"
-                                        className="rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
+                                        className="rounded-md bg-white dark:text-white dark:bg-slate-700 border border-gray-300 dark:border-slate-700 px-3 py-2 text-sm font-semibold text-gray-900 shadow hover:bg-gray-50 sm:mt-0 sm:w-auto"
                                         onClick={() => setOpen(false)}
                                         ref={cancelButtonRef}>
                                             Cancelar

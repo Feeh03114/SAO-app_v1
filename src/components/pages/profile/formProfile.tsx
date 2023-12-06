@@ -160,7 +160,7 @@ export default function FormProfile({edit, isPermissionWrite=true, onSave}:FormP
                         <p className="text-sm md:text-2xl font-bold leading-loose text-gray-900 dark:text-white">Página do Perfil</p>
                         <p className="text-xs leading-none text-gray-400">Confira as páginas do perfil</p>
                     </div>
-                    <Table.Root tableHeight={String(6)} style="mt-8">
+                    <Table.Root tableHeight={String(fields.length)} style="mt-8">
                         <Table.Header style="hidden">
                             <Table.CellHeader>PÁGINA</Table.CellHeader>
                             <Table.CellHeader>VIZUALIZAÇÃO</Table.CellHeader>

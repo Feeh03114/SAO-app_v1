@@ -87,7 +87,6 @@ export default function FormDiscipline({edit, isPermissionWrite=true, onSave}:Fo
         <>
             <FormServiceDiscipline isOpen={newServiceDisposer.isOpen} onClose={newServiceDisposer.close} onSave={updateService}/>
             <form id='formDiscipline' onSubmit={handleSubmit(onSaveDiscipline)}>
-                
                 <div className="w-screen px-8">
                     <div className="w-full p-6 flex flex-row flex-wrap shadow-sm border rounded-lg border-gray-300 dark:border-gray-500 dark:bg-slate-800">
                         <div className="w-full px-2">
