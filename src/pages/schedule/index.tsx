@@ -11,13 +11,52 @@ import ScheduleModal from "./ScheduleModal";
 
 dayjs.locale('pt-br');
 
+interface Service {
+    active_duration_auto: boolean;
+    createdBy: string;
+    criatedAt: string;
+    deleted: boolean;
+    deletedAt: string;
+    deletedBy: string;
+    description: string;
+    discipline_id: string;
+    duration_medio: string;
+    ext: boolean;
+    id: string;
+    name: string;
+    price: string;
+    updatedAt: string;
+    updatedBy: string;
+}
+
+interface Patient {
+    name: string;
+}
+
+interface TreatmentToday {
+    authorizationProfessorCurrent: boolean;
+    authorizationProfessorCurrentDate: string;
+    dateConsultationFinished: string;
+    dateConsultationStarted: string;
+    dateScheduled: Dayjs;
+    id: string;
+    justificationFault: string;
+    occurrenceConsultation: string;
+    patient: Patient;
+    service: Service;
+    serviceForwardedId: string;
+    service_id: string;
+    status: string;
+    treatment_id: string;
+}
+
 export interface Treatment {
     id: string;
     complaint_text: string;
     treatment_id: string;
     service_id: string;
     consultationReport: string;
-}
+}   
 
 export interface HasTreatmentToday {
     day: Dayjs;
@@ -33,30 +72,7 @@ export default function Schedule():JSX.Element {
     const [ isDarkMode, setIsDarkMode ] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [hastreatmentTodayData, sethastreatmentTodayData] = useState<HasTreatmentToday[]>([]);
-    const [treatmentTodayData, setTreatmentTodayData] = useState<Treatment[]>([]);
-    // const [events] = useState([
-    //     { name: 'Nome 1', service: 'Limpeza', date: dayjs().startOf('day').hour(10), status: 'Concluído' },
-    //     { name: 'Nome 2', service: 'Canal', date: dayjs().startOf('day').hour(10).minute(30), status: 'Aguardando Consulta' },
-    //     { name: 'Nome 3', service: 'Cirurgia', date: dayjs().startOf('day').hour(11), status: 'Faltou' },
-    //     { name: 'Nome 1', service: 'Limpeza', date: dayjs().startOf('day').hour(10), status: 'Concluído' },
-    //     { name: 'Nome 2', service: 'Canal', date: dayjs().startOf('day').hour(10).minute(30), status: 'Aguardando Consulta' },
-    //     { name: 'Nome 3', service: 'Cirurgia', date: dayjs().startOf('day').hour(11), status: 'Faltou' },
-    //     { name: 'Nome 1', service: 'Limpeza', date: dayjs().startOf('day').hour(10), status: 'Concluído' },
-    //     { name: 'Nome 2', service: 'Canal', date: dayjs().startOf('day').hour(10).minute(30), status: 'Aguardando Consulta' },
-    //     { name: 'Nome 3', service: 'Cirurgia', date: dayjs().startOf('day').hour(11), status: 'Faltou' },
-    //     { name: 'Nome 1', service: 'Limpeza', date: dayjs().startOf('day').hour(10), status: 'Concluído' },
-    //     { name: 'Nome 2', service: 'Canal', date: dayjs().startOf('day').hour(10).minute(30), status: 'Aguardando Consulta' },
-    //     { name: 'Nome 3', service: 'Cirurgia', date: dayjs().startOf('day').hour(11), status: 'Faltou' },
-    //     { name: 'Nome 1', service: 'Limpeza', date: dayjs().startOf('day').hour(10), status: 'Concluído' },
-    //     { name: 'Nome 2', service: 'Canal', date: dayjs().startOf('day').hour(10).minute(30), status: 'Aguardando Consulta' },
-    //     { name: 'Nome 3', service: 'Cirurgia', date: dayjs().startOf('day').hour(11), status: 'Faltou' },
-    //     { name: 'Nome 1', service: 'Limpeza', date: dayjs().startOf('day').hour(10), status: 'Concluído' },
-    //     { name: 'Nome 2', service: 'Canal', date: dayjs().startOf('day').hour(10).minute(30), status: 'Aguardando Consulta' },
-    //     { name: 'Nome 3', service: 'Cirurgia', date: dayjs().startOf('day').hour(11), status: 'Faltou' },
-    //     { name: 'Nome 6', service: 'Limpeza', date: dayjs().startOf('day').hour(11).minute(30), status: 'Agendado' },
-    //     { name: 'Nome 5', service: 'Limpeza', date: dayjs().add(1, 'day').startOf('day').hour(10), status: 'Aguardando Consulta' },
-    //     { name: 'Nome 4', service: 'Canal', date: dayjs().add(2, 'day').startOf('day').hour(10), status: 'Concluído' },
-    // ]);
+    const [treatmentTodayData, setTreatmentTodayData] = useState<TreatmentToday[]>([]);
     const meses = [
         'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
         'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
@@ -139,12 +155,13 @@ export default function Schedule():JSX.Element {
             console.log("RespAPI: ");
             console.log(RespAPI[0].dateScheduled);
         } catch (error) {
-          console.log(error);
+            console.log(error);
         }
         setIsLoading(false);
 
         return eventsForDay;
     }
+
 
     function getLastDaysOfPreviousMonth() {
         const days = [];

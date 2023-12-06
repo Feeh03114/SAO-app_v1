@@ -44,10 +44,9 @@ export interface Treatment {
 }
 
 export default function DentalChart(): JSX.Element {
-    const { id } = router.query;
     const permiteEdit = useDisclosure();
     const [isLoading, setIsLoading] = useState(false);
-    const [patientRecord, setPatientRecord] = useState<PatientRecord>({} as PatientRecord);
+    const [patientRecord] = useState<PatientRecord>({} as PatientRecord);
 
     function handleEdit() {
         console.log("Teste");
