@@ -150,7 +150,7 @@ export default function Patients(): JSX.Element {
                 {data.map((item: Patient, index: number) => (
                     <Table.Row 
                         key={index}
-                        onView={()=> router.push(`/patients/edit/${item.people.name}`)}
+                        onView={()=> router.push(`/patients/edit/${item.id}`)}
                         onDelete={() => deleteItem(item.id)}
                     >
                         <Table.CellBody hiddenInMobile={true}><p className="font-medium dark:text-white"></p>{item.people.name}</Table.CellBody>

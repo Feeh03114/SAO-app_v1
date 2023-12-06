@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { Discipline } from "..";
 
-export default function UsersEdit(): JSX.Element {
+export default function DisciplineEdit(): JSX.Element {
     const router = useRouter();
     const { id } = router.query;
     const permiteEdit = useDisclosure();

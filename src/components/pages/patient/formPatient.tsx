@@ -43,14 +43,15 @@ export interface Option {
 }
 
 interface FormPatientProps {
-    edit?: Patient;
+    edit?: any;
     isPermissionWrite?: boolean;
     onSave:(data:any)=>void;
 }
 
-export default function FormPatient({ isPermissionWrite=true, onSave }:FormPatientProps): JSX.Element {
-    const { control: control1, register: register1, watch, handleSubmit: handleSubmit1, formState: { errors: errors1 } } = useForm({
-        resolver: yupResolver(validationPatient)
+export default function FormPatient({ isPermissionWrite=true, onSave, edit={} }:FormPatientProps): JSX.Element {
+    const { reset:reset1, control: control1, register: register1, watch, handleSubmit: handleSubmit1, formState: { errors: errors1 } } = useForm({
+        resolver: yupResolver(validationPatient),
+        defaultValues: edit,
     });
     const { fields, append, update, remove } = useFieldArray({
         control: control1, 
@@ -130,6 +131,10 @@ export default function FormPatient({ isPermissionWrite=true, onSave }:FormPatie
 
         onSave(patient);
     }
+
+    useEffect(() => {
+        if(Object.keys(edit).length > 0) reset1(edit)
+    }, [edit]);
 
     useEffect(() => {
         if(errors1.address)
