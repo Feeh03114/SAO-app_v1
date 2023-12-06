@@ -1,6 +1,6 @@
 import { Input } from "@/components/elementTag/input";
 import Select from "@/components/elementTag/select";
-import { PatientRecord } from "@/pages/schedule/edit/[idSchedule]";
+import { PatientRecord } from "@/pages/schedule/edit/[id]";
 import { withSSRAuth } from "@/util/withSSRAuth";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { GetServerSideProps } from "next";

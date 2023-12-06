@@ -36,7 +36,7 @@ const validationFullModal = yup.object().shape({
         if(typeConsult === 'novaConsulta') return !!value;
         return true;
     }),
-
+    service_id: yup.string().required('O serviço é obrigatório'),
 });
 
 interface ITratamento extends IService {
@@ -141,6 +141,7 @@ export default function ScheduleModal({ open=false, setOpen, cancelButtonRef }: 
             typeConsult: 'novaConsulta',
             treatment_id: '',
             complaint_text: '',
+            service_id: '',
         });
         else getTriagem();
     }, [open]);
@@ -151,6 +152,20 @@ export default function ScheduleModal({ open=false, setOpen, cancelButtonRef }: 
         else
             getTriagem();
     },[watch('typeConsult')])
+
+    useEffect(() => {
+        if(watch('treatment_id')){
+            const treatmentFind = treatment?.find((item) => item.id === watch('treatment_id'));
+            if(!treatmentFind) return setValue('treatment_id', '');
+            setValue('service_id', treatmentFind?.service_id)
+            setService({
+                id: treatmentFind?.service_id||'',
+                availabilities: service.availabilities,
+                schedules: service.schedules,
+                duration_medio: treatmentFind?.duration_medio||0,
+            })
+        }
+    }, [watch('treatment_id')]);
 
     const getHours = () =>{
         console.log(watch('data'));
