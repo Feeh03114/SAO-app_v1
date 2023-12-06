@@ -16,6 +16,15 @@ const validationFullModal = yup.object().shape({
     complaint_text: yup.string().required('Campo obrigatório'),
     serviceForwardedId: yup.string().required('Campo obrigatório'),
     occurrenceConsultation: yup.string().required('Campo obrigatório'),
+    medicaRecord: yup.string().optional(),
+    name: yup.string().optional(),
+    discipline: yup.string().optional(),
+    email: yup.string().optional(),
+    phoneNumber: yup.string().optional(),
+    date: yup.string().optional(),
+    time: yup.string().optional(),
+    service: yup.string().optional(),
+    price: yup.string().optional(),
 });
 
 const treatment_idMock = [
@@ -78,7 +87,7 @@ export default function FormPatientRecord({edit, isPermissionWrite=true, onSave}
                         id="discipline"
                         type="text"
                         label="Disciplina"
-                        value='Clínica Geral'
+                        value={watch('discipline')|| ''}
                         className="bg-gray-200 cursor-default"
                         readOnly={true}
                     />
