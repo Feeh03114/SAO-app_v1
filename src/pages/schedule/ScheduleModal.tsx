@@ -9,6 +9,7 @@ import { AiOutlinePlus } from 'react-icons/ai';
 import DatePicker, { DateObject } from "react-multi-date-picker";
 import "react-multi-date-picker/styles/backgrounds/bg-dark.css";
 import "react-multi-date-picker/styles/colors/teal.css";
+import { toast } from 'react-toastify';
 import * as yup from 'yup';
 
 type ScheduleModalProps = {
@@ -77,7 +78,16 @@ export default function ScheduleModal({ open=false, setOpen, cancelButtonRef }: 
         resolver: yupResolver(validationFullModal)
     });
 
-    const addPost = (data: any) => {console.log(data);}
+    const addPost = (data: any) => {
+        try {
+            console.log(data);
+        } catch (error:any) {
+            if(error?.response.data.messagem)
+                toast.error(error?.response.data.messagem);
+            else
+                toast.error('Erro ao cadastrar a consulta');
+        }
+    }
 
     useEffect(() => {
         if(!open) reset({
@@ -86,7 +96,7 @@ export default function ScheduleModal({ open=false, setOpen, cancelButtonRef }: 
             nome: '',
             data: new Date(),
             horario: '',
-            typeConsult: 'retorno',
+            typeConsult: 'novaConsulta',
             treatment_id: '',
             complaint_text: '',
         });
@@ -212,18 +222,7 @@ export default function ScheduleModal({ open=false, setOpen, cancelButtonRef }: 
                                         defaultValue={'retorno'}
                                         render={({ field }) => (
                                             <>
-                                               <label className='mx-5 dark:text-gray-200'>
-                                                    <input 
-                                                        id="retorno"
-                                                        type="radio" 
-                                                        name="type"
-                                                        className="text-teal-400 mr-2"
-                                                        checked={field.value === 'retorno'}
-                                                        onChange={(e) => field.onChange(e.target.checked ? 'retorno' : 'novaConsulta')}
-                                                    />
-                                                    Retorno
-                                                </label>
-                                                <label className='dark:text-gray-200'>
+                                                <label className='mx-5 dark:text-gray-200'>
                                                     <input 
                                                         id="novaConsulta"
                                                         type="radio" 
@@ -234,6 +233,17 @@ export default function ScheduleModal({ open=false, setOpen, cancelButtonRef }: 
                                                         onChange={(e) => field.onChange(e.target.value? 'novaConsulta' : 'retorno')}
                                                     />
                                                     Nova consulta
+                                                </label>
+                                                <label className='dark:text-gray-200'>
+                                                    <input 
+                                                        id="retorno"
+                                                        type="radio" 
+                                                        name="type"
+                                                        className="text-teal-400 mr-2"
+                                                        checked={field.value === 'retorno'}
+                                                        onChange={(e) => field.onChange(e.target.checked ? 'retorno' : 'novaConsulta')}
+                                                    />
+                                                    Retorno
                                                 </label>
                                             </>
                                         )}

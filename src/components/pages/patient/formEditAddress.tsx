@@ -142,6 +142,7 @@ export default function FormEditAddress({isOpen, onClose, address, onSave, onDel
                 onClose={onClose}
                 onDelete={onDelete}
                 form="formEditAddress"
+                text="Atualizar"
             />
         </Modal.Root>
     )     

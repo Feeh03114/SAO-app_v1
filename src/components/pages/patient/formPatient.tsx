@@ -20,7 +20,7 @@ import FormEditGuardian from "./formEditGuardian";
 import FormGuardian, { validationGuardian } from "./formGuardian";
 
 const validationPatient = yup.object().shape({
-    medicalRecord: yup.string().required('Campo obrigatório'),
+    medicalRecord: yup.string().optional(),
     name: yup.string().required('Campo obrigatório'),
     lastName: yup.string().required('Campo obrigatório'),
     cpf: yup.string().required('Campo obrigatório'),
@@ -123,7 +123,6 @@ export default function FormPatient({ isPermissionWrite=true, onSave, edit={} }:
         const medicalRecord = data.medicalRecord;
         delete data.medicalRecord;
         const patient = {
-            stats: "Ativo",
             people: data,
             guardian,
             medicalRecord,
