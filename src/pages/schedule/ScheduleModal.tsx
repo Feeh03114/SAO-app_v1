@@ -156,6 +156,7 @@ export default function ScheduleModal({ open=false, setOpen, cancelButtonRef }: 
     useEffect(() => {
         if(watch('treatment_id')){
             const treatmentFind = treatment?.find((item) => item.id === watch('treatment_id'));
+            if(!treatmentFind) return setValue('treatment_id', '');
             setValue('service_id', treatmentFind?.service_id)
             setService({
                 id: treatmentFind?.service_id||'',
