@@ -25,6 +25,8 @@ const validationFullModal = yup.object().shape({
     time: yup.string().optional(),
     service: yup.string().optional(),
     price: yup.string().optional(),
+    phone: yup.string().optional(),
+    service_id: yup.string().optional(),
 });
 
 const treatment_idMock = [
@@ -171,7 +173,7 @@ export default function FormPatientRecord({edit, isPermissionWrite=true, onSave}
                             <div className="mr-1 mb-2 flex flex-row items-center justify-end">
                                 <div className="w-full pl-0 px-3 md:px-2">
                                     <Select
-                                        name="treatment_id"
+                                        name="serviceForwardedId"
                                         placeHolder={"Selecione o treatment_id"}
                                         valueDefault={-1}
                                         valueTypeName={true}
@@ -182,7 +184,7 @@ export default function FormPatientRecord({edit, isPermissionWrite=true, onSave}
                                             }))
                                         }
                                         control={control}
-                                        error={errors.treatment_id}
+                                        error={errors.serviceForwardedId}
                                         disabled={!isPermissionWrite}
                                     />
                                 </div>

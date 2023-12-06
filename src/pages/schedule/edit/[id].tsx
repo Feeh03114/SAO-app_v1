@@ -5,7 +5,7 @@ import { StatusType } from "@/enum/status_type.enum";
 import { useDisclosure } from "@/hook/useDisclosure";
 import api from "@/service/api";
 import dayjs from "dayjs";
-import router from "next/router";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
@@ -28,6 +28,7 @@ export interface PatientRecord {
 }
 
 export default function DentalChart(): JSX.Element {
+    const router = useRouter();
     const {id} = router.query;
     const permiteEdit = useDisclosure();
     const [isLoading, setIsLoading] = useState(false);
