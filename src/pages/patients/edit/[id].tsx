@@ -6,6 +6,7 @@ import { withSSRAuth } from "@/util/withSSRAuth";
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 interface IPeople {
     name: string;
@@ -49,27 +50,43 @@ export default function PatientsEdit(): JSX.Element {
     function handleEdit() {
         if(!newDisposer.isOpen) return newDisposer.open();
 
-        const form = document.getElementById('form');
+        const form = document.getElementById('formPatient');
         form?.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
     }
     
     const loadData = async () => {
         try {
             const { data: RespAPI } = await api.get(`api/patients/${id}`);
-            console.log(RespAPI);
             const patient: Patients = {...RespAPI.people} as Patients;
             patient.medicalRecord = RespAPI.medicalRecord||"";
             patient.guardian = RespAPI.guardian||[];
 
             setData(patient);
-        } catch (error) {
-          console.log(error);
+        } catch (error:any) {
+            if(error?.response)
+                toast.error(error.response.data.message);
+            else 
+                toast.error('Erro ao atualizar paciente');
         }
     };
 
     useEffect(() => {
         loadData();
     }, []);
+
+    const onSubmit = async (data: any) => {
+        try {
+            await api.put(`api/patients/${id}`, data);
+            toast.success('Paciente atualizado com sucesso');
+            newDisposer.close();
+        } catch (error: any) {
+            console.log(error?.response.data);
+            if(error?.response)
+                toast.error(error.response.data.message);
+            else 
+                toast.error('Erro ao atualizar paciente');
+        }
+    }
 
 
     return (
@@ -84,7 +101,7 @@ export default function PatientsEdit(): JSX.Element {
                 typeButtonRight={newDisposer.isOpen ? "add" : "edit"}
             />
 
-            <FormPatient edit={data} onSave={(e)=>console.log(e)} isPermissionWrite={newDisposer.isOpen}/>
+            <FormPatient edit={data} onSave={onSubmit} isPermissionWrite={newDisposer.isOpen}/>
         </>
     )
 }

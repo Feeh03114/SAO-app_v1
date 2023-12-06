@@ -3,12 +3,14 @@ import { daySchedule } from '@/components/pages/schedule/edit/components';
 import api from '@/service/api';
 import { Dialog, Transition } from '@headlessui/react';
 import { yupResolver } from '@hookform/resolvers/yup';
+import dayjs from 'dayjs';
 import { Fragment, useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { AiOutlinePlus } from 'react-icons/ai';
 import DatePicker, { DateObject } from "react-multi-date-picker";
 import "react-multi-date-picker/styles/backgrounds/bg-dark.css";
 import "react-multi-date-picker/styles/colors/teal.css";
+import { toast } from 'react-toastify';
 import * as yup from 'yup';
 
 type ScheduleModalProps = {
@@ -19,9 +21,9 @@ type ScheduleModalProps = {
 
 const validationFullModal = yup.object().shape({
     prontuario: yup.string().required('O prontuario é obrigatório'),
-    idPatient: yup.string().required('O id do paciente é obrigatório'),
+    patient_id: yup.string().required('O id do paciente é obrigatório'),
     nome: yup.string().required('O nome é obrigatório'),
-    data: yup.date().min(new Date(Date.now() - 86400000), 'A data deve ser igual ou posterior ao dia atual').required('A data é obrigatória'),
+    data: yup.date().min(new Date(), 'A data deve ser igual ou posterior ao dia atual').required('A data é obrigatória'),
     horario: yup.string().required('O horário é obrigatório'),
     typeConsult: yup.string().required('O tipo da consulta é obrigatório'),
     treatment_id: yup.string().test('isNumber', 'O serviço é obrigatório', function(value:any) {
@@ -31,85 +33,63 @@ const validationFullModal = yup.object().shape({
     }),
     complaint_text: yup.string().test('isString', 'A queixa é obrigatória', function(value:any) {
         const {typeConsult} = this.parent;
-        if(typeConsult === 'novaConsulta') return !value;
+        if(typeConsult === 'novaConsulta') return !!value;
         return true;
     }),
 
 });
 
-const serviceTriagem = {
-    id: '4b78c451-47be-423d-9da0-a96227197382',
-    duration_medio: 20,
-    availabilities: [
-      {
-        id: '2511fe8a-1f45-426c-a18f-6e452cb7c64c',
-        dayWeek: 0,
-        initHour: '8:00',
-        endHour: '16:00',
-        service_id: '4b78c451-47be-423d-9da0-a96227197382',
-        createdBy: 'System',
-      },
-    ],
-    schedules:[
-        {
-            date: '2021-10-01',
-            initHour: '8:00',
-            endHour: '8:20',
-        },
-    ],
-};
+interface ITratamento extends IService {
+    id: string;
+    complaint_text: string;
+    service_id: string;
+}
 
-const mock2 = [
-    { id: 1, name: 'Exemplo 1' },
-    { id: 2, name: 'Exemplo 2' },
-    { id: 3, name: 'Exemplo 3' },
-    { id: 4, name: 'Exemplo 4' },
-    { id: 5, name: 'Exemplo 5' },
-    { id: 6, name: 'Exemplo 6' },
-    { id: 7, name: 'Exemplo 7' },
-]
+interface IService{
+    id: string;
+    duration_medio: number;
+    availabilities: availability[];
+    schedules: schedule[];
+}
 
+interface availability{
+    id: string;
+    dayWeek: number;
+    initHour: string;
+    endHour: string;
+}
 
+interface schedule{
+    date: string;
+    initHour: string;
+    endHour: string;
+}
 
 export default function ScheduleModal({ open=false, setOpen, cancelButtonRef }: ScheduleModalProps):JSX.Element  {
-    const [service, setService] = useState(serviceTriagem);
+    const [service, setService] = useState<IService>({} as IService);
+    const [treatment, setTreatment] = useState<ITratamento[]>([] as ITratamento[])
     const { reset, control, register, setValue, watch, handleSubmit, formState: { errors } } = useForm({
         resolver: yupResolver(validationFullModal)
     });
 
-    const addPost = (data: any) => {console.log(data);}
-
-    useEffect(() => {
-        if(!open) reset({
-            idPatient: '',
-            prontuario: '',
-            nome: '',
-            data: new Date(),
-            horario: '',
-            typeConsult: 'retorno',
-            treatment_id: '',
-            complaint_text: '',
-        });
-    }, [open]);
-
-   /*  useEffect(() => {
-        const hoje = new Date();
-        const d1 = hoje.getDay();
-        const d2 = service.availabilities.find((item) => item.dayWeek === d1);
-        switch (d1) {}
-        let today = new Date();
-        today.setDate(today.getDate() + dias); //Voalá
-        today = today.toISOString().split('T')[0];
-        document.getElementsByName("date")[0].setAttribute('min', today);
-    }, [service]); */
-
-    const getService = async () => {
+    const addPost = async (data: any) => {
         try {
-            const response = await api.get('api/services/4b78c451-47be-423d-9da0-a96227197382');
-        } catch (error) {
-            console.log(error);
+            delete data.nome;
+            delete data.prontuario;
+            delete data.typeConsult;
+            data.dateScheduled = dayjs(data.data).set('hour', data.horario.split(':')[0]).set('minute', data.horario.split(':')[1]).toDate();
+            delete data.data;
+            delete data.horario;
+            await api.post('api/treatment', data);
+            toast.success('Consulta cadastrada com sucesso');
+            setOpen(false);
+        } catch (error:any) {
+            if(error?.response.data.messagem)
+                toast.error(error?.response.data.messagem);
+            else
+                toast.error('Erro ao cadastrar a consulta');
         }
-    };
+    }
 
     const getPatient = async () => {
         try {
@@ -122,20 +102,63 @@ export default function ScheduleModal({ open=false, setOpen, cancelButtonRef }: 
             if(!watch('prontuario'))
                 setValue('prontuario', resp.data.people.cpf);
             if(!watch('nome'))
-                setValue('nome', resp.data.people.name);
+                setValue('nome', `${resp.data.people.name} ${resp.data.people.lastName}`);
+            setValue('patient_id', resp.data.id);
 
-            setValue('idPatient', resp.data.id);
+            getTreatmentByPatient(resp.data.id);
         } catch (error) {
             console.log(error);
         }
     }
 
-    const getHours = () =>{
-        const date = new Date(watch('data'));
-        const availability = service.availabilities.find((item) => item.dayWeek === date.getDay());
+    const getTreatmentByPatient = async (idPatient:string) => {
+        try {
+            const resp = await api.get('api/treatment/patient/'+idPatient);
+            setTreatment(resp.data);
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
-        const initHour = availability?.initHour;
-        const endHour = availability?.endHour;
+    const getTriagem = async () => {
+        try {
+            const resp = await api.get('api/services/availability/4b78c451-47be-423d-9da0-a96227197382');
+            setService(resp.data);
+            setValue('treatment_id', '');
+            setValue('service_id', resp.data.id)
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    useEffect(() => {
+        if(!open) reset({
+            patient_id: '',
+            prontuario: '',
+            nome: '',
+            data: new Date(),
+            horario: '',
+            typeConsult: 'novaConsulta',
+            treatment_id: '',
+            complaint_text: '',
+        });
+        else getTriagem();
+    }, [open]);
+
+    useEffect(() => {
+        if(watch('typeConsult') === 'retorno')
+            getTreatmentByPatient(watch('patient_id'));
+        else
+            getTriagem();
+    },[watch('typeConsult')])
+
+    const getHours = () =>{
+        console.log(watch('data'));
+        const date = new Date(watch('data'));
+        const availability = service?.availabilities?.find((item) => item.dayWeek === date.getDay());
+
+        const initHour = availability?.initHour || '00:00';
+        const endHour = availability?.endHour || '00:00';
         return {initHour, endHour};
     }
       
@@ -212,18 +235,7 @@ export default function ScheduleModal({ open=false, setOpen, cancelButtonRef }: 
                                         defaultValue={'retorno'}
                                         render={({ field }) => (
                                             <>
-                                               <label className='mx-5 dark:text-gray-200'>
-                                                    <input 
-                                                        id="retorno"
-                                                        type="radio" 
-                                                        name="type"
-                                                        className="text-teal-400 mr-2"
-                                                        checked={field.value === 'retorno'}
-                                                        onChange={(e) => field.onChange(e.target.checked ? 'retorno' : 'novaConsulta')}
-                                                    />
-                                                    Retorno
-                                                </label>
-                                                <label className='dark:text-gray-200'>
+                                                <label className='mx-5 dark:text-gray-200'>
                                                     <input 
                                                         id="novaConsulta"
                                                         type="radio" 
@@ -234,6 +246,20 @@ export default function ScheduleModal({ open=false, setOpen, cancelButtonRef }: 
                                                         onChange={(e) => field.onChange(e.target.value? 'novaConsulta' : 'retorno')}
                                                     />
                                                     Nova consulta
+                                                </label>
+                                                <label className='dark:text-gray-200 aria-disabled:text-gray-700'
+                                                    aria-disabled={Object.keys(treatment).length === 0}
+                                                >
+                                                    <input 
+                                                        id="retorno"
+                                                        type="radio" 
+                                                        name="type"
+                                                        className="text-teal-400 mr-2 disabled:bg-gray-500 disabled:cursor-not-allowed "
+                                                        checked={field.value === 'retorno'}
+                                                        onChange={(e) => field.onChange(e.target.checked ? 'retorno' : 'novaConsulta')}
+                                                        disabled={Object.keys(treatment).length === 0}
+                                                    />
+                                                    Retorno
                                                 </label>
                                             </>
                                         )}
@@ -255,8 +281,8 @@ export default function ScheduleModal({ open=false, setOpen, cancelButtonRef }: 
                                                     placeholder="Selecione o serviço odontológico"
                                                 >
                                                     <option value="" disabled selected>Selecione o tratamento</option>
-                                                    {mock2.map((item) => (
-                                                        <option key={item.id} value={item.id}>{item.name}</option>
+                                                    {treatment?.map((item) => (
+                                                        <option key={item.id} value={item.id}>{item.complaint_text}</option>
                                                     ))}
                                                 </select>
                                             </>
@@ -296,7 +322,10 @@ export default function ScheduleModal({ open=false, setOpen, cancelButtonRef }: 
                                                     months={['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Nov', 'Dez']}
                                                     highlightToday
                                                     value={field.value||""}
-                                                    onChange={field.onChange}
+                                                    onChange={(e:DateObject)=>{
+                                                        console.log(e?.toDate());
+                                                        field.onChange(e?.toDate());
+                                                    }}
                                                     className='teal bg-dark-perso'
                                                     inputClass='w-full rounded-lg px-4 py-2 dark:bg-gray-700 dark:text-white shadow border border-gray-300 text-gray-900 placeholder-gray-500 focus:border-teal-400 focus:outline-none focus:ring-teal-400 sm:text-sm'
                                                     containerClassName=''
