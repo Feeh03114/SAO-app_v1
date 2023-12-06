@@ -350,7 +350,7 @@ export default function FormPaymentData({ onSave }:FormPatientProps): JSX.Elemen
                     <label className="pl-4 text-sm font-medium leading-tight text-gray-700 dark:text-white">Observação</label>
                     <textarea 
                         id="observation"
-                        className="w-full h-40 text-sm rounded-lg px-4 py-2 dark:bg-gray-700 dark:text-white shadow border border-gray-300 text-gray-900 placeholder-gray-500 dark:placeholder-white focus:border-teal-400 focus:outline-none focus:ring-teal-400 resize-none"
+                        className="w-full h-40 text-sm rounded-lg px-4 py-2 dark:bg-slate-700 dark:text-white shadow border border-gray-300 text-gray-900 placeholder-gray-500 dark:placeholder-white focus:border-teal-400 focus:outline-none focus:ring-teal-400 resize-none"
                         placeholder="Descrever o que aconteceu com o paciente"
                         {...register("observation")}
                     />
@@ -358,7 +358,6 @@ export default function FormPaymentData({ onSave }:FormPatientProps): JSX.Elemen
                         <p className="text-red-500 text-sm">{errors.observation.message?.toString()}</p>
                     )}
                 </div>
-                
             </div>
         </form>
     );

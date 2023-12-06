@@ -145,8 +145,8 @@ export default function WaitingLineIndex(): JSX.Element {
                     <Table.CellHeader hiddenInMobile={false}>NOME</Table.CellHeader>
                     <Table.CellHeader hiddenInMobile={true}>VEIO DE</Table.CellHeader>
                     <Table.CellHeader hiddenInMobile={true}>ENCAMINHADO PARA</Table.CellHeader>
-                    <Table.CellHeader hiddenInMobile={false}>DATA DE ENCAMINHAMENTO</Table.CellHeader>
-                    <Table.CellHeader hiddenInMobile={false}>STATUS</Table.CellHeader>
+                    <Table.CellHeader hiddenInMobile={true}>DATA DE ENCAMINHAMENTO</Table.CellHeader>
+                    <Table.CellHeader hiddenInMobile={true}>STATUS</Table.CellHeader>
                 </Table.Header>
 
                 <Table.Body>
@@ -160,8 +160,8 @@ export default function WaitingLineIndex(): JSX.Element {
                             <Table.CellBody><p className="font-medium dark:text-white">{item.nome}</p></Table.CellBody>
                             <Table.CellBody hiddenInMobile={true}><p className="font-medium dark:text-white">{item.cameFrom}</p></Table.CellBody>
                             <Table.CellBody hiddenInMobile={true}><p className="font-medium dark:text-white">{item.forwardedTo}</p></Table.CellBody>
-                            <Table.CellBody><p className="font-medium dark:text-white">{item.date}</p></Table.CellBody>
-                            <Table.CellBody><div className={`w-3 h-3 ml-4 rounded-full ${item.approvalStatus ? 'bg-green-300' : 'bg-yellow-300'}`}></div></Table.CellBody>
+                            <Table.CellBody hiddenInMobile={true}><p className="font-medium dark:text-white">{item.date}</p></Table.CellBody>
+                            <Table.CellBody hiddenInMobile={true}><div className={`w-3 h-3 ml-4 rounded-full ${item.approvalStatus ? 'bg-green-300' : 'bg-yellow-300'}`}></div></Table.CellBody>
                         </Table.NewRow>
                     ))}
                 </Table.Body>

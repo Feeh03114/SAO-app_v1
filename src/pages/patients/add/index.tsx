@@ -48,7 +48,7 @@ export default function PatientAdd(): JSX.Element {
             const resp = await api.post(`/api/patients`, data);
             console.log(resp.data);
             toast.success('Paciente criado com sucesso!');
-            //router.back();
+            router.back();
         } catch (error:any) {
             console.log(error.response.data);
             if(error?.response?.data?.message){

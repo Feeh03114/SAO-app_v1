@@ -1,4 +1,4 @@
-import { HiFilter, HiOutlineCheck, HiOutlinePencilAlt, HiOutlinePlus, HiX } from 'react-icons/hi';
+import { HiArrowSmLeft, HiFilter, HiOutlineCheck, HiOutlineClock, HiOutlinePencilAlt, HiOutlinePlus, HiX } from 'react-icons/hi';
 import { ImFilesEmpty } from 'react-icons/im';
 import { twMerge } from 'tailwind-merge';
 
@@ -26,7 +26,7 @@ interface ButtomProps {
     text: string;
     disabled?: boolean;
     onClick?: () => void;
-    typeButton?: 'add' | 'edit' | 'confirm' | 'filter' |'files' |'delete';
+    typeButton?: 'add' | 'edit' | 'confirm' | 'filter' |'files' |'delete' | 'return' | 'clock';
     style?: string;
     textStyle?: string;
 }
@@ -46,11 +46,15 @@ function Button({text, disabled, onClick, typeButton, style, textStyle} : Buttom
                 return <ImFilesEmpty className="w-5 h-full rounded-lg text-black"/>
             case 'delete':
                 return <HiX className="w-5 h-full rounded-lg text-white"/>
+            case 'return':
+                return <HiArrowSmLeft className="w-5 h-full rounded-lg text-white"/>
+            case 'clock':
+                return <HiOutlineClock className="w-5 h-full rounded-lg text-white"/>
         }
     }
 
     return (
-        <button className={twMerge("flex space-x-2 items-center justify-center py-2 pl-3 pr-4 dark:bg-gray-700 border rounded-md border-gray-300 dark:border-none cursor-pointer mr-[1rem]", style)}
+        <button className={twMerge("flex space-x-2 items-center justify-center py-2 pl-3 pr-4 dark:bg-slate-700 border rounded-md border-gray-300 dark:border-none cursor-pointer mr-[1rem]", style)}
             disabled={disabled}
             onClick={onClick}
         >

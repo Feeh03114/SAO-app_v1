@@ -1,6 +1,6 @@
 import { InputHTMLAttributes } from "react";
 import { HiOutlinePlus } from "react-icons/hi";
-import { twMerge } from "tailwind-merge";
+import { twMerge } from 'tailwind-merge';
 
 export interface CardTextProps extends InputHTMLAttributes<HTMLInputElement> {
     children?: React.ReactNode;

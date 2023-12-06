@@ -177,7 +177,7 @@ export default function Schedule():JSX.Element {
     }
     
     return(
-        <div className="w-full h-full text-center ">
+        <div className="w-full text-center ">
             <DayListModal openDayList={openDayList} setOpenDayList={setOpenDayList} setOpen={setOpen} cancelButtonRefDayList={cancelButtonRefDayList} eventsForDay={eventsForDayState}/>
             <ScheduleModal open={open} setOpen={setOpen} cancelButtonRef={cancelButtonRef}/>
             <Header 
@@ -190,7 +190,7 @@ export default function Schedule():JSX.Element {
                 typeButtonLeft="filter"
                 typeButtonRight="add"
             />
-            <div className="bg-white dark:bg-gray-800 border border-solid border-gray-300 rounded-lg mx-5 sm:m-[2rem] sm:px-[3rem] py-[1rem] pb-4 h-full">
+            <div className="bg-white dark:bg-gray-800 border border-solid border-gray-200 dark:border-slate-700 rounded-lg mx-5 sm:m-[2rem] sm:px-[3rem] py-[1rem] pb-4 h-full">
                 <div className="inline-flex flex-col space-y-4 items-start justify-start h-full w-full">
                     <div className="inline-flex space-x-4 items-center justify-center max-h-[3rem] w-full">
                         <div className="flex items-center justify-center w-12 p-3 rounded-full">

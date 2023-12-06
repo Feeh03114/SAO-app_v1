@@ -84,7 +84,7 @@ export default function RolesEdit(): JSX.Element {
             subtitle="Confira os dados do perfil"
             textLeft={permiteEdit.isOpen ? "Cancelar" : "Voltar"}
             textRight={permiteEdit.isOpen ? "Salvar informações" : "Editar informações"}
-            onClickLeft={()=> permiteEdit.isOpen? permiteEdit.close(): router.back()}
+            onClickLeft={() => permiteEdit.isOpen? permiteEdit.close(): router.back()}
             onClickRight={handleEdit}
             typeButtonRight={permiteEdit.isOpen ? "confirm" : "edit"}
             disabledLeft={isLoading}

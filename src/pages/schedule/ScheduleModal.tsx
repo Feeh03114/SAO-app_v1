@@ -184,7 +184,7 @@ export default function ScheduleModal({ open=false, setOpen, cancelButtonRef }: 
                                     <Input 
                                         id="prontuario"
                                         type="text"
-                                        className="w-full rounded-lg px-4 py-2 dark:bg-gray-700 dark:text-white shadow border border-gray-300 text-gray-900 placeholder-gray-500 dark:placeholder-white focus:border-teal-400 focus:outline-none focus:ring-teal-400 md:text-sm"
+                                        className="w-full rounded-lg px-4 py-2 dark:bg-slate-700 dark:text-white shadow border border-gray-300 text-gray-900 placeholder-gray-500 dark:placeholder-white focus:border-teal-400 focus:outline-none focus:ring-teal-400 md:text-sm"
                                         placeholder="Insira seu prontuário"
                                         {...register("prontuario")}
                                         error={errors.prontuario}
@@ -196,7 +196,7 @@ export default function ScheduleModal({ open=false, setOpen, cancelButtonRef }: 
                                     <Input 
                                         id="nome"
                                         type="text"
-                                        className="w-full rounded-lg px-4 py-2 dark:bg-gray-700 dark:text-white shadow border border-gray-300 text-gray-900 placeholder-gray-500 dark:placeholder-white focus:border-teal-400 focus:outline-none focus:ring-teal-400 sm:text-sm"
+                                        className="w-full rounded-lg px-4 py-2 dark:bg-slate-700 dark:text-white shadow border border-gray-300 text-gray-900 placeholder-gray-500 dark:placeholder-white focus:border-teal-400 focus:outline-none focus:ring-teal-400 sm:text-sm"
                                         placeholder="Insira seu nome do paciente"
                                         required
                                         {...register("nome")}
@@ -251,7 +251,7 @@ export default function ScheduleModal({ open=false, setOpen, cancelButtonRef }: 
                                                 <select 
                                                     value={field.value}
                                                     onChange={(e) => field.onChange(e.target.value)}
-                                                    className="w-full cursor-text rounded-lg px-4 py-2 dark:bg-gray-700 dark:text-white shadow border border-gray-300 text-gray-900 placeholder-gray-500 focus:border-teal-400 focus:outline-none focus:ring-teal-400 sm:text-sm"
+                                                    className="w-full cursor-text rounded-lg px-4 py-2 dark:bg-slate-700 dark:text-white shadow border border-gray-300 text-gray-900 placeholder-gray-500 focus:border-teal-400 focus:outline-none focus:ring-teal-400 sm:text-sm"
                                                     placeholder="Selecione o serviço odontológico"
                                                 >
                                                     <option value="" disabled selected>Selecione o tratamento</option>
@@ -270,7 +270,7 @@ export default function ScheduleModal({ open=false, setOpen, cancelButtonRef }: 
                                     <label className="pl-4 text-sm font-medium leading-tight text-gray-700 dark:text-white">Queixa</label>
                                     <textarea 
                                         id="queixa"
-                                        className="w-full h-20 rounded-lg px-4 py-2 dark:bg-gray-700 dark:text-white shadow border border-gray-300 text-gray-900 placeholder-gray-500 dark:placeholder-white focus:border-teal-400 focus:outline-none focus:ring-teal-400 sm:text-sm"
+                                        className="w-full h-20 rounded-lg px-4 py-2 dark:bg-slate-700 dark:text-white shadow border border-gray-300 text-gray-900 placeholder-gray-500 dark:placeholder-white focus:border-teal-400 focus:outline-none focus:ring-teal-400 sm:text-sm"
                                         placeholder="Descrever o que aconteceu com o paciente"
                                         {...register("complaint_text")}
                                     />

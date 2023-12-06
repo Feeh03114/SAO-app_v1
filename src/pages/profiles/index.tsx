@@ -30,7 +30,6 @@ export default function Profiles(): JSX.Element {
     const router = useRouter();
     const [data, setData] = useState<Profile[]>([]);
     const [idDelete, setIdDelete] = useState<string>("");
-    // const [data, setData] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const deleteDisposer = useDisclosure();
     const [totalElements, setTotalElements] = useState(rowsNumber);
