@@ -20,12 +20,8 @@ export default function DisciplineAdd(): JSX.Element {
 
     const onSave = async (data:Discipline) => {
         setIsLoading(true);
-        console.log("Data: ");
-        console.log(data);
         try {
             const resp = await api.post(`/api/disciplines`, data);
-            console.log("Resp: ");
-            console.log(resp.data);
             toast.success('Disciplina criada com sucesso!');
             router.back();
         } catch (error) {

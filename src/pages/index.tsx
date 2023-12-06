@@ -18,6 +18,9 @@ import { toast } from 'react-toastify';
 import { twMerge } from 'tailwind-merge';
 import * as yup from 'yup';
 
+import "react-multi-date-picker/styles/backgrounds/bg-dark.css";
+import "react-multi-date-picker/styles/colors/teal.css";
+
 const poppins = Poppins({
   subsets: ['latin'],
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900" ]

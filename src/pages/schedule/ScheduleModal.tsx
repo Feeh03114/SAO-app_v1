@@ -1,10 +1,14 @@
 import { Input } from '@/components/elementTag/input';
+import { daySchedule } from '@/components/pages/schedule/edit/components';
 import api from '@/service/api';
 import { Dialog, Transition } from '@headlessui/react';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Fragment, useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { AiOutlinePlus } from 'react-icons/ai';
+import DatePicker, { DateObject } from "react-multi-date-picker";
+import "react-multi-date-picker/styles/backgrounds/bg-dark.css";
+import "react-multi-date-picker/styles/colors/teal.css";
 import * as yup from 'yup';
 
 type ScheduleModalProps = {
@@ -20,18 +24,40 @@ const validationFullModal = yup.object().shape({
     data: yup.date().min(new Date(Date.now() - 86400000), 'A data deve ser igual ou posterior ao dia atual').required('A data é obrigatória'),
     horario: yup.string().required('O horário é obrigatório'),
     typeConsult: yup.string().required('O tipo da consulta é obrigatório'),
-    tratamento: yup.string().test('isNumber', 'O serviço é obrigatório', function(value:any) {
+    treatment_id: yup.string().test('isNumber', 'O serviço é obrigatório', function(value:any) {
         const {typeConsult} = this.parent;
-        if(typeConsult === 'retorno') return value !== undefined;
+        if(typeConsult === 'retorno') return !value;
         return true;
     }),
-    queixa: yup.string().test('isString', 'A queixa é obrigatória', function(value:any) {
+    complaint_text: yup.string().test('isString', 'A queixa é obrigatória', function(value:any) {
         const {typeConsult} = this.parent;
-        if(typeConsult === 'novaConsulta') return value !== undefined;
+        if(typeConsult === 'novaConsulta') return !value;
         return true;
     }),
 
 });
+
+const serviceTriagem = {
+    id: '4b78c451-47be-423d-9da0-a96227197382',
+    duration_medio: 20,
+    availabilities: [
+      {
+        id: '2511fe8a-1f45-426c-a18f-6e452cb7c64c',
+        dayWeek: 0,
+        initHour: '8:00',
+        endHour: '16:00',
+        service_id: '4b78c451-47be-423d-9da0-a96227197382',
+        createdBy: 'System',
+      },
+    ],
+    schedules:[
+        {
+            date: '2021-10-01',
+            initHour: '8:00',
+            endHour: '8:20',
+        },
+    ],
+};
 
 const mock2 = [
     { id: 1, name: 'Exemplo 1' },
@@ -43,27 +69,7 @@ const mock2 = [
     { id: 7, name: 'Exemplo 7' },
 ]
 
-const serviceTriagem = {
-    id: '4b78c451-47be-423d-9da0-a96227197382',
-    name: 'Triagem',
-    description:
-      'Um processo de separação que determina a prioridade de atendimento e tratamento de pacientes, sempre com base na gravidade da sua condição.',
-    price: '0.00',
-    duration_medio: 20,
-    active_duration_auto: true,
-    ext: false,
-    availabilities: [
-      {
-        id: '2511fe8a-1f45-426c-a18f-6e452cb7c64c',
-        dayWeek: 0,
-        initHour: '8:00',
-        endHour: '16:00',
-        service_id: '4b78c451-47be-423d-9da0-a96227197382',
-        createdBy: 'System',
-      },
-    ],
-    createdBy: 'System',
-  };
+
 
 export default function ScheduleModal({ open=false, setOpen, cancelButtonRef }: ScheduleModalProps):JSX.Element  {
     const [service, setService] = useState(serviceTriagem);
@@ -78,11 +84,11 @@ export default function ScheduleModal({ open=false, setOpen, cancelButtonRef }: 
             idPatient: '',
             prontuario: '',
             nome: '',
-            data: new Date(),
+            data: '',
             horario: '',
             typeConsult: 'retorno',
-            tratamento: '',
-            queixa: '',
+            treatment_id: '',
+            complaint_text: '',
         });
     }, [open]);
 
@@ -96,6 +102,14 @@ export default function ScheduleModal({ open=false, setOpen, cancelButtonRef }: 
         today = today.toISOString().split('T')[0];
         document.getElementsByName("date")[0].setAttribute('min', today);
     }, [service]); */
+
+    const getService = async () => {
+        try {
+            const response = await api.get('api/services/4b78c451-47be-423d-9da0-a96227197382');
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
     const getPatient = async () => {
         try {
@@ -198,7 +212,7 @@ export default function ScheduleModal({ open=false, setOpen, cancelButtonRef }: 
                                         defaultValue={'retorno'}
                                         render={({ field }) => (
                                             <>
-                                               <label className='mx-5'>
+                                               <label className='mx-5 dark:text-gray-200'>
                                                     <input 
                                                         id="retorno"
                                                         type="radio" 
@@ -209,7 +223,7 @@ export default function ScheduleModal({ open=false, setOpen, cancelButtonRef }: 
                                                     />
                                                     Retorno
                                                 </label>
-                                                <label>
+                                                <label className='dark:text-gray-200'>
                                                     <input 
                                                         id="novaConsulta"
                                                         type="radio" 
@@ -229,7 +243,7 @@ export default function ScheduleModal({ open=false, setOpen, cancelButtonRef }: 
                                     aria-hidden={watch('typeConsult') !== 'retorno'}
                                 >
                                     <Controller
-                                        name='tratamento'
+                                        name='treatment_id'
                                         control={control}
                                         render={({ field }) => (
                                             <>
@@ -258,21 +272,50 @@ export default function ScheduleModal({ open=false, setOpen, cancelButtonRef }: 
                                         id="queixa"
                                         className="w-full h-20 rounded-lg px-4 py-2 dark:bg-gray-700 dark:text-white shadow border border-gray-300 text-gray-900 placeholder-gray-500 dark:placeholder-white focus:border-teal-400 focus:outline-none focus:ring-teal-400 sm:text-sm"
                                         placeholder="Descrever o que aconteceu com o paciente"
-                                        {...register("queixa")}
+                                        {...register("complaint_text")}
                                     />
+                                    {
+                                        !!errors.complaint_text && (
+                                            <p className="text-red-500 text-sm">{errors.complaint_text?.message?.toString()}</p>
+                                        )
+                                    }
                                 </div>
-                                <div>
+                                <div className='flex flex-col gap-1'>
                                     <label className="pl-4 text-sm font-medium leading-tight text-gray-700 dark:text-white">Data</label>
-                                    <Input 
-                                        id="data"
-                                        type="date"
-                                        className="w-full cursor-text rounded-lg px-4 py-2 dark:bg-gray-700 dark:text-white shadow border border-gray-300 text-gray-900 placeholder-gray-500 focus:border-teal-400 focus:outline-none focus:ring-teal-400 sm:text-sm"
-                                        placeholder="dd/mm/aaaa"
-                                        required
-                                        {...register("data")}
-                                        error={errors.data}
-                                        disabled={watch('typeConsult') === 'retorno'}
-                                        
+                                    <Controller
+                                        control={control}
+                                        name="data"
+                                        rules={{ required: true }}
+                                        render={({ field }) => (
+                                            <label>
+                                                <DatePicker
+                                                    portal
+                                                    name={field.name}
+                                                    showOtherDays
+                                                    weekDays={['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab']}
+                                                    months={['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Nov', 'Dez']}
+                                                    highlightToday
+                                                    value={field.value||""}
+                                                    onChange={field.onChange}
+                                                    className='teal bg-dark-perso'
+                                                    inputClass='w-full rounded-lg px-4 py-2 dark:bg-gray-700 dark:text-white shadow border border-gray-300 text-gray-900 placeholder-gray-500 focus:border-teal-400 focus:outline-none focus:ring-teal-400 sm:text-sm'
+                                                    containerClassName=''
+                                                    readOnly={Object.keys(service).length === 0}
+                                                    format='DD/MM/YYYY'
+                                                    minDate={new Date()}
+                                                    mapDays={(obj)=> daySchedule(
+                                                        {
+                                                            ...obj,
+                                                            weekDays: service.availabilities.map((item) => item.dayWeek),
+                                                            excludes: service.schedules.map((item) => new DateObject(new Date(item.date))),
+                                                        }
+                                                    )}
+                                                />
+                                                {!!errors.data && (
+                                                    <p className="text-red-500 text-sm">{errors.data?.message?.toString()}</p>
+                                                )}
+                                            </label>
+                                        )}
                                     />
                                 </div>
                                 <div>
@@ -281,11 +324,12 @@ export default function ScheduleModal({ open=false, setOpen, cancelButtonRef }: 
                                         id="horario"
                                         type="time"
                                         className="w-full cursor-text rounded-lg px-4 py-2 dark:bg-gray-700 dark:text-white shadow border border-gray-300 text-gray-900 placeholder-gray-500 focus:border-teal-400 focus:outline-none focus:ring-teal-400 sm:text-sm"
-                                        placeholder="00h00"
+                                        placeholder="00:00"
                                         required
                                         {...register("horario")}
                                         error={errors.horario}
-                                        disabled={watch('typeConsult') === 'retorno'}
+                                        disabled={Object.keys(service).length === 0 || !watch('data')}
+                                        step={(service.duration_medio || 0) * 60}
                                         min={getHours().initHour}
                                         max={getHours().endHour}
                                     />

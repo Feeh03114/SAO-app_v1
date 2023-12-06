@@ -18,6 +18,7 @@ function Field({ size, label, data }:FieldProps) {
 
 import { AiOutlineArrowLeft, AiOutlineClockCircle } from 'react-icons/ai';
 import { HiOutlinePencilAlt } from 'react-icons/hi';
+import { DateObject } from 'react-multi-date-picker';
 
 
 interface HeaderProps {
@@ -74,5 +75,44 @@ function HeaderSchedule({title, subtitle, textLeft, textMiddle, textRight, onCli
     );
 }
 
-export { Field, HeaderSchedule };
+interface HeaderScheduleProps {
+    date: DateObject;
+    selectedDate: DateObject | DateObject[];
+    currentMonth: object;
+    isSameDate: (arg1: DateObject, arg2: DateObject) => boolean;
+    excludes?: DateObject[];
+    weekDays?: number[];
+}
+
+const daySchedule = ({ date, selectedDate, currentMonth, isSameDate, excludes = [], weekDays = [] }: HeaderScheduleProps) => {
+    const isWeekend = weekDays.includes(date.weekDay.index);
+
+    if(excludes.some(exclude => isSameDate(date, exclude))) return {
+        disabled: true,
+        style: {
+            color: 'gray',
+            backgroundColor: 'transparent',
+            hover:{
+                backgroundColor: 'transparent',
+            }
+        },
+        className: 'cursor-default',
+    };
+
+    if(!isWeekend) return {
+        disabled: true,
+        style: {
+            color: 'gray',
+            backgroundColor: 'transparent',
+            hover:{
+                backgroundColor: 'transparent',
+            }
+        },
+        className: 'cursor-default',
+    };
+    
+    return {}
+}
+
+export { Field, HeaderSchedule, daySchedule };
 
