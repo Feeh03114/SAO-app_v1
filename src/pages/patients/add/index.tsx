@@ -42,11 +42,9 @@ export default function PatientAdd(): JSX.Element {
     }
 
     const onSave = async (data:Patient) => {
-        console.log(data);
         setIsLoading(true);
         try {
-            const resp = await api.post(`/api/patients`, data);
-            console.log(resp.data);
+            await api.post(`/api/patients`, data);
             toast.success('Paciente criado com sucesso!');
             router.back();
         } catch (error:any) {

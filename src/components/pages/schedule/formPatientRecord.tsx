@@ -10,24 +10,12 @@ import { BsPerson } from "react-icons/bs";
 import { HiOutlineInboxIn } from "react-icons/hi";
 import * as yup from 'yup';
 
-const mock = { 
-    id: 1, 
-    name: "Nome Exemplo",
-    email: "exemple@email.com",
-    phone: "(11) 99999-9999",
-    date: "2021-10-10",
-    time: "10:00",
-    discipline: "Geral",
-    service: "Limpeza",
-    price: "R$ 100,00",
-}
 
 const validationFullModal = yup.object().shape({
     id: yup.string().optional(),
     complaint_text: yup.string().required('Campo obrigatório'),
-    treatment_id: yup.string().required('Campo obrigatório'),
-    service_id: yup.string().required('Campo obrigatório'),
-    consultationReport: yup.string().required('Campo obrigatório'),
+    serviceForwardedId: yup.string().required('Campo obrigatório'),
+    occurrenceConsultation: yup.string().required('Campo obrigatório'),
 });
 
 const treatment_idMock = [
@@ -47,23 +35,13 @@ interface FormProfileProps {
 }
 
 export default function FormPatientRecord({edit, isPermissionWrite=true, onSave}:FormProfileProps): JSX.Element {
-    const { reset, control, register, handleSubmit, formState: { errors } } = useForm({
+    const { reset, control, register,watch, handleSubmit, formState: { errors } } = useForm({
         resolver: yupResolver(validationFullModal)
     });
 
     const loadingPages = async () =>{
         try {
-            if(edit){
-                reset({
-                    ...edit,
-                })
-            }
-           /*  else
-                reset({
-                    name: '',
-                    typeUser: -1,
-                    default: false,
-                }) */
+            if(edit)reset(edit)
         } catch (error) {
             console.log(error);
         }
@@ -100,7 +78,7 @@ export default function FormPatientRecord({edit, isPermissionWrite=true, onSave}
                         id="discipline"
                         type="text"
                         label="Disciplina"
-                        placeholder={mock.discipline}
+                        value={watch('discipline') || ''}
                         className="bg-gray-200 cursor-default"
                         readOnly={true}
                     />
@@ -110,7 +88,7 @@ export default function FormPatientRecord({edit, isPermissionWrite=true, onSave}
                         id="email"
                         type="text"
                         label="E-mail"
-                        placeholder={mock.phone}
+                        value={watch('email') || ''}
                         className="bg-gray-200 cursor-default"
                         readOnly={true}
                     />
@@ -120,7 +98,7 @@ export default function FormPatientRecord({edit, isPermissionWrite=true, onSave}
                         id="phone"
                         type="text"
                         label="Telefone"
-                        placeholder={mock.phone}
+                        value={watch('phone') || ''}
                         className="bg-gray-200 cursor-default"
                         readOnly={true}
                     />
@@ -130,7 +108,7 @@ export default function FormPatientRecord({edit, isPermissionWrite=true, onSave}
                         id="date"
                         type="text"
                         label="Data de agenda"
-                        placeholder={mock.date}
+                        value={watch('date') || ''}
                         className="bg-gray-200 cursor-default"
                         readOnly={true}
                     />
@@ -140,7 +118,7 @@ export default function FormPatientRecord({edit, isPermissionWrite=true, onSave}
                         id="time"
                         type="text"
                         label="Horário"
-                        placeholder={mock.time}
+                        value={watch('time') || ''}
                         className="bg-gray-200 cursor-default"
                         readOnly={true}
                     />
@@ -150,7 +128,7 @@ export default function FormPatientRecord({edit, isPermissionWrite=true, onSave}
                         id="service"
                         type="text"
                         label="Serviço"
-                        placeholder={mock.service}
+                        placeholder={watch('service')|| ''}
                         className="bg-gray-200 cursor-default"
                         readOnly={true}
                     />
@@ -160,7 +138,7 @@ export default function FormPatientRecord({edit, isPermissionWrite=true, onSave}
                         id="price"
                         type="text"
                         label="Serviço"
-                        placeholder={mock.price}
+                        placeholder={(Number(watch('price')|| '0').toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })) || ''}
                         className="bg-gray-200 cursor-default"
                         readOnly={true}
                     />
@@ -168,14 +146,13 @@ export default function FormPatientRecord({edit, isPermissionWrite=true, onSave}
 
                 <form id='formPatientRecord' onSubmit={handleSubmit(onSavePatientSchedule)} className="w-full gap-y-3 md:gap-y-6 flex items-center justify-centers flex-row flex-wrap">
                     <div className="w-full px-2">
-                        <Input 
+                        <label className="pl-4 text-sm font-medium leading-tight text-gray-700 dark:text-white">Queixa</label>
+                        <textarea 
                             id="name"
-                            type="text"
-                            label="Queixa"
-                            className="read-only:bg-gray-200 read-only:cursor-default"
+                            className="w-full h-24 text-sm rounded-lg px-4 py-2 dark:text-white shadow border border-gray-300 dark:border-gray-500 bg-white dark:bg-slate-700 dark:placeholder-white focus:border-teal-400 focus:outline-none focus:ring-teal-400 resize-none"
                             autoComplete="new-password"
                             {...register("complaint_text")}
-                            error={errors.complaint_text}
+                            readOnly
                         />
                     </div>
 
@@ -197,6 +174,7 @@ export default function FormPatientRecord({edit, isPermissionWrite=true, onSave}
                                         }
                                         control={control}
                                         error={errors.treatment_id}
+                                        disabled={!isPermissionWrite}
                                     />
                                 </div>
                                 <div className="w-full mr-4 px-2">
@@ -213,6 +191,7 @@ export default function FormPatientRecord({edit, isPermissionWrite=true, onSave}
                                         }
                                         control={control}
                                         error={errors.service_id}
+                                        disabled={!isPermissionWrite}
                                     />
                                 </div>
                             </div>
@@ -222,16 +201,16 @@ export default function FormPatientRecord({edit, isPermissionWrite=true, onSave}
                                 id="observation"
                                 className="w-full h-40 text-sm rounded-lg px-4 py-2 dark:text-white shadow border border-gray-300 dark:border-gray-500 bg-white dark:bg-slate-700 dark:placeholder-white focus:border-teal-400 focus:outline-none focus:ring-teal-400 resize-none"
                                 placeholder="Descreva o que aconteceu com o paciente"
-                                disabled={true}
-                                // {...register("consultationReport")}
+                                disabled={!isPermissionWrite}
+                                {...register("occurrenceConsultation")}
                             />
-                            {/* {!!errors.consultationReport && (
-                                <p className="text-red-500 text-sm">{errors.consultationReport.message?.toString()}</p>
-                            )} */}
+                            {!!errors.occurrenceConsultation && (
+                                <p className="text-red-500 text-sm">{errors.occurrenceConsultation.message?.toString()}</p>
+                            )}
                         </div>
                     </div>
 
-                    <div className="w-full mb-3 md:mb-6 px-3 flex items-center justify-centers flex-col flex-wrap">
+                    <div className="w-full mb-3 md:mb-6 px-3  items-center justify-centers flex-col flex-wrap hidden">
                         <div className="w-full pl-4 inline-flex items-center justify-start">
                             <p className="text-xs md:text-sm font-Inter font-medium leading-tight text-gray-700 dark:text-white truncate">Documentos</p>
                         </div>

@@ -160,7 +160,9 @@ export default function DayListModal({ openDayList, setOpenDayList, setOpen, can
                                                             </button>
                                                         }
                                                         <button className="w-10 flex items-center justify-center dark:text-white border dark:border-gray-400 p-2 rounded-lg"
-                                                            onClick={()=> router.push(`/schedule/edit/${index}`)}>
+                                                            onClick={()=> router.push(`/schedule/edit/${value?.id}`)}
+                                                            disabled={!value?.id}    
+                                                        >
                                                             <AiOutlineEye className="w-5 h-5 text-teal-500"/>
                                                         </button>
                                                     </div>
@@ -189,7 +191,9 @@ export default function DayListModal({ openDayList, setOpenDayList, setOpen, can
                                                                             <BsChatSquareText className="text-teal-500 text-lg" />
                                                                         </div>
                                                                         <button className="w-10 flex items-center justify-center dark:text-white border dark:border-gray-400 p-2 rounded-lg"
-                                                                            onClick={()=> router.push(`/schedule/edit/${index}`)}>
+                                                                            onClick={()=> router.push(`/schedule/edit/${value?.id}`)}
+                                                                            disabled={!value?.id}
+                                                                        >
                                                                             <AiOutlineEye className="w-5 h-5 text-teal-500"/>
                                                                         </button>
                                                                     </div>
