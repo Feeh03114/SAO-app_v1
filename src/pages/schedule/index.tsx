@@ -1,4 +1,5 @@
 import Header from "@/components/Header";
+import api from "@/service/api";
 import { withSSRAuth } from "@/util/withSSRAuth";
 import dayjs, { Dayjs } from "dayjs";
 import 'dayjs/locale/pt-br';
@@ -10,37 +11,52 @@ import ScheduleModal from "./ScheduleModal";
 
 dayjs.locale('pt-br');
 
+export interface Treatment {
+    id: string;
+    complaint_text: string;
+    treatment_id: string;
+    service_id: string;
+    consultationReport: string;
+}
+
+export interface HasTreatmentToday {
+    day: Dayjs;
+    hasSchedule: boolean;
+}
+
 export default function Schedule():JSX.Element {
     const [openDayList, setOpenDayList] = useState(false);
-    const [eventsForDayState, setEventsForDayState] = useState<{ name: string; service: string; date: Dayjs; status: string }[]>([]);
     const [open, setOpen] = useState(false);
     const cancelButtonRefDayList = useRef(null);
     const cancelButtonRef = useRef(null);
     const [selectedDate, setSelectedDate] = useState(dayjs());
     const [ isDarkMode, setIsDarkMode ] = useState(false);
-    const [events] = useState([
-        { name: 'Nome 1', service: 'Limpeza', date: dayjs().startOf('day').hour(10), status: 'Concluído' },
-        { name: 'Nome 2', service: 'Canal', date: dayjs().startOf('day').hour(10).minute(30), status: 'Aguardando Consulta' },
-        { name: 'Nome 3', service: 'Cirurgia', date: dayjs().startOf('day').hour(11), status: 'Faltou' },
-        { name: 'Nome 1', service: 'Limpeza', date: dayjs().startOf('day').hour(10), status: 'Concluído' },
-        { name: 'Nome 2', service: 'Canal', date: dayjs().startOf('day').hour(10).minute(30), status: 'Aguardando Consulta' },
-        { name: 'Nome 3', service: 'Cirurgia', date: dayjs().startOf('day').hour(11), status: 'Faltou' },
-        { name: 'Nome 1', service: 'Limpeza', date: dayjs().startOf('day').hour(10), status: 'Concluído' },
-        { name: 'Nome 2', service: 'Canal', date: dayjs().startOf('day').hour(10).minute(30), status: 'Aguardando Consulta' },
-        { name: 'Nome 3', service: 'Cirurgia', date: dayjs().startOf('day').hour(11), status: 'Faltou' },
-        { name: 'Nome 1', service: 'Limpeza', date: dayjs().startOf('day').hour(10), status: 'Concluído' },
-        { name: 'Nome 2', service: 'Canal', date: dayjs().startOf('day').hour(10).minute(30), status: 'Aguardando Consulta' },
-        { name: 'Nome 3', service: 'Cirurgia', date: dayjs().startOf('day').hour(11), status: 'Faltou' },
-        { name: 'Nome 1', service: 'Limpeza', date: dayjs().startOf('day').hour(10), status: 'Concluído' },
-        { name: 'Nome 2', service: 'Canal', date: dayjs().startOf('day').hour(10).minute(30), status: 'Aguardando Consulta' },
-        { name: 'Nome 3', service: 'Cirurgia', date: dayjs().startOf('day').hour(11), status: 'Faltou' },
-        { name: 'Nome 1', service: 'Limpeza', date: dayjs().startOf('day').hour(10), status: 'Concluído' },
-        { name: 'Nome 2', service: 'Canal', date: dayjs().startOf('day').hour(10).minute(30), status: 'Aguardando Consulta' },
-        { name: 'Nome 3', service: 'Cirurgia', date: dayjs().startOf('day').hour(11), status: 'Faltou' },
-        { name: 'Nome 6', service: 'Limpeza', date: dayjs().startOf('day').hour(11).minute(30), status: 'Agendado' },
-        { name: 'Nome 5', service: 'Limpeza', date: dayjs().add(1, 'day').startOf('day').hour(10), status: 'Aguardando Consulta' },
-        { name: 'Nome 4', service: 'Canal', date: dayjs().add(2, 'day').startOf('day').hour(10), status: 'Concluído' },
-    ]);
+    const [isLoading, setIsLoading] = useState(false);
+    const [hastreatmentTodayData, sethastreatmentTodayData] = useState<HasTreatmentToday[]>([]);
+    const [treatmentTodayData, setTreatmentTodayData] = useState<Treatment[]>([]);
+    // const [events] = useState([
+    //     { name: 'Nome 1', service: 'Limpeza', date: dayjs().startOf('day').hour(10), status: 'Concluído' },
+    //     { name: 'Nome 2', service: 'Canal', date: dayjs().startOf('day').hour(10).minute(30), status: 'Aguardando Consulta' },
+    //     { name: 'Nome 3', service: 'Cirurgia', date: dayjs().startOf('day').hour(11), status: 'Faltou' },
+    //     { name: 'Nome 1', service: 'Limpeza', date: dayjs().startOf('day').hour(10), status: 'Concluído' },
+    //     { name: 'Nome 2', service: 'Canal', date: dayjs().startOf('day').hour(10).minute(30), status: 'Aguardando Consulta' },
+    //     { name: 'Nome 3', service: 'Cirurgia', date: dayjs().startOf('day').hour(11), status: 'Faltou' },
+    //     { name: 'Nome 1', service: 'Limpeza', date: dayjs().startOf('day').hour(10), status: 'Concluído' },
+    //     { name: 'Nome 2', service: 'Canal', date: dayjs().startOf('day').hour(10).minute(30), status: 'Aguardando Consulta' },
+    //     { name: 'Nome 3', service: 'Cirurgia', date: dayjs().startOf('day').hour(11), status: 'Faltou' },
+    //     { name: 'Nome 1', service: 'Limpeza', date: dayjs().startOf('day').hour(10), status: 'Concluído' },
+    //     { name: 'Nome 2', service: 'Canal', date: dayjs().startOf('day').hour(10).minute(30), status: 'Aguardando Consulta' },
+    //     { name: 'Nome 3', service: 'Cirurgia', date: dayjs().startOf('day').hour(11), status: 'Faltou' },
+    //     { name: 'Nome 1', service: 'Limpeza', date: dayjs().startOf('day').hour(10), status: 'Concluído' },
+    //     { name: 'Nome 2', service: 'Canal', date: dayjs().startOf('day').hour(10).minute(30), status: 'Aguardando Consulta' },
+    //     { name: 'Nome 3', service: 'Cirurgia', date: dayjs().startOf('day').hour(11), status: 'Faltou' },
+    //     { name: 'Nome 1', service: 'Limpeza', date: dayjs().startOf('day').hour(10), status: 'Concluído' },
+    //     { name: 'Nome 2', service: 'Canal', date: dayjs().startOf('day').hour(10).minute(30), status: 'Aguardando Consulta' },
+    //     { name: 'Nome 3', service: 'Cirurgia', date: dayjs().startOf('day').hour(11), status: 'Faltou' },
+    //     { name: 'Nome 6', service: 'Limpeza', date: dayjs().startOf('day').hour(11).minute(30), status: 'Agendado' },
+    //     { name: 'Nome 5', service: 'Limpeza', date: dayjs().add(1, 'day').startOf('day').hour(10), status: 'Aguardando Consulta' },
+    //     { name: 'Nome 4', service: 'Canal', date: dayjs().add(2, 'day').startOf('day').hour(10), status: 'Concluído' },
+    // ]);
     const meses = [
         'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
         'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
@@ -48,6 +64,24 @@ export default function Schedule():JSX.Element {
     const daysInMonth = selectedDate.daysInMonth();
     const startOfMonth = selectedDate.startOf('month').day();
     const ultimoDiaMes = selectedDate.endOf('month').day();
+
+    const [paramsHasScedule] = useState({
+        init: selectedDate.startOf('month').format(),
+        end: selectedDate.endOf('month').format(),
+    });
+
+    const loadHasSceduleData = async () => {
+        setIsLoading(true);
+        try {
+            const { data:RespAPI } = await api.get("api/treatment/schedule", {
+                params: paramsHasScedule
+            });
+            sethastreatmentTodayData(RespAPI);
+        } catch (error) {
+          console.log(error);
+        }
+        setIsLoading(false);
+    };
 
     useEffect(() => {
         function getTailwindMode() {
@@ -57,6 +91,7 @@ export default function Schedule():JSX.Element {
             setIsDarkMode(isDarkMode);
         }
         getTailwindMode();
+        loadHasSceduleData();
     }, []);
 
     function handlePrevMonth() {
@@ -75,22 +110,40 @@ export default function Schedule():JSX.Element {
         );
     }
 
-    function hasEventForDay(eventsForDay: any[]) {
-        if (eventsForDay.length > 0) return true;
+    function hasEventForDay(date: dayjs.Dayjs) {
+        let isSame = false;
+
+        hastreatmentTodayData.forEach((item) => {
+            if(isSameDay(date, dayjs(item.day, "YYYY-MM-DDTHH:mm:ss.SSSZ"))) {
+                isSame = true;
+            }
+        });
+
+        return isSame;
     }
 
-    function getEventsForDay(date: dayjs.Dayjs) {
-        return events.filter((event) => isSameDay(event.date, date));
-    }
+    async function getEventsForDay(date: dayjs.Dayjs) {
+        const param = {
+            day: date.toISOString()
+        };
 
-    function isSameOrFutureDay(date: dayjs.Dayjs): boolean {
-        const today = dayjs();
-        return date.isSame(today, 'day') || date.isAfter(today, 'day');
-    }
+        let eventsForDay;
 
-    function isSaturdayOrSunday(date: dayjs.Dayjs): boolean {
-        const dayOfWeek = date.day();
-        return dayOfWeek === 0 || dayOfWeek === 6;
+        setIsLoading(true);
+        try {
+            const { data:RespAPI } = await api.get("api/treatment/schedule/day", {
+                params: param
+            });
+            setTreatmentTodayData(RespAPI);
+            eventsForDay = RespAPI;
+            console.log("RespAPI: ");
+            console.log(RespAPI[0].dateScheduled);
+        } catch (error) {
+          console.log(error);
+        }
+        setIsLoading(false);
+
+        return eventsForDay;
     }
 
     function getLastDaysOfPreviousMonth() {
@@ -118,21 +171,20 @@ export default function Schedule():JSX.Element {
 
         const days = [];
         for (let i = 1; i <= daysInMonth; i++) {
-          const date = selectedDate.date(i);
-          const eventsForDay = getEventsForDay(date);
-          const week = date.format('dddd');
-          days.push(
-            <div
-                className={`flex flex-col text-start w-full h-full cursor-default p-2 sm:pt-1 sm:pl-1 ${isSameDay(dayjs(), date) ? 'bg-teal-400 hover:bg-teal-500 cursor-pointer dark:hover:bg-teal-300' : hasEventForDay(eventsForDay) && 'bg-teal-200 hover:bg-teal-300 dark:bg-teal-900 dark:hover:bg-teal-800 cursor-pointer'} hover:bg-gray-100 dark:hover:bg-gray-700
-                    ${week === 'sábado' ? 'border-r-0 bg-gray-50 dark:bg-slate-700 dark:hover:bg-slate-600':'border-r'} ${week === 'domingo' && 'bg-gray-50 dark:bg-slate-700 dark:hover:bg-slate-600'} ${i >= (daysInMonth-ultimoDiaMes)? 'border-b-0': 'border-b'} border-solid border-black/10 dark:border-white/10`}
-                key={date.format('YYYY-MM-DD')}
-                onClick={() => {(isSameOrFutureDay(date) && !isSaturdayOrSunday(date)) && setOpenDayList(true), setEventsForDayState(eventsForDay)}}
-            >
-                <p className={`w-full text-center sm:text-start text-sm sm:text-base font-semibold dark:text-white ${isSameDay(dayjs(), date) ? 'text-white' : 'text-slate-700'}`}>
-                    {date.format('DD')}
-                </p>
-            </div>
-          );
+            const date = selectedDate.date(i);
+            const week = date.format('dddd');
+            days.push(
+                <div
+                    className={`flex flex-col text-start w-full h-full cursor-default p-2 sm:pt-1 sm:pl-1 ${isSameDay(dayjs(), date) ? 'bg-teal-400 hover:bg-teal-500 dark:hover:bg-teal-300' : hasEventForDay(date) && 'bg-teal-200 hover:bg-teal-300 dark:bg-teal-900 dark:hover:bg-teal-800'} ${hasEventForDay(date) && 'cursor-pointer'} hover:bg-gray-100 dark:hover:bg-gray-700
+                        ${week === 'sábado' ? 'border-r-0 bg-gray-50 dark:bg-slate-700 dark:hover:bg-slate-600':'border-r'} ${week === 'domingo' && 'bg-gray-50 dark:bg-slate-700 dark:hover:bg-slate-600'} ${i >= (daysInMonth-ultimoDiaMes)? 'border-b-0': 'border-b'} border-solid border-black/10 dark:border-white/10`}
+                    key={date.format('YYYY-MM-DD')}
+                    onClick={() => {hasEventForDay(date) && setOpenDayList(true), hasEventForDay(date) && getEventsForDay(date)}}
+                >
+                    <p className={`w-full text-center sm:text-start text-sm sm:text-base font-semibold dark:text-white ${isSameDay(dayjs(), date) ? 'text-white' : 'text-slate-700'}`}>
+                        {date.format('DD')}
+                    </p>
+                </div>
+            );
         }
 
         for (let i = 0; i < startOfMonth; i++) {
@@ -178,7 +230,7 @@ export default function Schedule():JSX.Element {
     
     return(
         <div className="w-full text-center ">
-            <DayListModal openDayList={openDayList} setOpenDayList={setOpenDayList} setOpen={setOpen} cancelButtonRefDayList={cancelButtonRefDayList} eventsForDay={eventsForDayState}/>
+            <DayListModal openDayList={openDayList} setOpenDayList={setOpenDayList} setOpen={setOpen} cancelButtonRefDayList={cancelButtonRefDayList} eventsForDay={treatmentTodayData}/>
             <ScheduleModal open={open} setOpen={setOpen} cancelButtonRef={cancelButtonRef}/>
             <Header 
                 title="Página Inicial"

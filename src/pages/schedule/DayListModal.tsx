@@ -2,6 +2,7 @@ import { StatusType } from '@/enum/status_type.enum';
 import api from '@/service/api';
 import { isEqualArray } from '@/util/util';
 import { Dialog, Transition } from '@headlessui/react';
+import dayjs from 'dayjs';
 import { useRouter } from 'next/router';
 import React, { Fragment, useEffect, useState } from 'react';
 import { useFieldArray, useForm } from 'react-hook-form';
@@ -103,8 +104,8 @@ export default function DayListModal({ openDayList, setOpenDayList, setOpen, can
                                             </Dialog.Title>
                                         </div>
                                     </div>
-                                    <div className="md:hidden text-base text-gray-900 dark:text-white w-1/4">{eventsForDay?.length > 0 && eventsForDay[0].date.format('DD/MM')}</div>
-                                    <div className="hidden md:block text-base text-gray-900 dark:text-white w-1/4">{eventsForDay?.length > 0 && eventsForDay[0].date.format('DD/MM/YYYY')}</div>
+                                    <div className="md:hidden text-base text-gray-900 dark:text-white w-1/4">{eventsForDay?.length > 0 && dayjs(eventsForDay[0].dateScheduled, "YYYY-MM-DDTHH:mm:ss.SSSZ").format('DD/MM/YYYY')}</div>
+                                    <div className="hidden md:block text-base text-gray-900 dark:text-white w-1/4">{eventsForDay?.length > 0 && dayjs(eventsForDay[0].dateScheduled, "YYYY-MM-DDTHH:mm:ss.SSSZ").format('DD/MM/YYYY')}</div>
                                 </div>
 
                                 <div className="grid grid-cols-5 mt-4 md:ml-4 p-2 rounded-t-lg shadow bg-gray-50 py-2 dark:bg-slate-700">
@@ -123,7 +124,7 @@ export default function DayListModal({ openDayList, setOpenDayList, setOpen, can
                                                 >
                                                     <div className="col-span-3 md:col-span-1 flex justify-start items-center dark:text-white text-gray-900 text-sm leading-5 h-16 font-medium">{value.name}</div>
                                                     <div className="hidden md:col-span-1 md:flex justify-start items-center dark:text-white text-gray-500 text-sm leading-5 h-16 font-normal">{value.service}</div>
-                                                    <div className="col-span-2 md:col-span-1 flex justify-around md:justify-start items-center dark:text-white text-gray-500 text-sm leading-5 h-16 font-normal">{value.date.format('h:mm')}
+                                                    <div className="col-span-2 md:col-span-1 flex justify-around md:justify-start items-center dark:text-white text-gray-500 text-sm leading-5 h-16 font-normal">{value.date}
                                                         <button className="md:hidden" onClick={() => handleChangeIsOpen(index, !isOpen[index])}>
                                                             <span>
                                                                 {isOpen[index] ? <IoIosArrowUp/> : <IoIosArrowDown/>}

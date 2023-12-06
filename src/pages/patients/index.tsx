@@ -80,7 +80,7 @@ export default function Patients(): JSX.Element {
         sortOrder: 'ASC',
         sortField: 'date',
         status: 0,
-      });
+    });
 
     const loadData = async () => {
         setIsLoading(true);

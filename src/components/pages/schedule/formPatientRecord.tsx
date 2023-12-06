@@ -166,7 +166,7 @@ export default function FormPatientRecord({edit, isPermissionWrite=true, onSave}
                     />
                 </div>
 
-                <form id='formPatientRecord' onSubmit={handleSubmit(onSavePatientSchedule)} className="gap-y-3 md:gap-y-6 flex items-center justify-centers flex-row flex-wrap">
+                <form id='formPatientRecord' onSubmit={handleSubmit(onSavePatientSchedule)} className="w-full gap-y-3 md:gap-y-6 flex items-center justify-centers flex-row flex-wrap">
                     <div className="w-full px-2">
                         <Input 
                             id="name"
