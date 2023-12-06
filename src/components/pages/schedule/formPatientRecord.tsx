@@ -78,7 +78,7 @@ export default function FormPatientRecord({edit, isPermissionWrite=true, onSave}
                         id="discipline"
                         type="text"
                         label="Disciplina"
-                        value={watch('discipline') || ''}
+                        value='Clínica Geral'
                         className="bg-gray-200 cursor-default"
                         readOnly={true}
                     />
