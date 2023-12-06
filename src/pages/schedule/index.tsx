@@ -94,6 +94,10 @@ export default function Schedule():JSX.Element {
         loadHasSceduleData();
     }, []);
 
+    useEffect(() => {
+        if(!open) loadHasSceduleData();
+    }, [open]);
+
     function handlePrevMonth() {
         setSelectedDate(selectedDate.subtract(1, 'month'));
     }
