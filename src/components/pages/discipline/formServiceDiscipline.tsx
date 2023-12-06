@@ -71,7 +71,7 @@ export default function FormServiceDiscipline({isOpen, onClose, onSave} : ModalS
             name: '',
             description: '',
             price: 0,
-            duration_medio: 0,
+            duration_medio: '0',
             ext: false,
             active_duration_auto: false,
         });
