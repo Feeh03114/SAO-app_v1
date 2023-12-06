@@ -58,12 +58,12 @@ export default function FormPatientRecord({edit, isPermissionWrite=true, onSave}
                     ...edit,
                 })
             }
-            else
+           /*  else
                 reset({
                     name: '',
                     typeUser: -1,
                     default: false,
-                })
+                }) */
         } catch (error) {
             console.log(error);
         }

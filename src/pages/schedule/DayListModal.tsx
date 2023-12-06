@@ -1,3 +1,4 @@
+import { StatusType } from '@/enum/status_type.enum';
 import api from '@/service/api';
 import { isEqualArray } from '@/util/util';
 import { Dialog, Transition } from '@headlessui/react';
@@ -17,12 +18,6 @@ type ScheduleModalProps = {
     eventsForDay: any[];
 };
 
-const mock = [
-    { id: 1, name: 'Concluído' },
-    { id: 2, name: 'Aguardando' },
-    { id: 3, name: 'Faltou' },
-    { id: 4, name: 'Agendado' }
-]
 
 export default function DayListModal({ openDayList, setOpenDayList, setOpen, cancelButtonRefDayList, eventsForDay }: ScheduleModalProps): JSX.Element {   
     const router = useRouter();
@@ -43,7 +38,7 @@ export default function DayListModal({ openDayList, setOpenDayList, setOpen, can
     const onSave = async () => {
         setIsLoading(true);
         try {
-            const resp = await api.post('/schedule', fields);
+            const resp = await api.post('api/treatment/consult-changeStatus', fields);
             console.log(fields)
             toast.success('Alteração salva com sucesso!');
         } catch (error) {
@@ -142,10 +137,11 @@ export default function DayListModal({ openDayList, setOpenDayList, setOpen, can
                                                             className="w-3/4 cursor-text rounded-lg px-4 py-2 dark:bg-slate-700 dark:text-white shadow border border-gray-300 text-gray-900 placeholder-gray-500 focus:border-teal-400 focus:outline-none focus:ring-teal-400 text-sm"
                                                             placeholder="Não definido"
                                                             disabled={isLoading}
+                                                            onClick={(e)=>e.stopPropagation()}
                                                         >
                                                             <option value="" selected disabled>Não definido</option>
-                                                            {mock.map((item) => (
-                                                                <option key={item.id} value={item.id}>{item.name}</option>
+                                                            {Object.keys(StatusType).map((item) => (
+                                                                <option key={item} value={item}>{item}</option>
                                                             ))}
                                                         </select>
                                                         {!isOpen[index] && 
@@ -168,8 +164,8 @@ export default function DayListModal({ openDayList, setOpenDayList, setOpen, can
                                                                         disabled={isLoading}
                                                                     >
                                                                         <option value="" selected disabled>Não definido</option>
-                                                                        {mock.map((item) => (
-                                                                            <option key={item.id} value={item.id}>{item.name}</option>
+                                                                        {Object.keys(StatusType).filter(x=>+x).map((item) => (
+                                                                            <option key={item} value={item}>{item}</option>
                                                                         ))}
                                                                     </select>
                                                                 </div>   

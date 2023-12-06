@@ -84,7 +84,7 @@ export default function ScheduleModal({ open=false, setOpen, cancelButtonRef }: 
             idPatient: '',
             prontuario: '',
             nome: '',
-            data: '',
+            data: new Date(),
             horario: '',
             typeConsult: 'retorno',
             treatment_id: '',
