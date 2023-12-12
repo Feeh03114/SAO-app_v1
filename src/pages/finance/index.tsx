@@ -120,7 +120,7 @@ export default function Finance(): JSX.Element {
                 onClickLeft={()=> console.log('filter')}
                 typeButtonLeft="filter"
             />
-            <Table.Root tableHeight={String(rowsNumber)}>
+            <Table.Root style="px-8">
                 <Table.Header>
                     <Table.CellHeader hiddenInMobile={true}>PRONTUÁRIO</Table.CellHeader>
                     <Table.CellHeader hiddenInMobile={false}>NOME</Table.CellHeader>
@@ -129,19 +129,21 @@ export default function Finance(): JSX.Element {
                     <Table.CellHeader hiddenInMobile={false}>STATUS</Table.CellHeader>
                 </Table.Header>
 
-                {data.map((item: Finance, index: number) => (
-                    <Table.Row 
-                        key={index}
-                        onView={()=> router.push(`/finance/edit/${item.prontuario}`)}
-                        onDelete={() => deleteItem(item.id)}
-                    >
-                        <Table.CellBody hiddenInMobile={true}><p className="font-medium dark:text-white">{item.prontuario}</p></Table.CellBody>
-                        <Table.CellBody><p className="font-medium dark:text-white">{item.nome}</p></Table.CellBody>
-                        <Table.CellBody hiddenInMobile={true}><p className="font-medium dark:text-white">{item.servico}</p></Table.CellBody>
-                        <Table.CellBody hiddenInMobile={true}>R$ {item.preco}</Table.CellBody>
-                        <Table.CellBody><div className={`w-3 h-3 ml-4 rounded-full ${item.status ? 'bg-green-300' : 'bg-yellow-300'}`}></div></Table.CellBody>
-                    </Table.Row>
-                ))}
+                <Table.Body tableHeight={String(rowsNumber)} rowNumber={data.length}>
+                    {data.map((item: Finance, index: number) => (
+                        <Table.Row 
+                            key={index}
+                            onView={()=> router.push(`/finance/edit/${item.prontuario}`)}
+                            onDelete={() => deleteItem(item.id)}
+                        >
+                            <Table.CellBody hiddenInMobile={true}><p className="font-medium dark:text-white">{item.prontuario}</p></Table.CellBody>
+                            <Table.CellBody><p className="font-medium dark:text-white">{item.nome}</p></Table.CellBody>
+                            <Table.CellBody hiddenInMobile={true}><p className="font-medium dark:text-white">{item.servico}</p></Table.CellBody>
+                            <Table.CellBody hiddenInMobile={true}>R$ {item.preco}</Table.CellBody>
+                            <Table.CellBody><div className={`w-3 h-3 ml-4 rounded-full ${item.status ? 'bg-green-300' : 'bg-yellow-300'}`}></div></Table.CellBody>
+                        </Table.Row>
+                    ))}
+                </Table.Body>
             </Table.Root> 
 
             <Pagination

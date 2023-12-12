@@ -99,7 +99,7 @@ export default function Users(): JSX.Element {
                 typeButtonLeft="filter"
                 typeButtonRight="add"
             />
-            <Table.Root tableHeight={String(rowsNumber)}>
+            <Table.Root style="px-8">
                 <Table.Header>
                     <Table.CellHeader hiddenInMobile={false}>NOME</Table.CellHeader>
                     <Table.CellHeader hiddenInMobile={true}>E-MAIL</Table.CellHeader>
@@ -107,31 +107,33 @@ export default function Users(): JSX.Element {
                     <Table.CellHeader hiddenInMobile={true} style="text-end">STATUS</Table.CellHeader>
                 </Table.Header>
 
-                {data.map((item: { id:string, name: string, email: string, ru: string, active:boolean }, index: number) => (
-                    <Table.Row 
-                        key={index}                        
-                        onView={()=> router.push(`/users/edit/${item.id}`)}
-                        onDelete={() => deleteItem(item.id)}
-                    >
-                        <Table.CellBody><p className="font-medium dark:text-white">{item.name}</p></Table.CellBody>
-                        <Table.CellBody hiddenInMobile={true}>{item.email}</Table.CellBody>
-                        <Table.CellBody hiddenInMobile={true}>{item.ru}</Table.CellBody>
-                        <Table.CellBody hiddenInMobile={true} style="text-end pr-6">
-                            <button className="h-full px-3 py-2 border dark:border-gray-500 rounded-md cursor-pointer aria-hidden:hidden"
-                                onClick={() => onChangeStatusUser(item.id)}   
-                            >
-                                <MdCheckCircleOutline 
-                                    className="w-5 h-5 text-teal-500 aria-hidden:hidden"
-                                    aria-hidden={!item.active}
-                                />
-                                <FiXCircle 
-                                    className="w-5 h-5 text-red-500 aria-hidden:hidden"
-                                    aria-hidden={item.active}
-                                />
-                            </button>
-                        </Table.CellBody>
-                    </Table.Row>
-                ))}
+                <Table.Body tableHeight={String(rowsNumber)} rowNumber={data.length}>
+                    {data.map((item: { id:string, name: string, email: string, ru: string, active:boolean }, index: number) => (
+                        <Table.Row 
+                            key={index}                        
+                            onView={()=> router.push(`/users/edit/${item.id}`)}
+                            onDelete={() => deleteItem(item.id)}
+                        >
+                            <Table.CellBody><p className="font-medium dark:text-white">{item.name}</p></Table.CellBody>
+                            <Table.CellBody hiddenInMobile={true}>{item.email}</Table.CellBody>
+                            <Table.CellBody hiddenInMobile={true}>{item.ru}</Table.CellBody>
+                            <Table.CellBody hiddenInMobile={true} style="text-end pr-6">
+                                <button className="h-full px-3 py-2 border dark:border-gray-500 rounded-md cursor-pointer aria-hidden:hidden"
+                                    onClick={() => onChangeStatusUser(item.id)}   
+                                >
+                                    <MdCheckCircleOutline 
+                                        className="w-5 h-5 text-teal-500 aria-hidden:hidden"
+                                        aria-hidden={!item.active}
+                                    />
+                                    <FiXCircle 
+                                        className="w-5 h-5 text-red-500 aria-hidden:hidden"
+                                        aria-hidden={item.active}
+                                    />
+                                </button>
+                            </Table.CellBody>
+                        </Table.Row>
+                    ))}
+                </Table.Body>
             </Table.Root> 
 
             <Pagination

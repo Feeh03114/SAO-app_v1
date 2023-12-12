@@ -112,14 +112,16 @@ export default function FinanceEdit(): JSX.Element {
                         <Card.Button text="Adicionar Pagamento" onClickButton={newDisposer.open}></Card.Button>
                     </div>
 
-                    <Table.Root tableHeight={String(6)} style="mx-3">
+                    <Table.Row style="mx-2">
                         <Table.Header>
                             <Table.CellHeader>NOME</Table.CellHeader>
                             <Table.CellHeader hiddenInDesktop={true}>STATUS</Table.CellHeader>
                             <Table.CellHeader hiddenInMobile={true}>E-MAIL</Table.CellHeader>
                             <Table.CellHeader hiddenInMobile={true}>FORMA DE PAGAMENTO</Table.CellHeader>
                         </Table.Header>
-                    </Table.Root> 
+                        <Table.Body tableHeight={String(6)} rowNumber={0}>
+                        </Table.Body>
+                    </Table.Row> 
                 </Card.Root>
             </div>
         </>

@@ -8,7 +8,7 @@ import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
-const TOTAL_ELEMENTS = 300;
+const TOTAL_ELEMENTS = 3;
 const rowsNumber = 6;
 
 export interface WaitingLine {
@@ -139,7 +139,7 @@ export default function WaitingLineIndex(): JSX.Element {
                 />
             </Header.Root>
             
-            <Table.NewRoot>
+            <Table.Root>
                 <Table.Header>
                     <Table.CellHeader hiddenInMobile={true}>PRONTUÁRIO</Table.CellHeader>
                     <Table.CellHeader hiddenInMobile={false}>NOME</Table.CellHeader>
@@ -149,9 +149,9 @@ export default function WaitingLineIndex(): JSX.Element {
                     <Table.CellHeader hiddenInMobile={true}>STATUS</Table.CellHeader>
                 </Table.Header>
 
-                <Table.Body>
+                <Table.Body tableHeight={String(6)} rowNumber={data.length}>
                     {data.map((item: WaitingLine, index: number) => (
-                        <Table.NewRow
+                        <Table.Row
                             key={index}
                             onView={()=> router.push(`/waiting-line/edit/${item.id}`)}
                             onDelete={() => deleteItem(item.id)}
@@ -162,10 +162,10 @@ export default function WaitingLineIndex(): JSX.Element {
                             <Table.CellBody hiddenInMobile={true}><p className="font-medium dark:text-white">{item.forwardedTo}</p></Table.CellBody>
                             <Table.CellBody hiddenInMobile={true}><p className="font-medium dark:text-white">{item.date}</p></Table.CellBody>
                             <Table.CellBody hiddenInMobile={true}><div className={`w-3 h-3 ml-4 rounded-full ${item.approvalStatus ? 'bg-green-300' : 'bg-yellow-300'}`}></div></Table.CellBody>
-                        </Table.NewRow>
+                        </Table.Row>
                     ))}
                 </Table.Body>
-            </Table.NewRoot> 
+            </Table.Root> 
 
             <Pagination
                 pageSize={rowsNumber}

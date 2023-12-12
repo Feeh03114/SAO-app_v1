@@ -113,20 +113,22 @@ export default function Subjects(): JSX.Element {
                 typeButtonLeft="filter"
                 typeButtonRight="add"
             />
-            <Table.Root tableHeight={String(rowsNumber)}>
+            <Table.Root style="px-8">
                 <Table.Header>
                     <Table.CellHeader hiddenInMobile={false}>TÍTULO</Table.CellHeader>
                 </Table.Header>
 
-                {data.map((item: Discipline, index: number) => (
-                    <Table.Row 
-                        key={index}
-                        onView={()=> router.push(`/disciplines/edit/${item.id}`)}
-                        onDelete={() => deleteItem(item.id)}
-                    >
-                        <Table.CellBody><p className="font-medium dark:text-white">{item.name}</p></Table.CellBody>
-                    </Table.Row>
-                ))}
+                <Table.Body tableHeight={String(rowsNumber)} rowNumber={data.length}>
+                    {data.map((item: Discipline, index: number) => (
+                        <Table.Row 
+                            key={index}
+                            onView={()=> router.push(`/disciplines/edit/${item.id}`)}
+                            onDelete={() => deleteItem(item.id)}
+                        >
+                            <Table.CellBody><p className="font-medium dark:text-white">{item.name}</p></Table.CellBody>
+                        </Table.Row>
+                    ))}
+                </Table.Body>
             </Table.Root> 
 
             <Pagination

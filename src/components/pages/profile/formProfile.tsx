@@ -169,97 +169,100 @@ export default function FormProfile({edit, isPermissionWrite=true, onSave}:FormP
                             <Table.CellHeader>DELETAR</Table.CellHeader>
                             {/* <Table.CellHeader>PERSONALIZAVEIS</Table.CellHeader> */}
                         </Table.Header>
-                        {fields.map((item: any, index) => (
-                            <Table.Row key={index}>
-                                <Table.CellBody>{item.page.namePage}</Table.CellBody>
-                                <Table.CellBody>
-                                    <button
-                                        type="button" 
-                                        className="h-full mr-4 px-3 py-2 border dark:border-gray-500 rounded-md cursor-pointer"
-                                        onClick={()=>update(index, 
-                                            { 
-                                                ...item,
-                                                isRead: !item.isRead,
-                                                isCreate: !item.isRead === false ? false : item.isCreate,
-                                                isEdit: !item.isRead === false ? false : item.isEdit,
-                                                isDelete: !item.isRead === false ? false : item.isDelete,
-                                            })}
-                                    >
-                                        <MdCheckCircleOutline 
-                                            className="w-5 h-5 text-teal-500 aria-hidden:hidden"
-                                            aria-hidden={!item.isRead}
-                                        />
-                                        <FiXCircle 
-                                            className="w-5 h-5 text-red-500 aria-hidden:hidden"
-                                            aria-hidden={item.isRead}
-                                        />
-                                    </button>
-                                </Table.CellBody>
-                                <Table.CellBody>
-                                    <button
-                                        type="button"
-                                        className="h-full mr-4 px-3 py-2 border dark:border-gray-500 rounded-md cursor-pointer"
-                                        onClick={()=>update(index, 
-                                            { 
-                                                ...item, 
-                                                isRead: !item.isCreate? true : item.isRead,
-                                                isCreate: !item.isCreate 
-                                            })}
-                                    >
-                                        <MdCheckCircleOutline 
-                                            className="w-5 h-5 text-teal-500 aria-hidden:hidden"
-                                            aria-hidden={!item.isCreate}
-                                        />
-                                        <FiXCircle 
-                                            className="w-5 h-5 text-red-500 aria-hidden:hidden"
-                                            aria-hidden={item.isCreate}
-                                        />
-                                    </button>
-                                </Table.CellBody>
-                                <Table.CellBody>
-                                    <button
-                                        type="button"
-                                        className="h-full mr-4 px-3 py-2 border dark:border-gray-500 rounded-md cursor-pointer"
-                                        onClick={()=>update(index, 
-                                            { 
-                                                ...item, 
-                                                isRead: !item.isEdit? true : item.isRead,
-                                                isEdit: !item.isEdit
-                                            })}
-                                    >
-                                        <MdCheckCircleOutline 
-                                            className="w-5 h-5 text-teal-500 aria-hidden:hidden"
-                                            aria-hidden={!item.isEdit}
-                                        />
-                                        <FiXCircle 
-                                            className="w-5 h-5 text-red-500 aria-hidden:hidden"
-                                            aria-hidden={item.isEdit}
-                                        />
-                                    </button>
-                                </Table.CellBody>
-                                <Table.CellBody>
-                                    <button
-                                        type="button"
-                                        className="h-full mr-4 px-3 py-2 border dark:border-gray-500 rounded-md cursor-pointer"
-                                        onClick={()=>update(index, 
-                                            { 
-                                                ...item, 
-                                                isRead: !item.isDelete? true: item.isRead,
-                                                isDelete: !item.isDelete
-                                            })}
-                                    >
-                                        <MdCheckCircleOutline 
-                                            className="w-5 h-5 text-teal-500 aria-hidden:hidden"
-                                            aria-hidden={!item.isDelete}
-                                        />
-                                        <FiXCircle 
-                                            className="w-5 h-5 text-red-500 aria-hidden:hidden"
-                                            aria-hidden={item.isDelete}
-                                        />
-                                    </button>
-                                </Table.CellBody>
-                            </Table.Row>
-                        ))}
+
+                        <Table.Body tableHeight={String(fields.length)} rowNumber={fields.length}>
+                            {fields.map((item: any, index) => (
+                                <Table.Row key={index}>
+                                    <Table.CellBody>{item.page.namePage}</Table.CellBody>
+                                    <Table.CellBody>
+                                        <button
+                                            type="button" 
+                                            className="h-full mr-4 px-3 py-2 border dark:border-gray-500 rounded-md cursor-pointer"
+                                            onClick={()=>update(index, 
+                                                { 
+                                                    ...item,
+                                                    isRead: !item.isRead,
+                                                    isCreate: !item.isRead === false ? false : item.isCreate,
+                                                    isEdit: !item.isRead === false ? false : item.isEdit,
+                                                    isDelete: !item.isRead === false ? false : item.isDelete,
+                                                })}
+                                        >
+                                            <MdCheckCircleOutline 
+                                                className="w-5 h-5 text-teal-500 aria-hidden:hidden"
+                                                aria-hidden={!item.isRead}
+                                            />
+                                            <FiXCircle 
+                                                className="w-5 h-5 text-red-500 aria-hidden:hidden"
+                                                aria-hidden={item.isRead}
+                                            />
+                                        </button>
+                                    </Table.CellBody>
+                                    <Table.CellBody>
+                                        <button
+                                            type="button"
+                                            className="h-full mr-4 px-3 py-2 border dark:border-gray-500 rounded-md cursor-pointer"
+                                            onClick={()=>update(index, 
+                                                { 
+                                                    ...item, 
+                                                    isRead: !item.isCreate? true : item.isRead,
+                                                    isCreate: !item.isCreate 
+                                                })}
+                                        >
+                                            <MdCheckCircleOutline 
+                                                className="w-5 h-5 text-teal-500 aria-hidden:hidden"
+                                                aria-hidden={!item.isCreate}
+                                            />
+                                            <FiXCircle 
+                                                className="w-5 h-5 text-red-500 aria-hidden:hidden"
+                                                aria-hidden={item.isCreate}
+                                            />
+                                        </button>
+                                    </Table.CellBody>
+                                    <Table.CellBody>
+                                        <button
+                                            type="button"
+                                            className="h-full mr-4 px-3 py-2 border dark:border-gray-500 rounded-md cursor-pointer"
+                                            onClick={()=>update(index, 
+                                                { 
+                                                    ...item, 
+                                                    isRead: !item.isEdit? true : item.isRead,
+                                                    isEdit: !item.isEdit
+                                                })}
+                                        >
+                                            <MdCheckCircleOutline 
+                                                className="w-5 h-5 text-teal-500 aria-hidden:hidden"
+                                                aria-hidden={!item.isEdit}
+                                            />
+                                            <FiXCircle 
+                                                className="w-5 h-5 text-red-500 aria-hidden:hidden"
+                                                aria-hidden={item.isEdit}
+                                            />
+                                        </button>
+                                    </Table.CellBody>
+                                    <Table.CellBody>
+                                        <button
+                                            type="button"
+                                            className="h-full mr-4 px-3 py-2 border dark:border-gray-500 rounded-md cursor-pointer"
+                                            onClick={()=>update(index, 
+                                                { 
+                                                    ...item, 
+                                                    isRead: !item.isDelete? true: item.isRead,
+                                                    isDelete: !item.isDelete
+                                                })}
+                                        >
+                                            <MdCheckCircleOutline 
+                                                className="w-5 h-5 text-teal-500 aria-hidden:hidden"
+                                                aria-hidden={!item.isDelete}
+                                            />
+                                            <FiXCircle 
+                                                className="w-5 h-5 text-red-500 aria-hidden:hidden"
+                                                aria-hidden={item.isDelete}
+                                            />
+                                        </button>
+                                    </Table.CellBody>
+                                </Table.Row>
+                            ))}
+                        </Table.Body>
                     </Table.Root> 
                 </div>
             </div>

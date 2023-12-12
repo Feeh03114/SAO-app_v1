@@ -119,7 +119,7 @@ export default function FormDiscipline({edit, isPermissionWrite=true, onSave}:Fo
                             </button>
                         </div>
                     
-                        <Table.Root tableHeight={tableHeight()}style="mt-8">
+                        <Table.Root style="mt-8">
                             <Table.Header>
                                 <Table.CellHeader>NOME DO SERVIÇO</Table.CellHeader>
                                 <Table.CellHeader hiddenInMobile={true}>DESCRIÇÃO DO SERVIÇO</Table.CellHeader>
@@ -127,26 +127,28 @@ export default function FormDiscipline({edit, isPermissionWrite=true, onSave}:Fo
                                 <Table.CellHeader hiddenInMobile={true}>PREÇO</Table.CellHeader>
                                 <Table.CellHeader hiddenInMobile={true}>EXTERNO</Table.CellHeader>
                             </Table.Header>
-                            {fields.map((item:any, index) => (
-                                <Table.Row
-                                    key={item.id}
-                                    onDelete={()=> remove(index)}
-                                >
-                                    <Table.CellBody><p className="text-ellipsis overflow-hidden">{item?.name}</p></Table.CellBody>
-                                    <Table.CellBody hiddenInMobile={true}><p className="text-ellipsis overflow-hidden truncate">{item?.description}</p></Table.CellBody>
-                                    <Table.CellBody>{convertMinutesToHours(item?.duration_medio||0)} h</Table.CellBody>
-                                    <Table.CellBody hiddenInMobile={true}>
-                                        {
-                                            item?.price.toLocaleString('pt-BR', {
-                                                style: 'currency',
-                                                currency: 'BRL',
-                                            })
-                                        }
-                                    </Table.CellBody>
-                                    <Table.CellBody hiddenInMobile={true}>{item?.ext ? "Sim" : "Não"}</Table.CellBody>
-                                </Table.Row>
-                            ))}
-                            
+
+                            <Table.Body tableHeight={tableHeight()} rowNumber={fields.length}>
+                                {fields.map((item:any, index) => (
+                                    <Table.Row
+                                        key={item.id}
+                                        onDelete={()=> remove(index)}
+                                    >
+                                        <Table.CellBody><p className="text-ellipsis overflow-hidden">{item?.name}</p></Table.CellBody>
+                                        <Table.CellBody hiddenInMobile={true}><p className="text-ellipsis overflow-hidden truncate">{item?.description}</p></Table.CellBody>
+                                        <Table.CellBody>{convertMinutesToHours(item?.duration_medio||0)} h</Table.CellBody>
+                                        <Table.CellBody hiddenInMobile={true}>
+                                            {
+                                                item?.price.toLocaleString('pt-BR', {
+                                                    style: 'currency',
+                                                    currency: 'BRL',
+                                                })
+                                            }
+                                        </Table.CellBody>
+                                        <Table.CellBody hiddenInMobile={true}>{item?.ext ? "Sim" : "Não"}</Table.CellBody>
+                                    </Table.Row>
+                                ))}
+                            </Table.Body>
                         </Table.Root> 
                     </div>
                 </div>

@@ -140,24 +140,26 @@ export default function Patients(): JSX.Element {
                 typeButtonLeft="filter"
                 typeButtonRight="add"
             />
-            <Table.Root tableHeight={String(rowsNumber)}>
+            <Table.Root style="px-8">
                 <Table.Header>
                     {/* <Table.CellHeader hiddenInMobile={true}>PRONTUÁRIO</Table.CellHeader> */}
                     <Table.CellHeader hiddenInMobile={false}>NOME</Table.CellHeader>
                     <Table.CellHeader hiddenInMobile={true}>E-MAIL</Table.CellHeader>
                 </Table.Header>
 
-                {data.map((item: Patient, index: number) => (
-                    <Table.Row 
-                        key={index}
-                        onView={()=> router.push(`/patients/edit/${item.id}`)}
-                        onDelete={() => deleteItem(item.id)}
-                    >
-                        {/* <Table.CellBody hiddenInMobile={true}><p className="font-medium dark:text-white"></p>{item.people.name} {item.people.}</Table.CellBody> */}
-                        <Table.CellBody hiddenInMobile={false}><p className="font-medium dark:text-white">{item.people.name}</p></Table.CellBody>
-                        <Table.CellBody hiddenInMobile={true}><p className="font-medium dark:text-white">{item.people.email}</p></Table.CellBody>
-                    </Table.Row>
-                ))}
+                <Table.Body tableHeight={String(rowsNumber)} rowNumber={data.length}>
+                    {data.map((item: Patient, index: number) => (
+                        <Table.Row 
+                            key={index}
+                            onView={()=> router.push(`/patients/edit/${item.id}`)}
+                            onDelete={() => deleteItem(item.id)}
+                        >
+                            {/* <Table.CellBody hiddenInMobile={true}><p className="font-medium dark:text-white"></p>{item.people.name} {item.people.}</Table.CellBody> */}
+                            <Table.CellBody hiddenInMobile={false}><p className="font-medium dark:text-white">{item.people.name}</p></Table.CellBody>
+                            <Table.CellBody hiddenInMobile={true}><p className="font-medium dark:text-white">{item.people.email}</p></Table.CellBody>
+                        </Table.Row>
+                    ))}
+                </Table.Body>
             </Table.Root> 
 
             <Pagination

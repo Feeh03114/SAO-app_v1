@@ -187,12 +187,15 @@ export default function FormUser({edit, isPermissionWrite=true, onSave, profiles
                         />
                     </div>
                     
-                    <Table.Root tableHeight={String(6)} style="mx-3" label="Pacientes">
+                    <Table.Root style="mx-2" label="Pacientes">
                         <Table.Header>
                             <Table.CellHeader hiddenInMobile={false}>NOME</Table.CellHeader>
                             <Table.CellHeader hiddenInMobile={true}>E-MAIL</Table.CellHeader>
                             <Table.CellHeader hiddenInMobile={true}>REGISTRO UNIVERSITÁRIO</Table.CellHeader>
                         </Table.Header>
+
+                        <Table.Body tableHeight={String(6)} rowNumber={0}>
+                        </Table.Body>
                     </Table.Root> 
                 </Card.Root>
             </div> 

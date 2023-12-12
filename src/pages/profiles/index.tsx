@@ -101,28 +101,30 @@ export default function Profiles(): JSX.Element {
                 typeButtonLeft="filter"
                 typeButtonRight="add"
             />
-            <Table.Root tableHeight={String(rowsNumber)}>
+            <Table.Root style="px-8">
                 <Table.Header>
                     <Table.CellHeader style={"w-40 md:w-60"}>NOME</Table.CellHeader>
                     <Table.CellHeader hiddenInMobile={true}>PÁGINAS</Table.CellHeader>
                 </Table.Header> 
 
-                {data.map((item: Profile, index: number) => (
-                    <Table.Row 
-                        key={index}
-                        onView={()=> router.push(`/profiles/edit/${item.id}`)}
-                        onDelete={() => deleteItem(item.id)}
-                    >
-                        <Table.CellBody><p className="font-medium dark:text-white">{item.name}</p></Table.CellBody>
-                        <Table.CellBody hiddenInMobile={true}>
-                            <div className="py-1 flex flex-row flex-wrap">
-                                {item.permissions.map((item: any, index: number) => (
-                                    item.isRead && <Card.TextSelected key={index} text={item.page.namePage}></Card.TextSelected>
-                                ))}
-                            </div>
-                        </Table.CellBody>
-                    </Table.Row>
-                ))}
+                <Table.Body tableHeight={String(rowsNumber)} rowNumber={data.length}>
+                    {data.map((item: Profile, index: number) => (
+                        <Table.Row 
+                            key={index}
+                            onView={()=> router.push(`/profiles/edit/${item.id}`)}
+                            onDelete={() => deleteItem(item.id)}
+                        >
+                            <Table.CellBody><p className="font-medium dark:text-white">{item.name}</p></Table.CellBody>
+                            <Table.CellBody hiddenInMobile={true}>
+                                <div className="py-1 flex flex-row flex-wrap">
+                                    {item.permissions.map((item: any, index: number) => (
+                                        item.isRead && <Card.TextSelected key={index} text={item.page.namePage}></Card.TextSelected>
+                                    ))}
+                                </div>
+                            </Table.CellBody>
+                        </Table.Row>
+                    ))}
+                </Table.Body>
             </Table.Root> 
 
             <Pagination

@@ -171,28 +171,31 @@ export default function FormServiceDiscipline({isOpen, onClose, onSave} : ModalS
                         </button>
                     </div>
                 
-                    <Table.Root tableHeight={String(4)} style="mt-8">
+                    <Table.Root style="mt-8">
                         <Table.Header>
                             <Table.CellHeader>DIA DA SEMANA</Table.CellHeader>
                             <Table.CellHeader>HORÁRIO</Table.CellHeader>
                         </Table.Header>
-                        {fields.map((item:any, index) => (
-                            <Table.Row
-                                key={item.id}
-                                onDelete={() => remove(index)}
-                            >
-                                <Table.CellBody>
-                                    <p className="text-ellipsis overflow-hidden">
-                                        {daysWeek[item?.dayWeek]}
-                                    </p>
-                                </Table.CellBody>
-                                <Table.CellBody>
-                                    <p className="text-ellipsis overflow-hidden">
-                                        {item.initHour} - {item.endHour}
-                                    </p>
-                                </Table.CellBody>
-                            </Table.Row>
-                        ))}
+
+                        <Table.Body tableHeight={String(4)} rowNumber={fields.length}>
+                            {fields.map((item:any, index) => (
+                                <Table.Row
+                                    key={item.id}
+                                    onDelete={() => remove(index)}
+                                >
+                                    <Table.CellBody>
+                                        <p className="text-ellipsis overflow-hidden">
+                                            {daysWeek[item?.dayWeek]}
+                                        </p>
+                                    </Table.CellBody>
+                                    <Table.CellBody>
+                                        <p className="text-ellipsis overflow-hidden">
+                                            {item.initHour} - {item.endHour}
+                                        </p>
+                                    </Table.CellBody>
+                                </Table.Row>
+                            ))}
+                        </Table.Body>
                     </Table.Root> 
                 </div>
                 </form>

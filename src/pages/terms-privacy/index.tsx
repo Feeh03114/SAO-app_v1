@@ -75,33 +75,42 @@ export default function TermsPrivacy() {
             onClickRight={()=> router.push('/terms-privacy/add')}
             typeButtonRight="add"
         />
-        <Table.Root tableHeight={String(rowsNumber)}>
-            {data.map((item: TermPrivacy) => (
-                <Table.Row 
-                    key={item?.id}
-                    onView={()=> router.push(`/terms-privacy/edit/${item?.id}`)}
-                >
-                    <Table.CellBody style={"w-1/5"}><p className="font-medium dark:text-white">{item.name}</p></Table.CellBody>
-                    <Table.CellBody style={"w-1/5"}><p className="font-medium dark:text-white">{item.description}</p></Table.CellBody>
-                    <Table.CellBody style={"w-1/5"}><p className="font-medium dark:text-white">{item.version}</p></Table.CellBody>
-                    <Table.CellBody style={"w-1/5"}>
-                        <button
-                            type="button" 
-                            className="h-full mr-4 px-3 py-2 border dark:border-gray-500 rounded-md cursor-pointer"
-                            onClick={()=>console.log('click')}
-                        >
-                            <MdCheckCircleOutline 
-                                className="w-5 h-5 text-teal-500 aria-hidden:hidden"
-                                aria-hidden={!item.default}
-                            />
-                            <FiXCircle 
-                                className="w-5 h-5 text-red-500 aria-hidden:hidden"
-                                aria-hidden={item.default}
-                            />
-                        </button>
-                    </Table.CellBody>
-                </Table.Row>
-            ))}
+        <Table.Root style="px-8">
+            <Table.Header>
+                <Table.CellHeader>NOME</Table.CellHeader>
+                <Table.CellHeader hiddenInMobile={true}>DESCRIÇÃO</Table.CellHeader>
+                <Table.CellHeader>VERSÃO</Table.CellHeader>
+                <Table.CellHeader>PADRÃO</Table.CellHeader>
+            </Table.Header>
+
+            <Table.Body tableHeight={String(rowsNumber)} rowNumber={data.length}>
+                {data.map((item: TermPrivacy) => (
+                    <Table.Row 
+                        key={item?.id}
+                        onView={()=> router.push(`/terms-privacy/edit/${item?.id}`)}
+                    >
+                        <Table.CellBody style={"w-1/5"}><p className="font-medium dark:text-white">{item.name}</p></Table.CellBody>
+                        <Table.CellBody style={"w-1/5"}><p className="font-medium dark:text-white">{item.description}</p></Table.CellBody>
+                        <Table.CellBody style={"w-1/5"}><p className="font-medium dark:text-white">{item.version}</p></Table.CellBody>
+                        <Table.CellBody style={"w-1/5"}>
+                            <button
+                                type="button" 
+                                className="h-full mr-4 px-3 py-2 border dark:border-gray-500 rounded-md cursor-pointer"
+                                onClick={()=>console.log('click')}
+                            >
+                                <MdCheckCircleOutline 
+                                    className="w-5 h-5 text-teal-500 aria-hidden:hidden"
+                                    aria-hidden={!item.default}
+                                />
+                                <FiXCircle 
+                                    className="w-5 h-5 text-red-500 aria-hidden:hidden"
+                                    aria-hidden={item.default}
+                                />
+                            </button>
+                        </Table.CellBody>
+                    </Table.Row>
+                ))}
+            </Table.Body>
         </Table.Root> 
 
         <Pagination
