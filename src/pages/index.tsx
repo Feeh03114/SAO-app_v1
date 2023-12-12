@@ -94,19 +94,22 @@ export default function Home():JSX.Element {
       </div>
 
       <div className={twMerge("w-screen bg-white dark:bg-gray-800 flex flex-col justify-center bg-none items-center bg-contain bg-no-repeat", poppins.className)}>
-        {/* <img 
-          className="w-full relative top-0 left-0 z-0 dark:hidden md:block "
-          src="/assets/bubble.png"
-          alt='bolhas-de-fundo'
-        />
-        <img 
-          className="w-full relative top-0 left-0 z-0 hidden dark:md:block"
-          src="/assets/bubble_dark.png"
-          alt='bolhas-de-fundo'
-        /> */}
-        
-        <div className="w-full h-20 md:w-11/12 pt-4 flex flex-row flex-nowrap items-center justify-between relative top-0 left-0 z-10">
-          <div className="w-full flex flex-row items-center justify-start">
+        <div className="w-full h-20 md:px-12 pt-4 flex flex-row flex-nowrap items-center justify-between relative z-10">
+          <div className="w-full absolute ml-[-24x] top-0 left-0 z-0 hidden dark:block">
+              <img 
+                className="w-2/5 relative top-0 left-0 z-0"
+                src="/assets/ellipse_dark_1.png"
+                alt='bolhas-de-fundo'
+              />
+          </div>
+          <div className="w-full absolute ml-[-24x] top-0 left-0 z-0 dark:hidden">
+              <img 
+                className="w-2/5 relative top-0 left-0 z-0"
+                src="/assets/ellipse_light_1.png"
+                alt='bolhas-de-fundo'
+              />
+          </div>
+          <div className="w-full flex flex-row items-center justify-start z-10">
             <Image
               width={157}
               height={157}
@@ -126,7 +129,6 @@ export default function Home():JSX.Element {
             </div>
           </div>
 
-     
           <div className="hidden lg:flex items-center z-10">
             <div className={twMerge("text-base font-medium leading-normal whitespace-nowrap text-gray-800 dark:text-white", inter.className)}>Pagina Inicial</div>
             <div className={twMerge("ml-3 text-base font-medium leading-normal whitespace-nowrap text-gray-800 dark:text-white", inter.className)}>Sobre</div>
@@ -145,7 +147,7 @@ export default function Home():JSX.Element {
           <GiHamburgerMenu className="w-6 h-6 lg:hidden mr-6 dark:text-white" onClick={() => setIsMenuExpanded(!isMenuExpanded)}/>
         </div>
 
-        <div className="w-full mt-6 md:mt-32 md:px-6 flex flex-row items-center justify-center z-10">
+        <div className="w-full mt-6 md:mt-32 md:px-6 flex flex-row items-center justify-center relative z-10">
           <div className="flex flex-row justify-center items-center">
             <div className="hidden md:flex flex-col justify-start">
               <span className={twMerge("text-5xl font-bold leading-10 text-black dark:text-white", poppins.className)}>
@@ -164,7 +166,7 @@ export default function Home():JSX.Element {
             <Image
                 width={157}
                 height={157}
-                className="w-1/2 hidden md:flex"
+                className="w-1/2 hidden md:flex relative z-20"
                 src="/assets/SVG/odonto_homePage.svg"
                 alt='odonto_homePage'
             /> 
@@ -176,7 +178,7 @@ export default function Home():JSX.Element {
               <Image
                 width={200}
                 height={145.84}
-                className="md:hidden mt-2"
+                className="md:hidden mt-2 relative z-20"
                 src="/assets/SVG/odonto_homePage.svg"
                 alt='odonto_homePage'
               /> 
@@ -189,6 +191,20 @@ export default function Home():JSX.Element {
                 </button>
               </div>
             </div>
+          </div>
+          <div className="w-full absolute -mb-64 md:-mb-40 mr-[24x] dark:flex dark:justify-end bottom-0 right-0 -z-10 hidden">
+            <img 
+              className="w-2/5 relative bottom-0 right-0 z-0"
+              src="/assets/ellipse_dark_2.png"
+              alt='bolhas-de-fundo'
+            />
+          </div>
+          <div className="w-full absolute -mb-64 md:-mb-40 mr-[24x] flex justify-end bottom-0 right-0 -z-10 dark:hidden">
+            <img 
+              className="w-2/5 relative bottom-0 right-0 z-0"
+              src="/assets/ellipse_light_2.png"
+              alt='bolhas-de-fundo'
+            />
           </div>
         </div>
               
