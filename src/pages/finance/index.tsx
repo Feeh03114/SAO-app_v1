@@ -1,4 +1,4 @@
-import Header from "@/components/Header";
+import Header from "@/components/Header/multipleButtons";
 import Table from "@/components/Table";
 import { Pagination } from "@/components/Table/Pagination";
 import { ModalDelete } from "@/components/elementTag/modalDelete";
@@ -113,13 +113,18 @@ export default function Finance(): JSX.Element {
     return (
         <>
             <ModalDelete isOpen={deleteDisposer.isOpen} onClose={deleteDisposer.close} onDelete={() => onDelete(idDelete)}></ModalDelete> 
-            <Header 
-                title="Financeiro (Mockado)"
-                subtitle="Consulte os pagamentos de serviços"
-                textLeft="Filtros"
-                onClickLeft={()=> console.log('filter')}
-                typeButtonLeft="filter"
-            />
+            <Header.Root 
+                title={"Financeiro (Mockado)"}
+                subtitle={"Consulte os pagamentos de serviços"}
+            >
+                <Header.Button 
+                    text="Filtros"
+                    disabled={isLoading}
+                    typeButton="filter"
+                    style="mr-0"
+                    onClick={()=> console.log('filter')}
+                />
+            </Header.Root>
             <Table.Root style="px-8">
                 <Table.Header>
                     <Table.CellHeader hiddenInMobile={true}>PRONTUÁRIO</Table.CellHeader>

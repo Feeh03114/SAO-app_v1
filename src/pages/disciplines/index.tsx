@@ -1,4 +1,5 @@
-import Header from "@/components/Header";
+
+import Header from "@/components/Header/multipleButtons";
 import Table from "@/components/Table";
 import { Pagination } from "@/components/Table/Pagination";
 import { ModalDelete } from "@/components/elementTag/modalDelete";
@@ -103,16 +104,24 @@ export default function Subjects(): JSX.Element {
     return (
         <>
             <ModalDelete isOpen={deleteDisposer.isOpen} onClose={deleteDisposer.close} onDelete={() => onDelete(idDelete)}></ModalDelete> 
-            <Header 
-                title="Disciplinas"
-                subtitle="Consulte as disciplinas da plataforma"
-                textLeft="Filtros"
-                textRight="Adicionar disciplina"
-                onClickLeft={()=> console.log('filter')}
-                onClickRight={()=> router.push('/disciplines/add')}
-                typeButtonLeft="filter"
-                typeButtonRight="add"
-            />
+            <Header.Root 
+                title={"Disciplinas"}
+                subtitle={"Consulte as disciplinas da plataforma"}
+            >
+                <Header.Button 
+                    text="Filtros"
+                    disabled={isLoading}
+                    typeButton="filter"
+                    onClick={()=> console.log('filter')}
+                />
+                <Header.Button 
+                    text="Adicionar disciplina"
+                    typeButton="add"
+                    style="mr-0 bg-teal-400 dark:bg-teal-500"
+                    disabled={isLoading}
+                    onClick={()=> router.push('/disciplines/add')}
+                />
+            </Header.Root>
             <Table.Root style="px-8">
                 <Table.Header>
                     <Table.CellHeader hiddenInMobile={false}>TÍTULO</Table.CellHeader>

@@ -45,14 +45,14 @@ const CardTextArea = ({label, text, width} : CardTextProps) => {
     )
 }
 
-const CardButton = ({text, width, onClickButton} : CardTextProps) => {
+const CardButton = ({text, styles, width, onClickButton} : CardTextProps) => {
     return (
         <div className={`${width} px-3 flex items-center justify-center flex-row`}>
             <button className={`mb-3 md:mb-6 px-3 py-2 flex items-center justify-center flex-row bg-teal-500 border rounded-md border-teal-500 cursor-pointer`}
                 onClick={onClickButton}
             >
                 <HiOutlinePlus className="w-5 h-5 rounded-lg text-white"/>
-                <p className="hidden md:block pl-2 text-sm font-Inter font-medium leading-tight text-white dark:text-gray-300 truncate">{text}</p>
+                <p className={twMerge("hidden md:block pl-2 text-sm font-Inter font-medium leading-tight text-white dark:text-gray-300 truncate", styles)}>{text}</p>
             </button>
         </div>
     )

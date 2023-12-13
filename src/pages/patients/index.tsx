@@ -1,4 +1,4 @@
-import Header from "@/components/Header";
+import Header from "@/components/Header/multipleButtons";
 import Table from "@/components/Table";
 import { Pagination } from "@/components/Table/Pagination";
 import { ModalDelete } from "@/components/elementTag/modalDelete";
@@ -130,16 +130,25 @@ export default function Patients(): JSX.Element {
     return (
         <>
             <ModalDelete isOpen={deleteDisposer.isOpen} onClose={deleteDisposer.close} onDelete={() => onDelete(idDelete)}></ModalDelete> 
-            <Header 
-                title="Pacientes"
-                subtitle="Consulte os pacientes da plataforma"
-                textLeft="Filtros"
-                textRight="Adicionar paciente"
-                onClickLeft={()=> console.log('filter')}
-                onClickRight={()=> router.push('/patients/add')}
-                typeButtonLeft="filter"
-                typeButtonRight="add"
-            />
+            <Header.Root 
+                title={"Pacientes"}
+                subtitle={"Consulte os pacientes da plataforma"}
+            >
+                <Header.Button 
+                    text="Filtros"
+                    disabled={isLoading}
+                    typeButton="filter"
+                    onClick={()=> console.log('filter')}
+                />
+                <Header.Button 
+                    text="Adicionar paciente"
+                    typeButton="add"
+                    style="mr-0 bg-teal-400 dark:bg-teal-500"
+                    disabled={isLoading}
+                    textStyle="text-white"
+                    onClick={()=> router.push('/patients/add')}
+                />
+            </Header.Root>
             <Table.Root style="px-8">
                 <Table.Header>
                     {/* <Table.CellHeader hiddenInMobile={true}>PRONTUÁRIO</Table.CellHeader> */}

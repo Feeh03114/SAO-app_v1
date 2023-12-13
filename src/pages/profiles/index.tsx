@@ -1,4 +1,4 @@
-import Header from "@/components/Header";
+import Header from "@/components/Header/multipleButtons";
 import { Pagination } from "@/components/Table/Pagination";
 import Table from "@/components/Table/index";
 import Card from "@/components/elementTag/cardText";
@@ -91,16 +91,25 @@ export default function Profiles(): JSX.Element {
     return (
         <>
             <ModalDelete isOpen={deleteDisposer.isOpen} onClose={deleteDisposer.close} onDelete={() => onDelete(idDelete)}></ModalDelete> 
-            <Header 
-                title="Perfis"
-                subtitle="Consulte os perfis da plataforma"
-                textLeft="Filtros"
-                textRight="Adicionar Perfil"
-                onClickLeft={()=> console.log('filter')}
-                onClickRight={()=> router.push('/profiles/add')}
-                typeButtonLeft="filter"
-                typeButtonRight="add"
-            />
+              <Header.Root 
+                title={"Perfis"}
+                subtitle={"Consulte os perfis da plataforma"}
+            >
+                <Header.Button 
+                    text="Filtros"
+                    disabled={isLoading}
+                    typeButton="filter"
+                    onClick={()=> console.log('filter')}
+                />
+                <Header.Button 
+                    text="Adicionar perfil"
+                    typeButton="add"
+                    textStyle="text-white"
+                    style="mr-0 bg-teal-400 dark:bg-teal-500"
+                    disabled={isLoading}
+                    onClick={()=> router.push('/profiles/add')}
+                />
+            </Header.Root>
             <Table.Root style="px-8">
                 <Table.Header>
                     <Table.CellHeader style={"w-40 md:w-60"}>NOME</Table.CellHeader>

@@ -1,5 +1,4 @@
-
-import Header from "@/components/Header";
+import Header from "@/components/Header/multipleButtons";
 import FormDiscipline from "@/components/pages/discipline/formDiscipline";
 import api from "@/service/api";
 import { withSSRAuth } from "@/util/withSSRAuth";
@@ -34,17 +33,23 @@ export default function DisciplineAdd(): JSX.Element {
 
     return (
         <>
-            <Header 
-                title="Nova Disciplina"
-                subtitle="Confira os dados da disciplina"
-                textLeft="Voltar"
-                textRight="Salvar informações"
-                onClickLeft={()=> router.back()}
-                onClickRight={handleEdit}
-                typeButtonRight="confirm"
-                disabledLeft={isLoading}
-                disabledRight={isLoading}
-            />
+             <Header.Root 
+                title={"Nova Disciplina"}
+                subtitle={"Confira os dados da disciplina"}
+            >
+                <Header.Button 
+                    text="Voltar"
+                    disabled={isLoading}
+                    onClick={() => router.back()}
+                />
+                 <Header.Button 
+                    text="Salvar informações"
+                    typeButton="confirm"
+                    style="mr-0 bg-teal-400 dark:bg-teal-500"
+                    disabled={isLoading}
+                    onClick={handleEdit}
+                />
+            </Header.Root>
             <FormDiscipline onSave={onSave}/>
         </>
     )

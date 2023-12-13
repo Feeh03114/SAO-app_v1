@@ -1,5 +1,5 @@
 
-import Header from "@/components/Header";
+import Header from "@/components/Header/multipleButtons";
 import FormPatient from "@/components/pages/patient/formPatient";
 import api from "@/service/api";
 import { withSSRAuth } from "@/util/withSSRAuth";
@@ -60,17 +60,24 @@ export default function PatientAdd(): JSX.Element {
 
     return (
         <>
-            <Header 
-                title="Cadastrar Paciente"
-                subtitle="Confira os dados do paciente"
-                textLeft="Voltar"
-                textRight="Salvar informações"
-                onClickLeft={()=> router.back()}
-                onClickRight={handleEdit}
-                typeButtonRight="confirm"
-                disabledLeft={isLoading}
-                disabledRight={isLoading}
-            />
+            <Header.Root 
+                title={"Cadastrar Paciente"}
+                subtitle={"Crie um novo paciente na plataforma"}
+            >
+                <Header.Button 
+                    text="Voltar"
+                    disabled={isLoading}
+                    onClick={() => router.back()}
+                />
+                <Header.Button 
+                    text="Salvar informações"
+                    typeButton="confirm"
+                    textStyle="text-white"
+                    style="mr-0 bg-teal-400 dark:bg-teal-500"
+                    disabled={isLoading}
+                    onClick={handleEdit}
+                />
+            </Header.Root>
             <FormPatient onSave={onSave}/>
         </>
     )

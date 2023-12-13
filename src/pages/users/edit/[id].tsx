@@ -1,4 +1,4 @@
-import Header from "@/components/Header";
+import Header from "@/components/Header/multipleButtons";
 import FormUser from "@/components/pages/users/formUser";
 import { TypeUser } from "@/enum/typeUser.enum";
 import { useDisclosure } from "@/hook/useDisclosure";
@@ -100,16 +100,24 @@ export default function UsersEdit(): JSX.Element {
     
     return (
         <>
-            <Header 
+               <Header.Root 
                 title={user.name}
                 subtitle={"RU: " + user.ru}
-                textLeft="Voltar"
-                textRight={permiteEdit.isOpen ? "Salvar" : "Editar"}
-                onClickLeft={()=> console.log('Voltar')}
-                onClickRight={handleEdit}
-                typeButtonRight={permiteEdit.isOpen ? 'confirm' : 'edit'}
-            />
-
+            >
+                <Header.Button 
+                    text="Voltar"
+                    disabled={isLoading}
+                    onClick={() => router.back()}
+                />
+                <Header.Button 
+                    text={permiteEdit.isOpen ? "Salvar" : "Editar"}
+                    typeButton={permiteEdit.isOpen ? 'confirm' : 'edit'}
+                    textStyle="text-white"
+                    style="mr-0 bg-teal-400 dark:bg-teal-500"
+                    disabled={isLoading}
+                    onClick={handleEdit}
+                />
+            </Header.Root>
             <FormUser 
                 isPermissionWrite={permiteEdit.isOpen}	
                 edit={user}

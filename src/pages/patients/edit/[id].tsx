@@ -1,4 +1,4 @@
-import Header from "@/components/Header";
+import Header from "@/components/Header/multipleButtons";
 import FormPatient from "@/components/pages/patient/formPatient";
 import { useDisclosure } from "@/hook/useDisclosure";
 import api from "@/service/api";
@@ -88,18 +88,24 @@ export default function PatientsEdit(): JSX.Element {
         }
     }
 
-
     return (
         <>
-            <Header 
+            <Header.Root 
                 title={"Visualização do Paciente"}
                 subtitle={"Acompanhe o paciente na plataforma"}
-                textLeft="Voltar"
-                textRight={newDisposer.isOpen ? "Salvar" : "Editar"}
-                onClickLeft={()=> router.back()}
-                onClickRight={handleEdit}
-                typeButtonRight={newDisposer.isOpen ? "add" : "edit"}
-            />
+            >
+                <Header.Button 
+                    text="Voltar"
+                    onClick={() => router.back()}
+                />
+                <Header.Button 
+                    text={newDisposer.isOpen ? "Salvar" : "Editar"}
+                    typeButton={newDisposer.isOpen ? "add" : "edit"}
+                    textStyle="text-white"
+                    style="mr-0 bg-teal-400 dark:bg-teal-500"
+                    onClick={handleEdit}
+                />
+            </Header.Root>
 
             <FormPatient edit={data} onSave={onSubmit} isPermissionWrite={newDisposer.isOpen}/>
         </>

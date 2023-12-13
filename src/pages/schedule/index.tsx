@@ -1,4 +1,5 @@
-import Header from "@/components/Header";
+
+import Header from "@/components/Header/multipleButtons";
 import api from "@/service/api";
 import { withSSRAuth } from "@/util/withSSRAuth";
 import dayjs, { Dayjs } from "dayjs";
@@ -253,16 +254,25 @@ export default function Schedule():JSX.Element {
         <div className="w-full text-center ">
             <DayListModal openDayList={openDayList} setOpenDayList={setOpenDayList} setOpen={setOpen} cancelButtonRefDayList={cancelButtonRefDayList} eventsForDay={treatmentTodayData}/>
             <ScheduleModal open={open} setOpen={setOpen} cancelButtonRef={cancelButtonRef}/>
-            <Header 
-                title="Página Inicial"
-                subtitle="Agendamento de Consultas"
-                textLeft="Filtros"
-                textRight="Adicionar Consulta"
-                onClickLeft={() => alert('Filtros em desenvolvimento')}
-                onClickRight={() => setOpen(true)}
-                typeButtonLeft="filter"
-                typeButtonRight="add"
-            />
+            
+            <Header.Root 
+                title={"Página Inicial"}
+                subtitle={"Agendamento de Consultas"}
+            >
+                <Header.Button 
+                    text="Filtros"
+                    typeButton="filter"
+                    onClick={() => alert('Filtros em desenvolvimento')}
+                />
+                 <Header.Button 
+                    text="Adicionar Consulta"
+                    typeButton="add"
+                    textStyle="text-white"
+                    style="mr-0 bg-teal-400 dark:bg-teal-500"
+                    onClick={() => setOpen(true)}
+                />
+            </Header.Root>
+
             <div className="bg-white dark:bg-gray-800 border border-solid border-gray-200 dark:border-slate-700 rounded-lg mx-5 sm:m-[2rem] sm:px-[3rem] py-[1rem] pb-4 h-full">
                 <div className="inline-flex flex-col space-y-4 items-start justify-start h-full w-full">
                     <div className="inline-flex space-x-4 items-center justify-center max-h-[3rem] w-full">

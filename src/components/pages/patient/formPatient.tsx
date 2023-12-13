@@ -149,7 +149,7 @@ export default function FormPatient({ isPermissionWrite=true, onSave, edit={} }:
     }, [errors1]);
     
     return (
-        <div className="gap-y-3 md:gap-y-6 md:mx-10 md:mb-10 px-3 md:pt-6 pb-6 flex items-center justify-centers flex-row flex-wrap md:border border-gray-200 dark:border-gray-500 dark:bg-slate-800 shadow-sm rounded-lg">
+        <div className="gap-y-3 md:gap-y-6 md:mx-8 md:mb-10 px-3 md:pt-6 pb-6 flex items-center justify-centers flex-row flex-wrap md:border border-gray-200 dark:border-gray-500 dark:bg-slate-800 shadow-sm rounded-lg">
             <FormAddress isOpen={addressDisposer.isOpen} onClose={addressDisposer.close} onSave={updateAddress}/>
             <FormEditAddress isOpen={editAddressDisposer.isOpen} onClose={editAddressDisposer.close} address={selectedAddress} onSave={updateEditAddress} onDelete={deleteAddress}/>
             <FormGuardian isOpen={newGuardianDisposer.isOpen} onClose={newGuardianDisposer.close} onSave={updateGuardianForm}/>
@@ -347,7 +347,7 @@ export default function FormPatient({ isPermissionWrite=true, onSave, edit={} }:
                 <div className="w-full pt-6 border-t border-gray-300 dark:border-gray-500">
                     <div className="flex items-center justify-between">
                         <label className="pl-4 text-sm font-medium leading-tight text-gray-700 dark:text-white">Endereços</label>
-                        <button className="h-10 mr-2 mb-1 space-x-2 flex items-center justify-center px-3 bg-teal-500 border rounded-md border-teal-500 cursor-pointer"
+                        <button className="h-10 mr-2 mb-1 space-x-2 flex items-center justify-center px-3 bg-teal-400 border rounded-md border-teal-500 cursor-pointer"
                             type="button"
                             onClick={() => {addressDisposer.open()}}
                         >
@@ -376,7 +376,7 @@ export default function FormPatient({ isPermissionWrite=true, onSave, edit={} }:
             <div className="w-full pt-6 border-t border-gray-300 dark:border-gray-500">
                 <div className="flex items-center justify-between">
                     <label className="pl-4 text-sm font-medium leading-tight text-gray-700 dark:text-white">Guardiões  (Responsáveis)</label>
-                    <button className="h-10 mr-2 mb-1 space-x-2 flex items-center justify-center px-3 bg-teal-500 border rounded-md border-teal-500 cursor-pointer"
+                    <button className="h-10 mr-2 mb-1 space-x-2 flex items-center justify-center px-3 bg-teal-400 border rounded-md border-teal-500 cursor-pointer"
                         type="button"
                         onClick={() => newGuardianDisposer.open()}
                     >

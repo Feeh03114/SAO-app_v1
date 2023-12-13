@@ -1,4 +1,4 @@
-import Header from "@/components/Header";
+import Header from "@/components/Header/multipleButtons";
 import Table from "@/components/Table";
 import { Pagination } from "@/components/Table/Pagination";
 import api from "@/service/api";
@@ -68,13 +68,25 @@ export default function TermsPrivacy() {
     
   return (
     <>
-        <Header 
-            title="Termos de Confiabilidade"
-            subtitle="Consulte os termos de confiabilidade cadastrados na plataforma"
-            textRight="Adicionar Termo"
-            onClickRight={()=> router.push('/terms-privacy/add')}
-            typeButtonRight="add"
-        />
+        <Header.Root 
+                title={"Termos de Confiabilidade"}
+                subtitle={"Consulte os termos de confiabilidade cadastrados na plataforma"}
+            >
+                <Header.Button 
+                    text="Filtros"
+                    disabled={isLoading}
+                    typeButton="filter"
+                    onClick={()=> console.log('filter')}
+                />
+                <Header.Button 
+                    text="Adicionar Termo"
+                    typeButton="add"
+                    textStyle="text-white"
+                    style="mr-0 bg-teal-400 dark:bg-teal-500"
+                    disabled={isLoading}
+                    onClick={()=> router.push('/terms-privacy/add')}
+                />
+            </Header.Root>
         <Table.Root style="px-8">
             <Table.Header>
                 <Table.CellHeader>NOME</Table.CellHeader>

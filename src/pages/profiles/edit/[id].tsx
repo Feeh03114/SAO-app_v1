@@ -1,4 +1,4 @@
-import Header from "@/components/Header";
+import Header from "@/components/Header/multipleButtons";
 import FormProfile from "@/components/pages/profile/formProfile";
 import { useDisclosure } from "@/hook/useDisclosure";
 import api from "@/service/api";
@@ -79,17 +79,24 @@ export default function RolesEdit(): JSX.Element {
     }
 
     return <>
-        <Header 
-            title="Editar Perfil"
-            subtitle="Confira os dados do perfil"
-            textLeft={permiteEdit.isOpen ? "Cancelar" : "Voltar"}
-            textRight={permiteEdit.isOpen ? "Salvar informações" : "Editar informações"}
-            onClickLeft={() => permiteEdit.isOpen? permiteEdit.close(): router.back()}
-            onClickRight={handleEdit}
-            typeButtonRight={permiteEdit.isOpen ? "confirm" : "edit"}
-            disabledLeft={isLoading}
-            disabledRight={isLoading}
-        />
+        <Header.Root 
+                title={"Editar Perfil"}
+                subtitle={"Confira os dados do perfil"}
+            >
+                <Header.Button 
+                    text={permiteEdit.isOpen ? "Cancelar" : "Voltar"}
+                    disabled={isLoading}
+                    onClick={() => permiteEdit.isOpen? permiteEdit.close(): router.back()}
+                />
+                <Header.Button 
+                    text={permiteEdit.isOpen ? "Salvar informações" : "Editar informações"}
+                    typeButton={permiteEdit.isOpen ? "confirm" : "edit"}
+                    textStyle="text-white"
+                    style="mr-0 bg-teal-400 dark:bg-teal-500"
+                    disabled={isLoading}
+                    onClick={handleEdit}
+                />
+            </Header.Root>
         <FormProfile
             isPermissionWrite={permiteEdit.isOpen}	
             edit={profile}

@@ -21,7 +21,7 @@ function TableRoot({ children, label, style } : RegisterModelProps): JSX.Element
                     <p className="text-xs md:text-sm font-Inter font-medium leading-tight text-gray-700 dark:text-gray-300 truncate">{label}</p>
                 </div>
             }
-            <div className="flex items-start justify-centers flex-col flex-wrap border bg-gray-50 dark:bg-slate-800 dark:border-slate-700 border-solid border-gray-200 shadow-md rounded-lg overflow-hidden border-separate">
+            <div className="flex items-start justify-centers flex-col flex-wrap border bg-white dark:bg-slate-800 dark:border-slate-700 border-solid border-gray-200 shadow-md rounded-lg overflow-hidden border-separate">
                 <table className="w-full table-fixed">
                     {children}
                 </table>
@@ -72,7 +72,7 @@ const TableRow = ({children, style, onView, onDelete }:TableRowProps) => {
 
 const TableHeader = ({children, style} : RegisterModelProps) => {
     return (
-        <thead className="bg-gray-100 dark:bg-slate-700">
+        <thead className="bg-white dark:bg-slate-700">
             <tr className="overflow-auto">
                 {children}
                 <th className={twMerge("w-32", style)}></th>          

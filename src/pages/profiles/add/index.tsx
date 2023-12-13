@@ -1,5 +1,5 @@
 
-import Header from "@/components/Header";
+import Header from "@/components/Header/multipleButtons";
 import FormProfile from "@/components/pages/profile/formProfile";
 import api from "@/service/api";
 import { withSSRAuth } from "@/util/withSSRAuth";
@@ -60,17 +60,24 @@ export default function ProfileAdd(): JSX.Element {
 
     return (
         <>
-            <Header 
-                title="Criar Perfil"
-                subtitle="Confira os dados do perfil"
-                textLeft="Voltar"
-                textRight="Salvar informações"
-                onClickLeft={()=> router.back()}
-                onClickRight={handleEdit}
-                typeButtonRight="confirm"
-                disabledLeft={isLoading}
-                disabledRight={isLoading}
-            />
+            <Header.Root 
+                title={"Novo Perfil"}
+                subtitle={"Adicione uma nova disciplina na plataforma"}
+            >
+                <Header.Button 
+                    text="Voltar"
+                    disabled={isLoading}
+                    onClick={() => router.back()}
+                />
+                <Header.Button 
+                    text="Salvar informações"
+                    typeButton="confirm"
+                    textStyle="text-white"
+                    style="mr-0 bg-teal-400 dark:bg-teal-500"
+                    disabled={isLoading}
+                    onClick={handleEdit}
+                />
+            </Header.Root>
             <FormProfile onSave={onSave} />
         </>
     )

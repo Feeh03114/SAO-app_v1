@@ -1,4 +1,4 @@
-import Header from "@/components/Header";
+import Header from "@/components/Header/multipleButtons";
 import Table from "@/components/Table";
 import Card from "@/components/elementTag/cardText";
 import Modal from "@/components/modal";
@@ -78,12 +78,17 @@ export default function FinanceEdit(): JSX.Element {
 
     return (
         <>
-            <Header 
+            <Header.Root 
                 title={data.nome}
                 subtitle={"Prontuário: " + data.prontuario}
-                textLeft="Voltar"
-                onClickLeft={()=> router.back()}
-            />
+            >
+                <Header.Button 
+                    text="Voltar"
+                    disabled={isLoading}
+                    style="mr-0"
+                    onClick={()=> router.back()}
+                />
+            </Header.Root>
 
             <Modal.Root
                 isOpen={newDisposer.isOpen}
@@ -109,19 +114,21 @@ export default function FinanceEdit(): JSX.Element {
                     <Card.Text label="Preço" text={data.preco} width="w-1/2  md:w-1/4"></Card.Text>
                     
                     <div className="w-full flex justify-end">
-                        <Card.Button text="Adicionar Pagamento" onClickButton={newDisposer.open}></Card.Button>
+                        <Card.Button text="Adicionar Pagamento" styles={"dark:text-white"} onClickButton={newDisposer.open}></Card.Button>
                     </div>
 
-                    <Table.Row style="mx-2">
+                    <Table.Root style="px-2">
                         <Table.Header>
                             <Table.CellHeader>NOME</Table.CellHeader>
                             <Table.CellHeader hiddenInDesktop={true}>STATUS</Table.CellHeader>
                             <Table.CellHeader hiddenInMobile={true}>E-MAIL</Table.CellHeader>
                             <Table.CellHeader hiddenInMobile={true}>FORMA DE PAGAMENTO</Table.CellHeader>
                         </Table.Header>
-                        <Table.Body tableHeight={String(6)} rowNumber={0}>
+
+                        <Table.Body tableHeight={String(3)} rowNumber={0}>
+                           
                         </Table.Body>
-                    </Table.Row> 
+                    </Table.Root> 
                 </Card.Root>
             </div>
         </>

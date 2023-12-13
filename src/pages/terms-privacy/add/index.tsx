@@ -1,4 +1,4 @@
-import Header from "@/components/Header";
+import Header from "@/components/Header/multipleButtons";
 import TermsPrivacyForm from "@/components/pages/terms-privacy";
 import api from "@/service/api";
 import { useRouter } from "next/router";
@@ -31,17 +31,24 @@ export default function TermsPrivacyAdd() {
     }
     return(
         <>
-            <Header 
-                title="Criar termo de confiabilidade"
-                subtitle="Consulte o termoo de confiabilidade cadastrado na plataforma"
-                textLeft="Voltar"
-                textRight="Salvar informações"
-                onClickLeft={()=> router.back()}
-                onClickRight={handleSubmit}
-                typeButtonRight="confirm"
-                disabledLeft={isLoading}
-                disabledRight={isLoading}
-            />
+               <Header.Root 
+                title={"Criar termo de confiabilidade"}
+                subtitle={"Adicione um termo de confiabilidade na plataforma"}
+            >
+                <Header.Button 
+                    text="Voltar"
+                    disabled={isLoading}
+                    onClick={()=> router.back()}
+                />
+                <Header.Button 
+                    text="Salvar informações"
+                    typeButton="confirm"
+                    textStyle="text-white"
+                    style="mr-0 bg-teal-400 dark:bg-teal-500"
+                    disabled={isLoading}
+                    onClick={handleSubmit}
+                />
+            </Header.Root>
             <TermsPrivacyForm onSave={onSave}/>
         </>
     )
