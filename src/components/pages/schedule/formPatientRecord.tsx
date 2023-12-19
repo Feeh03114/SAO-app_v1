@@ -10,7 +10,6 @@ import { BsPerson } from "react-icons/bs";
 import { HiOutlineInboxIn } from "react-icons/hi";
 import * as yup from 'yup';
 
-
 const validationFullModal = yup.object().shape({
     id: yup.string().optional(),
     complaint_text: yup.string().required('Campo obrigatório'),
