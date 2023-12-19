@@ -1,10 +1,8 @@
 
 import Header from "@/components/Header/multipleButtons";
 import api from "@/service/api";
-import { withSSRAuth } from "@/util/withSSRAuth";
 import dayjs, { Dayjs } from "dayjs";
 import 'dayjs/locale/pt-br';
-import { GetServerSideProps } from "next";
 import { useEffect, useRef, useState } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import DayListModal from "./DayListModal";
@@ -62,6 +60,11 @@ export interface Treatment {
 export interface HasTreatmentToday {
     day: Dayjs;
     hasSchedule: boolean;
+}
+
+interface items {
+    id: string;
+    name: string;
 }
 
 export default function Schedule():JSX.Element {
@@ -157,8 +160,6 @@ export default function Schedule():JSX.Element {
             });
             setTreatmentTodayData(RespAPI);
             eventsForDay = RespAPI;
-            console.log("RespAPI: ");
-            console.log(RespAPI[0].dateScheduled);
         } catch (error) {
             console.log(error);
         }
@@ -167,30 +168,46 @@ export default function Schedule():JSX.Element {
         return eventsForDay;
     }
 
-
-    function getLastDaysOfPreviousMonth() {
+    function getLastDaysOfPreviousMonth(number: number = 0) {
         const days = [];
-        const lastMonth = selectedDate.subtract(1, 'month');
-        const daysInLastMonth = lastMonth.daysInMonth();
+
+        let month = selectedDate;
+
+        if (number > 0) {
+            month = selectedDate.add(number, 'month');
+        } else if (number < 0) {
+            month = selectedDate.subtract(number * -1, 'month');
+        } 
+
+        const startOfMonth = month.add(1, 'month').startOf('month').day();
+
+        const daysInLastMonth = month.daysInMonth();
         for (let i = daysInLastMonth - startOfMonth + 1; i <= daysInLastMonth; i++) {
-            const date = lastMonth.date(i);
+            const date = month.date(i);
             days.push(date);
         }
         return days.reverse();
     }
 
-    function getAfterDaysOfNextMonth() {
+    function getFirstDaysNextMonth(number: number = 0) {
         const days = [];
-        const nextMonth = selectedDate.add(1, 'month');
+
+        let month = selectedDate;
+
+        if (number > 0) {
+            month = selectedDate.add(number, 'month');
+        } else if (number < 0) {
+            month = selectedDate.subtract(number * -1, 'month');
+        } 
+
         for (let i = 1; i <= 7; i++) {
-            const date = nextMonth.date(i);
+            const date = month.date(i);
             days.push(date);
         }
         return days;
     }
 
     function renderCalendarDays() {
-
         const days = [];
         for (let i = 1; i <= daysInMonth; i++) {
             const date = selectedDate.date(i);
@@ -210,7 +227,7 @@ export default function Schedule():JSX.Element {
         }
 
         for (let i = 0; i < startOfMonth; i++) {
-            const lastDays = getLastDaysOfPreviousMonth();
+            const lastDays = getLastDaysOfPreviousMonth(-1);
             days.unshift(
                 <div key={`empty-${i}`} className={`flex flex-col text-start w-full h-full cursor-default p-2 sm:pt-1 sm:pl-1
                     ${lastDays[i].format('dddd') === 'sábado' ? 'border-r-0 bg-gray-50 dark:bg-slate-700 dark:hover:bg-slate-600':'border-r'} ${lastDays[i].format('dddd') === 'domingo' && 'bg-gray-50 dark:bg-slate-700 dark:hover:bg-slate-600'} ${i >= (daysInMonth-ultimoDiaMes)? 'border-b-0': 'border-b'} border-solid border-black/10 dark:border-white/10`}
@@ -223,7 +240,90 @@ export default function Schedule():JSX.Element {
         }
 
         for (let i = 0; i < 6 - ultimoDiaMes; i++) {
-            const day = getAfterDaysOfNextMonth()[i].format('dddd');
+            const day = getFirstDaysNextMonth(1)[i].format('dddd');
+            days.push(
+                <div key={`empty-${i}`} className={`flex flex-col text-start w-full h-full cursor-default p-2 sm:pt-1 sm:pl-1
+                ${day === 'sábado' && 'bg-gray-50 dark:bg-slate-700 dark:hover:bg-slate-600'} ${day === 'domingo' && 'bg-gray-50 dark:bg-slate-700 dark:hover:bg-slate-600'} border-l border-solid border-black/10 dark:border-white/10`}     
+                >
+                   <p className={`w-full text-center sm:text-start text-sm sm:text-base font-semibold dark:text-white/25 text-slate-700/25`}>
+                        {i+1}
+                    </p>
+                </div>
+            );
+        }
+
+        const rows:JSX.Element[] = [];
+        let cells:any = [];
+        days.forEach((day, i) => {
+          if (i % 7 !== 0) {
+            cells.push(day);
+          } else {
+            if(cells.length > 0) rows.push(<div key={i / 7} className="flex flex-row items-start p-0 h-full w-full">{cells}</div>);
+            cells = [day];
+          }
+        });
+        rows.push(<div key={days.length / 7} className="flex flex-row items-start p-0 h-full w-full">{cells}</div>);
+
+        return rows;
+    }
+
+    function renderFakeCalendar(nextMonth: boolean) {
+        const days = [];
+        let month;
+        let lastDays;
+        
+        if (nextMonth) {
+            month = selectedDate.add(1, 'month');
+            lastDays = getLastDaysOfPreviousMonth(0);
+        } else {
+            month = selectedDate.subtract(1, 'month');
+            lastDays = getLastDaysOfPreviousMonth(-2);
+        }
+
+        const daysInMonth = month.daysInMonth();
+        const ultimoDiaMes = month.endOf('month').day();
+       
+        for (let i = 1; i <= month.daysInMonth(); i++) {
+            const date = month.date(i);
+            const week = date.format('dddd');
+
+            days.push(
+                <div
+                    className={`flex flex-col text-start w-full h-full cursor-default p-2 sm:pt-1 sm:pl-1 ${isSameDay(dayjs(), date) && 'bg-teal-400 hover:bg-teal-500 dark:hover:bg-teal-300'} hover:bg-gray-100 dark:hover:bg-gray-700
+                    ${week === 'sábado' ? 'border-r-0 bg-gray-50 dark:bg-slate-700 dark:hover:bg-slate-600':'border-r'} ${week === 'domingo' && 'bg-gray-50 dark:bg-slate-700 dark:hover:bg-slate-600'} ${i >= (daysInMonth-ultimoDiaMes)? 'border-b-0': 'border-b'} border-solid border-black/10 dark:border-white/10`}
+                    key={date.format('YYYY-MM-DD')}
+                >
+                    <p className={`w-full text-center sm:text-start text-sm sm:text-base font-semibold dark:text-white ${isSameDay(dayjs(), date) ? 'text-white' : 'text-slate-700'}`}>
+                        {date.format('DD')}
+                    </p>
+                </div>
+            );
+        }
+
+        for (let i = 0; i < month.startOf('month').day(); i++) {         
+            const daysInMonth = month.date(i).daysInMonth();
+            const ultimoDiaMes = month.date(i).endOf('month').day();
+
+            days.unshift(
+                <div key={`empty-${i}`} className={`flex flex-col text-start w-full h-full cursor-default p-2 sm:pt-1 sm:pl-1
+                ${lastDays[i].format('dddd') === 'sábado' ? 'border-r-0 bg-gray-50 dark:bg-slate-700 dark:hover:bg-slate-600':'border-r'} ${lastDays[i].format('dddd') === 'domingo' && 'bg-gray-50 dark:bg-slate-700 dark:hover:bg-slate-600'} ${i >= (daysInMonth-ultimoDiaMes)? 'border-b-0': 'border-b'} border-solid border-black/10 dark:border-white/10`}
+                >
+                    <p className={`w-full text-center sm:text-start text-sm sm:text-base font-semibold dark:text-white/25 text-slate-700/25`}>
+                        {lastDays[i].format('DD')}
+                    </p>
+                </div>
+            );
+        }
+
+        for (let i = 0; i < 6 - month.endOf('month').day(); i++) {
+            let day;
+       
+            if (nextMonth) {
+                day = getFirstDaysNextMonth(2)[i].format('dddd');
+            } else {
+                day = getFirstDaysNextMonth(0)[i].format('dddd');
+            }
+
             days.push(
                 <div key={`empty-${i}`} className={`flex flex-col text-start w-full h-full cursor-default p-2 sm:pt-1 sm:pl-1
                     ${day === 'sábado' && 'bg-gray-50 dark:bg-slate-700 dark:hover:bg-slate-600'} ${day === 'domingo' && 'bg-gray-50 dark:bg-slate-700 dark:hover:bg-slate-600'} border-l border-solid border-black/10 dark:border-white/10`}     
@@ -249,6 +349,43 @@ export default function Schedule():JSX.Element {
 
         return rows;
     }
+
+    const [scrollLeft, setScrollLeft] = useState(1);
+    const [scrollMiddle, setScrollMiddle] = useState(false);
+    const scrollRef = useRef<HTMLUListElement>(null);
+
+    useEffect(() => {
+        setScrollMiddle(!scrollMiddle);
+    }, []);
+    
+    useEffect(() => {
+        scrollRef.current?.scrollTo({ left: (scrollRef.current.scrollWidth / 3), behavior: 'instant' });
+    }, [scrollMiddle]);
+
+    const handleScroll = () => {
+        scrollRef.current?.addEventListener('scrollend', () =>{
+            const scrollId = document.getElementById("scrollId");
+       
+            if (scrollId) {
+                const scrollPercent = Math.trunc(((scrollId.scrollLeft / scrollId.scrollWidth) * 100));
+
+                if (scrollPercent < 5 && scrollLeft != 0) { 
+                    setScrollLeft(0);
+
+                    setScrollMiddle(!scrollMiddle);
+                    setScrollLeft(1);
+                    handlePrevMonth();
+
+                } if (scrollPercent > 60 && scrollLeft != 2) {
+                    setScrollLeft(2);
+
+                    setScrollMiddle(!scrollMiddle);
+                    setScrollLeft(1);
+                    handleNextMonth();
+                }
+            }
+        })
+    };
     
     return(
         <div className="w-full text-center ">
@@ -264,7 +401,7 @@ export default function Schedule():JSX.Element {
                     typeButton="filter"
                     onClick={() => alert('Filtros em desenvolvimento')}
                 />
-                 <Header.Button 
+                <Header.Button 
                     text="Adicionar Consulta"
                     typeButton="add"
                     textStyle="text-white"
@@ -273,7 +410,7 @@ export default function Schedule():JSX.Element {
                 />
             </Header.Root>
 
-            <div className="bg-white dark:bg-gray-800 border border-solid border-gray-200 dark:border-slate-700 rounded-lg mx-5 sm:m-[2rem] sm:px-[3rem] py-[1rem] pb-4 h-full">
+            <div className="bg-white dark:bg-gray-800 border border-solid border-gray-200 dark:border-slate-700 rounded-lg mx-5 sm:m-[2rem] sm:px-[3rem] py-[1rem] pb-0 md:pb-4 h-full overflow-hidden">
                 <div className="inline-flex flex-col space-y-4 items-start justify-start h-full w-full">
                     <div className="inline-flex space-x-4 items-center justify-center max-h-[3rem] w-full">
                         <div className="flex items-center justify-center w-12 p-3 rounded-full">
@@ -297,7 +434,23 @@ export default function Schedule():JSX.Element {
                         <p className="flex-1 text-xs font-medium text-center text-gray-800 dark:text-white uppercase">SÁB</p>
                     </div>
                     <div className="flex flex-col items-start p-0 h-[calc(100vh-24rem)] md:h-[calc(100vh-21rem)] w-full overflow-y-auto">
-                        {renderCalendarDays()}
+                        <ul ref={scrollRef} id="scrollId" onTouchEnd={handleScroll} className="w-full h-full snap-x flex snap-mandatory snap-center overflow-scroll scroll">
+                            <div className="w-full h-full snap-center flex-shrink-0 flex items-center justify-center">
+                                <li id="item1" className="flex flex-col items-start p-0 h-[calc(100vh-24rem)] md:h-[calc(100vh-21rem)] w-full overflow-y-auto">
+                                    {renderFakeCalendar(false)}
+                                </li>
+                            </div>
+                            <div className="w-full h-full mx-8 snap-center flex-shrink-0 flex items-center justify-center">
+                                <li id="item2" className="flex flex-col items-start p-0 h-[calc(100vh-24rem)] md:h-[calc(100vh-21rem)] w-full overflow-y-auto">
+                                    {renderCalendarDays()}
+                                </li>
+                            </div>
+                            <div className="w-full h-full snap-center flex-shrink-0 flex items-center justify-center">
+                                <li id="item3" className="flex flex-col items-start p-0 h-[calc(100vh-24rem)] md:h-[calc(100vh-21rem)] w-full overflow-y-auto">
+                                    {renderFakeCalendar(true)}
+                                </li>
+                            </div>
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -305,4 +458,3 @@ export default function Schedule():JSX.Element {
     )
 }
 
-export const getServerSideProps: GetServerSideProps = withSSRAuth();

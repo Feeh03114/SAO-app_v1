@@ -168,7 +168,6 @@ export default function ScheduleModal({ open=false, setOpen, cancelButtonRef }: 
     }, [watch('treatment_id')]);
 
     const getHours = () =>{
-        console.log(watch('data'));
         const date = new Date(watch('data'));
         const availability = service?.availabilities?.find((item) => item.dayWeek === date.getDay());
 
