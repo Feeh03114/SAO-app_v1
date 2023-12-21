@@ -70,7 +70,6 @@ export default function Schedule():JSX.Element {
     const cancelButtonRef = useRef(null);
     const [selectedDate, setSelectedDate] = useState(dayjs());
     const [treatmentTodayData, setTreatmentTodayData] = useState<TreatmentToday[]>([]);
-    const [scrollLeft, setScrollLeft] = useState(1);
     const [scrollMiddle, setScrollMiddle] = useState(false);
     const scrollRef = useRef<HTMLUListElement>(null);
     const meses = [
@@ -92,14 +91,12 @@ export default function Schedule():JSX.Element {
         if (scrollId) {
             const scrollPercent = Math.trunc(((scrollId.scrollLeft / scrollId.scrollWidth) * 100));
 
-            if (scrollPercent <= 0 && scrollLeft != 0) { 
+            if (scrollPercent <= 0) { 
                 setScrollMiddle(!scrollMiddle);
-                setScrollLeft(1);
                 handlePrevMonth();
 
-            } if (scrollPercent >= 66 && scrollLeft != 2) {
+            } if (scrollPercent >= 66) {
                 setScrollMiddle(!scrollMiddle);
-                setScrollLeft(1);
                 handleNextMonth();
             }
         }
@@ -118,7 +115,7 @@ export default function Schedule():JSX.Element {
     }, []);
     
     useEffect(() => {
-        scrollRef.current?.scrollTo({ left: (scrollRef.current.scrollWidth / 3), behavior: 'instant' });
+        scrollRef.current?.scrollTo({ left: (scrollRef.current.scrollWidth / 3), behavior: 'auto' });
     }, [scrollMiddle]);
     
     return(
@@ -170,17 +167,17 @@ export default function Schedule():JSX.Element {
                     <div className="flex flex-col items-start p-0 h-[calc(100vh-24rem)] md:h-[calc(100vh-21rem)] w-full overflow-y-auto">
                         <ul ref={scrollRef} id="scrollId" className="w-full h-full snap-x flex snap-mandatory snap-center overflow-scroll scroll">
                             <div className="w-full h-full snap-center flex-shrink-0 flex items-center justify-center">
-                                <li id="item1" className="flex flex-col items-start p-0 h-[calc(100vh-24rem)] md:h-[calc(100vh-21rem)] w-full overflow-y-auto">
+                                <li className="flex flex-col items-start p-0 h-[calc(100vh-24rem)] md:h-[calc(100vh-21rem)] w-full overflow-y-auto">
                                    <RenderFakeCalendar selectedDate={selectedDate} nextMonth={false} />
                                 </li>
                             </div>
                             <div className="w-full h-full mx-8 snap-center flex-shrink-0 flex items-center justify-center">
-                                <li id="item2" className="flex flex-col items-start p-0 h-[calc(100vh-24rem)] md:h-[calc(100vh-21rem)] w-full overflow-y-auto">
+                                <li className="flex flex-col items-start p-0 h-[calc(100vh-24rem)] md:h-[calc(100vh-21rem)] w-full overflow-y-auto">
                                   <RenderCalendar selectedDate={selectedDate} setOpenDayList={setOpenDayList} open={open} setTreatmentTodayData={setTreatmentTodayData} />
                                 </li>
                             </div>
                             <div className="w-full h-full snap-center flex-shrink-0 flex items-center justify-center">
-                                <li id="item3" className="flex flex-col items-start p-0 h-[calc(100vh-24rem)] md:h-[calc(100vh-21rem)] w-full overflow-y-auto">
+                                <li className="flex flex-col items-start p-0 h-[calc(100vh-24rem)] md:h-[calc(100vh-21rem)] w-full overflow-y-auto">
                                     <RenderFakeCalendar selectedDate={selectedDate} nextMonth={true} />
                                 </li>
                             </div>

@@ -9,7 +9,6 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { BsChat } from 'react-icons/bs';
 import { GiHamburgerMenu } from 'react-icons/gi';
 import { LuClock } from 'react-icons/lu';
 import { MdCheckCircle, MdChevronRight } from 'react-icons/md';
@@ -144,7 +143,8 @@ export default function Home():JSX.Element {
               <p className={twMerge("text-white text-lg font-medium leading-5 truncate", inter.className)}>Acesse a plataforma</p>
             </button>
           </div>
-          <GiHamburgerMenu className="w-6 h-6 lg:hidden mr-6 dark:text-white" onClick={() => setIsMenuExpanded(!isMenuExpanded)}/>
+          <GiHamburgerMenu className="w-6 h-6 lg:hidden mr-6 dark:text-white cursor-pointer z-10" onClick={() => setIsMenuExpanded(!isMenuExpanded)}/>
+         
         </div>
 
         <div className="w-full mt-6 md:mt-32 md:px-6 flex flex-row items-center justify-center relative z-10">
@@ -156,12 +156,12 @@ export default function Home():JSX.Element {
               <div className={twMerge("w-96 mt-6 text-base font-normal leading-normal font-['Sora'] text-slate-500 dark:text-gray-300", sora.className)}>
                 Agendamento, fila de espera, financeiro, pacientes, disciplinas e usuários tudo em um só lugar.
               </div>
-              <div className="w-56 mt-6 px-7 py-4 bg-gradient-96 from-teal-500 to-teal-600 rounded-full shadow justify-start items-start inline-flex">
+              {/* <div className="w-56 mt-6 px-7 py-4 bg-gradient-96 from-teal-500 to-teal-600 rounded-full shadow justify-start items-start inline-flex">
                 <button className={twMerge("text-white text-lg font-semibold flex flex-row justify-between whitespace-nowrap", sora.className)}>
                   <BsChat className="w-6 h-6 mr-2"/>
                   Conheça o SAO
                 </button>
-              </div>
+              </div> */}
             </div>
             <Image
                 width={157}
@@ -432,7 +432,7 @@ export default function Home():JSX.Element {
                 Tem interesse em nosso sistema?
               </span>
               <span className={twMerge("text-slate-500 dark:text-gray-300 text-center text-xs md:text-2xl font-bold leading-5 px-10 md:whitespace-nowrap", poppins.className)}>
-                Entre em contato com a gen por aqui
+                Entre em contato com a gente por aqui
               </span>
               <div className="w-60 md:w-full h-1 mt-1 bg-teal-500 rounded-3xl" />
             </div>
@@ -489,7 +489,7 @@ export default function Home():JSX.Element {
                   type='submit'
                   disabled={isSubmitting}
                 >
-                  Envia Mensagem
+                  Enviar Mensagem
                 </button>
               </div>
             </form>

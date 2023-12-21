@@ -14,7 +14,7 @@ export default function RenderFakeCalendar({ selectedDate, nextMonth }:RenderFak
         );
     }
 
-    function getLastDaysOfPreviousMonth(number: number = 0) {
+    function getLastDaysOfPreviousMonth(number: number) {
         const days = [];
 
         let month = selectedDate;
@@ -35,7 +35,7 @@ export default function RenderFakeCalendar({ selectedDate, nextMonth }:RenderFak
         return days.reverse();
     }
 
-    function getFirstDaysNextMonth(number: number = 0) {
+    function getFirstDaysNextMonth(number: number) {
         const days = [];
 
         let month = selectedDate;

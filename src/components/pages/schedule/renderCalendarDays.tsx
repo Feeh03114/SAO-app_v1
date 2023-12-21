@@ -17,8 +17,6 @@ interface RenderFakeCalendarProps {
 
 export default function RenderCalendar({ selectedDate, setOpenDayList, setTreatmentTodayData, open }:RenderFakeCalendarProps): JSX.Element {
     const [hastreatmentTodayData, sethastreatmentTodayData] = useState<HasTreatmentToday[]>([]);
-    const [isLoading, setIsLoading] = useState(false);
-    const [ isDarkMode, setIsDarkMode ] = useState(false);
     const daysInMonth = selectedDate.daysInMonth();
     const startOfMonth = selectedDate.startOf('month').day();
     const ultimoDiaMes = selectedDate.endOf('month').day();
@@ -29,7 +27,6 @@ export default function RenderCalendar({ selectedDate, setOpenDayList, setTreatm
     });
 
     const loadHasSceduleData = async () => {
-        setIsLoading(true);
         try {
             const { data:RespAPI } = await api.get("api/treatment/schedule", {
                 params: paramsHasScedule
@@ -38,17 +35,9 @@ export default function RenderCalendar({ selectedDate, setOpenDayList, setTreatm
         } catch (error) {
           console.log(error);
         }
-        setIsLoading(false);
     };
 
     useEffect(() => {
-        function getTailwindMode() {
-            if(typeof window === 'undefined') return 'unknown';
-            const rootElement = window.document.documentElement;
-            const isDarkMode = rootElement.classList.contains('dark');
-            setIsDarkMode(isDarkMode);
-        }
-        getTailwindMode();
         loadHasSceduleData();
     }, []);
 
@@ -83,7 +72,6 @@ export default function RenderCalendar({ selectedDate, setOpenDayList, setTreatm
 
         let eventsForDay;
 
-        setIsLoading(true);
         try {
             const { data:RespAPI } = await api.get("api/treatment/schedule/day", {
                 params: param
@@ -93,12 +81,11 @@ export default function RenderCalendar({ selectedDate, setOpenDayList, setTreatm
         } catch (error) {
             console.log(error);
         }
-        setIsLoading(false);
 
         return eventsForDay;
     }
 
-    function getLastDaysOfPreviousMonth(number: number = 0) {
+    function getLastDaysOfPreviousMonth(number: number) {
         const days = [];
 
         let month = selectedDate;
@@ -119,7 +106,7 @@ export default function RenderCalendar({ selectedDate, setOpenDayList, setTreatm
         return days.reverse();
     }
 
-    function getFirstDaysNextMonth(number: number = 0) {
+    function getFirstDaysNextMonth(number: number) {
         const days = [];
 
         let month = selectedDate;

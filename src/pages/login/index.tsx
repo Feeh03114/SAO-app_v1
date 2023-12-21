@@ -8,8 +8,10 @@ import { GetServerSideProps } from 'next';
 import { getSession, signOut } from 'next-auth/react';
 import Head from 'next/head';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { HiArrowLeft } from 'react-icons/hi';
 import { MdEmail } from 'react-icons/md';
 import { toast } from 'react-toastify';
 import * as yup from 'yup';
@@ -26,6 +28,7 @@ export default function Login(): JSX.Element{
     const { register, handleSubmit, ValidCredentials, errors, isSubmitting } = useLogin();
     const { register: register2, handleSubmit: handleSubmit2, newUserStudent: newUserStudent, errors: errors2, isSubmitting: isSubmitting2  } = useRegister();
     const [isLogin, setIsLogin] = useState(true);
+    const router = useRouter();
     const [isResetPassword, setIsResetPassword] = useState(false);
     const [isSendedEmail, setIsSendedEmail] = useState(false);
     const form = useForm({
@@ -49,6 +52,9 @@ export default function Login(): JSX.Element{
 
     return(
         <div className="flex items-center h-screen w-full bg-white dark:bg-slate-800">
+            <button className="m-4 absolute top-0 left-0 z-10" onClick={() => router.push('/')}>
+                <HiArrowLeft className="w-5 h-5 text-white"/>
+            </button>
             <Head>
                 <title>
                     SAO - Login
@@ -58,164 +64,171 @@ export default function Login(): JSX.Element{
                 <Image className='absolute origin-right object-cover h-full w-full bg-teal-400 object-center' src="/assets/Odonto.png" width={150} height={150} alt="admUniso"/>
             </div>
 
-            <div className={`${isResetPassword ? "hidden md:block" : "block"} w-full right-0 md:w-1/2 text-center fixed`}>
-                <div className=" w-full flex justify-center items-center">
-                    <Image className='h-24 w-24 dark:hidden' src="/assets/logo4.png" width={150} height={150} alt="logoMobile"/>
-                    <Image className='h-24 w-24 hidden dark:flex' src="/assets/logo3.png" width={150} height={150} alt="logoMobile"/>
-                </div>
-                <form className="inline-flex flex-col items-center justify-center px-12 md:px-[calc(100vw*0.08)] lg:px-32 bg-white dark:bg-slate-800 w-full max-w-2xl"
-                    id='loginForm'
-                    onSubmit={handleSubmit(ValidCredentials)}
-                >
-                    <div className="w-full flex flex-col items-center justify-center text-center">
-                        <p className="text-2xl font-bold leading-8 text-gray-900 dark:text-white">Bem-vindo ao Painel Odontológico</p>
-                        <p className="text-sm font-normal leading-none text-gray-400">Insira suas credenciais e acesse a plataforma</p>
-                    </div>
-                    <div 
-                        className='flex flex-col transition-all ease-in-out duration-700 overflow-auto w-full max-h-max aria-hidden:max-h-0 mt-4'
-                        aria-hidden={!isLogin}
-                    >
-                        <div className="flex flex-col items-start justify-start w-full"
-                        >
-                            <div className="flex flex-col items-start justify-start w-full">
-                                <div className="inline-flex items-center justify-start pl-4 w-full mt-4">
-                                    <p className="text-sm font-medium leading-tight text-gray-700 dark:text-gray-300">Registro Universitário (RU)</p>
-                                </div>
-                                <Input 
-                                    id="ru"
-                                    type="text"
-                                    required
-                                    className="w-full h-10 text-sm font-normal leading-tight rounded-lg px-4 py-2 shadow border border-gray-300 text-gray-900 placeholder-gray-500 focus:border-teal-400 focus:outline-none focus:ring-teal-400"
-                                    placeholder="Registro Universitário"
-                                    {...register("ru")}
-                                    error={errors.ru}
-                                />
-                            </div>
-                            <div className="flex flex-col items-start justify-start w-full">
-                                <div className="inline-flex items-center justify-start pl-4 w-full mt-4">
-                                    <p className="text-sm font-medium leading-tight text-gray-700 dark:text-gray-300">Senha</p>
-                                </div>
-                                <Input 
-                                    id="password"
-                                    autoComplete="current-password"
-                                    required
-                                    className="w-full"
-                                    placeholder="Insira sua senha"
-                                    {...register("password")}
-                                    password
-                                    error={errors.password}
-                                />
-                                <div className="inline-flex items-center justify-start pl-4 w-full mt-1">
-                                    <p className="text-sm font-medium leading-tight text-gray-700 dark:text-gray-300 cursor-pointer hover:text-teal-500"
-                                        onClick={() => setIsResetPassword(true)}>Redefinir Senha</p>
-                                </div>
-                            </div>
-                        </div>
-                        <button className="h-10 inline-flex items-center justify-center px-4 bg-teal-400 shadow rounded-md w-full mt-8"
-                            type="submit"
-                            disabled={isSubmitting}
-                            form='loginForm'
-                        >
-                            <IsLoading
-                                isVisible={isSubmitting}
-                                textLoading='Entrando...'
-                                className='text-white'
-                            />
-                            <p className="text-base font-medium leading-normal text-white aria-hidden:hidden"
-                                aria-hidden={isSubmitting}
-                            >
-                                Entrar
-                            </p>
-                        </button>
-                    </div>
-
-                    <button 
-                        className="h-10 inline-flex items-center justify-center px-4 py-2 bg-teal-400 shadow rounded-md w-full transition-all duration-500 aria-hidden:hidden"
-                        onClick={() => {setIsLogin(true)}}
-                        aria-hidden={isLogin}
-                        type='button'
-                    >
-                        <p className="text-base font-medium leading-normal text-white">Entrar</p>
+            <div className="flex items-center h-full w-full right-0 md:w-1/2 fixed">
+                <div className="h-full flex items-start z-10">
+                    <button className="m-4 relative top-0 left-0 z-10" onClick={() => router.push('/')}>
+                        <HiArrowLeft className="w-5 h-5 text-white"/>
                     </button>
-
-                    <div className="my-4 flex flex-col transition-all overflow-auto w-full max-h-max">
-                        <hr className="border-gray-300"></hr>
+                </div>
+                <div className={`${isResetPassword ? "hidden md:block" : "block"} w-full py-4 right-0 md:w-1/2 text-center fixed`}>
+                    <div className=" w-full flex justify-center items-center">
+                        <Image className='h-24 w-24 dark:hidden' src="/assets/logo4.png" width={150} height={150} alt="logoMobile"/>
+                        <Image className='h-24 w-24 hidden dark:flex' src="/assets/logo3.png" width={150} height={150} alt="logoMobile"/>
                     </div>
-                </form>
-
-                <form className="inline-flex flex-col items-center justify-center px-12 md:px-[calc(100vw*0.08)] lg:px-32 bg-white dark:bg-slate-800 w-full max-w-2xl"
-                    id='registerForm'
-                    onSubmit={handleSubmit2(newUserStudent)}
-                >
-                    <div className="flex flex-col items-center justify-center w-full">
-                        <p className="text-2xl font-bold leading-8 text-gray-900 dark:text-white">Crie sua conta na plataforma</p>
-                        <p className="text-sm font-normal leading-none text-gray-500">Registre-se na plataforma.</p>
-                    </div>
-                    <div className='flex flex-col transition-all ease-in-out duration-700 overflow-auto w-full aria-hidden:max-h-0'
-                        aria-hidden={isLogin}
+                    <form className="inline-flex flex-col items-center justify-center px-12 md:px-[calc(100vw*0.08)] lg:px-32 bg-white dark:bg-slate-800 w-full max-w-2xl"
+                        id='loginForm'
+                        onSubmit={handleSubmit(ValidCredentials)}
                     >
-                        <div className="flex flex-col items-start justify-start w-full transition-all duration-500">
-                            <div className="flex flex-col items-start justify-start w-full">
-                                <div className="inline-flex items-center justify-start pl-4 w-full">
-                                    <p className="text-sm font-medium leading-tight text-gray-700 dark:text-gray-300">Nome</p>
-                                </div>
-                                <Input 
-                                    id="nome"
-                                    type="text"
-                                    required
-                                    className="w-full text-sm font-medium leading-tight rounded-lg px-4 py-2 shadow border border-gray-300 text-gray-900 placeholder-gray-500 focus:border-teal-400 focus:outline-none focus:ring-teal-400 sm:text-sm"
-                                    placeholder="Insira seu nome"
-                                    {...register2("nome")}
-                                    error={errors2.nome}
-                                />
-                            </div>
-                            <div className="flex flex-col items-start justify-start w-full" role="group">
-                                <div className="inline-flex items-center justify-start pl-4 w-full mt-4">
-                                    <p className="text-sm font-medium leading-tight text-gray-700 dark:text-gray-300">E-mail</p>
-                                </div>
-                                <div className="w-full relative flex flex-wrap items-stretch">
+                        <div className="w-full flex flex-col items-center justify-center text-center">
+                            <p className="text-2xl font-bold leading-8 text-gray-900 dark:text-white">Bem-vindo ao Painel Odontológico</p>
+                            <p className="text-sm font-normal leading-none text-gray-400">Insira suas credenciais e acesse a plataforma</p>
+                        </div>
+                        <div 
+                            className='flex flex-col transition-all ease-in-out duration-700 overflow-auto w-full max-h-max aria-hidden:max-h-0 mt-4'
+                            aria-hidden={!isLogin}
+                        >
+                            <div className="flex flex-col items-start justify-start w-full"
+                            >
+                                <div className="flex flex-col items-start justify-start w-full">
+                                    <div className="inline-flex items-center justify-start pl-4 w-full mt-4">
+                                        <p className="text-sm font-medium leading-tight text-gray-700 dark:text-gray-300">Registro Universitário (RU)</p>
+                                    </div>
                                     <Input 
-                                        id="email"
+                                        id="ru"
                                         type="text"
                                         required
-                                        className="w-3/5 left-0 rounded-l-lg rounded-r-none"
-                                        placeholder="Insira seu RU"
-                                        {...register2("email")}
-                                        error={errors2.email}
+                                        className="w-full h-10 text-sm font-normal leading-tight rounded-lg px-4 py-2 shadow border border-gray-300 text-gray-900 placeholder-gray-500 focus:border-teal-400 focus:outline-none focus:ring-teal-400"
+                                        placeholder="Registro Universitário"
+                                        {...register("ru")}
+                                        error={errors.ru}
                                     />
-                                    <div className="w-2/5 h-10 right-0 inline-flex justify-evenly items-center bg-gray-100 dark:bg-gray-600 rounded-r-lg shadow border dark:border-gray-500   text-gray-900 placeholder-gray-500">
-                                        <MdEmail className=" text-gray-400 dark:bg-gray-600 hidden text-xl md:hidden xl:block"/>
-                                        <p className="text-sm dark:text-white dark:bg-gray-600 font-medium leading-tight truncate hover:text-clip"> @aluno.uniso.br</p>
+                                </div>
+                                <div className="flex flex-col items-start justify-start w-full">
+                                    <div className="inline-flex items-center justify-start pl-4 w-full mt-4">
+                                        <p className="text-sm font-medium leading-tight text-gray-700 dark:text-gray-300">Senha</p>
+                                    </div>
+                                    <Input 
+                                        id="password"
+                                        autoComplete="current-password"
+                                        required
+                                        className="w-full"
+                                        placeholder="Insira sua senha"
+                                        {...register("password")}
+                                        password
+                                        error={errors.password}
+                                    />
+                                    <div className="inline-flex items-center justify-start pl-4 w-full mt-1">
+                                        <p className="text-sm font-medium leading-tight text-gray-700 dark:text-gray-300 cursor-pointer hover:text-teal-500"
+                                            onClick={() => setIsResetPassword(true)}>Redefinir Senha</p>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <button className="h-10 mt-8 inline-flex items-center justify-center px-4 py-2 bg-teal-200 shadow rounded-md w-full transition-all duration-500 aria-hidden:hidden"
-                            type="submit"
-                            form='registerForm'
-                            disabled={isSubmitting2}
-                        >
-                            <IsLoading
-                                isVisible={isSubmitting2}
-                                textLoading='Enviando...'
-                                className='text-white'
-                            />
-                            <p className="text-base font-medium leading-normal text-teal-700 aria-hidden:hidden"
-                                aria-hidden={isSubmitting2}
+                            <button className="h-10 inline-flex items-center justify-center px-4 bg-teal-400 shadow rounded-md w-full mt-8"
+                                type="submit"
+                                disabled={isSubmitting}
+                                form='loginForm'
                             >
-                                Criar minha conta
-                            </p>
+                                <IsLoading
+                                    isVisible={isSubmitting}
+                                    textLoading='Entrando...'
+                                    className='text-white'
+                                />
+                                <p className="text-base font-medium leading-normal text-white aria-hidden:hidden"
+                                    aria-hidden={isSubmitting}
+                                >
+                                    Entrar
+                                </p>
+                            </button>
+                        </div>
+
+                        <button 
+                            className="h-10 inline-flex items-center justify-center px-4 py-2 bg-teal-400 shadow rounded-md w-full transition-all duration-500 aria-hidden:hidden"
+                            onClick={() => {setIsLogin(true)}}
+                            aria-hidden={isLogin}
+                            type='button'
+                        >
+                            <p className="text-base font-medium leading-normal text-white">Entrar</p>
                         </button>
-                    </div>
-                    <button 
-                        className="h-10 mt-8 inline-flex items-center justify-center px-4 py-2 bg-teal-200 shadow rounded-md w-full transition-all duration-500 aria-hidden:hidden"
-                        onClick={() => {setIsLogin(false)}}
-                        aria-hidden={!isLogin}
-                        type='button'
+
+                        <div className="my-4 flex flex-col transition-all overflow-auto w-full max-h-max">
+                            <hr className="border-gray-300"></hr>
+                        </div>
+                    </form>
+
+                    <form className="inline-flex flex-col items-center justify-center px-12 md:px-[calc(100vw*0.08)] lg:px-32 bg-white dark:bg-slate-800 w-full max-w-2xl"
+                        id='registerForm'
+                        onSubmit={handleSubmit2(newUserStudent)}
                     >
-                        <p className="text-base font-medium leading-normal text-teal-700">Criar minha conta</p>
-                    </button>
-                </form>              
+                        <div className="flex flex-col items-center justify-center w-full">
+                            <p className="text-2xl font-bold leading-8 text-gray-900 dark:text-white">Crie sua conta na plataforma</p>
+                            <p className="text-sm font-normal leading-none text-gray-500">Registre-se na plataforma.</p>
+                        </div>
+                        <div className='flex flex-col transition-all ease-in-out duration-700 overflow-auto w-full aria-hidden:max-h-0'
+                            aria-hidden={isLogin}
+                        >
+                            <div className="flex flex-col items-start justify-start w-full transition-all duration-500">
+                                <div className="flex flex-col items-start justify-start w-full">
+                                    <div className="inline-flex items-center justify-start pl-4 w-full">
+                                        <p className="text-sm font-medium leading-tight text-gray-700 dark:text-gray-300">Nome</p>
+                                    </div>
+                                    <Input 
+                                        id="nome"
+                                        type="text"
+                                        required
+                                        className="w-full text-sm font-medium leading-tight rounded-lg px-4 py-2 shadow border border-gray-300 text-gray-900 placeholder-gray-500 focus:border-teal-400 focus:outline-none focus:ring-teal-400 sm:text-sm"
+                                        placeholder="Insira seu nome"
+                                        {...register2("nome")}
+                                        error={errors2.nome}
+                                    />
+                                </div>
+                                <div className="flex flex-col items-start justify-start w-full" role="group">
+                                    <div className="inline-flex items-center justify-start pl-4 w-full mt-4">
+                                        <p className="text-sm font-medium leading-tight text-gray-700 dark:text-gray-300">E-mail</p>
+                                    </div>
+                                    <div className="w-full relative flex flex-wrap items-stretch">
+                                        <Input 
+                                            id="email"
+                                            type="text"
+                                            required
+                                            className="w-3/5 left-0 rounded-l-lg rounded-r-none"
+                                            placeholder="Insira seu RU"
+                                            {...register2("email")}
+                                            error={errors2.email}
+                                        />
+                                        <div className="w-2/5 h-10 right-0 inline-flex justify-evenly items-center bg-gray-100 dark:bg-gray-600 rounded-r-lg shadow border dark:border-gray-500   text-gray-900 placeholder-gray-500">
+                                            <MdEmail className=" text-gray-400 dark:bg-gray-600 hidden text-xl md:hidden xl:block"/>
+                                            <p className="text-sm dark:text-white dark:bg-gray-600 font-medium leading-tight truncate hover:text-clip"> @aluno.uniso.br</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <button className="h-10 mt-8 inline-flex items-center justify-center px-4 py-2 bg-teal-200 shadow rounded-md w-full transition-all duration-500 aria-hidden:hidden"
+                                type="submit"
+                                form='registerForm'
+                                disabled={isSubmitting2}
+                            >
+                                <IsLoading
+                                    isVisible={isSubmitting2}
+                                    textLoading='Enviando...'
+                                    className='text-white'
+                                />
+                                <p className="text-base font-medium leading-normal text-teal-700 aria-hidden:hidden"
+                                    aria-hidden={isSubmitting2}
+                                >
+                                    Criar minha conta
+                                </p>
+                            </button>
+                        </div>
+                        <button 
+                            className="h-10 mt-8 inline-flex items-center justify-center px-4 py-2 bg-teal-200 shadow rounded-md w-full transition-all duration-500 aria-hidden:hidden"
+                            onClick={() => {setIsLogin(false)}}
+                            aria-hidden={!isLogin}
+                            type='button'
+                        >
+                            <p className="text-base font-medium leading-normal text-teal-700">Criar minha conta</p>
+                        </button>
+                    </form>              
+                </div>
             </div>
 
             <div className={`${isResetPassword ? "block" : "hidden md:block"} w-full left-0 md:w-1/2 text-center fixed`}>
