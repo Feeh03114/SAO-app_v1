@@ -14,8 +14,8 @@ import { Control, FieldValues, useFieldArray, useForm } from "react-hook-form";
 import { HiOutlineCheck, HiOutlinePlus } from "react-icons/hi";
 import { toast } from "react-toastify";
 import * as yup from 'yup';
-import { validationAddress } from "./formAddress";
-import { default as FormAddress, default as FormEditAddress } from "./formEditAddress";
+import FormAddress, { validationAddress } from "./formAddress";
+import FormEditAddress from "./formEditAddress";
 import { Option } from "./formPatient";
 
 export const validationGuardian = yup.object().shape({
@@ -123,11 +123,12 @@ export default function FormGuardian({isOpen, onClose, onSave} : ModalGuardianPr
         >
             <Modal.Header title="Cadastrar Guardião" icon={HiOutlinePlus} />
             <Modal.Body>
-                <FormAddress isOpen={addressDisposer.isOpen} onClose={addressDisposer.close} address={selectedAddress} onSave={updateAddress} onDelete={deleteAddress}/>
+                <FormAddress isOpen={addressDisposer.isOpen} onClose={addressDisposer.close} onSave={updateAddress}/>
                 <FormEditAddress isOpen={editAddressDisposer.isOpen} onClose={editAddressDisposer.close} address={selectedAddress} onSave={updateEditAddress} onDelete={deleteAddress}/>
                 <form id='formGuardian' className="w-full gap-y-4 flex flex-wrap" onSubmit={handleSubmitGuardian(updateHandleSubmit)}>
                     <div className="w-1/2 md:w-1/4 px-2">
-                        <Input 
+                        <Input
+                            required
                             id="name"
                             type="text"
                             label="Nome"
@@ -139,7 +140,8 @@ export default function FormGuardian({isOpen, onClose, onSave} : ModalGuardianPr
                         />
                     </div>
                     <div className="w-1/2 md:w-1/4 px-2">
-                        <Input 
+                        <Input
+                            required
                             id="lastName"
                             type="text"
                             label="Sobrenome"
@@ -151,7 +153,8 @@ export default function FormGuardian({isOpen, onClose, onSave} : ModalGuardianPr
                         />
                     </div>
                     <div className="w-1/2 md:w-1/4 px-2">
-                        <Input 
+                        <Input
+                            required
                             id="cpf"
                             type="text"
                             label="CPF"
@@ -162,7 +165,8 @@ export default function FormGuardian({isOpen, onClose, onSave} : ModalGuardianPr
                         />
                     </div>
                     <div className="w-1/2 md:w-1/4 px-2">
-                        <Input 
+                        <Input
+                            required
                             id="rg"
                             type="text"
                             label="RG"
@@ -174,7 +178,8 @@ export default function FormGuardian({isOpen, onClose, onSave} : ModalGuardianPr
                     </div>
 
                     <div className="w-1/2 md:w-1/4 px-2">
-                        <Input 
+                        <Input
+                            required
                             id="birthDate"
                             type="date"
                             label="Data de nascimento"
@@ -186,6 +191,7 @@ export default function FormGuardian({isOpen, onClose, onSave} : ModalGuardianPr
                     </div>
                     <div className="w-1/2 md:w-1/4 px-2">
                         <Select
+                            required
                             label="Gênero"
                             name="gender"
                             placeHolder={"Selecione o gênero"}
@@ -202,6 +208,7 @@ export default function FormGuardian({isOpen, onClose, onSave} : ModalGuardianPr
                     </div>
                     <div className="w-1/2 md:w-1/4 px-2">
                         <Select
+                            required
                             label="Etnia"
                             name="ethnicity"
                             placeHolder={"Selecione a etnia"}
@@ -217,7 +224,8 @@ export default function FormGuardian({isOpen, onClose, onSave} : ModalGuardianPr
                         />
                     </div>
                     <div className="w-1/2 md:w-1/4 px-2">
-                        <Input 
+                        <Input
+                            required
                             id="email"
                             type="text"
                             label="E-mail"
@@ -229,7 +237,8 @@ export default function FormGuardian({isOpen, onClose, onSave} : ModalGuardianPr
                     </div>
 
                     <div className="w-1/2 md:w-1/4 px-2">
-                        <Input 
+                        <Input
+                            required
                             id="phoneNumber"
                             type="text"
                             label="Telefone"
@@ -273,9 +282,9 @@ export default function FormGuardian({isOpen, onClose, onSave} : ModalGuardianPr
                         />
                     </div>
 
-                    <div className="w-full pt-6 px-2 border-t border-gray-300 dark:border-gray-500">
-                        <div className="flex items-center justify-between">
-                            <label className="pl-4 text-sm font-medium leading-tight text-gray-700 dark:text-white">Endereços</label>
+                    <div className="w-full pt-6 border-t border-gray-300 dark:border-gray-500">
+                        <div className="flex px-2 items-center justify-between">
+                            <label className="pl-4 text-sm font-medium leading-tight text-gray-700 dark:text-white">Endereços<span className="text-red-500">*</span></label>
                             <button className="h-10 mb-1 space-x-2 flex items-center justify-center px-3 bg-teal-500 border rounded-md border-teal-500 cursor-pointer"
                                 type="button"
                                 onClick={() => {addressDisposer.open()}}

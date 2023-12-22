@@ -101,7 +101,8 @@ export default function FormProfile({edit, isPermissionWrite=true, onSave}:FormP
             <div className="w-screen px-8">
                 <div className="w-full p-6 flex flex-row flex-wrap shadow-sm border rounded-lg border-gray-300 dark:border-gray-500 dark:bg-slate-800">
                     <div className="w-full md:w-1/2 px-2">
-                        <Input 
+                        <Input
+                            required
                             id="nomePerfil"
                             type="text"
                             label="Nome do Perfil"
@@ -114,6 +115,7 @@ export default function FormProfile({edit, isPermissionWrite=true, onSave}:FormP
                     </div>
                     <div className="w-full md:w-1/4 px-2">
                         <Select
+                            required
                             label="Tipo do usuário"
                             name="typeUser"
                             disabled={!isPermissionWrite}

@@ -20,16 +20,17 @@ export interface RegisterModelProps {
     className?: string;
     valueTypeName?: boolean;
     error?: FieldError | Merge<FieldError, FieldErrorsImpl<any>> | null;
+    required?: boolean;
 }
 
-function Select({ error, name, label, placeHolder, valueDefault='', data=[], control, disabled, className, valueTypeName=false }:RegisterModelProps): JSX.Element {
+function Select({ error, name, label, placeHolder, valueDefault='', data=[], control, disabled, className, valueTypeName=false, required }:RegisterModelProps): JSX.Element {
     return(
         <Controller
             name={name}
             control={control}
             render={({ field }) => (
                 <>
-                    <label className={`${label === undefined && 'hidden'} pl-4 text-sm font-Inter font-medium leading-tight text-gray-700 dark:text-white`}>{label}</label>
+                    <label className={`${label === undefined && 'hidden'} pl-4 text-sm font-Inter font-medium leading-tight text-gray-700 dark:text-white`}>{label}<span className={`${required == undefined && "hidden"} text-red-500`}>*</span></label>
                     <select
                         disabled={disabled}
                         value={field.value}

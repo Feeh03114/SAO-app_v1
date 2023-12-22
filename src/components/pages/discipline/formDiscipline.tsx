@@ -73,9 +73,12 @@ export default function FormDiscipline({edit, isPermissionWrite=true, onSave}:Fo
     const updateService = (data: any) => append(data);
 
     function convertMinutesToHours(minutes: number) {
-        const hours = Math.floor(minutes / 60);
-        const minutesRest = minutes % 60;
-        return `${hours}:${minutesRest}`;
+        if (minutes > 60 ) {
+            const hours = Math.floor(minutes / 60);
+            const minutesRest = minutes % 60;
+            return `${hours}:${minutesRest} h`;
+        }
+        return `${minutes} min`;
     }
 
     function tableHeight() {
@@ -90,8 +93,9 @@ export default function FormDiscipline({edit, isPermissionWrite=true, onSave}:Fo
                 <div className="w-screen px-8">
                     <div className="w-full p-6 flex flex-row flex-wrap shadow-sm border rounded-lg border-gray-300 dark:border-gray-500 dark:bg-slate-800">
                         <div className="w-full px-2">
-                            <Input 
-                                id="nomeDisciplina"
+                            <Input
+                                required
+                                id="name"
                                 type="text"
                                 label="Nome"
                                 placeholder="Nome da Disciplina"
@@ -136,7 +140,7 @@ export default function FormDiscipline({edit, isPermissionWrite=true, onSave}:Fo
                                     >
                                         <Table.CellBody><p className="text-ellipsis overflow-hidden">{item?.name}</p></Table.CellBody>
                                         <Table.CellBody hiddenInMobile={true}><p className="text-ellipsis overflow-hidden truncate">{item?.description}</p></Table.CellBody>
-                                        <Table.CellBody>{convertMinutesToHours(item?.duration_medio||0)} h</Table.CellBody>
+                                        <Table.CellBody>{convertMinutesToHours(item?.duration_medio || 0)}</Table.CellBody>
                                         <Table.CellBody hiddenInMobile={true}>
                                             {
                                                 item?.price.toLocaleString('pt-BR', {

@@ -157,7 +157,7 @@ export default function FormPatient({ isPermissionWrite=true, onSave, edit={} }:
             <form id='formPatient' onSubmit={handleSubmit1(onSavePatient)} className="gap-y-3 md:gap-y-6 flex items-center justify-centers flex-row flex-wrap">
                 <div className="w-full md:w-1/4 px-2">
                     <Input 
-                        id="name"
+                        id="medicalRecord"
                         type="text"
                         label="Prontuário"
                         placeholder="Insira o prontuário"
@@ -170,6 +170,7 @@ export default function FormPatient({ isPermissionWrite=true, onSave, edit={} }:
                 </div>
                 <div className="w-full md:w-1/4 px-2">
                     <Input 
+                        required
                         id="name"
                         type="text"
                         label="Nome"
@@ -183,6 +184,7 @@ export default function FormPatient({ isPermissionWrite=true, onSave, edit={} }:
                 </div>
                 <div className="w-full md:w-1/4 px-2">
                     <Input 
+                        required
                         id="lastName"
                         type="text"
                         label="Sobrenome"
@@ -196,6 +198,7 @@ export default function FormPatient({ isPermissionWrite=true, onSave, edit={} }:
                 </div>
                 <div className="w-full md:w-1/4 px-2">
                     <Input 
+                        required
                         id="cpf"
                         type="text"
                         label="CPF"
@@ -208,6 +211,7 @@ export default function FormPatient({ isPermissionWrite=true, onSave, edit={} }:
                 </div>
                 <div className="w-full md:w-1/4 px-2">
                     <Input 
+                        required
                         id="rg"
                         type="text"
                         label="RG"
@@ -221,6 +225,7 @@ export default function FormPatient({ isPermissionWrite=true, onSave, edit={} }:
 
                 <div className="w-full md:w-1/4 px-2">
                     <Input 
+                        required
                         id="birthDate"
                         type="date"
                         label="Data de nascimento"
@@ -233,6 +238,7 @@ export default function FormPatient({ isPermissionWrite=true, onSave, edit={} }:
                 </div>
                 <div className="w-full md:w-1/4 px-2">
                     <Select
+                        required
                         label="Gênero"
                         name="gender"
                         disabled={!isPermissionWrite}
@@ -250,6 +256,7 @@ export default function FormPatient({ isPermissionWrite=true, onSave, edit={} }:
                 </div>
                 <div className="w-full md:w-1/4 px-2">
                     <Select
+                        required
                         label="Etnia"
                         name="ethnicity"
                         disabled={!isPermissionWrite}
@@ -267,6 +274,7 @@ export default function FormPatient({ isPermissionWrite=true, onSave, edit={} }:
                 </div>
                 <div className="w-full md:w-1/4 px-2">
                     <Input 
+                        required
                         id="email"
                         type="text"
                         label="E-mail"
@@ -280,6 +288,7 @@ export default function FormPatient({ isPermissionWrite=true, onSave, edit={} }:
 
                 <div className="w-full md:w-1/4 px-2">
                     <Input 
+                        required
                         id="phoneNumber"
                         type="text"
                         label="Telefone"
@@ -346,7 +355,7 @@ export default function FormPatient({ isPermissionWrite=true, onSave, edit={} }:
                 
                 <div className="w-full pt-6 border-t border-gray-300 dark:border-gray-500">
                     <div className="flex items-center justify-between">
-                        <label className="pl-4 text-sm font-medium leading-tight text-gray-700 dark:text-white">Endereços</label>
+                        <label className="pl-4 text-sm font-medium leading-tight text-gray-700 dark:text-white">Endereços<span className="text-red-500">*</span></label>
                         <button className="h-10 mr-2 mb-1 space-x-2 flex items-center justify-center px-3 bg-teal-400 border rounded-md border-teal-500 cursor-pointer"
                             type="button"
                             onClick={() => {addressDisposer.open()}}
@@ -362,7 +371,7 @@ export default function FormPatient({ isPermissionWrite=true, onSave, edit={} }:
                                 text={watchAddress === undefined ? "" : watchAddress[index].name} 
                                 onClick={() => {
                                     if (watchAddress != undefined) {
-                                         const selectedAddress = watchAddress[index] as Address;
+                                        const selectedAddress = watchAddress[index] as Address;
                                         setIndexSelectedAddress(index);
                                         setSelectedAddress(selectedAddress);
                                     }

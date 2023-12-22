@@ -97,10 +97,11 @@ export default function FormServiceDiscipline({isOpen, onClose, onSave} : ModalS
             <Modal.Body>
                 <form id='formService' className="w-full space-y-4 flex flex-wrap" onSubmit={handleSubmit(updateHandleSubmit)}>
                     <div className="w-full">
-                        <label className="pl-4 text-sm font-medium leading-tight text-gray-700 dark:text-white">Nome do Serviço</label>
-                        <Input 
+                        <Input
+                            required
                             id="name"
                             type="text"
+                            label="Nome do Serviço"
                             className="w-full"
                             placeholder="Insira o nome do serviço"
                             {...register("name")}
@@ -108,7 +109,7 @@ export default function FormServiceDiscipline({isOpen, onClose, onSave} : ModalS
                         />
                     </div>
                     <div className="w-full">
-                        <label className="pl-4 text-sm font-medium leading-tight text-gray-700 dark:text-white">Descrição</label>
+                        <label className="pl-4 text-sm font-medium leading-tight text-gray-700 dark:text-white">Descrição<span className="text-red-500">*</span></label>
                         <textarea 
                             id="description"
                             className="w-full h-24 px-4 py-2 text-sm font-medium leading-tight truncate dark:text-white placeholder-gray-500 dark:placeholder-white shadow-sm border rounded-lg border-gray-300 dark:border-gray-500  dark:bg-slate-700 focus:border-teal-400 focus:outline-none focus:ring-teal-400 resize-none"
@@ -119,10 +120,11 @@ export default function FormServiceDiscipline({isOpen, onClose, onSave} : ModalS
                     </div>
                     <div className="flex flex-wrap md:flex-nowrap md:space-x-6">
                         <div className="w-full md:w-1/2">
-                            <label className="pl-4 text-sm font-medium leading-tight text-gray-700 dark:text-white">Valor</label>
-                            <Input 
+                            <Input
+                                required
                                 id="price"
                                 type="text"
+                                label="Valor"
                                 className="w-full"
                                 placeholder="Insira o valor do serviço"
                                 {...register("price")}
@@ -130,10 +132,11 @@ export default function FormServiceDiscipline({isOpen, onClose, onSave} : ModalS
                             />
                         </div>
                         <div className="w-full md:w-1/2 mt-4 md:mt-0">
-                            <label className="pl-4 text-sm font-medium leading-tight text-gray-700 dark:text-white">Tempo médio de atendimento</label>
-                            <Input 
+                            <Input
+                                required
                                 id="durationMedio"
                                 type="time"
+                                label="Tempo médio de atendimento"
                                 className="w-full"
                                 {...register("duration_medio")}
                                 error={errors.duration_medio}

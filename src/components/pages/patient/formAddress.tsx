@@ -60,6 +60,7 @@ export default function FormAddress({isOpen, onClose, onSave} : ModalAddressProp
                 <form id='formAddress' className="w-full space-y-4 flex flex-wrap" onSubmit={handleSubmit(updateHandleSubmit)}>
                     <div className="w-full px-2">
                         <Input 
+                            required
                             id="name"
                             type="text"
                             label="Nome do endereço"
@@ -72,6 +73,7 @@ export default function FormAddress({isOpen, onClose, onSave} : ModalAddressProp
                     </div>
                     <div className="w-full px-2">
                         <Input 
+                            required
                             id="streetAddress"
                             type="text"
                             label="Rua"
@@ -83,6 +85,7 @@ export default function FormAddress({isOpen, onClose, onSave} : ModalAddressProp
                     </div>
                     <div className="w-full md:w-1/2 px-2">
                         <Input 
+                            required
                             id="number"
                             type="text"
                             label="Número"
@@ -94,6 +97,7 @@ export default function FormAddress({isOpen, onClose, onSave} : ModalAddressProp
                     </div>
                     <div className="w-full md:w-1/2 px-2">
                         <Input 
+                            required
                             id="cep"
                             type="text"
                             label="CEP"
@@ -116,6 +120,7 @@ export default function FormAddress({isOpen, onClose, onSave} : ModalAddressProp
                     </div>
                     <div className="w-full px-2">
                         <Input 
+                            required
                             id="district"
                             type="text"
                             label="Bairro"
@@ -127,6 +132,7 @@ export default function FormAddress({isOpen, onClose, onSave} : ModalAddressProp
                     </div>
                     <div className="w-full md:w-1/2 px-2">
                         <Input 
+                            required
                             id="city"
                             type="text"
                             label="Cidade"
@@ -138,6 +144,7 @@ export default function FormAddress({isOpen, onClose, onSave} : ModalAddressProp
                     </div>
                     <div className="w-full md:w-1/2 px-2">
                         <Input 
+                            required
                             id="state"
                             type="text"
                             label="Estado"

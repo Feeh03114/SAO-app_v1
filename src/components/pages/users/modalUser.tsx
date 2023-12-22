@@ -46,9 +46,9 @@ const schemaPermission = yup.object().shape({
 });
 
 const validationFullModal = yup.object().shape({
+    typeUser: yup.number().required('Campo obrigatório'),
     name: yup.string().required('Campo obrigatório'),
     email: yup.string().email('E-mail inválido').required('Campo obrigatório'),
-    typeUser: yup.number().required('Campo obrigatório'),
     ru: yup.string().required('Campo obrigatório'),
     profilesIds: yup.array().required('Campo obrigatório'),
     cro: yup.string().optional(),
@@ -114,6 +114,7 @@ export function ModalUser({ isOpen, onClose, loadData }: ModalUserProps) {
                 <form id='formUser' className="w-full space-y-4 flex flex-wrap" onSubmit={handleSubmit(onSave)}>
                     <div className="w-full">
                         <Select
+                            required
                             className="w-full"
                             label="Tipo do usuário"
                             name="typeUser"
@@ -127,10 +128,11 @@ export function ModalUser({ isOpen, onClose, loadData }: ModalUserProps) {
                     </div>
                 
                     <div className="w-full">
-                        <label className="pl-4 text-sm font-medium leading-tight text-gray-700 dark:text-white">Nome</label>
-                        <Input 
+                        <Input
+                            required
                             id="name"
                             type="text"
+                            label="Nome"
                             className="w-full"
                             placeholder="Insira o nome"
                             {...register("name")}
@@ -138,10 +140,11 @@ export function ModalUser({ isOpen, onClose, loadData }: ModalUserProps) {
                         />
                     </div>
                     <div className="w-full">
-                        <label className="pl-4 text-sm font-medium leading-tight text-gray-700 dark:text-white">Registro Universitário</label>
-                        <Input 
+                        <Input
+                            required
                             id="ru"
                             type="text"
+                            label="Registro Universitário"
                             className="w-full"
                             placeholder="Insira o RU"
                             {...register("ru")}
@@ -149,10 +152,11 @@ export function ModalUser({ isOpen, onClose, loadData }: ModalUserProps) {
                         />
                     </div>
                     <div className="w-full">
-                        <label className="pl-4 text-sm font-medium leading-tight text-gray-700 dark:text-white">E-mail</label>
-                        <Input 
+                        <Input
+                            required
                             id="email"
                             type="text"
+                            label="E-mail"
                             className="w-full"
                             placeholder="Insira o e-mail"
                             {...register("email")}
@@ -160,10 +164,10 @@ export function ModalUser({ isOpen, onClose, loadData }: ModalUserProps) {
                         />
                     </div>
                     <div className="w-full">
-                        <label className="pl-4 text-sm font-medium leading-tight text-gray-700 dark:text-white">CRO</label>
                         <Input 
                             id="cro"
                             type="text"
+                            label="CRO"
                             className="w-full"
                             placeholder="Insira o CRO"
                             {...register("cro")}
@@ -171,7 +175,7 @@ export function ModalUser({ isOpen, onClose, loadData }: ModalUserProps) {
                         />
                     </div>
                     <div className="w-full">
-                        <label className="pl-4 text-sm font-medium leading-tight text-gray-700 dark:text-white">Perfis</label>
+                        <label className="pl-4 text-sm font-medium leading-tight text-gray-700 dark:text-white">Perfis<span className="text-red-500">*</span></label>
                         <Controller
                             name="profilesIds"
                             control={control}

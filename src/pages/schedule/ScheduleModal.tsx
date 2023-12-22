@@ -217,22 +217,23 @@ export default function ScheduleModal({ open=false, setOpen, cancelButtonRef }: 
                                     </div>
                                 </div>
                                 <div className="col-span-2 sm:col-span-1">
-                                    <label className="pl-4 text-sm font-medium leading-tight text-gray-700 dark:text-white">Prontuário do Paciente</label>
                                     <Input 
                                         id="prontuario"
                                         type="text"
+                                        label="Prontuário do Paciente"
                                         className="w-full rounded-lg px-4 py-2 dark:bg-slate-700 dark:text-white shadow border border-gray-300 text-gray-900 placeholder-gray-500 dark:placeholder-white focus:border-teal-400 focus:outline-none focus:ring-teal-400 md:text-sm"
                                         placeholder="Insira seu prontuário"
+                                        required
                                         {...register("prontuario")}
                                         error={errors.prontuario}
                                         onBlur={(e:any)=>e.target.value && getPatient()}
                                     />
                                 </div>
                                 <div className="col-span-2 sm:col-span-1">
-                                    <label className="pl-4 text-sm font-medium leading-tight text-gray-700 dark:text-white">Nome do Paciente</label>
                                     <Input 
                                         id="nome"
                                         type="text"
+                                        label="Nome do Paciente"
                                         className="w-full rounded-lg px-4 py-2 dark:bg-slate-700 dark:text-white shadow border border-gray-300 text-gray-900 placeholder-gray-500 dark:placeholder-white focus:border-teal-400 focus:outline-none focus:ring-teal-400 sm:text-sm"
                                         placeholder="Insira seu nome do paciente"
                                         required
@@ -241,7 +242,7 @@ export default function ScheduleModal({ open=false, setOpen, cancelButtonRef }: 
                                         onBlur={(e:any)=>e.target.value && getPatient()}
                                     />
                                 </div>
-                                <label className="pl-4 text-sm font-medium leading-tight text-gray-700 dark:text-white">Tipo de consulta</label>
+                                <label className="pl-4 text-sm font-medium leading-tight text-gray-700 dark:text-white">Tipo de consulta<span className="text-red-500">*</span></label>
                                 <div id="tipoDeConsulta" className="col-span-2">
                                     <Controller
                                         name='typeConsult'
@@ -261,14 +262,12 @@ export default function ScheduleModal({ open=false, setOpen, cancelButtonRef }: 
                                                     />
                                                     Nova consulta
                                                 </label>
-                                                <label className='dark:text-gray-200 aria-disabled:text-gray-700'
-                                                    aria-disabled={Object.keys(treatment).length === 0}
-                                                >
+                                                <label className={`dark:text-gray-200 aria-disabled:text-gray-700 ${Object.keys(treatment).length === 0 && 'cursor-not-allowed'}`}>
                                                     <input 
                                                         id="retorno"
                                                         type="radio" 
                                                         name="type"
-                                                        className="text-teal-400 mr-2 disabled:bg-gray-500 disabled:cursor-not-allowed "
+                                                        className="text-teal-400 mr-2 disabled:bg-gray-500"
                                                         checked={field.value === 'retorno'}
                                                         onChange={(e) => field.onChange(e.target.checked ? 'retorno' : 'novaConsulta')}
                                                         disabled={Object.keys(treatment).length === 0}
@@ -287,7 +286,7 @@ export default function ScheduleModal({ open=false, setOpen, cancelButtonRef }: 
                                         control={control}
                                         render={({ field }) => (
                                             <>
-                                                <label className="pl-4 text-sm font-medium leading-tight text-gray-700 dark:text-white">Tratamento Odontológico</label>
+                                                <label className="pl-4 text-sm font-medium leading-tight text-gray-700 dark:text-white">Tratamento Odontológico<span className="text-red-500">*</span></label>
                                                 <select 
                                                     value={field.value}
                                                     onChange={(e) => field.onChange(e.target.value)}
@@ -307,7 +306,7 @@ export default function ScheduleModal({ open=false, setOpen, cancelButtonRef }: 
                                 <div className="col-span-2 aria-hidden:hidden"
                                     aria-hidden={watch('typeConsult') === 'retorno'}
                                 >
-                                    <label className="pl-4 text-sm font-medium leading-tight text-gray-700 dark:text-white">Queixa</label>
+                                    <label className="pl-4 text-sm font-medium leading-tight text-gray-700 dark:text-white">Queixa<span className="text-red-500">*</span></label>
                                     <textarea 
                                         id="queixa"
                                         className="w-full h-20 rounded-lg px-4 py-2 dark:bg-slate-700 dark:text-white shadow border border-gray-300 dark:border-gray-500 text-gray-900 placeholder-gray-500 dark:placeholder-white focus:border-teal-400 focus:outline-none focus:ring-teal-400 sm:text-sm"
@@ -321,7 +320,7 @@ export default function ScheduleModal({ open=false, setOpen, cancelButtonRef }: 
                                     }
                                 </div>
                                 <div className='flex flex-col gap-1'>
-                                    <label className="pl-4 text-sm font-medium leading-tight text-slate-700 dark:text-white">Data</label>
+                                    <label className="pl-4 text-sm font-medium leading-tight text-slate-700 dark:text-white">Data<span className="text-red-500">*</span></label>
                                     <Controller
                                         control={control}
                                         name="data"
@@ -362,10 +361,10 @@ export default function ScheduleModal({ open=false, setOpen, cancelButtonRef }: 
                                     />
                                 </div>
                                 <div>
-                                    <label className="pl-4 text-sm font-medium leading-tight  text-slate-700 dark:text-white">Horário</label>
                                     <Input 
                                         id="horario"
                                         type="time"
+                                        label="Horário"
                                         className="w-full cursor-text rounded-lg px-4 py-2 dark:bg-slate-700 dark:text-white shadow border border-gray-300 dark:border-gray-500 text-gray-900 placeholder-slate-500 focus:border-teal-400 focus:outline-none focus:ring-teal-400 sm:text-sm"
                                         placeholder="00:00"
                                         required

@@ -104,7 +104,8 @@ export default function FormEditGuardian({isOpen, onClose, guardian, onSave, onD
                 <FormEditAddress isOpen={editAddressDisposer.isOpen} onClose={editAddressDisposer.close} address={selectedAddress} onSave={updateEditAddress} onDelete={deleteAddress}/>
                 <form id='formEditGuardian' className="w-full gap-y-4 flex flex-wrap" onSubmit={handleSubmitGuardian(updateHandleSubmit)}>
                     <div className="w-1/2 md:w-1/4 px-2">
-                        <Input 
+                        <Input
+                            required
                             id="name"
                             type="text"
                             label="Nome"
@@ -116,7 +117,8 @@ export default function FormEditGuardian({isOpen, onClose, guardian, onSave, onD
                         />
                     </div>
                     <div className="w-1/2 md:w-1/4 px-2">
-                        <Input 
+                        <Input
+                            required
                             id="lastName"
                             type="text"
                             label="Sobrenome"
@@ -128,7 +130,8 @@ export default function FormEditGuardian({isOpen, onClose, guardian, onSave, onD
                         />
                     </div>
                     <div className="w-1/2 md:w-1/4 px-2">
-                        <Input 
+                        <Input
+                            required
                             id="cpf"
                             type="text"
                             label="CPF"
@@ -139,7 +142,8 @@ export default function FormEditGuardian({isOpen, onClose, guardian, onSave, onD
                         />
                     </div>
                     <div className="w-1/2 md:w-1/4 px-2">
-                        <Input 
+                        <Input
+                            required
                             id="rg"
                             type="text"
                             label="RG"
@@ -151,7 +155,8 @@ export default function FormEditGuardian({isOpen, onClose, guardian, onSave, onD
                     </div>
 
                     <div className="w-1/2 md:w-1/4 px-2">
-                        <Input 
+                        <Input
+                            required
                             id="birthDate"
                             type="date"
                             label="Data de nascimento"
@@ -163,6 +168,7 @@ export default function FormEditGuardian({isOpen, onClose, guardian, onSave, onD
                     </div>
                     <div className="w-1/2 md:w-1/4 px-2">
                         <Select
+                            required
                             label="Gênero"
                             name="gender"
                             placeHolder={"Selecione o gênero"}
@@ -178,6 +184,7 @@ export default function FormEditGuardian({isOpen, onClose, guardian, onSave, onD
                     </div>
                     <div className="w-1/2 md:w-1/4 px-2">
                         <Select
+                            required
                             label="Etnia"
                             name="ethnicity"
                             placeHolder={"Selecione a etnia"}
@@ -192,7 +199,8 @@ export default function FormEditGuardian({isOpen, onClose, guardian, onSave, onD
                         />
                     </div>
                     <div className="w-1/2 md:w-1/4 px-2">
-                        <Input 
+                        <Input
+                            required
                             id="email"
                             type="text"
                             label="E-mail"
@@ -204,7 +212,8 @@ export default function FormEditGuardian({isOpen, onClose, guardian, onSave, onD
                     </div>
 
                     <div className="w-1/2 md:w-1/4 px-2">
-                        <Input 
+                        <Input
+                            required
                             id="phoneNumber"
                             type="text"
                             label="Telefone"

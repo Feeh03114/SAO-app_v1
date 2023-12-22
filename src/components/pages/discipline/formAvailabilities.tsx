@@ -60,6 +60,7 @@ export default function FormAvailabilities({isOpen, onClose, onSave, edit = {} }
                 <form id='formAvailabilities' className="w-full space-y-4 flex flex-wrap" onSubmit={handleSubmit(updateHandleSubmit)}>
                     <div className="w-full">
                         <Select
+                            required
                             label="Selecione o dia da semana"
                             name="dayWeek"
                             placeHolder={"Selecione o dia da semana"}
@@ -75,20 +76,22 @@ export default function FormAvailabilities({isOpen, onClose, onSave, edit = {} }
                     </div>
                     <div className="flex flex-wrap md:flex-nowrap md:space-x-6">
                         <div className="w-full md:w-1/2">
-                            <label className="pl-4 text-sm font-medium leading-tight text-gray-700 dark:text-white">Início do Expediente</label>
-                            <Input 
+                            <Input
+                                required
                                 id="start"
                                 type="time"
+                                label="Início do Expediente"
                                 className="w-full"
                                 {...register("initHour")}
                                 error={errors.initHour}
                             />
                         </div>
                         <div className="w-full md:w-1/2 mt-4 md:mt-0">
-                            <label className="pl-4 text-sm font-medium leading-tight text-gray-700 dark:text-white">Fim do Expediente</label>
-                            <Input 
+                            <Input
+                                required
                                 id="end"
                                 type="time"
+                                label="Fim do Expediente"
                                 className="w-full"
                                 {...register("endHour")}
                                 error={errors.endHour}
