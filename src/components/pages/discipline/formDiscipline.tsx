@@ -142,7 +142,8 @@ export default function FormDiscipline({edit, isPermissionWrite=true, onSave}:Fo
                                         <Table.CellBody hiddenInMobile={true}><p className="text-ellipsis overflow-hidden truncate">{item?.description}</p></Table.CellBody>
                                         <Table.CellBody>{convertMinutesToHours(item?.duration_medio || 0)}</Table.CellBody>
                                         <Table.CellBody hiddenInMobile={true}>
-                                            {
+                                            {   
+                                                "R$ " +
                                                 item?.price.toLocaleString('pt-BR', {
                                                     style: 'currency',
                                                     currency: 'BRL',

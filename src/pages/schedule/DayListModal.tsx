@@ -1,6 +1,7 @@
 import { ModalJustification } from '@/components/pages/schedule/modalJustification';
 import { StatusType } from '@/enum/status_type.enum';
 import { useDisclosure } from '@/hook/useDisclosure';
+import api from '@/service/api';
 import { isEqualArray } from '@/util/util';
 import { Dialog, Transition } from '@headlessui/react';
 import dayjs from 'dayjs';
@@ -11,17 +12,20 @@ import { AiOutlineEye, AiOutlinePlus } from 'react-icons/ai';
 import { BsChatSquareText } from 'react-icons/bs';
 import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
 import { toast } from 'react-toastify';
+import { TreatmentToday } from '.';
 
 type ScheduleModalProps = {
     openDayList: boolean;
     setOpenDayList: React.Dispatch<React.SetStateAction<boolean>>;
     setOpen: React.Dispatch<React.SetStateAction<boolean>>;
     cancelButtonRefDayList: React.MutableRefObject<HTMLButtonElement | null>;
-    eventsForDay: any[];
+    date: dayjs.Dayjs;
 };
 
-export default function DayListModal({ openDayList, setOpenDayList, setOpen, cancelButtonRefDayList, eventsForDay }: ScheduleModalProps): JSX.Element {   
+export default function DayListModal({ openDayList, setOpenDayList, setOpen, cancelButtonRefDayList, date }: ScheduleModalProps): JSX.Element {   
     const router = useRouter();
+    const [data, setData] = useState([]);
+    const [eventsForDay, setEventsForDaya] = useState<TreatmentToday[]>([]);
     const { control, reset } = useForm();
     const justificationDisposer = useDisclosure();
     const [idJustification, setIdJustification] = useState<string>("");
@@ -31,12 +35,37 @@ export default function DayListModal({ openDayList, setOpenDayList, setOpen, can
 
     useEffect(() => {
         if(openDayList) {
+            console.log(openDayList)
             reset({
                 consultas: eventsForDay
             });
             setIsOpen(eventsForDay.map(() => false));
         }
     }, [openDayList]);
+
+     const loadEventsForDay = async () => {
+        const param = {
+            day: date.toISOString()
+        };
+
+        try {
+             const { data:RespAPI } = await api.get("api/treatment/schedule/day", {
+                params: param
+            });
+            setData(RespAPI.data);
+            setEventsForDaya(RespAPI);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    useEffect(() => {
+        loadEventsForDay();
+    }, []);
+
+    useEffect(() => {
+       console.log(data);
+    }, [data]);
 
     const onSave = async () => {
         setIsLoading(true);

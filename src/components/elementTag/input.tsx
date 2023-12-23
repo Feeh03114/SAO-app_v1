@@ -1,5 +1,6 @@
 import { ForwardRefRenderFunction, InputHTMLAttributes, forwardRef, useState } from "react";
 import { FieldError, FieldErrorsImpl, Merge } from "react-hook-form";
+import { MdEmail } from "react-icons/md";
 import { twMerge } from "tailwind-merge";
 
 export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
@@ -8,9 +9,10 @@ export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
     error?: FieldError | Merge<FieldError, FieldErrorsImpl<any>> | null;
     label?: string;
     required?: boolean;
+    email?: string;
 }
 
-const InputBase:ForwardRefRenderFunction<HTMLInputElement, InputProps> = ({ password = false, error = null, label, className, required, ...rest }, ref) => {  
+const InputBase:ForwardRefRenderFunction<HTMLInputElement, InputProps> = ({ password = false, error = null, label, className, required, email, ...rest }, ref) => {  
     const [showPassword, setShowPassword] = useState(true);
     return(
         <>
@@ -41,10 +43,14 @@ const InputBase:ForwardRefRenderFunction<HTMLInputElement, InputProps> = ({ pass
                 :
                 <>
                     <label className={`${label == undefined && "hidden"} pl-4 text-sm font-Inter font-medium leading-tight text-gray-700 dark:text-white truncate`}>{label}<span className={`${required == undefined && "hidden"} text-red-500`}>*</span></label>
-                    <input className={twMerge("w-full h-10 px-4 py-3 text-sm font-medium leading-tight truncate dark:text-white placeholder-gray-500 dark:placeholder-white shadow-sm border rounded-lg border-gray-300 dark:border-gray-500 dark:bg-slate-700 focus:border-teal-400 focus:outline-none focus:ring-teal-400", className)}
+                    <input className={twMerge("w-full h-10 px-4 py-3 text-sm font-medium leading-tight truncate dark:text-white placeholder-gray-500 dark:placeholder-white shadow-sm border rounded-lg border-slate-300 dark:border-slate-500 dark:bg-slate-700 focus:border-teal-400 focus:outline-none focus:ring-teal-400", className)}
                         {...rest}
                         ref={ref}
                     />
+                    <div className={`${email == undefined ? "hidden" : "inline-flex"} w-2/5 h-10 right-0 inline-flex justify-evenly items-center bg-gray-100 dark:bg-gray-600 rounded-r-lg shadow border dark:border-gray-500 text-gray-900 placeholder-gray-500`}>
+                        <MdEmail className=" text-gray-400 dark:bg-gray-600 hidden text-xl md:hidden xl:block"/>
+                        <p className="text-sm dark:text-white dark:bg-gray-600 font-medium leading-tight truncate hover:text-clip">{email}</p>
+                    </div>
                 </>
             }
             {!!error && (

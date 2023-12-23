@@ -69,7 +69,7 @@ export default function Schedule():JSX.Element {
     const cancelButtonRefDayList = useRef(null);
     const cancelButtonRef = useRef(null);
     const [selectedDate, setSelectedDate] = useState(dayjs());
-    const [treatmentTodayData, setTreatmentTodayData] = useState<TreatmentToday[]>([]);
+    const [todayDate, setTodayDate] = useState(dayjs());
     const [scrollMiddle, setScrollMiddle] = useState(false);
     const scrollRef = useRef<HTMLUListElement>(null);
     const meses = [
@@ -120,7 +120,7 @@ export default function Schedule():JSX.Element {
     
     return(
         <div className="w-full text-center ">
-            <DayListModal openDayList={openDayList} setOpenDayList={setOpenDayList} setOpen={setOpen} cancelButtonRefDayList={cancelButtonRefDayList} eventsForDay={treatmentTodayData}/>
+            <DayListModal openDayList={openDayList} setOpenDayList={setOpenDayList} setOpen={setOpen} cancelButtonRefDayList={cancelButtonRefDayList} date={todayDate}/>
             <ScheduleModal open={open} setOpen={setOpen} cancelButtonRef={cancelButtonRef}/>
             
             <Header.Root 
@@ -173,7 +173,7 @@ export default function Schedule():JSX.Element {
                             </div>
                             <div className="w-full h-full mx-8 snap-center flex-shrink-0 flex items-center justify-center">
                                 <li className="flex flex-col items-start p-0 h-[calc(100vh-24rem)] md:h-[calc(100vh-21rem)] w-full overflow-y-auto">
-                                  <RenderCalendar selectedDate={selectedDate} setOpenDayList={setOpenDayList} open={open} setTreatmentTodayData={setTreatmentTodayData} />
+                                  <RenderCalendar selectedDate={selectedDate} setOpenDayList={setOpenDayList} open={open} setTodayDate={setTodayDate} />
                                 </li>
                             </div>
                             <div className="w-full h-full snap-center flex-shrink-0 flex items-center justify-center">

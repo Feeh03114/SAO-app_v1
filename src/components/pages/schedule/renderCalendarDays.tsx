@@ -1,4 +1,3 @@
-import { TreatmentToday } from "@/pages/schedule";
 import api from "@/service/api";
 import dayjs, { Dayjs } from "dayjs";
 import { useEffect, useState } from "react";
@@ -11,11 +10,11 @@ export interface HasTreatmentToday {
 interface RenderFakeCalendarProps {
     selectedDate: Dayjs;
     setOpenDayList: React.Dispatch<React.SetStateAction<boolean>>;
-    setTreatmentTodayData: React.Dispatch<React.SetStateAction<TreatmentToday[]>>;
+    setTodayDate: React.Dispatch<React.SetStateAction<Dayjs>>;
     open: boolean;
 }
 
-export default function RenderCalendar({ selectedDate, setOpenDayList, setTreatmentTodayData, open }:RenderFakeCalendarProps): JSX.Element {
+export default function RenderCalendar({ selectedDate, setOpenDayList, setTodayDate, open }:RenderFakeCalendarProps): JSX.Element {
     const [hastreatmentTodayData, sethastreatmentTodayData] = useState<HasTreatmentToday[]>([]);
     const daysInMonth = selectedDate.daysInMonth();
     const startOfMonth = selectedDate.startOf('month').day();
@@ -31,6 +30,8 @@ export default function RenderCalendar({ selectedDate, setOpenDayList, setTreatm
             const { data:RespAPI } = await api.get("api/treatment/schedule", {
                 params: paramsHasScedule
             });
+            console.log("/schedule: ");
+            console.log(RespAPI);
             sethastreatmentTodayData(RespAPI);
         } catch (error) {
           console.log(error);
@@ -76,7 +77,7 @@ export default function RenderCalendar({ selectedDate, setOpenDayList, setTreatm
             const { data:RespAPI } = await api.get("api/treatment/schedule/day", {
                 params: param
             });
-            setTreatmentTodayData(RespAPI);
+            setTodayDate(date);
             eventsForDay = RespAPI;
         } catch (error) {
             console.log(error);

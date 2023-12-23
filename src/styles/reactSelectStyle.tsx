@@ -10,6 +10,9 @@ const teal200 = 'rgb(175 236 239 / 1)';
 const teal400 = 'rgb(22 189 202 / 1)';
 const red500 = 'rgb(240 82 82 / 1)';
 
+const slate500 = 'rgb(100 116 139 / 1)';
+const slate700 = 'rgb(51 65 85 / 1)';
+
 const reactSelectStyleDisabledLight: StylesConfig<true> = {
   control: (styles) => ({ ...styles, 
     height: 40,
@@ -42,8 +45,8 @@ const reactSelectStyleDisabledDark: StylesConfig<true> = {
     boxShadow: '0 1px 2px 0 #0000',
     borderWidth: 1,
     borderRadius: 8,
-    borderColor: gray500,
-    backgroundColor: gray700, 
+    borderColor: slate500,
+    backgroundColor: slate700, 
     cursor: 'default',
   }),
   placeholder: (styles) => ({
@@ -52,11 +55,11 @@ const reactSelectStyleDisabledDark: StylesConfig<true> = {
   }),
   dropdownIndicator: (styles) => ({
     ...styles,
-    color: gray700,
+    color: slate700,
   }),
   indicatorSeparator: (styles) => ({
     ...styles,
-    backgroundColor: gray700, 
+    backgroundColor: slate700, 
   }),
 };
 
@@ -90,7 +93,7 @@ const reactSelectStyleLight: StylesConfig<true> = {
           ? gray400 
           : isFocused 
             ? 'white' 
-            : gray700,
+            : slate700,
     };
   },
   multiValue: (styles) => {
@@ -101,7 +104,7 @@ const reactSelectStyleLight: StylesConfig<true> = {
   },
   multiValueLabel: (styles) => ({
     ...styles,
-    color: gray700,
+    color: slate700,
     backgroundColor: teal200,
     borderTopLeftRadius: 8,
     borderBottomLeftRadius: 8,
@@ -111,7 +114,7 @@ const reactSelectStyleLight: StylesConfig<true> = {
   multiValueRemove: (styles) => ({
     ...styles,
     backgroundColor: teal200,
-    color: gray700,
+    color: slate700,
     ':hover': {
       backgroundColor: red500,
       color: 'white',
@@ -127,29 +130,29 @@ const reactSelectStyleLight: StylesConfig<true> = {
   }),
   dropdownIndicator: (styles) => ({
     ...styles,
-    color: gray500,
+    color: slate500,
     ':hover': {
-      color: gray700,
+      color: slate700,
     },
   }),
   indicatorSeparator: (styles) => ({
     ...styles,
-    backgroundColor: gray500, 
+    backgroundColor: slate500, 
   }),
   clearIndicator: (styles) => ({
     ...styles,
-    color: gray500,
+    color: slate500,
     ':hover': {
-      color: gray700,
+      color: slate700,
     },
   }),
   input: (styles) => ({
     ...styles,
-    color: gray700
+    color: slate700
   }),
   placeholder: (styles) => ({
     ...styles,
-    color: gray700
+    color: slate700
   }),
 };
 
@@ -162,11 +165,11 @@ const reactSelectStyleDark: StylesConfig<true> = {
     boxShadow: '0 1px 2px 0 #0000',
     borderWidth: 1,
     borderRadius: 8,
-    borderColor: isFocused ? teal400 : gray500,
+    borderColor: isFocused ? teal400 : slate500,
     ':hover': {
-      borderColor: isFocused ? teal400 : gray500,
+      borderColor: isFocused ? teal400 : slate500,
     },
-    backgroundColor: gray700, 
+    backgroundColor: slate700, 
     cursor: isDisabled ? 'default' : 'pointer',
   }),
   option: (styles, { isDisabled, isFocused }) => {
@@ -175,11 +178,11 @@ const reactSelectStyleDark: StylesConfig<true> = {
       backgroundColor:
        isFocused
         ? teal400
-        : gray700
+        : slate700
         ? isDisabled
         ? gray600
-        : gray700
-        : gray700,
+        : slate700
+        : slate700,
       cursor: isDisabled ? 'default' : 'pointer',
       color: isDisabled ? gray400 : 'white',
     };
@@ -187,13 +190,13 @@ const reactSelectStyleDark: StylesConfig<true> = {
   multiValue: (styles) => {
     return {
       ...styles,
-      backgroundColor: gray700,
+      backgroundColor: slate700,
     };
   },
   multiValueLabel: (styles) => ({
     ...styles,
     color: 'white',
-    backgroundColor: gray500,
+    backgroundColor: slate500,
     borderTopLeftRadius: 8,
     borderBottomLeftRadius: 8,
     borderTopRightRadius: 0,
@@ -201,7 +204,7 @@ const reactSelectStyleDark: StylesConfig<true> = {
   }),
   multiValueRemove: (styles) => ({
     ...styles,
-    backgroundColor: gray500,
+    backgroundColor: slate500,
     color: 'white',
     ':hover': {
       backgroundColor: red500,
@@ -214,22 +217,22 @@ const reactSelectStyleDark: StylesConfig<true> = {
   }),
   menuList: (styles) => ({
     ...styles,
-    backgroundColor: gray700,
+    backgroundColor: slate700,
   }),
   dropdownIndicator: (styles) => ({
     ...styles,
-    color: gray500,
+    color: slate500,
     ':hover': {
       color: 'white',
     },
   }),
   indicatorSeparator: (styles) => ({
     ...styles,
-    backgroundColor: gray500, 
+    backgroundColor: slate500, 
   }),
   clearIndicator: (styles) => ({
     ...styles,
-    color: gray500,
+    color: slate500,
     ':hover': {
       color: 'white',
     },
