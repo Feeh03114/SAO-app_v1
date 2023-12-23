@@ -122,7 +122,6 @@ export function ModalFilter({fields, isFilterOpen, setIsFilterOpen, filterSelect
                         </button>
                         <button 
                             onClick={()=>{
-                                console.log(filterSelect);
                                 filter(filterSelect)
                                 setIsFilterOpen(!isFilterOpen)
                             }}

@@ -67,7 +67,6 @@ export default function RolesEdit(): JSX.Element {
         setIsLoading(true);
         try {
             const resp = await api.put(`/api/profiles/${id}`, data);
-            console.log(resp);
             toast.success('Perfil atualizado com sucesso!');
             router.back();
         } catch (error) {

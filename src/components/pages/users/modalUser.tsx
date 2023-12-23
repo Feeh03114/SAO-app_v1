@@ -73,8 +73,6 @@ export function ModalUser({ isOpen, onClose, loadData }: ModalUserProps) {
                 }
             });
             setProfiles(RespAPI);
-            console.log("profiles: ");
-            console.log(RespAPI);
         } catch (error) {
           console.log(error);
         }

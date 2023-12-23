@@ -43,8 +43,8 @@ export default function WaitingLineEdit(): JSX.Element {
     //     loadData();
     // }, []);
 
-    const onSave = async (data:WaitingLine) => {
-        console.log(data);
+    // const onSave = async (data:WaitingLine) => {
+        // console.log(data);
         // setIsLoading(true);
         // try {
         //     const resp = await api.post(`/api/patients`, data);
@@ -60,7 +60,7 @@ export default function WaitingLineEdit(): JSX.Element {
         // finally{
         //     setIsLoading(false);
         // }
-    }
+    // }
 
     return (
         <>

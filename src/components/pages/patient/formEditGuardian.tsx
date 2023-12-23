@@ -47,7 +47,6 @@ export default function FormEditGuardian({isOpen, onClose, guardian, onSave, onD
     }
 
     useEffect(() => {
-        console.log(guardian);
         reset({
             // birthDate: guardian.birthDate,
             name: guardian.name,

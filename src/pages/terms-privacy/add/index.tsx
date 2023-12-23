@@ -19,7 +19,6 @@ export default function TermsPrivacyAdd() {
         setIsLoading(true);
         try {
             const resp = await api.post(`/api/profiles`, data);
-            console.log(resp.data);
             toast.success('Termo cadastrado com sucesso!');
             router.back();
         } catch (error) {

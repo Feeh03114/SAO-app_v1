@@ -42,7 +42,6 @@ export default function DisciplineEdit(): JSX.Element {
         setIsLoading(true);
         try {
             const resp = await api.put(`/api/disciplines/${id}`, data);
-            console.log(resp.data);
             toast.success('Disciplina atualizada com sucesso!');
             router.back();
         } catch (error) {

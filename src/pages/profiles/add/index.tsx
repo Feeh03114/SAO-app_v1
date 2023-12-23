@@ -47,7 +47,6 @@ export default function ProfileAdd(): JSX.Element {
         setIsLoading(true);
         try {
             const resp = await api.post(`/api/profiles`, data);
-            console.log(resp.data);
             toast.success('Perfil criado com sucesso!');
             router.back();
         } catch (error) {

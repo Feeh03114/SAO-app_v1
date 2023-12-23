@@ -336,7 +336,7 @@ export default function ScheduleModal({ open=false, setOpen, cancelButtonRef }: 
                                                     highlightToday
                                                     value={field.value||""}
                                                     onChange={(e:DateObject)=>{
-                                                        console.log(e?.toDate());
+                                                        // console.log(e?.toDate());
                                                         field.onChange(e?.toDate());
                                                     }}
                                                     className='teal bg-dark-perso'

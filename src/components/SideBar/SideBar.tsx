@@ -21,8 +21,6 @@ export function SideBar({title, children, ...rest}:SidebarProps){
     const router = useRouter();
     const session = useSession();
 
-    console.log(session.data);
-
     return(
         <>
             <Head>
