@@ -168,17 +168,17 @@ export default function Schedule():JSX.Element {
                         <ul ref={scrollRef} id="scrollId" className="w-full h-full snap-x flex snap-mandatory snap-center overflow-scroll scroll">
                             <div className="w-full h-full snap-center flex-shrink-0 flex items-center justify-center">
                                 <li className="flex flex-col items-start p-0 h-[calc(100vh-24rem)] md:h-[calc(100vh-21rem)] w-full overflow-y-auto">
-                                   <RenderFakeCalendar selectedDate={selectedDate} nextMonth={false} />
+                                   <RenderFakeCalendar selectedDate={selectedDate} nextMonth={false}/>
                                 </li>
                             </div>
                             <div className="w-full h-full mx-8 snap-center flex-shrink-0 flex items-center justify-center">
                                 <li className="flex flex-col items-start p-0 h-[calc(100vh-24rem)] md:h-[calc(100vh-21rem)] w-full overflow-y-auto">
-                                  <RenderCalendar selectedDate={selectedDate} setOpenDayList={setOpenDayList} open={open} setTodayDate={setTodayDate} />
+                                  <RenderCalendar selectedDate={selectedDate} setOpenDayList={setOpenDayList} open={open} setTodayDate={setTodayDate}/>
                                 </li>
                             </div>
                             <div className="w-full h-full snap-center flex-shrink-0 flex items-center justify-center">
                                 <li className="flex flex-col items-start p-0 h-[calc(100vh-24rem)] md:h-[calc(100vh-21rem)] w-full overflow-y-auto">
-                                    <RenderFakeCalendar selectedDate={selectedDate} nextMonth={true} />
+                                    <RenderFakeCalendar selectedDate={selectedDate} nextMonth={true}/>
                                 </li>
                             </div>
                         </ul>

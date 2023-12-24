@@ -1,3 +1,4 @@
+import IsLoading from '@/components/elementTag/isLoading';
 import { ModalJustification } from '@/components/pages/schedule/modalJustification';
 import { StatusType } from '@/enum/status_type.enum';
 import { useDisclosure } from '@/hook/useDisclosure';
@@ -24,7 +25,6 @@ type ScheduleModalProps = {
 
 export default function DayListModal({ openDayList, setOpenDayList, setOpen, cancelButtonRefDayList, date }: ScheduleModalProps): JSX.Element {   
     const router = useRouter();
-    const [data, setData] = useState([]);
     const [eventsForDay, setEventsForDaya] = useState<TreatmentToday[]>([]);
     const { control, reset } = useForm();
     const justificationDisposer = useDisclosure();
@@ -35,40 +35,34 @@ export default function DayListModal({ openDayList, setOpenDayList, setOpen, can
 
     useEffect(() => {
         if(openDayList) {
-            console.log(openDayList)
             reset({
                 consultas: eventsForDay
             });
             setIsOpen(eventsForDay.map(() => false));
+            loadEventsForDay();
         }
-    }, [openDayList]);
+    }, [date]);
 
      const loadEventsForDay = async () => {
         const param = {
             day: date.toISOString()
         };
 
+        setIsLoading(true);
         try {
              const { data:RespAPI } = await api.get("api/treatment/schedule/day", {
                 params: param
             });
-            setData(RespAPI.data);
             setEventsForDaya(RespAPI);
         } catch (error) {
             console.log(error);
         }
+        finally{
+            setIsLoading(false);
+        }
     }
 
-    useEffect(() => {
-        loadEventsForDay();
-    }, []);
-
-    useEffect(() => {
-       console.log(data);
-    }, [data]);
-
     const onSave = async () => {
-        setIsLoading(true);
         try {
             // const resp = await api.put('api/treatment/consult-changeStatus', fields);
             // console.log(fields)
@@ -76,9 +70,6 @@ export default function DayListModal({ openDayList, setOpenDayList, setOpen, can
         } catch (error) {
             if(error instanceof Error) toast.error(error.message);      
             else toast.error('Ocorreu um erro ao salvar a consulta. Tente novamente mais tarde.'); 
-        }
-        finally{
-            setIsLoading(false);
         }
     }
 
@@ -101,9 +92,14 @@ export default function DayListModal({ openDayList, setOpenDayList, setOpen, can
         justificationDisposer.open();
     }
 
+    function onClose() {
+        setOpenDayList(false);
+        setEventsForDaya([]);
+    }
+
     return (
         <Transition.Root show={openDayList||false} as={Fragment}>
-            <Dialog as="div" className="relative z-10" initialFocus={cancelButtonRefDayList} onClose={setOpenDayList}>
+            <Dialog as="div" className="relative z-10" initialFocus={cancelButtonRefDayList} onClose={onClose}>
                 <Transition.Child
                     as={Fragment}
                     enter="ease-out duration-300"
@@ -153,6 +149,13 @@ export default function DayListModal({ openDayList, setOpenDayList, setOpen, can
                                 </div>
 
                                 <div className="max-h-96 isolate overflow-hidden overflow-y-auto">
+                                    <div className={`${!isLoading && "hidden"} my-8`}>
+                                        <IsLoading
+                                            isVisible={isLoading}
+                                            textLoading={'Carregando...'}
+                                            className='text-white'
+                                        />
+                                    </div>
                                     {eventsForDay?.map((value: any, index) => {
                                         return (
                                             <>
@@ -240,7 +243,7 @@ export default function DayListModal({ openDayList, setOpenDayList, setOpen, can
                                     <button
                                         type="button"
                                         className="rounded-md bg-white dark:bg-slate-700 px-3 py-2 text-sm text-gray-900 shadow hover:bg-gray-50 md:mt-0 md:w-auto"
-                                        onClick={() => setOpenDayList(false)}
+                                        onClick={() => onClose()}
                                         ref={cancelButtonRefDayList}>
                                             <p className="dark:text-white">Voltar</p>
                                     </button>

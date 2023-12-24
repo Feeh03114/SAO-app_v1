@@ -30,8 +30,6 @@ export default function RenderCalendar({ selectedDate, setOpenDayList, setTodayD
             const { data:RespAPI } = await api.get("api/treatment/schedule", {
                 params: paramsHasScedule
             });
-            console.log("/schedule: ");
-            console.log(RespAPI);
             sethastreatmentTodayData(RespAPI);
         } catch (error) {
           console.log(error);
