@@ -11,3 +11,13 @@ export enum StatusType {
   forwarded_with_return = 'encaminhado com retorno',
   scheduled = 'agendado',
 }
+
+export enum StatusSchedule {
+  'em espera' = 'on_hold',
+  'chamado' = 'called',
+  'encaminhado' = 'forwarded',
+  'em atendimento' = 'in_process',
+  'concluído' = 'concluded',
+  'faltou' = 'absent',
+}
+

@@ -1,11 +1,13 @@
 import IsLoading from '@/components/elementTag/isLoading';
 import { ModalJustification } from '@/components/pages/schedule/modalJustification';
-import { StatusType } from '@/enum/status_type.enum';
+import { StatusSchedule } from '@/enum/status_type.enum';
+import { TypeUser } from '@/enum/typeUser.enum';
 import { useDisclosure } from '@/hook/useDisclosure';
 import api from '@/service/api';
 import { isEqualArray } from '@/util/util';
 import { Dialog, Transition } from '@headlessui/react';
 import dayjs from 'dayjs';
+import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import React, { Fragment, useEffect, useState } from 'react';
 import { useFieldArray, useForm } from 'react-hook-form';
@@ -23,13 +25,14 @@ type ScheduleModalProps = {
     date: dayjs.Dayjs;
 };
 
-export default function DayListModal({ openDayList, setOpenDayList, setOpen, cancelButtonRefDayList, date }: ScheduleModalProps): JSX.Element {   
+export default function DayListModal({ openDayList, setOpenDayList, setOpen, cancelButtonRefDayList, date }: ScheduleModalProps): JSX.Element {  
+    const {data:session } = useSession(); 
     const router = useRouter();
     const [eventsForDay, setEventsForDaya] = useState<TreatmentToday[]>([]);
     const { control, reset } = useForm();
     const justificationDisposer = useDisclosure();
     const [idJustification, setIdJustification] = useState<string>("");
-    const { fields, update } = useFieldArray({ control, name: 'consultas' });
+    const { fields, update } = useFieldArray({ control, name: 'consultas', keyName: 'consultas.id' });
     const [isLoading, setIsLoading] = useState(false);
     const [isOpen, setIsOpen] = useState<boolean[]>([]);
 
@@ -64,11 +67,16 @@ export default function DayListModal({ openDayList, setOpenDayList, setOpen, can
 
     const onSave = async () => {
         try {
-            // const resp = await api.put('api/treatment/consult-changeStatus', fields);
-            // console.log(fields)
-            // toast.success('Alteração salva com sucesso!');
-        } catch (error) {
-            if(error instanceof Error) toast.error(error.message);      
+            const bodyArray = fields.filter((x:any)=>x.status !== StatusSchedule['em atendimento']).map((item:any) => ({
+                id: item.id,
+                status: item.status,
+            }));
+            await api.put('api/treatment/consult-changeStatus', bodyArray);
+            toast.success('Alteração salva com sucesso!');
+            loadEventsForDay();
+        } catch (error:any) {
+            if(error instanceof Error) toast.error(error.message);
+            if(error?.response?.data?.message) toast.error(error.response.data.message)     
             else toast.error('Ocorreu um erro ao salvar a consulta. Tente novamente mais tarde.'); 
         }
     }
@@ -84,7 +92,8 @@ export default function DayListModal({ openDayList, setOpenDayList, setOpen, can
     };
 
     useEffect(() => {
-        if(!isEqualArray(eventsForDay, fields)) onSave();
+        if(eventsForDay.length > 0 && fields.length > 0) 
+            if(!isEqualArray(eventsForDay, fields)) onSave();
     }, [fields]);
 
     function justificationItem(id: string) {
@@ -96,7 +105,6 @@ export default function DayListModal({ openDayList, setOpenDayList, setOpen, can
         setOpenDayList(false);
         setEventsForDaya([]);
     }
-
     return (
         <Transition.Root show={openDayList||false} as={Fragment}>
             <Dialog as="div" className="relative z-10" initialFocus={cancelButtonRefDayList} onClose={onClose}>
@@ -179,21 +187,27 @@ export default function DayListModal({ openDayList, setOpenDayList, setOpen, can
                                                             onClick={(e)=>e.stopPropagation()}
                                                         >
                                                             <option value="" selected disabled>Não definido</option>
-                                                            {Object.keys(StatusType).map((item) => (
+                                                            {Object.keys(StatusSchedule).map((item: any ) => (
                                                                 <option key={item} value={item}>{item}</option>
                                                             ))}
                                                         </select>
                                                     </div>
-                                                    <div className="hidden md:col-span-1 md:flex justify-evenly my-3">
+                                                    <div className="hidden md:col-span-1 md:flex justify-evenly my-3 aria-hidden:hidden"
+                                                        aria-hidden={value.status !== StatusSchedule.faltou && ![TypeUser.Aluno, TypeUser.Professor, TypeUser.Coordenador].includes(session?.user.typeUser)}
+                                                    >
                                                         {!isOpen[index] && 
-                                                            <button className="w-10 flex items-center justify-center dark:text-white border dark:border-gray-400 p-2 rounded-lg"
-                                                            onClick={() => justificationItem(value.id)}>
+                                                            <button className="w-10 flex items-center justify-center dark:text-white border dark:border-gray-400 p-2 rounded-lg disabled:hidden"
+                                                                onClick={() => justificationItem(value.id)}
+                                                                disabled={value.status !== StatusSchedule.faltou}
+                                                            >
                                                                 <BsChatSquareText className="text-teal-500 text-lg"/>
                                                             </button>
                                                         }
-                                                        <button className="w-10 flex items-center justify-center dark:text-white border dark:border-gray-400 p-2 rounded-lg"
+                                                        <button className="w-10 flex items-center justify-center dark:text-white border dark:border-gray-400 p-2 rounded-lg aria-hidden:hidden"
                                                             onClick={()=> router.push(`/schedule/edit/${value?.id}`)}
-                                                            disabled={!value?.id}    
+                                                            disabled={!value?.id && ![TypeUser.Aluno, TypeUser.Professor, TypeUser.Coordenador].includes(session?.user.typeUser) && 
+                                                                ![StatusSchedule['em espera'],StatusSchedule.concluído, StatusSchedule['em atendimento']].includes(value.status)}
+                                                            aria-hidden={![TypeUser.Aluno, TypeUser.Professor, TypeUser.Coordenador].includes(session?.user.typeUser)}
                                                         >
                                                             <AiOutlineEye className="w-5 h-5 text-teal-500"/>
                                                         </button>
@@ -211,20 +225,26 @@ export default function DayListModal({ openDayList, setOpenDayList, setOpen, can
                                                                         disabled={isLoading}
                                                                     >
                                                                         <option value="" selected disabled>Não definido</option>
-                                                                        {Object.keys(StatusType).filter(x=>+x).map((item) => (
+                                                                        {Object.keys(StatusSchedule).map((item: any ) => (
                                                                             <option key={item} value={item}>{item}</option>
                                                                         ))}
                                                                     </select>
                                                                 </div>   
-                                                                <div className="col-span-3 mt-3 mb-2 flex justify-between items-center">
+                                                                <div className="col-span-3 mt-3 mb-2 flex justify-between items-center aria-hidden:hidden"
+                                                                    aria-hidden={value.status !== StatusSchedule.faltou && ![TypeUser.Aluno, TypeUser.Professor, TypeUser.Coordenador].includes(session?.user.typeUser)}
+                                                                >
                                                                     <div className="dark:text-white text-gray-500 text-sm leading-5 font-medium">Procedimento: {value.service.name}</div>
                                                                     <div className="flex flex-row gap-x-4">
-                                                                        <div className="w-10 flex items-center justify-center dark:text-white border dark:border-gray-400 p-2 rounded-lg">
+                                                                        <button className="w-10 flex items-center justify-center dark:text-white border dark:border-gray-400 p-2 rounded-lg disabled:hidden"
+                                                                            disabled={value.status !== StatusSchedule.faltou}
+                                                                        >
                                                                             <BsChatSquareText className="text-teal-500 text-lg" />
-                                                                        </div>
-                                                                        <button className="w-10 flex items-center justify-center dark:text-white border dark:border-gray-400 p-2 rounded-lg"
+                                                                        </button>
+                                                                        <button className="w-10 flex items-center justify-center dark:text-white border dark:border-gray-400 p-2 rounded-lg aria-hidden:hidden"
                                                                             onClick={()=> router.push(`/schedule/edit/${value?.id}`)}
-                                                                            disabled={!value?.id}
+                                                                            disabled={!value?.id && ![TypeUser.Aluno, TypeUser.Professor, TypeUser.Coordenador].includes(session?.user.typeUser) && 
+                                                                                ![StatusSchedule['em espera'],StatusSchedule.concluído, StatusSchedule['em atendimento']].includes(value.status)}
+                                                                            aria-hidden={![TypeUser.Aluno, TypeUser.Professor, TypeUser.Coordenador].includes(session?.user.typeUser)}
                                                                         >
                                                                             <AiOutlineEye className="w-5 h-5 text-teal-500"/>
                                                                         </button>

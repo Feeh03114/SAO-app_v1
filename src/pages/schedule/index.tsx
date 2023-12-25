@@ -2,8 +2,10 @@
 import Header from "@/components/Header/multipleButtons";
 import RenderCalendar from "@/components/pages/schedule/renderCalendarDays";
 import RenderFakeCalendar from "@/components/pages/schedule/renderFakeCalendarDays";
+import { withSSRAuth } from "@/util/withSSRAuth";
 import dayjs, { Dayjs } from "dayjs";
 import 'dayjs/locale/pt-br';
+import { GetServerSideProps } from "next";
 import { useEffect, useRef, useState } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import DayListModal from "./DayListModal";
@@ -188,3 +190,5 @@ export default function Schedule():JSX.Element {
         </div>
     )
 }
+
+export const getServerSideProps: GetServerSideProps = withSSRAuth();

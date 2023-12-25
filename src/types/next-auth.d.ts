@@ -10,6 +10,7 @@ declare module "next-auth" {
             email: string;
             ru: string;
             cro?: string;
+            typeUser?: TypeUser;
         };
         accessToken: string;
         expiration: string;

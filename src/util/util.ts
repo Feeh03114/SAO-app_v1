@@ -14,7 +14,7 @@ export function DecodificarBase64(texto: string): string {
 
 export function isEqualObj(objA: any, objB: any): boolean {
   let equal = false;
-  Object.keys(objA).forEach((key) => 
+  Object?.keys(objA)?.forEach((key) => 
     equal = objA[key] === objB[key]
   );
   return equal;
