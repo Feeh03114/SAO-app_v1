@@ -51,6 +51,7 @@ export default function FormPatientRecord({edit, isPermissionWrite=true, onSave}
 
     const loadingPages = async () =>{
         try {
+            console.log(edit);
             if(edit)reset(edit)
         } catch (error) {
             console.log(error);

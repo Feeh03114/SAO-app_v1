@@ -29,9 +29,10 @@ interface ButtomProps {
     typeButton?: 'add' | 'edit' | 'confirm' | 'filter' |'files' |'delete' | 'return' | 'clock';
     style?: string;
     textStyle?: string;
+    hidden?: boolean;
 }
 
-function Button({text, disabled, onClick, typeButton, style, textStyle} : ButtomProps) {
+function Button({text, disabled, onClick, typeButton, style, textStyle, hidden} : ButtomProps) {
     function renderButton() {
         switch (typeButton) {
             case 'add':
@@ -54,9 +55,10 @@ function Button({text, disabled, onClick, typeButton, style, textStyle} : Buttom
     }
 
     return (
-        <button className={twMerge("flex space-x-2 items-center justify-center py-2 pl-3 pr-4 dark:bg-slate-700 border rounded-md border-gray-300 dark:border-none cursor-pointer mr-[1rem]", style)}
+        <button className={twMerge("flex space-x-2 items-center justify-center py-2 pl-3 pr-4 dark:bg-slate-700 border rounded-md border-gray-300 dark:border-none cursor-pointer mr-[1rem] aria-hidden:hidden", style)}
             disabled={disabled}
             onClick={onClick}
+            aria-hidden={hidden}
         >
             {renderButton()}
             <p className={twMerge("sm-mobile:hidden md:block text-sm font-medium leading-tight dark:text-white", textStyle)}>{text}</p>
