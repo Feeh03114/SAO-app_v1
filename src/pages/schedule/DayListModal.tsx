@@ -221,7 +221,7 @@ export default function DayListModal({ openDayList, setOpenDayList, setOpen, can
                                                             <BsChatSquareText className="text-teal-500 text-lg"/>
                                                         </button>
                                                         <button className="w-10 flex items-center justify-center dark:text-white border dark:border-gray-400 p-2 rounded-lg aria-hidden:hidden"
-                                                            onClick={()=> router.push(`/schedule/edit/${value?.id}`)}
+                                                            onClick={()=> router.push(`/schedule/report_patient/${value?.id}`)}
                                                             disabled={!value?.id || ![TypeUser.Aluno, TypeUser.Professor, TypeUser.Coordenador].includes(session?.user.typeUser) ||
                                                                 ![StatusType.on_hold, StatusType.concluded, StatusType.in_process].includes(value.status)}
                                                             aria-hidden={![TypeUser.Aluno, TypeUser.Professor, TypeUser.Coordenador].includes(session?.user.typeUser)}
