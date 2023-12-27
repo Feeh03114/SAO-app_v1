@@ -241,6 +241,7 @@ export default function FormPatient({ isPermissionWrite=true, onSave, edit={} }:
                         required
                         label="Gênero"
                         name="gender"
+                        error={errors1.gender}
                         disabled={!isPermissionWrite}
                         placeHolder={"Selecione o gênero"}
                         valueDefault={-1}
@@ -259,6 +260,7 @@ export default function FormPatient({ isPermissionWrite=true, onSave, edit={} }:
                         required
                         label="Etnia"
                         name="ethnicity"
+                        error={errors1.ethnicity}
                         disabled={!isPermissionWrite}
                         placeHolder={"Selecione a etnia"}
                         valueDefault={-1}

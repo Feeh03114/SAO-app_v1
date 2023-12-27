@@ -5,7 +5,6 @@ import { TypeUser } from "@/enum/typeUser.enum";
 import api from "@/service/api";
 import { reactSelectStyle } from "@/styles/reactSelectStyle";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { BsFillPersonPlusFill } from "react-icons/bs";
@@ -18,6 +17,11 @@ interface ModalUserProps{
     isOpen: boolean;
     onClose: () => void;
     loadData: () => void;
+}
+
+interface Option {
+    value: number;
+    label: string;
 }
 
 export interface User {
@@ -45,24 +49,26 @@ const schemaPermission = yup.object().shape({
     }),
 });
 
+const option = yup.object().shape({
+    label: yup.string().required(),
+    value: yup.string().required(),
+});
+
 const validationFullModal = yup.object().shape({
     typeUser: yup.number().required('Campo obrigatório'),
     name: yup.string().required('Campo obrigatório'),
-    email: yup.string().email('E-mail inválido').required('Campo obrigatório'),
     ru: yup.string().required('Campo obrigatório'),
-    profilesIds: yup.array().required('Campo obrigatório'),
+    email: yup.string().email('E-mail inválido').required('Campo obrigatório'),
     cro: yup.string().optional(),
-    // permissions: yup.array().of(schemaPermission).required('Campo obrigatório'),
+    profilesIds: yup.array().of(option).required('Campo obrigatório'),
 });
 
 export function ModalUser({ isOpen, onClose, loadData }: ModalUserProps) {
-    const { control, watch, register, handleSubmit, formState: { errors }  } = useForm({
+    const { control, watch, register, handleSubmit, clearErrors, formState: { errors }  } = useForm({
         resolver: yupResolver(validationFullModal)
     });
-    const [profiles, setProfiles] = useState([]) as any[];
+    const [profiles, setProfiles] = useState<Option[]>([] as Option[]);
     const animatedComponents = makeAnimated();
-    const router = useRouter();
-    const [isLoading, setIsLoading] = useState(false);
     
     const loadProfiles = async () => {
         try {
@@ -87,24 +93,24 @@ export function ModalUser({ isOpen, onClose, loadData }: ModalUserProps) {
         userData.typeUser = Number(userData.typeUser);
         userData.profilesIds = userData.profilesIds?.map((e: any) => e?.value);
         userData.active = true;
-        setIsLoading(true);
         try {
             const resp = await api.post(`/api/users`, userData);
             toast.success('Usuário criado com sucesso!');
             onClose();
+            clearErrors();
             await loadData();
         } catch (error) {
             console.log(error);
-        }
-        finally{
-            setIsLoading(false);
         }
     }
 
     return(
         <Modal.Root
             isOpen={isOpen}
-            onClose={onClose}
+            onClose={() => {
+                onClose();
+                clearErrors();
+            }}
             width="md:max-w-lg"
         >
             <Modal.Header title="Novo Usuário" icon={BsFillPersonPlusFill} />
@@ -118,6 +124,7 @@ export function ModalUser({ isOpen, onClose, loadData }: ModalUserProps) {
                             name="typeUser"
                             placeHolder={"Tipo do usuário"}
                             valueDefault={-1}
+                            error={errors.typeUser}
                             data={Object.keys(TypeUser)?.filter(x => +x).map((e) => {
                                 return { id: e, name: TypeUser[+e] };
                             }) as any}
@@ -191,11 +198,17 @@ export function ModalUser({ isOpen, onClose, loadData }: ModalUserProps) {
                                 />
                             )}
                         />
+                        {!!errors.profilesIds && (
+                            <p className="text-red-500 text-sm">{errors.profilesIds.message?.toString()}</p>
+                        )}
                     </div>
                 </form>
             </Modal.Body>
             <Modal.Footer
-                onClose={onClose}
+                onClose={() => {
+                    onClose();
+                    clearErrors();
+                }}
                 form="formUser"
             />
         </Modal.Root>

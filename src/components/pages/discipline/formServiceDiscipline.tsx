@@ -17,7 +17,7 @@ export const validationService = yup.object().shape({
     id: yup.string().optional(),
     name: yup.string().required('Campo obrigatório'),
     description: yup.string().required('Campo obrigatório'),
-    price: yup.number().required('Campo obrigatório'),
+    price: yup.string().required('Campo obrigatório'),
     duration_medio: yup.string().required('Campo obrigatório'),
     active_duration_medio: yup.boolean().optional(),
     active_duration_auto: yup.boolean().optional(),
@@ -32,7 +32,7 @@ interface ModalServiceDisciplineProps{
 }
 
 export default function FormServiceDiscipline({isOpen, onClose, onSave} : ModalServiceDisciplineProps): JSX.Element {
-    const { control, register, reset, watch, handleSubmit, formState: { errors }  } = useForm({
+    const { control, register, reset, watch, handleSubmit, clearErrors, formState: { errors }  } = useForm({
         resolver: yupResolver(validationService)
     });
     const { fields, append, remove } = useFieldArray({
@@ -70,7 +70,7 @@ export default function FormServiceDiscipline({isOpen, onClose, onSave} : ModalS
         reset({
             name: '',
             description: '',
-            price: 0,
+            price: '0',
             duration_medio: '0',
             ext: false,
             active_duration_auto: false,
@@ -81,6 +81,7 @@ export default function FormServiceDiscipline({isOpen, onClose, onSave} : ModalS
         });
 
         onClose();
+        clearErrors();
         onSave(newData);
     };
 
@@ -89,7 +90,10 @@ export default function FormServiceDiscipline({isOpen, onClose, onSave} : ModalS
     return (
         <Modal.Root
             isOpen={isOpen}
-            onClose={onClose}
+            onClose={() => {
+                onClose();
+                clearErrors();
+            }}
             width="md:max-w-lg"
         >
             <FormAvaliableTimes isOpen={newAvaliableTimeDisposer.isOpen} onClose={newAvaliableTimeDisposer.close} onSave={updateAvailabilities}/>
@@ -204,7 +208,10 @@ export default function FormServiceDiscipline({isOpen, onClose, onSave} : ModalS
                 </form>
             </Modal.Body>
             <Modal.Footer
-                onClose={onClose}
+                onClose={() => {
+                    onClose();
+                    clearErrors();
+                }}
                 form="formService"
             />
         </Modal.Root>
