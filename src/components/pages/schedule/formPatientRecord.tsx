@@ -1,6 +1,6 @@
 import { Input } from "@/components/elementTag/input";
 import Select from "@/components/elementTag/select";
-import { PatientRecord } from "@/pages/schedule/edit/[id]";
+import { PatientRecord } from "@/pages/schedule/report_patient/[id]";
 import { withSSRAuth } from "@/util/withSSRAuth";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { GetServerSideProps } from "next";
@@ -51,6 +51,7 @@ export default function FormPatientRecord({edit, isPermissionWrite=true, onSave}
 
     const loadingPages = async () =>{
         try {
+            console.log(edit);
             if(edit)reset(edit)
         } catch (error) {
             console.log(error);

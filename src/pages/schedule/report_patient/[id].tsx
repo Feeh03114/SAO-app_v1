@@ -132,7 +132,8 @@ export default function DentalChart(): JSX.Element {
                     typeButton="edit"
                     style="mr-0 bg-teal-400 dark:bg-teal-500"
                     textStyle="text-white"
-                    disabled={isLoading}
+                    disabled={isLoading || patientRecord.status !== StatusType.on_hold}
+                    hidden={patientRecord.status !== StatusType.on_hold}
                     onClick={handleEdit}
                 />
             </Header.Root>

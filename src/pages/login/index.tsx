@@ -194,7 +194,11 @@ export default function Login(): JSX.Element{
                                 textLoading='Entrando...'
                                 className='text-white'
                             />
-                            <p className="text-base font-medium leading-normal text-white">Entrar</p>
+                            <p className="text-base font-medium leading-normal text-white aria-hidden:hidden"
+                                aria-hidden={isSubmitting}
+                            >
+                                Entrar
+                            </p>
                         </button>
 
                         <button 
@@ -264,7 +268,11 @@ export default function Login(): JSX.Element{
                                 textLoading='Enviando...'
                                 className='text-white'
                             />
-                            <p className="text-base font-medium leading-normal text-teal-700 aria-hidden:hidden">Criar minha conta</p>
+                            <p className="text-base font-medium leading-normal text-teal-700 aria-hidden:hidden"
+                                aria-hidden={isSubmitting2}
+                            >
+                                Criar minha conta
+                            </p>
                         </button>
                         <button className="h-10 mt-8 inline-flex items-center justify-center px-4 py-2 bg-teal-200 shadow rounded-md w-full transition-all duration-500 aria-hidden:hidden"
                             onClick={() => setIsLogin(false)}

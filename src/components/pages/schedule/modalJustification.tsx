@@ -1,6 +1,7 @@
 import Modal from "@/components/modal";
 import api from "@/service/api";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { HiOutlinePencilAlt } from "react-icons/hi";
 import { toast } from "react-toastify";
@@ -9,6 +10,7 @@ import * as yup from 'yup';
 interface ModalDeleteProps{
     isOpen: boolean;
     onClose: () => void;
+    message?: string;
     idJustification: string;
 }
 
@@ -16,21 +18,29 @@ const validationModal = yup.object().shape({
     messagem: yup.string().required('Campo obrigatório'),
 });
 
-export function ModalJustification({ isOpen, onClose, idJustification }: ModalDeleteProps) {
-    const { register, handleSubmit, formState: { errors } } = useForm({
+export function ModalJustification({ isOpen, onClose, idJustification, message }: ModalDeleteProps) {
+    const { reset, register, handleSubmit, formState: { errors, isSubmitting } } = useForm({
         resolver: yupResolver(validationModal)
     });
 
     const onSave = async (data: any) => {
         try {
-            data.id = idJustification;
-            const resp = await api.put(`api/treatment/consult-changeJustification/${idJustification}`, data);
+            const resp = await api.put(`api/treatment/consult-changeJustification/${idJustification}`, null,{
+                params: data
+            });
             toast.success(resp.data.message);
             onClose();
         } catch (error) {
             console.log(error);
         }
     };
+
+    useEffect(() => {
+        if(message && isOpen) reset({messagem: message}) 
+        else reset({
+            messagem: '',
+        })
+    }, [isOpen]);
 
     return(
         <form id='formJustfication' onSubmit={handleSubmit(onSave)}>
@@ -57,8 +67,10 @@ export function ModalJustification({ isOpen, onClose, idJustification }: ModalDe
                     )}
                 <Modal.Footer 
                     onClose={onClose}
-                    text={"Enviar"}
-                    style={"bg-teal-500"}
+                    isLoading={isSubmitting}
+                    //textLoading="Enviando..."
+                    text="Enviar"
+                    style="bg-teal-500"
                     form="formJustfication"
                 />
             </Modal.Root>
