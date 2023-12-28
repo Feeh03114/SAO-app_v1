@@ -74,18 +74,27 @@ export default function Home():JSX.Element {
               onClick={()=>setIsMenuExpanded((e)=>!e)}
             />
             <div className="mt-16 mr-12 flex flex-col justify-end items-end gap-5">
-              <p className={twMerge("text-base font-medium text-gray-800 dark:text-white cursor-pointer", poppins.className)}
-                onClick={() => document.getElementById("sobre")?.scrollIntoView({ behavior: "smooth", block: "end"})}
+              <p className={twMerge("text-base font-medium text-gray-800 dark:text-white cursor-pointer hover:text-slate-700", poppins.className)}
+                onClick={() => {
+                  document.getElementById("sobre")?.scrollIntoView({ behavior: "smooth", block: "start"});
+                  setIsMenuExpanded(!isMenuExpanded);
+                }}
               >
                 Sobre
               </p>
-              <p className={twMerge("text-base font-medium text-gray-800 dark:text-white cursor-pointer", poppins.className)}
-                onClick={() => document.getElementById("desenvolvedores")?.scrollIntoView({ behavior: "smooth", block: "start"})}
+              <p className={twMerge("text-base font-medium text-gray-800 dark:text-white cursor-pointer hover:text-slate-700", poppins.className)}
+                onClick={() => {
+                  document.getElementById("desenvolvedores")?.scrollIntoView({ behavior: "smooth", block: "start"});
+                  setIsMenuExpanded(!isMenuExpanded);
+                }}
               >
-                Pagina Inicial
+                Desenvolvedores
               </p>
-              <p className={twMerge("text-base font-medium text-gray-800 dark:text-white cursor-pointer", poppins.className)}
-                onClick={() => document.getElementById("contato")?.scrollIntoView({ behavior: "smooth", block: "start"})}
+              <p className={twMerge("text-base font-medium text-gray-800 dark:text-white cursor-pointer hover:text-slate-700", poppins.className)}
+                onClick={() => {
+                  document.getElementById("contato")?.scrollIntoView({ behavior: "smooth", block: "start"});
+                  setIsMenuExpanded(!isMenuExpanded);
+                }}
               >
                 Contato
               </p>
@@ -141,17 +150,17 @@ export default function Home():JSX.Element {
           </div>
 
           <div className="hidden lg:flex items-center z-10">
-            <div className={twMerge("text-base font-medium leading-normal whitespace-nowrap text-gray-800 dark:text-white cursor-pointer", inter.className)}
-              onClick={() => document.getElementById("sobre")?.scrollIntoView({ behavior: "smooth", block: "center"})}
+            <div className={twMerge("text-base font-medium leading-normal whitespace-nowrap text-gray-800 dark:text-white cursor-pointer hover:text-slate-500 dark:hover:text-slate-300", inter.className)}
+              onClick={() => document.getElementById("sobre")?.scrollIntoView({ behavior: "smooth", block: "start"})}
             >
               Sobre
             </div>
-            <div className={twMerge("ml-3 text-base font-medium leading-normal whitespace-nowrap text-gray-800 dark:text-white cursor-pointer", inter.className)}
+            <div className={twMerge("ml-3 text-base font-medium leading-normal whitespace-nowrap text-gray-800 dark:text-white cursor-pointer hover:text-slate-500 dark:hover:text-slate-300", inter.className)}
               onClick={() => document.getElementById("desenvolvedores")?.scrollIntoView({ behavior: "smooth", block: "start"})}
             >
               Desenvolvedores
             </div>
-            <div className={twMerge("ml-3 text-base font-medium leading-normal whitespace-nowrap text-gray-800 dark:text-white cursor-pointer", inter.className)}
+            <div className={twMerge("ml-3 text-base font-medium leading-normal whitespace-nowrap text-gray-800 dark:text-white cursor-pointer hover:text-slate-500 dark:hover:text-slate-300", inter.className)}
               onClick={() => document.getElementById("contato")?.scrollIntoView({ behavior: "smooth", block: "start"})}
             >
               Contato
@@ -253,7 +262,7 @@ export default function Home():JSX.Element {
           <div className="w-full h-20 -mt-10 relative z-0 bg-teal-50 dark:bg-slate-700"></div>
         </div>      
 
-        <div className="w-full flex justify-center bg-teal-50 dark:bg-slate-700">
+        <div id="sobre" className="w-full flex justify-center bg-teal-50 dark:bg-slate-700">
           <div className="pb-10 flex flex-col md:flex-row justify-start md:justify-evenly items-center md:pt-24 relative"
             style={{
               maxWidth: '1110px',
@@ -266,7 +275,7 @@ export default function Home():JSX.Element {
               src="/assets/SVG/fotoUniso_homePage.svg"
               alt='doutores_homePage'
             /> 
-            <div id="sobre" className="w-80 md:w-1/3 flex flex-col justify-center gap-2 md:gap-4">
+            <div className="w-80 md:w-1/3 flex flex-col justify-center gap-2 md:gap-4">
               <span className={twMerge("text-teal-500 text-sm md:text-xl font-medium leading-normal tracking-wide", poppins.className)}>
                 Sobre o Sistema
               </span>
@@ -536,17 +545,17 @@ export default function Home():JSX.Element {
 
           <div className="hidden md:flex flex-col text-white">
             <span className="flex font-semibold text-xl">Informações</span>
-            <span className="opacity-80 text-base leading-normal whitespace-nowrap cursor-pointer"
+            <span className="opacity-80 text-base leading-normal whitespace-nowrap cursor-pointer hover:text-slate-700"
               onClick={() => document.getElementById("pagina-inicial")?.scrollIntoView({ behavior: "smooth", block: "start"})}
             >
               Pagina Inicial
             </span>
-            <span className="opacity-80 text-base leading-normal whitespace-nowrap cursor-pointer"
-              onClick={() => document.getElementById("sobre")?.scrollIntoView({ behavior: "smooth", block: "end"})}
+            <span className="opacity-80 text-base leading-normal whitespace-nowrap cursor-pointer hover:text-slate-700"
+              onClick={() => document.getElementById("sobre")?.scrollIntoView({ behavior: "smooth", block: "start"})}
             >
               Sobre
             </span>
-            <span className="opacity-80 text-base leading-normal whitespace-nowrap cursor-pointer"
+            <span className="opacity-80 text-base leading-normal whitespace-nowrap cursor-pointer hover:text-slate-700"
               onClick={() => document.getElementById("contato")?.scrollIntoView({ behavior: "smooth", block: "start"})}
             >
               Contato
@@ -559,10 +568,28 @@ export default function Home():JSX.Element {
           </div>
 
           <div className="md:hidden flex flex-row flex-wrap justify-center">
-            <span className={twMerge("opacity-80 text-base font-medium leading-normal text-white cursor-pointer", sora.className)}>Pagina Inicial | </span>
-            <span className={twMerge("opacity-80 text-base font-medium leading-normal text-white cursor-pointer", sora.className)}>Sobre | </span>
-            <span className={twMerge("opacity-80 text-base font-medium leading-normal text-white cursor-pointer", sora.className)}>Denvolvedores | </span>
-            <span className={twMerge("opacity-80 text-base font-medium leading-normal text-white cursor-pointer", sora.className)}>sao@email.com | </span>
+            <span className={twMerge("opacity-80 text-base font-medium leading-normal text-white cursor-pointer hover:text-slate-700", sora.className)}
+              onClick={() => document.getElementById("pagina-inicial")?.scrollIntoView({ behavior: "smooth", block: "start"})}
+            >
+              Pagina Inicial
+            </span>
+            <span className={twMerge("ml-1 opacity-80 text-base font-medium leading-normal text-white", sora.className)}>|</span>
+            
+            <span className={twMerge("ml-1 opacity-80 text-base font-medium leading-normal text-white cursor-pointer hover:text-slate-700", sora.className)}
+              onClick={() => document.getElementById("sobre")?.scrollIntoView({ behavior: "smooth", block: "start"})}
+            >
+              Sobre
+            </span>
+            <span className={twMerge("ml-1 opacity-80 text-base font-medium leading-normal text-white", sora.className)}>|</span>
+
+            <span className={twMerge("ml-1 opacity-80 text-base font-medium leading-normal text-white cursor-pointer hover:text-slate-700", sora.className)}
+              onClick={() => document.getElementById("desenvolvedores")?.scrollIntoView({ behavior: "smooth", block: "start"})}
+            >
+              Denvolvedores
+            </span>
+            <span className={twMerge("ml-1 opacity-80 text-base font-medium leading-normal text-white", sora.className)}>|</span>
+
+            <a className={twMerge("ml-1 opacity-80 text-base font-medium leading-normal text-white cursor-pointer hover:text-slate-700", sora.className)} href='mailto:sao@labprivate.cloud'>sao@labprivate.cloud</a>
           </div>
         </div>
         <div className="w-11/12 h-px my-10 bg-white opacity-60"/>
