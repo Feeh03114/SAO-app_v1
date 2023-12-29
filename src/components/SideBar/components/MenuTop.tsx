@@ -18,7 +18,7 @@ export function MenuTop({setIsOpenNavbar}:{setIsOpenNavbar:React.Dispatch<React.
                 aria-hidden={Object.keys(session?.data || {}).length===0}
             >
                 <div className="inline-flex items-center justify-start p-4 h-20 w-full">
-                    <div className="flex items-center justify-start">
+                    <div className="z-10 flex items-center justify-start">
                         <HiOutlineMenu className={`cursor-pointer text-white`} size={24} onClick={()=>setIsOpenNavbar(e=>!e)}/>
                     </div>
                     <div className="flex space-x-6 items-center justify-end pl-4 pr-4 md:pr-8 max-h-[2.75rem] w-full">
