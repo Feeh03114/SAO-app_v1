@@ -26,7 +26,7 @@ function ModalRoot({ isOpen, onClose, children, width }:RegisterModelProps): JSX
                 leaveFrom="opacity-100"
                 leaveTo="opacity-0"
             >
-                <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"/>
+                <div className="fixed inset-0 bg-slate-500 bg-opacity-75 transition-opacity"/>
             </Transition.Child>
     
             <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
@@ -40,7 +40,7 @@ function ModalRoot({ isOpen, onClose, children, width }:RegisterModelProps): JSX
                     leaveFrom="opacity-100 translate-y-0 md:scale-100"
                     leaveTo="opacity-0 translate-y-4 md:translate-y-0 md:scale-95"
                 >
-                    <Dialog.Panel className={`p-6 mx-4 mt-4 relative transform rounded-lg bg-white dark:bg-gray-800 text-left shadow transition-all w-full ${width} h-full`}>
+                    <Dialog.Panel className={`p-6 mx-4 mt-4 relative transform rounded-lg bg-white dark:bg-slate-800 text-left shadow transition-all w-full ${width} h-full`}>
                         {children}
                     </Dialog.Panel>
                 </Transition.Child>
@@ -65,7 +65,7 @@ const headerModal= ({title, icon:Icon=BsFillPersonPlusFill, styleContainer, styl
             <div className={twMerge("flex items-center justify-center w-10 h-full p-2 bg-teal-50 dark:bg-teal-400 rounded-full", styleBgIcon)}>
                 <Icon className={twMerge("flex-1 h-full text-teal-500 dark:text-teal-700", styleIcon)}/>
             </div>
-            <p className="text-base font-semibold leading-6 text-gray-900 dark:text-white">{title}</p>
+            <p className="text-base font-semibold leading-6 text-slate-900 dark:text-white">{title}</p>
         </div>
     )
 }
@@ -96,15 +96,15 @@ export interface FooterProps {
 
 const ModalFooter = ({ onClose, text, style, onClick, form, onDelete, isLoading=false, textLoading } : FooterProps) => {
     return(
-        <div className="w-full inline-flex space-x-3 mt-4 items-center justify-end px-6 py-3 bg-white dark:bg-gray-800 rounded-b-lg" >
-            <button className="flex items-center justify-center px-4 py-2 bg-white dark:bg-gray-600 shadow border rounded-md border-gray-300 dark:border-gray-700"
+        <div className="w-full inline-flex space-x-3 mt-4 items-center justify-end px-6 py-3 bg-white dark:bg-slate-800 rounded-b-lg" >
+            <button className="flex items-center justify-center px-4 py-2 bg-white dark:bg-slate-600 shadow border rounded-md border-slate-300 dark:border-slate-700"
                 onClick={onClose}
                 type="button"
                 disabled={isLoading}
             >
-                <p className="text-sm font-medium leading-tight text-gray-700 dark:text-white">Cancelar</p>
+                <p className="text-sm font-medium leading-tight text-slate-700 dark:text-white">Cancelar</p>
             </button>
-            <button className="aria-hidden:hidden flex items-center justify-center px-4 py-2 bg-red-500 shadow border rounded-md border-gray-300 dark:border-gray-700"
+            <button className="aria-hidden:hidden flex items-center justify-center px-4 py-2 bg-red-500 shadow border rounded-md border-slate-300 dark:border-slate-700"
                 aria-hidden={onDelete === undefined}
                 onClick={() => {
                     onClose?.();
@@ -113,7 +113,7 @@ const ModalFooter = ({ onClose, text, style, onClick, form, onDelete, isLoading=
                 type="button"
                 disabled={isLoading}
             >
-                <p className="text-sm font-medium leading-tight text-gray-700 dark:text-white">Deletar</p>
+                <p className="text-sm font-medium leading-tight text-slate-700 dark:text-white">Deletar</p>
             </button>
             <button className={twMerge("flex items-center justify-center px-4 py-2 bg-teal-500 shadow rounded-md", style)}
                 onClick={onClick}

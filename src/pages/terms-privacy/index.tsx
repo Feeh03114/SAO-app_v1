@@ -107,7 +107,7 @@ export default function TermsPrivacy() {
                         <Table.CellBody style={"w-1/5"}>
                             <button
                                 type="button" 
-                                className="h-full mr-4 px-3 py-2 border dark:border-gray-500 rounded-md cursor-pointer"
+                                className="h-full mr-4 px-3 py-2 border dark:border-slate-500 rounded-md cursor-pointer"
                                 onClick={()=>console.log('click')}
                             >
                                 <MdCheckCircleOutline 

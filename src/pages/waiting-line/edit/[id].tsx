@@ -111,14 +111,14 @@ export default function WaitingLineEdit(): JSX.Element {
 
                     <div className="w-full px-3 flex items-center justify-centers flex-col flex-wrap">
                         <div className="w-full pl-4 inline-flex items-center justify-between">
-                            <p className="text-xs md:text-sm font-Inter font-medium leading-tight text-gray-700 dark:text-gray-300 truncate">Relatório da Consulta ou Triagem</p>
+                            <p className="text-xs md:text-sm font-Inter font-medium leading-tight text-slate-700 dark:text-slate-300 truncate">Relatório da Consulta ou Triagem</p>
                             <div className="flex flex-row justify-between items-center">
                                 <Card.Text text={data.cameFrom} width="w-full md:mb-2 px-2"></Card.Text>
                                 <Card.Text text={data.status} width="w-full md:mb-2 px-2"></Card.Text>
                                 <Card.Text text={data.forwardedTo} width="w-full md:mb-2 px-2 pr-0"></Card.Text>
                             </div>
                         </div>
-                        <div className="w-full h-40 px-4 flex items-start shadow-sm border rounded-lg border-gray-300 dark:border-gray-500 bg-white dark:bg-slate-700">
+                        <div className="w-full h-40 px-4 flex items-start shadow-sm border rounded-lg border-slate-300 dark:border-slate-500 bg-white dark:bg-slate-700">
                             <p className="mt-4 text-xs md:text-sm font-Inter font-normal leading-tight dark:text-white break-all">{data.medicalRecord}</p>
                         </div>
                     </div>

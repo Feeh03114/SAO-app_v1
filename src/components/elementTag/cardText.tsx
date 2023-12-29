@@ -13,7 +13,7 @@ export interface CardTextProps extends InputHTMLAttributes<HTMLInputElement> {
 
 function CardRoot({children, styles} : CardTextProps): JSX.Element {
     return(
-        <div className={twMerge("md:mx-10 md:mb-10 px-3 md:pt-6 pb-6 flex items-center justify-centers flex-row flex-wrap md:border shadow-md border-gray-200 dark:border-gray-500 bg-white dark:bg-slate-800 rounded-lg overflow-y-auto", styles)}>
+        <div className={twMerge("md:mx-10 md:mb-10 px-3 md:pt-6 pb-6 flex items-center justify-centers flex-row flex-wrap md:border shadow-md border-slate-200 dark:border-slate-500 bg-white dark:bg-slate-800 rounded-lg overflow-y-auto", styles)}>
            {children}
         </div>
     );
@@ -23,9 +23,9 @@ const CardText = ({label, text, width} : CardTextProps) => {
     return (
         <div className={twMerge("mb-3 md:mb-6 px-3 flex items-center justify-centers flex-col flex-wrap", width)}>
             <div className="w-full pl-4 inline-flex items-center justify-start">
-                <p className="text-xs md:text-sm font-Inter font-medium leading-tight text-gray-700 dark:text-gray-300 truncate">{label}</p>
+                <p className="text-xs md:text-sm font-Inter font-medium leading-tight text-slate-700 dark:text-slate-300 truncate">{label}</p>
             </div>
-            <div className="w-full h-10 px-4 flex items-center shadow-sm border rounded-lg border-gray-300 dark:border-gray-500 bg-white dark:bg-slate-700">
+            <div className="w-full h-10 px-4 flex items-center shadow-sm border rounded-lg border-slate-300 dark:border-slate-500 bg-white dark:bg-slate-700">
                 <p className="text-xs md:text-sm font-Inter font-normal leading-tight dark:text-white truncate">{text}</p>
             </div>
         </div>
@@ -36,9 +36,9 @@ const CardTextArea = ({label, text, width} : CardTextProps) => {
     return (
         <div className={`${width} mb-3 md:mb-6 px-3 flex items-center justify-centers flex-col flex-wrap`}>
             <div className="w-full pl-4 inline-flex items-center justify-start">
-                <p className="text-xs md:text-sm font-Inter font-medium leading-tight text-gray-700 dark:text-gray-300 truncate">{label}</p>
+                <p className="text-xs md:text-sm font-Inter font-medium leading-tight text-slate-700 dark:text-slate-300 truncate">{label}</p>
             </div>
-            <div className="w-full h-40 px-4 flex items-start shadow-sm border rounded-lg border-gray-300 dark:border-gray-500 bg-white dark:bg-slate-700">
+            <div className="w-full h-40 px-4 flex items-start shadow-sm border rounded-lg border-slate-300 dark:border-slate-500 bg-white dark:bg-slate-700">
                 <p className="mt-4 text-xs md:text-sm font-Inter font-normal leading-tight dark:text-white break-all">{text}</p>
             </div>
         </div>
@@ -52,7 +52,7 @@ const CardButton = ({text, styles, width, onClickButton} : CardTextProps) => {
                 onClick={onClickButton}
             >
                 <HiOutlinePlus className="w-5 h-5 rounded-lg text-white"/>
-                <p className={twMerge("hidden md:block pl-2 text-sm font-Inter font-medium leading-tight text-white dark:text-gray-300 truncate", styles)}>{text}</p>
+                <p className={twMerge("hidden md:block pl-2 text-sm font-Inter font-medium leading-tight text-white dark:text-slate-300 truncate", styles)}>{text}</p>
             </button>
         </div>
     )
@@ -64,7 +64,7 @@ interface CardLineProps {
 
 const CardLine = ({style} : CardLineProps) => {
     return (
-        <div className={twMerge("w-full mb-6 mx-4 border rounded-lg border-gray-200 dark:border-gray-500 bg-white dark:bg-slate-700", style)}/>
+        <div className={twMerge("w-full mb-6 mx-4 border rounded-lg border-slate-200 dark:border-slate-500 bg-white dark:bg-slate-700", style)}/>
     )
 }
 
@@ -72,9 +72,9 @@ const CardSelected = ({children, label, styles} : CardTextProps) => {
     return (
         <div className={twMerge("px-2 flex items-center justify-centers flex-col", styles)}>
             <div className="w-full pl-4 inline-flex items-center justify-start">
-                <p className="text-xs md:text-sm font-Inter font-medium leading-tight text-gray-700 dark:text-gray-300 truncate">{label}</p>
+                <p className="text-xs md:text-sm font-Inter font-medium leading-tight text-slate-700 dark:text-slate-300 truncate">{label}</p>
             </div>
-            <div className="w-full h-24 px-3 py-4 flex flex-wrap items-start justify-start shadow-sm border rounded-lg border-gray-300 dark:border-gray-500">
+            <div className="w-full h-24 px-3 py-4 flex flex-wrap items-start justify-start shadow-sm border rounded-lg border-slate-300 dark:border-slate-500">
                 {children}
             </div>
         </div>

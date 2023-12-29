@@ -40,11 +40,11 @@ export function CartInfo({icon:Icon, title, description}:IHomeProps){
 
 export function CardInfo2({title, description}:IHomeProps){
     return(
-        <div className="flex p-8 w-80 bg-white dark:bg-gradient-96 dark:from-gray-600 dark:to-gray-700 rounded-3xl shadow-md flex-col justify-start items-start gap-3">
+        <div className="flex p-8 w-80 bg-white dark:bg-gradient-96 dark:from-slate-600 dark:to-slate-700 rounded-3xl shadow-md flex-col justify-start items-start gap-3">
             <span className="text-center text-black dark:text-white text-xl md:text-2xl font-medium leading-tight">
                 {title}
             </span>
-            <span className={twMerge(sora.className,"text-slate-500 dark:text-gray-300 text-sm font-normal leading-tight")}>
+            <span className={twMerge(sora.className,"text-slate-500 dark:text-slate-300 text-sm font-normal leading-tight")}>
                 {description}
             </span>
         </div>
@@ -55,7 +55,7 @@ export function CardInfo2Mobile({title, description}:IHomeProps){
     const [isExpanded, setIsExpanded] = useState(true);
     
     return(
-        <div className="w-80 px-8 py-4 flex flex-col justify-center items-center bg-white dark:bg-gradient-96 dark:from-gray-600 dark:to-gray-700 rounded-xl shadow gap-3"
+        <div className="w-80 px-8 py-4 flex flex-col justify-center items-center bg-white dark:bg-gradient-96 dark:from-slate-600 dark:to-slate-700 rounded-xl shadow gap-3"
             onClick={() => setIsExpanded(!isExpanded)}>
             <div className="w-full px-4 flex flex-row justify-between items-center">
                 <span className="mr-12 text-center text-black dark:text-white text-xl md:text-2xl font-medium leading-tight">
@@ -80,13 +80,13 @@ interface ICartIntegrantesProps {
 
 export function CartIntegrantes({imagem = '/assets/avatar_doutor.png', title, description, urlLinkedin}:ICartIntegrantesProps){
     return(
-        <div className="max-w-[18rem] p-6 md:p-8 md:bg-white dark:md:bg-gray-600 md:rounded-3xl flex-col justify-start items-center gap-3 md:gap-6 inline-flex md:shadow">
+        <div className="max-w-[18rem] p-6 md:p-8 md:bg-white dark:md:bg-slate-600 md:rounded-3xl flex-col justify-start items-center gap-3 md:gap-6 inline-flex md:shadow">
             <Image src={imagem} width={360} height={360} className="w-20 md:w-72 rounded-full" alt="avatar_integrantes"/>
             <div className="flex-col gap-3 flex">
                 <span className={twMerge("mx-auto text-center text-black dark:text-white text-xl md:text-2xl font-semibold leading-tight", poppins.className)}>
                     {title}
                 </span>
-                <span className={twMerge("text-slate-500 dark:text-gray-300 text-sm font-normal leading-tight", sora.className)}>
+                <span className={twMerge("text-slate-500 dark:text-slate-300 text-sm font-normal leading-tight", sora.className)}>
                     {description}
                 </span>
             </div>

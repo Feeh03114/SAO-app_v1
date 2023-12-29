@@ -88,7 +88,7 @@ export default function FormPaymentData({ onSave }:FormPatientProps): JSX.Elemen
     return (
         <form id="formFinance" onSubmit={handleSubmit(onSaveFinance)} className="w-full space-y-4 flex flex-wrap">
             <div className="w-full md:w-1/2 mt-4">
-                <label className="pl-4 text-sm font-medium leading-tight text-gray-700 dark:text-white">Quem é o pagante</label>
+                <label className="pl-4 text-sm font-medium leading-tight text-slate-700 dark:text-white">Quem é o pagante</label>
                 <div id="pagante" className="mt-2 col-span-2">
                     <Controller
                         name='patientType'
@@ -282,7 +282,7 @@ export default function FormPaymentData({ onSave }:FormPatientProps): JSX.Elemen
                 />
             </div>
 
-            <div className="w-full border-t border-gray-300 dark:border-gray-500"></div>
+            <div className="w-full border-t border-slate-300 dark:border-slate-500"></div>
 
             <div className="w-full md:w-2/6 px-2">
                 <Select
@@ -339,18 +339,18 @@ export default function FormPaymentData({ onSave }:FormPatientProps): JSX.Elemen
                 />
             </div>
             <div className="w-full md:w-1/4 px-2">
-                <div className="w-full h-48 px-4 py-2 flex items-center justify-center text-sm shadow-sm border rounded-lg border-gray-300 dark:border-gray-500">
-                    <svg className="w-24 h-24 text-gray-400" xmlns="http://www.w3.org/2000/svg" width="100" height="101" viewBox="0 0 100 101" fill="none">
+                <div className="w-full h-48 px-4 py-2 flex items-center justify-center text-sm shadow-sm border rounded-lg border-slate-300 dark:border-slate-500">
+                    <svg className="w-24 h-24 text-slate-400" xmlns="http://www.w3.org/2000/svg" width="100" height="101" viewBox="0 0 100 101" fill="none">
                         <path d="M33.3334 17.1667H25.0001C20.3977 17.1667 16.6667 20.8976 16.6667 25.5V75.5C16.6667 80.1024 20.3977 83.8333 25.0001 83.8333H75.0001C79.6025 83.8333 83.3334 80.1024 83.3334 75.5V25.5C83.3334 20.8976 79.6025 17.1667 75.0001 17.1667H66.6668M50.0001 13V46.3333M50.0001 46.3333L62.5001 33.8333M50.0001 46.3333L37.5001 33.8333M16.6667 54.6667H27.4409C28.5459 54.6667 29.6057 55.1057 30.3871 55.8871L40.4464 65.9463C41.2278 66.7277 42.2876 67.1667 43.3926 67.1667H56.6075C57.7126 67.1667 58.7724 66.7277 59.5538 65.9463L69.613 55.8871C70.3944 55.1057 71.4542 54.6667 72.5593 54.6667H83.3334" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>
                 </div>
             </div>
             <div className="w-full md:w-3/4 px-2 flex items-center">
                 <div className="w-full">
-                    <label className="pl-4 text-sm font-medium leading-tight text-gray-700 dark:text-white">Observação</label>
+                    <label className="pl-4 text-sm font-medium leading-tight text-slate-700 dark:text-white">Observação</label>
                     <textarea 
                         id="observation"
-                        className="w-full h-40 text-sm rounded-lg px-4 py-2 dark:bg-slate-700 dark:text-white shadow border border-gray-300 text-gray-900 placeholder-gray-500 dark:placeholder-white focus:border-teal-400 focus:outline-none focus:ring-teal-400 resize-none"
+                        className="w-full h-40 text-sm rounded-lg px-4 py-2 dark:bg-slate-700 dark:text-white shadow border border-slate-300 text-slate-900 placeholder-slate-500 dark:placeholder-white focus:border-teal-400 focus:outline-none focus:ring-teal-400 resize-none"
                         placeholder="Descrever o que aconteceu com o paciente"
                         {...register("observation")}
                     />

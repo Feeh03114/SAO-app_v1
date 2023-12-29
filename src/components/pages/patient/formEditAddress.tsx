@@ -54,7 +54,7 @@ export default function FormEditAddress({isOpen, onClose, address, onSave, onDel
                             type="text"
                             label="Nome do endereço"
                             placeholder="Insira um nome para o endereço"
-                            className="read-only:bg-gray-200 read-only:cursor-default"
+                            className="read-only:bg-slate-200 read-only:cursor-default"
                             autoComplete="new-password"
                             {...register("name")}
                             error={errors.name}

@@ -148,7 +148,7 @@ export function CreateEditTable({
                     disabled={column?.disabled}
                     type="checkbox"
                     name={option.value}
-                    className="rounded disabled:bg-gray-200 disabled:text-gray-500 disabled:cursor-not-allowed"
+                    className="rounded disabled:bg-slate-200 disabled:text-slate-500 disabled:cursor-not-allowed"
                 />
                 <label className="ml-2" htmlFor={option.value}>{getUppercaseFirstLetter(option?.label)}</label>
             </div>
@@ -158,7 +158,7 @@ export function CreateEditTable({
     return(
         <>
             <ToastContainer />
-            <div className="w-full bg-white dark:bg-gray-600 dark:text-white overflow-auto">
+            <div className="w-full bg-white dark:bg-slate-600 dark:text-white overflow-auto">
                 <h1 className=" ml-3 pt-5 text-3xl font-bold">{metadata.title}</h1>
                 <div className="flex sm:flex-end mt-1 mr-2">
                     <div className="sm:inline sm:ml-auto sm-mobile:w-full">
@@ -196,7 +196,7 @@ export function CreateEditTable({
                     {metadata.fields.map((column) => (
                         <div
                             className={`m-3${gridSpan(column)} mb-10`}>
-                            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">
+                            <label className="block text-slate-700 text-sm font-bold mb-2" htmlFor="username">
                                 {getUppercaseFirstLetter(column?.label)}
                             </label>
                             <Input
@@ -204,9 +204,9 @@ export function CreateEditTable({
                                 value={data[column.property]||""}
                                 type={column?.type || "text"}
                                 disabled={column?.disabled}
-                                className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline 
+                                className={`shadow appearance-none border rounded w-full py-2 px-3 text-slate-700 leading-tight focus:outline-none focus:shadow-outline 
                                 ${column?.type === "number" ? "text-right" : ""} ${(column.options || column.optionsMulti || column?.type === "boolean" ) && 'hidden'}
-                                disabled:bg-gray-200 disabled:text-gray-500 disabled:cursor-not-allowed
+                                disabled:bg-slate-200 disabled:text-slate-500 disabled:cursor-not-allowed
                                 `} 
                             />
                             {
@@ -217,8 +217,8 @@ export function CreateEditTable({
                                     value={data[column.property]||""}
                                     disabled={column?.disabled}
                                     className="shadow appearance-none border rounded w-full py-2 px-3 
-                                    text-gray-700 leading-tight focus:outline-none focus:shadow-outline 
-                                    disabled:bg-gray-200 disabled:text-gray-500 disabled:cursor-not-allowed"
+                                    text-slate-700 leading-tight focus:outline-none focus:shadow-outline 
+                                    disabled:bg-slate-200 disabled:text-slate-500 disabled:cursor-not-allowed"
                                 >
                                     <option selected disabled>Selecione uma opção</option>
                                     {column.options.map((option) => (
@@ -235,7 +235,7 @@ export function CreateEditTable({
                                                 type="radio"
                                                 disabled={column?.disabled}
                                                 name={option.value}
-                                                className="disabled:bg-gray-200 disabled:text-gray-500 disabled:cursor-not-allowed"
+                                                className="disabled:bg-slate-200 disabled:text-slate-500 disabled:cursor-not-allowed"
                                             />
                                             <label className="ml-2" htmlFor={option.value}>{getUppercaseFirstLetter(column?.label)}</label>
                                         </div>
@@ -249,7 +249,7 @@ export function CreateEditTable({
                                         multiSelected(option, column)
                                         )) :
                                         (<div className="col-span-12" key={column.property}>
-                                            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">
+                                            <label className="block text-slate-700 text-sm font-bold mb-2" htmlFor="username">
                                                 Nenhuma opção disponível
                                             </label>
                                         </div>)
@@ -266,7 +266,7 @@ export function CreateEditTable({
                                             disabled={column?.disabled}
                                             className={`relative inline-flex items-center justify-center px-6 py-2 rounded-full ${
                                                 data[column.property] ? "bg-teal-500" : "bg-teal-300"
-                                            } disabled:bg-gray-200 disabled:text-gray-500 disabled:cursor-not-allowed`}
+                                            } disabled:bg-slate-200 disabled:text-slate-500 disabled:cursor-not-allowed`}
                                             onClick={()=> setData({ ...data, [column.property]: !data[column.property] })}
                                         >
                                             <span

@@ -77,7 +77,7 @@ export default function FormPatientRecord({edit, isPermissionWrite=true, onSave}
     }
     
     return (
-        <div className="gap-y-3 md:gap-y-6 md:mx-10 md:mb-10 px-3 md:pt-6 pb-6 flex items-center justify-centers flex-row flex-wrap md:border border-gray-200 dark:border-gray-500 dark:bg-slate-800 shadow-sm rounded-lg">
+        <div className="gap-y-3 md:gap-y-6 md:mx-10 md:mb-10 px-3 md:pt-6 pb-6 flex items-center justify-centers flex-row flex-wrap md:border border-slate-200 dark:border-slate-500 dark:bg-slate-800 shadow-sm rounded-lg">
             <div className="gap-y-3 md:gap-y-6 flex items-center justify-centers flex-row flex-wrap">
                 <div className="w-full md:w-1/4 mt-6 md:mt-0 flex flex-row justify-center items-center">
                     <div className="flex mx-2 items-center justify-center rounded-full bg-teal-200 dark:bg-teal-400 w-16 h-16">
@@ -90,7 +90,7 @@ export default function FormPatientRecord({edit, isPermissionWrite=true, onSave}
                         type="text"
                         label="Disciplina"
                         value={watch('discipline')|| ''}
-                        className="bg-gray-200 cursor-default"
+                        className="bg-slate-200 cursor-default"
                         readOnly={true}
                     />
                 </div>
@@ -100,7 +100,7 @@ export default function FormPatientRecord({edit, isPermissionWrite=true, onSave}
                         type="text"
                         label="E-mail"
                         value={watch('email') || ''}
-                        className="bg-gray-200 cursor-default"
+                        className="bg-slate-200 cursor-default"
                         readOnly={true}
                     />
                 </div>
@@ -110,7 +110,7 @@ export default function FormPatientRecord({edit, isPermissionWrite=true, onSave}
                         type="text"
                         label="Telefone"
                         value={watch('phone') || ''}
-                        className="bg-gray-200 cursor-default"
+                        className="bg-slate-200 cursor-default"
                         readOnly={true}
                     />
                 </div>
@@ -120,7 +120,7 @@ export default function FormPatientRecord({edit, isPermissionWrite=true, onSave}
                         type="text"
                         label="Data de agenda"
                         value={watch('date') || ''}
-                        className="bg-gray-200 cursor-default"
+                        className="bg-slate-200 cursor-default"
                         readOnly={true}
                     />
                 </div>
@@ -130,7 +130,7 @@ export default function FormPatientRecord({edit, isPermissionWrite=true, onSave}
                         type="text"
                         label="Horário"
                         value={watch('time') || ''}
-                        className="bg-gray-200 cursor-default"
+                        className="bg-slate-200 cursor-default"
                         readOnly={true}
                     />
                 </div>
@@ -140,7 +140,7 @@ export default function FormPatientRecord({edit, isPermissionWrite=true, onSave}
                         type="text"
                         label="Serviço"
                         placeholder={watch('service')|| ''}
-                        className="bg-gray-200 cursor-default"
+                        className="bg-slate-200 cursor-default"
                         readOnly={true}
                     />
                 </div>
@@ -150,17 +150,17 @@ export default function FormPatientRecord({edit, isPermissionWrite=true, onSave}
                         type="text"
                         label="Serviço"
                         placeholder={(Number(watch('price')|| '0').toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })) || ''}
-                        className="bg-gray-200 cursor-default"
+                        className="bg-slate-200 cursor-default"
                         readOnly={true}
                     />
                 </div>
 
                 <form id='formPatientRecord' onSubmit={handleSubmit(onSavePatientSchedule)} className="w-full gap-y-3 md:gap-y-6 flex items-center justify-centers flex-row flex-wrap">
                     <div className="w-full px-2">
-                        <label className="pl-4 text-sm font-medium leading-tight text-gray-700 dark:text-white">Queixa</label>
+                        <label className="pl-4 text-sm font-medium leading-tight text-slate-700 dark:text-white">Queixa</label>
                         <textarea 
                             id="name"
-                            className="w-full h-24 text-sm rounded-lg px-4 py-2 dark:text-white shadow border border-gray-300 dark:border-gray-500 bg-white dark:bg-slate-700 dark:placeholder-white focus:border-teal-400 focus:outline-none focus:ring-teal-400 resize-none"
+                            className="w-full h-24 text-sm rounded-lg px-4 py-2 dark:text-white shadow border border-slate-300 dark:border-slate-500 bg-white dark:bg-slate-700 dark:placeholder-white focus:border-teal-400 focus:outline-none focus:ring-teal-400 resize-none"
                             autoComplete="new-password"
                             {...register("complaint_text")}
                             readOnly
@@ -169,7 +169,7 @@ export default function FormPatientRecord({edit, isPermissionWrite=true, onSave}
 
                     <div className="w-full mt-4">
                         <div className="w-full mx-4 flex flex-col md:flex-row md:items-end justify-between">
-                            <label className="pl-4 text-sm font-medium leading-tight text-gray-700 dark:text-white">Relatório da consulta</label>
+                            <label className="pl-4 text-sm font-medium leading-tight text-slate-700 dark:text-white">Relatório da consulta</label>
                             <div className="mr-1 mb-2 flex flex-row items-center justify-end">
                                 <div className="w-full pl-0 px-3 md:px-2">
                                     <Select
@@ -210,7 +210,7 @@ export default function FormPatientRecord({edit, isPermissionWrite=true, onSave}
                         <div className="w-full px-3">
                             <textarea 
                                 id="observation"
-                                className="w-full h-40 text-sm rounded-lg px-4 py-2 dark:text-white shadow border border-gray-300 dark:border-gray-500 bg-white dark:bg-slate-700 dark:placeholder-white focus:border-teal-400 focus:outline-none focus:ring-teal-400 resize-none"
+                                className="w-full h-40 text-sm rounded-lg px-4 py-2 dark:text-white shadow border border-slate-300 dark:border-slate-500 bg-white dark:bg-slate-700 dark:placeholder-white focus:border-teal-400 focus:outline-none focus:ring-teal-400 resize-none"
                                 placeholder="Descreva o que aconteceu com o paciente"
                                 disabled={!isPermissionWrite}
                                 {...register("occurrenceConsultation")}
@@ -223,9 +223,9 @@ export default function FormPatientRecord({edit, isPermissionWrite=true, onSave}
 
                     <div className="w-full mb-3 md:mb-6 px-3  items-center justify-centers flex-col flex-wrap hidden">
                         <div className="w-full pl-4 inline-flex items-center justify-start">
-                            <p className="text-xs md:text-sm font-Inter font-medium leading-tight text-gray-700 dark:text-white truncate">Documentos</p>
+                            <p className="text-xs md:text-sm font-Inter font-medium leading-tight text-slate-700 dark:text-white truncate">Documentos</p>
                         </div>
-                        <div className="w-full h-40 px-4 flex items-center justify-center shadow-sm border rounded-lg border-gray-300 dark:border-gray-500 bg-white dark:bg-slate-700 focus:border-teal-400 focus:outline-none focus:ring-teal-400 resize-none">
+                        <div className="w-full h-40 px-4 flex items-center justify-center shadow-sm border rounded-lg border-slate-300 dark:border-slate-500 bg-white dark:bg-slate-700 focus:border-teal-400 focus:outline-none focus:ring-teal-400 resize-none">
                             <HiOutlineInboxIn className="w-28 h-28 text-slate-300 dark:text-slate-500"/>
                         </div>
                     </div>

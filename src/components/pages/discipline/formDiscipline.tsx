@@ -91,7 +91,7 @@ export default function FormDiscipline({edit, isPermissionWrite=true, onSave}:Fo
             <FormServiceDiscipline isOpen={newServiceDisposer.isOpen} onClose={newServiceDisposer.close} onSave={updateService}/>
             <form id='formDiscipline' onSubmit={handleSubmit(onSaveDiscipline)}>
                 <div className="w-screen px-8">
-                    <div className="w-full p-6 flex flex-row flex-wrap shadow-sm border rounded-lg border-gray-300 dark:border-gray-500 dark:bg-slate-800">
+                    <div className="w-full p-6 flex flex-row flex-wrap shadow-sm border rounded-lg border-slate-300 dark:border-slate-500 dark:bg-slate-800">
                         <div className="w-full px-2">
                             <Input
                                 required
@@ -99,7 +99,7 @@ export default function FormDiscipline({edit, isPermissionWrite=true, onSave}:Fo
                                 type="text"
                                 label="Nome"
                                 placeholder="Nome da Disciplina"
-                                className="read-only:bg-gray-200 read-only:cursor-default"
+                                className="read-only:bg-slate-200 read-only:cursor-default"
                                 {...register("name")}
                                 error={errors.name}
                                 readOnly={!isPermissionWrite}
@@ -109,11 +109,11 @@ export default function FormDiscipline({edit, isPermissionWrite=true, onSave}:Fo
                 </div>
 
                 <div className="w-screen mt-8 px-8">
-                    <div className="w-full py-6 flex flex-row flex-wrap shadow-sm border-t border-gray-300 dark:border-gray-500">
+                    <div className="w-full py-6 flex flex-row flex-wrap shadow-sm border-t border-slate-300 dark:border-slate-500">
                         <div className="w-full flex justify-between">
                             <div className='text-start'>
-                                <p className="text-sm md:text-2xl font-bold leading-loose text-gray-900 dark:text-white">Serviços da Disciplina</p>
-                                <p className="text-xs leading-none text-gray-400">Confira os serviços da disciplina</p>
+                                <p className="text-sm md:text-2xl font-bold leading-loose text-slate-900 dark:text-white">Serviços da Disciplina</p>
+                                <p className="text-xs leading-none text-slate-400">Confira os serviços da disciplina</p>
                             </div>
                             <button className="h-10 flex items-center justify-center px-3 bg-teal-500 border rounded-md border-teal-500 cursor-pointer"
                                 type="button"

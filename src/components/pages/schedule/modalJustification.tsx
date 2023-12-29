@@ -58,7 +58,7 @@ export function ModalJustification({ isOpen, onClose, idJustification, message }
                 />
                     <textarea 
                         id="messagem"
-                        className="w-full h-40 mt-8 px-4 py-2 text-sm font-medium leading-tight truncate dark:text-white placeholder-gray-500 dark:placeholder-white shadow-sm border rounded-lg border-gray-300 dark:border-gray-500  dark:bg-slate-700 focus:border-teal-400 focus:outline-none focus:ring-teal-400 resize-none"
+                        className="w-full h-40 mt-8 px-4 py-2 text-sm font-medium leading-tight truncate dark:text-white placeholder-slate-500 dark:placeholder-white shadow-sm border rounded-lg border-slate-300 dark:border-slate-500  dark:bg-slate-700 focus:border-teal-400 focus:outline-none focus:ring-teal-400 resize-none"
                         placeholder="O que você precisa?"
                         {...register("messagem")}
                     />

@@ -67,24 +67,24 @@ export default function ResetPassword(): JSX.Element{
                 </title>
             </Head>
             <div className="w-screen flex items-center justify-center">
-                <div className="p-6 space-y-6 md:border rounded-lg md:shadow-md overflow-auto dark:bg-slate-800 border-gray-300 dark:border-gray-500">
+                <div className="p-6 space-y-6 md:border rounded-lg md:shadow-md overflow-auto dark:bg-slate-800 border-slate-300 dark:border-slate-500">
                     <div className="w-full flex justify-center items-center">
                         <Image className='h-24 w-24 dark:hidden' src="/assets/logo4.png" width={150} height={150} alt="logoMobile"/>
                         <Image className='h-24 w-24 hidden dark:block' src="/assets/logo_white.png" width={150} height={150} alt="logoMobile"/>
                     </div>
-                    <div className="w-96 h-full mt-4 bg-white dark:bg-gray-800 text-left">
-                        <p className="text-3xl font-Inter font-extrabold leading-9 text-gray-900 dark:text-white">Criar nova senha</p>
-                        <p className="text-lg font-Inter font-medium leading-6 text-gray-500 dark:text-gray-300">Sua senha nova devera ser diferente das senhas utilizadas anteriormente</p>
+                    <div className="w-96 h-full mt-4 bg-white dark:bg-slate-800 text-left">
+                        <p className="text-3xl font-Inter font-extrabold leading-9 text-slate-900 dark:text-white">Criar nova senha</p>
+                        <p className="text-lg font-Inter font-medium leading-6 text-slate-500 dark:text-slate-300">Sua senha nova devera ser diferente das senhas utilizadas anteriormente</p>
                     </div>
                     <form id='formResetPassword' onSubmit={handleSubmit(onSave)} className="w-full flex flex-col space-y-6">
                         <div>
                             <div className="w-full inline-flex items-center justify-start pl-4">
-                                <p className="text-lg font-Inter font-medium leading-6 text-gray-700 dark:text-gray-300">Senha</p>
+                                <p className="text-lg font-Inter font-medium leading-6 text-slate-700 dark:text-slate-300">Senha</p>
                             </div>
                             <Input 
                                 id="password"
                                 required
-                                className="w-full h-10 px-4 text-lg font-Inter font-normal leading-5 text-gray-500 rounded-lg border border-gray-300 shadow placeholder-gray-500 focus:border-teal-400 focus:outline-none focus:ring-teal-400"
+                                className="w-full h-10 px-4 text-lg font-Inter font-normal leading-5 text-slate-500 rounded-lg border border-slate-300 shadow placeholder-slate-500 focus:border-teal-400 focus:outline-none focus:ring-teal-400"
                                 placeholder="Insira sua senha"
                                 password
                                 {...register('password')}
@@ -94,12 +94,12 @@ export default function ResetPassword(): JSX.Element{
 
                         <div>
                             <div className="w-full inline-flex items-center justify-start pl-4">
-                                <p className="text-lg font-Inter font-medium leading-6 text-gray-700 dark:text-gray-300">Confirme a sua senha</p>
+                                <p className="text-lg font-Inter font-medium leading-6 text-slate-700 dark:text-slate-300">Confirme a sua senha</p>
                             </div>
                             <Input 
                                 id="confirmPassword"
                                 required
-                                className="w-full h-10 px-4 text-lg font-Inter font-normal leading-5 text-gray-500 rounded-lg border border-gray-300 shadow placeholder-gray-500 focus:border-teal-400 focus:outline-none focus:ring-teal-400"
+                                className="w-full h-10 px-4 text-lg font-Inter font-normal leading-5 text-slate-500 rounded-lg border border-slate-300 shadow placeholder-slate-500 focus:border-teal-400 focus:outline-none focus:ring-teal-400"
                                 placeholder="Digite novamente sua senha"
                                 password
                                 {...register('confirmPassword')}
@@ -107,7 +107,7 @@ export default function ResetPassword(): JSX.Element{
                             />
                         </div>
 
-                        <p className="dark:text-gray-300"> <span className="text-red-500">Atenção:</span> Sua senha deverá possuir ao menos 8 caracteres,<br/>
+                        <p className="dark:text-slate-300"> <span className="text-red-500">Atenção:</span> Sua senha deverá possuir ao menos 8 caracteres,<br/>
                             sendo eles obrigatórios:<br/>
                         &emsp;1 Letra maiúscula<br/>
                         &emsp;1 Letra minúscula<br/>

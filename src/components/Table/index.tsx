@@ -15,13 +15,13 @@ export interface RegisterModelProps {
 
 function TableRoot({ children, label, style } : RegisterModelProps): JSX.Element {
     return(
-        <div className={twMerge("w-screen flex items-center flex-col flex-wrap", style)}>
+        <div className={twMerge("w-full flex items-center flex-col flex-wrap", style)}>
             {label != undefined &&
                 <div className="w-full pl-4 inline-flex items-center justify-start">
-                    <p className="text-xs md:text-sm font-Inter font-medium leading-tight text-gray-700 dark:text-gray-300 truncate">{label}</p>
+                    <p className="text-xs md:text-sm font-Inter font-medium leading-tight text-slate-700 dark:text-slate-300 truncate">{label}</p>
                 </div>
             }
-            <div className="flex items-start justify-centers flex-col flex-wrap border bg-white dark:bg-slate-800 dark:border-slate-700 border-solid border-gray-200 shadow-md rounded-lg overflow-hidden border-separate">
+            <div className="flex items-start justify-centers flex-col flex-wrap border bg-white dark:bg-slate-800 dark:border-slate-700 border-solid border-slate-200 shadow-md rounded-lg overflow-hidden border-separate">
                 <table className="w-full table-fixed">
                     {children}
                 </table>
@@ -48,17 +48,17 @@ const TableRow = ({children, style, onView, onDelete }:TableRowProps) => {
     return(
         <tr className="h-12">
             {children}
-            <td className={twMerge("h-full px-0 border font-Inter border-x-0 bg-white border-gray-200 dark:border-slate-700 dark:bg-slate-800 text-sm font-normal leading-5 text-gray-500 dark:text-gray-200 aria-hidden:hidden", style)}
+            <td className={twMerge("h-full px-0 border font-Inter border-x-0 bg-white border-slate-200 dark:border-slate-700 dark:bg-slate-800 text-sm font-normal leading-5 text-slate-500 dark:text-slate-200 aria-hidden:hidden", style)}
                 aria-hidden={(onView == undefined && onDelete == undefined) ? true : false}
             >
                 <div className="flex items-center justify-end">
-                    <button className="h-full mr-4 px-3 py-2 border dark:border-gray-500 rounded-md cursor-pointer aria-hidden:hidden"
+                    <button className="h-full mr-4 px-3 py-2 border dark:border-slate-500 rounded-md cursor-pointer aria-hidden:hidden"
                         onClick={onView}
                         aria-hidden={onView == undefined ? true : false}
                     >
                         <AiOutlineEye className="w-5 h-5 text-teal-500"/>
                     </button>
-                    <button className="h-full mr-4 px-3 py-2 border dark:border-gray-500 rounded-md cursor-pointer aria-hidden:hidden"
+                    <button className="h-full mr-4 px-3 py-2 border dark:border-slate-500 rounded-md cursor-pointer aria-hidden:hidden"
                         onClick={onDelete}
                         aria-hidden={onDelete == undefined ? true : false}    
                     >
@@ -99,7 +99,7 @@ const TableCellHeader = ({children, hiddenInMobile, hiddenInDesktop, style}:Regi
     const finalStyle = styleCell + " " + style;
 
     return(
-        <th className={twMerge("px-3 md:px-6 py-3 text-start font-Inter text-xs font-medium leading-4 tracking-wide text-gray-500 dark:text-gray-200", finalStyle)}>
+        <th className={twMerge("px-3 md:px-6 py-3 text-start font-Inter text-xs font-medium leading-4 tracking-wide text-slate-500 dark:text-slate-200", finalStyle)}>
             {children}
         </th>
     )
@@ -127,7 +127,7 @@ const TableCell = ({children, hiddenInMobile, hiddenInDesktop, style}:RegisterMo
 
     const finalStyle = styleCell + " " + (style||'');
     return(
-        <td className={twMerge("pl-3 md:pl-6 font-Inter text-sm font-normal leading-5 text-gray-500 dark:text-gray-200 border border-x-0 bg-white border-gray-200 dark:border-slate-700 dark:bg-slate-800", finalStyle)}>
+        <td className={twMerge("pl-3 md:pl-6 font-Inter text-sm font-normal leading-5 text-slate-500 dark:text-slate-200 border border-x-0 bg-white border-slate-200 dark:border-slate-700 dark:bg-slate-800", finalStyle)}>
             {children}
         </td>
     )

@@ -188,7 +188,7 @@ export default function ScheduleModal({ open=false, setOpen, cancelButtonRef }: 
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+            <div className="fixed inset-0 bg-slate-500 bg-opacity-75 transition-opacity" />
           </Transition.Child>
   
           <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
@@ -202,8 +202,8 @@ export default function ScheduleModal({ open=false, setOpen, cancelButtonRef }: 
                 leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                 leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
               >
-                <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white dark:bg-gray-800 text-left shadow transition-all sm:my-8 sm:w-full max-w-lg">
-                    <div className="bg-white dark:bg-gray-800 px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
+                <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white dark:bg-slate-800 text-left shadow transition-all sm:my-8 sm:w-full max-w-lg">
+                    <div className="bg-white dark:bg-slate-800 px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
                         <div className="flex flex-row flex-wrap justify-center items-center">
                             <form className="grid grid-cols-2 gap-4" onSubmit={handleSubmit(addPost)}>
                                 <div className="flex flex-row justify-start items-center col-span-2">
@@ -211,7 +211,7 @@ export default function ScheduleModal({ open=false, setOpen, cancelButtonRef }: 
                                         <AiOutlinePlus className="text-xl text-teal-500 dark:text-teal-700"/>
                                     </div>
                                     <div className="ml-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
-                                        <Dialog.Title as="h3" className="text-base font-semibold leading-6 text-gray-900 dark:text-white">
+                                        <Dialog.Title as="h3" className="text-base font-semibold leading-6 text-slate-900 dark:text-white">
                                             Cadastrar Consulta
                                         </Dialog.Title>
                                     </div>
@@ -221,7 +221,7 @@ export default function ScheduleModal({ open=false, setOpen, cancelButtonRef }: 
                                         id="prontuario"
                                         type="text"
                                         label="Prontuário do Paciente"
-                                        className="w-full rounded-lg px-4 py-2 dark:bg-slate-700 dark:text-white shadow border border-gray-300 text-gray-900 placeholder-gray-500 dark:placeholder-white focus:border-teal-400 focus:outline-none focus:ring-teal-400 md:text-sm"
+                                        className="w-full rounded-lg px-4 py-2 dark:bg-slate-700 dark:text-white shadow border border-slate-300 text-slate-900 placeholder-slate-500 dark:placeholder-white focus:border-teal-400 focus:outline-none focus:ring-teal-400 md:text-sm"
                                         placeholder="Insira seu prontuário"
                                         required
                                         {...register("prontuario")}
@@ -234,7 +234,7 @@ export default function ScheduleModal({ open=false, setOpen, cancelButtonRef }: 
                                         id="nome"
                                         type="text"
                                         label="Nome do Paciente"
-                                        className="w-full rounded-lg px-4 py-2 dark:bg-slate-700 dark:text-white shadow border border-gray-300 text-gray-900 placeholder-gray-500 dark:placeholder-white focus:border-teal-400 focus:outline-none focus:ring-teal-400 sm:text-sm"
+                                        className="w-full rounded-lg px-4 py-2 dark:bg-slate-700 dark:text-white shadow border border-slate-300 text-slate-900 placeholder-slate-500 dark:placeholder-white focus:border-teal-400 focus:outline-none focus:ring-teal-400 sm:text-sm"
                                         placeholder="Insira seu nome do paciente"
                                         required
                                         {...register("nome")}
@@ -242,7 +242,7 @@ export default function ScheduleModal({ open=false, setOpen, cancelButtonRef }: 
                                         onBlur={(e:any)=>e.target.value && getPatient()}
                                     />
                                 </div>
-                                <label className="pl-4 text-sm font-medium leading-tight text-gray-700 dark:text-white">Tipo de consulta<span className="text-red-500">*</span></label>
+                                <label className="pl-4 text-sm font-medium leading-tight text-slate-700 dark:text-white">Tipo de consulta<span className="text-red-500">*</span></label>
                                 <div id="tipoDeConsulta" className="col-span-2">
                                     <Controller
                                         name='typeConsult'
@@ -250,7 +250,7 @@ export default function ScheduleModal({ open=false, setOpen, cancelButtonRef }: 
                                         defaultValue={'retorno'}
                                         render={({ field }) => (
                                             <>
-                                                <label className='mx-5 dark:text-gray-200'>
+                                                <label className='mx-5 dark:text-slate-200'>
                                                     <input 
                                                         id="novaConsulta"
                                                         type="radio" 
@@ -262,12 +262,12 @@ export default function ScheduleModal({ open=false, setOpen, cancelButtonRef }: 
                                                     />
                                                     Nova consulta
                                                 </label>
-                                                <label className={`dark:text-gray-200 aria-disabled:text-gray-700 ${Object.keys(treatment).length === 0 && 'cursor-not-allowed'}`}>
+                                                <label className={`dark:text-slate-200 aria-disabled:text-slate-700 ${Object.keys(treatment).length === 0 && 'cursor-not-allowed'}`}>
                                                     <input 
                                                         id="retorno"
                                                         type="radio" 
                                                         name="type"
-                                                        className="text-teal-400 mr-2 disabled:bg-gray-500"
+                                                        className="text-teal-400 mr-2 disabled:bg-slate-500"
                                                         checked={field.value === 'retorno'}
                                                         onChange={(e) => field.onChange(e.target.checked ? 'retorno' : 'novaConsulta')}
                                                         disabled={Object.keys(treatment).length === 0}
@@ -286,11 +286,11 @@ export default function ScheduleModal({ open=false, setOpen, cancelButtonRef }: 
                                         control={control}
                                         render={({ field }) => (
                                             <>
-                                                <label className="pl-4 text-sm font-medium leading-tight text-gray-700 dark:text-white">Tratamento Odontológico<span className="text-red-500">*</span></label>
+                                                <label className="pl-4 text-sm font-medium leading-tight text-slate-700 dark:text-white">Tratamento Odontológico<span className="text-red-500">*</span></label>
                                                 <select 
                                                     value={field.value}
                                                     onChange={(e) => field.onChange(e.target.value)}
-                                                    className="w-full cursor-text rounded-lg px-4 py-2 dark:bg-slate-700 dark:text-white shadow border border-gray-300 text-gray-900 placeholder-gray-500 focus:border-teal-400 focus:outline-none focus:ring-teal-400 sm:text-sm"
+                                                    className="w-full cursor-text rounded-lg px-4 py-2 dark:bg-slate-700 dark:text-white shadow border border-slate-300 text-slate-900 placeholder-slate-500 focus:border-teal-400 focus:outline-none focus:ring-teal-400 sm:text-sm"
                                                     placeholder="Selecione o serviço odontológico"
                                                 >
                                                     <option value="" disabled selected>Selecione o tratamento</option>
@@ -306,10 +306,10 @@ export default function ScheduleModal({ open=false, setOpen, cancelButtonRef }: 
                                 <div className="col-span-2 aria-hidden:hidden"
                                     aria-hidden={watch('typeConsult') === 'retorno'}
                                 >
-                                    <label className="pl-4 text-sm font-medium leading-tight text-gray-700 dark:text-white">Queixa<span className="text-red-500">*</span></label>
+                                    <label className="pl-4 text-sm font-medium leading-tight text-slate-700 dark:text-white">Queixa<span className="text-red-500">*</span></label>
                                     <textarea 
                                         id="queixa"
-                                        className="w-full h-20 rounded-lg px-4 py-2 dark:bg-slate-700 dark:text-white shadow border border-gray-300 dark:border-gray-500 text-gray-900 placeholder-gray-500 dark:placeholder-white focus:border-teal-400 focus:outline-none focus:ring-teal-400 sm:text-sm"
+                                        className="w-full h-20 rounded-lg px-4 py-2 dark:bg-slate-700 dark:text-white shadow border border-slate-300 dark:border-slate-500 text-slate-900 placeholder-slate-500 dark:placeholder-white focus:border-teal-400 focus:outline-none focus:ring-teal-400 sm:text-sm"
                                         placeholder="Descrever o que aconteceu com o paciente"
                                         {...register("complaint_text")}
                                     />
@@ -340,7 +340,7 @@ export default function ScheduleModal({ open=false, setOpen, cancelButtonRef }: 
                                                         field.onChange(e?.toDate());
                                                     }}
                                                     className='teal bg-dark-perso'
-                                                    inputClass='w-full rounded-lg px-4 py-2 dark:bg-slate-700 dark:text-white shadow border border-gray-300 dark:border-gray-500 text-gray-900 placeholder-gray-500 focus:border-teal-400 focus:outline-none focus:ring-teal-400 sm:text-sm'
+                                                    inputClass='w-full rounded-lg px-4 py-2 dark:bg-slate-700 dark:text-white shadow border border-slate-300 dark:border-slate-500 text-slate-900 placeholder-slate-500 focus:border-teal-400 focus:outline-none focus:ring-teal-400 sm:text-sm'
                                                     containerClassName=''
                                                     readOnly={Object.keys(service).length === 0}
                                                     format='DD/MM/YYYY'
@@ -365,7 +365,7 @@ export default function ScheduleModal({ open=false, setOpen, cancelButtonRef }: 
                                         id="horario"
                                         type="time"
                                         label="Horário"
-                                        className="w-full cursor-text rounded-lg px-4 py-2 dark:bg-slate-700 dark:text-white shadow border border-gray-300 dark:border-gray-500 text-gray-900 placeholder-slate-500 focus:border-teal-400 focus:outline-none focus:ring-teal-400 sm:text-sm"
+                                        className="w-full cursor-text rounded-lg px-4 py-2 dark:bg-slate-700 dark:text-white shadow border border-slate-300 dark:border-slate-500 text-slate-900 placeholder-slate-500 focus:border-teal-400 focus:outline-none focus:ring-teal-400 sm:text-sm"
                                         placeholder="00:00"
                                         required
                                         {...register("horario")}
@@ -376,10 +376,10 @@ export default function ScheduleModal({ open=false, setOpen, cancelButtonRef }: 
                                         max={getHours().endHour}
                                     />
                                 </div>
-                                <div className="px-4 py-3 flex justify-end sm:px-6 col-span-2 dark:bg-gray-800">
+                                <div className="px-4 py-3 flex justify-end sm:px-6 col-span-2 dark:bg-slate-800">
                                     <button
                                         type="button"
-                                        className="rounded-md bg-white dark:text-white dark:bg-slate-700 border border-gray-300 dark:border-slate-700 px-3 py-2 text-sm font-semibold text-gray-900 shadow hover:bg-gray-50 sm:mt-0 sm:w-auto"
+                                        className="rounded-md bg-white dark:text-white dark:bg-slate-700 border border-slate-300 dark:border-slate-700 px-3 py-2 text-sm font-semibold text-slate-900 shadow hover:bg-slate-50 sm:mt-0 sm:w-auto"
                                         onClick={() => setOpen(false)}
                                         ref={cancelButtonRef}>
                                             Cancelar

@@ -149,7 +149,7 @@ export default function FormPatient({ isPermissionWrite=true, onSave, edit={} }:
     }, [errors1]);
     
     return (
-        <div className="gap-y-3 md:gap-y-6 md:mx-8 md:mb-10 px-3 md:pt-6 pb-6 flex items-center justify-centers flex-row flex-wrap md:border border-gray-200 dark:border-gray-500 dark:bg-slate-800 shadow-sm rounded-lg">
+        <div className="gap-y-3 md:gap-y-6 md:mx-8 md:mb-10 px-3 md:pt-6 pb-6 flex items-center justify-centers flex-row flex-wrap md:border border-slate-200 dark:border-slate-500 dark:bg-slate-800 shadow-sm rounded-lg">
             <FormAddress isOpen={addressDisposer.isOpen} onClose={addressDisposer.close} onSave={updateAddress}/>
             <FormEditAddress isOpen={editAddressDisposer.isOpen} onClose={editAddressDisposer.close} address={selectedAddress} onSave={updateEditAddress} onDelete={deleteAddress}/>
             <FormGuardian isOpen={newGuardianDisposer.isOpen} onClose={newGuardianDisposer.close} onSave={updateGuardianForm}/>
@@ -161,7 +161,7 @@ export default function FormPatient({ isPermissionWrite=true, onSave, edit={} }:
                         type="text"
                         label="Prontuário"
                         placeholder="Insira o prontuário"
-                        className="read-only:bg-gray-200 read-only:cursor-default"
+                        className="read-only:bg-slate-200 read-only:cursor-default"
                         autoComplete="new-password"
                         {...register1("medicalRecord")}
                         error={errors1.medicalRecord}
@@ -175,7 +175,7 @@ export default function FormPatient({ isPermissionWrite=true, onSave, edit={} }:
                         type="text"
                         label="Nome"
                         placeholder="Insira o nome"
-                        className="read-only:bg-gray-200 read-only:cursor-default"
+                        className="read-only:bg-slate-200 read-only:cursor-default"
                         autoComplete="new-password"
                         {...register1("name")}
                         error={errors1.name}
@@ -189,7 +189,7 @@ export default function FormPatient({ isPermissionWrite=true, onSave, edit={} }:
                         type="text"
                         label="Sobrenome"
                         placeholder="Insira o sobrenome"
-                        className="read-only:bg-gray-200 read-only:cursor-default"
+                        className="read-only:bg-slate-200 read-only:cursor-default"
                         autoComplete="new-password"
                         {...register1("lastName")}
                         error={errors1.lastName}
@@ -203,7 +203,7 @@ export default function FormPatient({ isPermissionWrite=true, onSave, edit={} }:
                         type="text"
                         label="CPF"
                         placeholder="Insira o CPF"
-                        className="read-only:bg-gray-200 read-only:cursor-default"
+                        className="read-only:bg-slate-200 read-only:cursor-default"
                         {...register1("cpf")}
                         error={errors1.cpf}
                         readOnly={!isPermissionWrite}
@@ -216,7 +216,7 @@ export default function FormPatient({ isPermissionWrite=true, onSave, edit={} }:
                         type="text"
                         label="RG"
                         placeholder="Insira o RG"
-                        className="read-only:bg-gray-200 read-only:cursor-default"
+                        className="read-only:bg-slate-200 read-only:cursor-default"
                         {...register1("rg")}
                         error={errors1.rg}
                         readOnly={!isPermissionWrite}
@@ -230,7 +230,7 @@ export default function FormPatient({ isPermissionWrite=true, onSave, edit={} }:
                         type="date"
                         label="Data de nascimento"
                         placeholder="dd/mm/aaaa"
-                        className="read-only:bg-gray-200 read-only:cursor-default"
+                        className="read-only:bg-slate-200 read-only:cursor-default"
                         {...register1("birthDate")}
                         error={errors1.birthDate}
                         readOnly={!isPermissionWrite}
@@ -281,7 +281,7 @@ export default function FormPatient({ isPermissionWrite=true, onSave, edit={} }:
                         type="text"
                         label="E-mail"
                         placeholder="Insira o e-mail"
-                        className="read-only:bg-gray-200 read-only:cursor-default"
+                        className="read-only:bg-slate-200 read-only:cursor-default"
                         {...register1("email")}
                         error={errors1.email}
                         readOnly={!isPermissionWrite}
@@ -295,7 +295,7 @@ export default function FormPatient({ isPermissionWrite=true, onSave, edit={} }:
                         type="text"
                         label="Telefone"
                         placeholder="Insira o telefone"
-                        className="read-only:bg-gray-200 read-only:cursor-default"
+                        className="read-only:bg-slate-200 read-only:cursor-default"
                         {...register1("phoneNumber")}
                         error={errors1.phoneNumber}
                         readOnly={!isPermissionWrite}
@@ -307,7 +307,7 @@ export default function FormPatient({ isPermissionWrite=true, onSave, edit={} }:
                         type="text"
                         label="Profissão"
                         placeholder="Insira a profissão"
-                        className="read-only:bg-gray-200 read-only:cursor-default"
+                        className="read-only:bg-slate-200 read-only:cursor-default"
                         {...register1("profession")}
                         error={errors1.profession}
                         readOnly={!isPermissionWrite}
@@ -336,7 +336,7 @@ export default function FormPatient({ isPermissionWrite=true, onSave, edit={} }:
                         type="text"
                         label="Nacionalidade"
                         placeholder="Insira a nacionalidade"
-                        className="read-only:bg-gray-200 read-only:cursor-default"
+                        className="read-only:bg-slate-200 read-only:cursor-default"
                         {...register1("nationality")}
                         error={errors1.nationality}
                         readOnly={!isPermissionWrite}
@@ -348,16 +348,16 @@ export default function FormPatient({ isPermissionWrite=true, onSave, edit={} }:
                         type="text"
                         label="Naturalidade"
                         placeholder="Insira a naturalidade"
-                        className="read-only:bg-gray-200 read-only:cursor-default"
+                        className="read-only:bg-slate-200 read-only:cursor-default"
                         {...register1("naturalness")}
                         error={errors1.naturalness}
                         readOnly={!isPermissionWrite}
                     />
                 </div>
                 
-                <div className="w-full pt-6 border-t border-gray-300 dark:border-gray-500">
+                <div className="w-full pt-6 border-t border-slate-300 dark:border-slate-500">
                     <div className="flex items-center justify-between">
-                        <label className="pl-4 text-sm font-medium leading-tight text-gray-700 dark:text-white">Endereços<span className="text-red-500">*</span></label>
+                        <label className="pl-4 text-sm font-medium leading-tight text-slate-700 dark:text-white">Endereços<span className="text-red-500">*</span></label>
                         <button className="h-10 mr-2 mb-1 space-x-2 flex items-center justify-center px-3 bg-teal-400 border rounded-md border-teal-500 cursor-pointer"
                             type="button"
                             onClick={() => {addressDisposer.open()}}
@@ -384,9 +384,9 @@ export default function FormPatient({ isPermissionWrite=true, onSave, edit={} }:
                     </Card.CardSelected>
                 </div>
             </form>
-            <div className="w-full pt-6 border-t border-gray-300 dark:border-gray-500">
+            <div className="w-full pt-6 border-t border-slate-300 dark:border-slate-500">
                 <div className="flex items-center justify-between">
-                    <label className="pl-4 text-sm font-medium leading-tight text-gray-700 dark:text-white">Guardiões  (Responsáveis)</label>
+                    <label className="pl-4 text-sm font-medium leading-tight text-slate-700 dark:text-white">Guardiões  (Responsáveis)</label>
                     <button className="h-10 mr-2 mb-1 space-x-2 flex items-center justify-center px-3 bg-teal-400 border rounded-md border-teal-500 cursor-pointer"
                         type="button"
                         onClick={() => newGuardianDisposer.open()}

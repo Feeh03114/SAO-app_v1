@@ -134,12 +134,13 @@ export default function WaitingLineIndex(): JSX.Element {
             >
                 <Header.Button 
                     text={"Filtros"} 
-                    onClick={()=> console.log('filter')}
                     typeButton="filter"
+                    style="mr-0"
+                    onClick={()=> console.log('filter')}
                 />
             </Header.Root>
             
-            <Table.Root>
+            <Table.Root style="px-8">
                 <Table.Header>
                     <Table.CellHeader hiddenInMobile={true}>PRONTUÁRIO</Table.CellHeader>
                     <Table.CellHeader hiddenInMobile={false}>NOME</Table.CellHeader>

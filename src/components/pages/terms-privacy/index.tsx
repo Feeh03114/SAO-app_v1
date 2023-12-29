@@ -44,10 +44,10 @@ export default function TermsPrivacyForm({
                                 <br/>
                                 <input
                                     type='checkbox'
-                                    className="rounded disabled:bg-gray-200 disabled:text-gray-500 disabled:cursor-not-allowed"
+                                    className="rounded disabled:bg-slate-200 disabled:text-slate-500 disabled:cursor-not-allowed"
                                     {...field}
                                 />
-                                <label className="ml-2 dark:text-gray-100">Padrão</label>
+                                <label className="ml-2 dark:text-slate-100">Padrão</label>
                             </div>
                         )}
                     />
@@ -62,7 +62,7 @@ export default function TermsPrivacyForm({
                     error={errors.description}
                 />
 
-                <div className="flex flex-row gap-4 border border-solid border-gray-300">
+                <div className="flex flex-row gap-4 border border-solid border-slate-300">
                     <div className="h-full basis-4/6">
                        {/*  <Controller
                             name="term_html"

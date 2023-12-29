@@ -180,7 +180,7 @@ export function ModalUser({ isOpen, onClose, loadData }: ModalUserProps) {
                         />
                     </div>
                     <div className="w-full">
-                        <label className="pl-4 text-sm font-medium leading-tight text-gray-700 dark:text-white">Perfis<span className="text-red-500">*</span></label>
+                        <label className="pl-4 text-sm font-medium leading-tight text-slate-700 dark:text-white">Perfis<span className="text-red-500">*</span></label>
                         <Controller
                             name="profilesIds"
                             control={control}

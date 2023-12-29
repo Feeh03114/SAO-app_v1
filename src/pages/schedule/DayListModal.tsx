@@ -117,7 +117,7 @@ export default function DayListModal({ openDayList, setOpenDayList, setOpen, can
                     leaveFrom="opacity-100"
                     leaveTo="opacity-0"
                 >
-                    <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+                    <div className="fixed inset-0 bg-slate-500 bg-opacity-75 transition-opacity" />
                 </Transition.Child>
     
                 <div className="fixed inset-0 z-10 w-screen overflow-y-scroll">
@@ -131,40 +131,40 @@ export default function DayListModal({ openDayList, setOpenDayList, setOpen, can
                             leaveFrom="opacity-100 translate-y-0 md:scale-100"
                             leaveTo="opacity-0 translate-y-4 md:translate-y-0 md:scale-95"
                         >
-                        <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white dark:bg-gray-800 text-left shadow transition-all md:mx-4 md:my-8 w-full md:max-w-4xl">
+                        <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white dark:bg-slate-800 text-left shadow transition-all md:mx-4 md:my-8 w-full md:max-w-4xl">
                         <ModalJustification 
                             isOpen={justificationDisposer.isOpen} 
                             onClose={justificationDisposer.close}
                             idJustification={idJustification}
                             message={eventsForDay.find((item) => item.id === idJustification)?.justificationFault}
                         /> 
-                            <div className="bg-white dark:bg-gray-800 md:p-6">
+                            <div className="bg-white dark:bg-slate-800 md:p-6">
                             <div className="flex flex-row justify-between items-center w-full py-3 md:py-0 px-4 ">
                                     <div className="flex flex-row justify-start items-center w-3/4">
                                         <div className="flex items-center justify-center rounded-full bg-teal-200 dark:bg-teal-400 h-10 w-10">
                                             <AiOutlinePlus className="text-xl text-teal-500 dark:text-teal-700"/>
                                         </div>
                                         <div className="ml-3 text-center">
-                                            <Dialog.Title as="h3" className="text-base text-gray-900 dark:text-white">
+                                            <Dialog.Title as="h3" className="text-base text-slate-900 dark:text-white">
                                                 Listagem de Consulta
                                             </Dialog.Title>
                                         </div>
                                     </div>
-                                    <div className="md:hidden text-base text-gray-900 dark:text-white w-auto">{eventsForDay?.length > 0 && dayjs(eventsForDay[0].dateScheduled, "YYYY-MM-DDTHH:mm:ss.SSSZ").format('DD/MM/YYYY')}</div>
-                                    <div className="hidden md:flex text-base text-gray-900 dark:text-white w-auto">{eventsForDay?.length > 0 && dayjs(eventsForDay[0].dateScheduled, "YYYY-MM-DDTHH:mm:ss.SSSZ").format('DD/MM/YYYY')}</div>
+                                    <div className="md:hidden text-base text-slate-900 dark:text-white w-auto">{eventsForDay?.length > 0 && dayjs(eventsForDay[0].dateScheduled, "YYYY-MM-DDTHH:mm:ss.SSSZ").format('DD/MM/YYYY')}</div>
+                                    <div className="hidden md:flex text-base text-slate-900 dark:text-white w-auto">{eventsForDay?.length > 0 && dayjs(eventsForDay[0].dateScheduled, "YYYY-MM-DDTHH:mm:ss.SSSZ").format('DD/MM/YYYY')}</div>
                                 </div>
 
-                                <div className="grid grid-cols-5 md:grid-cols-6 mt-4 md:ml-4 p-2 rounded-t-lg shadow bg-gray-50 py-2 dark:bg-slate-700">
-                                    <p className="col-span-3 md:col-span-1 mt-0 pl-3 md:pl-0 flex justify-start items-center dark:text-white text-gray-500 text-xs leading-5 font-medium">
+                                <div className="grid grid-cols-5 md:grid-cols-6 mt-4 md:ml-4 p-2 rounded-t-lg shadow bg-slate-50 py-2 dark:bg-slate-700">
+                                    <p className="col-span-3 md:col-span-1 mt-0 pl-3 md:pl-0 flex justify-start items-center dark:text-white text-slate-500 text-xs leading-5 font-medium">
                                         NOME
                                     </p>
-                                    <p className="hidden md:col-span-1 mt-0 md:flex justify-start items-center dark:text-white text-gray-500 text-xs leading-5 font-medium">
+                                    <p className="hidden md:col-span-1 mt-0 md:flex justify-start items-center dark:text-white text-slate-500 text-xs leading-5 font-medium">
                                         SERVIÇO
                                     </p>
-                                    <p className="col-span-2 md:col-span-1 mt-0 flex justify-start items-center dark:text-white text-gray-500 text-xs leading-5 font-medium">
+                                    <p className="col-span-2 md:col-span-1 mt-0 flex justify-start items-center dark:text-white text-slate-500 text-xs leading-5 font-medium">
                                         HORÁRIO
                                     </p>
-                                    <p className="hidden md:col-span-2 mt-0 md:flex justify-start items-center dark:text-white text-gray-500 text-xs leading-5 font-medium">
+                                    <p className="hidden md:col-span-2 mt-0 md:flex justify-start items-center dark:text-white text-slate-500 text-xs leading-5 font-medium">
                                         STATUS
                                     </p>
                                 </div>
@@ -180,14 +180,14 @@ export default function DayListModal({ openDayList, setOpenDayList, setOpen, can
                                     {isLoading === false && eventsForDay?.map((value: any, index) => {
                                         return (
                                             <>
-                                                <div key={index} className="grid grid-cols-5 md:grid-cols-6 md:ml-4 py-1 px-3 border-b-2 dark:border-gray-600">
-                                                    <div className="col-span-3 md:col-span-1 flex justify-start items-center dark:text-white text-gray-900 text-sm leading-5 h-16 font-medium">
+                                                <div key={index} className="grid grid-cols-5 md:grid-cols-6 md:ml-4 py-1 px-3 border-b-2 dark:border-slate-600">
+                                                    <div className="col-span-3 md:col-span-1 flex justify-start items-center dark:text-white text-slate-900 text-sm leading-5 h-16 font-medium">
                                                         {value.patient.name} {value.patient.lastName}
                                                     </div>
-                                                    <div className="hidden md:col-span-1 md:flex justify-start items-center dark:text-white text-gray-500 text-sm leading-5 h-16 font-normal">
+                                                    <div className="hidden md:col-span-1 md:flex justify-start items-center dark:text-white text-slate-500 text-sm leading-5 h-16 font-normal">
                                                         {value.service.name}
                                                     </div>
-                                                    <div className="col-span-2 md:col-span-1 flex justify-around md:justify-start items-center dark:text-white text-gray-500 text-sm leading-5 h-16 font-normal">
+                                                    <div className="col-span-2 md:col-span-1 flex justify-around md:justify-start items-center dark:text-white text-slate-500 text-sm leading-5 h-16 font-normal">
                                                         {dayjs(value.dateScheduled).hour() + ":" + dayjs(value.dateScheduled).minute().toString().padStart(2, '0') + "h"}
                                                         <button className="md:hidden" onClick={() => handleChangeIsOpen(index, !isOpen[index])}>
                                                             <span>
@@ -199,7 +199,7 @@ export default function DayListModal({ openDayList, setOpenDayList, setOpen, can
                                                         <select 
                                                             value={value.status}
                                                             onChange={(e)=>update(index, { ...value, status: e.target.value })}
-                                                            className="w-full cursor-text rounded-lg px-4 py-2 dark:bg-slate-700 dark:text-white shadow border border-gray-300 text-gray-900 placeholder-gray-500 focus:border-teal-400 focus:outline-none focus:ring-teal-400 text-sm"
+                                                            className="w-full cursor-text rounded-lg px-4 py-2 dark:bg-slate-700 dark:text-white shadow border border-slate-300 text-slate-900 placeholder-slate-500 focus:border-teal-400 focus:outline-none focus:ring-teal-400 text-sm"
                                                             placeholder="Não definido"
                                                             disabled={isLoading}
                                                             onClick={(e)=>e.stopPropagation()}
@@ -213,14 +213,14 @@ export default function DayListModal({ openDayList, setOpenDayList, setOpen, can
                                                     <div className="hidden md:col-span-1 md:flex justify-evenly my-3 aria-hidden:hidden"
                                                         aria-hidden={value.status !== StatusType.absent && ![TypeUser.Aluno, TypeUser.Professor, TypeUser.Coordenador].includes(session?.user.typeUser)}
                                                     > 
-                                                        <button className="w-10 flex items-center justify-center dark:text-white border dark:border-gray-400 p-2 rounded-lg disabled:hidden"
+                                                        <button className="w-10 flex items-center justify-center dark:text-white border dark:border-slate-400 p-2 rounded-lg disabled:hidden"
                                                             onClick={() => justificationItem(value.id)}
                                                             disabled={value.status !== StatusType.absent}
                                                         >
                                                             
                                                             <BsChatSquareText className="text-teal-500 text-lg"/>
                                                         </button>
-                                                        <button className="w-10 flex items-center justify-center dark:text-white border dark:border-gray-400 p-2 rounded-lg aria-hidden:hidden"
+                                                        <button className="w-10 flex items-center justify-center dark:text-white border dark:border-slate-400 p-2 rounded-lg aria-hidden:hidden"
                                                             onClick={()=> router.push(`/schedule/report_patient/${value?.id}`)}
                                                             disabled={!value?.id || ![TypeUser.Aluno, TypeUser.Professor, TypeUser.Coordenador].includes(session?.user.typeUser) ||
                                                                 ![StatusType.on_hold, StatusType.concluded, StatusType.in_process].includes(value.status)}
@@ -234,10 +234,10 @@ export default function DayListModal({ openDayList, setOpenDayList, setOpen, can
                                         );
                                     })}
                                 </div>
-                                <div className="px-4 py-3 flex justify-end md:px-6 dark:bg-gray-800 w-full">
+                                <div className="px-4 py-3 flex justify-end md:px-6 dark:bg-slate-800 w-full">
                                     <button
                                         type="button"
-                                        className="rounded-md bg-white dark:bg-slate-700 px-3 py-2 text-sm text-gray-900 shadow hover:bg-gray-50 md:mt-0 md:w-auto"
+                                        className="rounded-md bg-white dark:bg-slate-700 px-3 py-2 text-sm text-slate-900 shadow hover:bg-slate-50 md:mt-0 md:w-auto"
                                         onClick={() => onClose()}
                                         ref={cancelButtonRefDayList}>
                                             <p className="dark:text-white">Voltar</p>
@@ -263,11 +263,11 @@ export default function DayListModal({ openDayList, setOpenDayList, setOpen, can
     <>
         <div className="col-span-6 grid grid-cols-2">
             <div className="col-span-2">
-                <label className="pl-4 dark:text-white text-gray-500 text-xs leading-5 font-medium">STATUS</label>
+                <label className="pl-4 dark:text-white text-slate-500 text-xs leading-5 font-medium">STATUS</label>
                 <select
                     value={value.status}
                     onChange={(e) => update(index, { ...value, status: e.target.value })}
-                    className="w-full col-span-2 cursor-text rounded-lg px-4 py-2 dark:bg-slate-700 dark:text-white shadow border border-gray-300 text-gray-900 placeholder-gray-500 focus:border-teal-400 focus:outline-none focus:ring-teal-400 text-sm"
+                    className="w-full col-span-2 cursor-text rounded-lg px-4 py-2 dark:bg-slate-700 dark:text-white shadow border border-slate-300 text-slate-900 placeholder-slate-500 focus:border-teal-400 focus:outline-none focus:ring-teal-400 text-sm"
                     placeholder="Não definido"
                     disabled={isLoading}
                 >
@@ -280,14 +280,14 @@ export default function DayListModal({ openDayList, setOpenDayList, setOpen, can
             <div className="col-span-3 mt-3 mb-2 flex justify-between items-center aria-hidden:hidden"
                 aria-hidden={value.status !== StatusSchedule.faltou && ![TypeUser.Aluno, TypeUser.Professor, TypeUser.Coordenador].includes(session?.user.typeUser)}
             >
-                <div className="dark:text-white text-gray-500 text-sm leading-5 font-medium">Procedimento: {value.service.name}</div>
+                <div className="dark:text-white text-slate-500 text-sm leading-5 font-medium">Procedimento: {value.service.name}</div>
                 <div className="flex flex-row gap-x-4">
-                    <button className="w-10 flex items-center justify-center dark:text-white border dark:border-gray-400 p-2 rounded-lg disabled:hidden"
+                    <button className="w-10 flex items-center justify-center dark:text-white border dark:border-slate-400 p-2 rounded-lg disabled:hidden"
                         disabled={value.status !== StatusSchedule.faltou}
                     >
                         <BsChatSquareText className="text-teal-500 text-lg" />
                     </button>
-                    <button className="w-10 flex items-center justify-center dark:text-white border dark:border-gray-400 p-2 rounded-lg aria-hidden:hidden"
+                    <button className="w-10 flex items-center justify-center dark:text-white border dark:border-slate-400 p-2 rounded-lg aria-hidden:hidden"
                         onClick={()=> router.push(`/schedule/edit/${value?.id}`)}
                         disabled={!value?.id && ![TypeUser.Aluno, TypeUser.Professor, TypeUser.Coordenador].includes(session?.user.typeUser) && 
                             ![StatusSchedule['em espera'],StatusSchedule.concluído, StatusSchedule['em atendimento']].includes(value.status)}

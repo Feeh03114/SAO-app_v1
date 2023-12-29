@@ -109,7 +109,7 @@ export default function FormEditGuardian({isOpen, onClose, guardian, onSave, onD
                             type="text"
                             label="Nome"
                             placeholder="Insira o nome"
-                            className="read-only:bg-gray-200 read-only:cursor-default"
+                            className="read-only:bg-slate-200 read-only:cursor-default"
                             autoComplete="new-password"
                             {...registerGuardian("name")}
                             error={errorsGuardian.name}
@@ -122,7 +122,7 @@ export default function FormEditGuardian({isOpen, onClose, guardian, onSave, onD
                             type="text"
                             label="Sobrenome"
                             placeholder="Insira o sobrenome"
-                            className="read-only:bg-gray-200 read-only:cursor-default"
+                            className="read-only:bg-slate-200 read-only:cursor-default"
                             autoComplete="new-password"
                             {...registerGuardian("lastName")}
                             error={errorsGuardian.lastName}
@@ -135,7 +135,7 @@ export default function FormEditGuardian({isOpen, onClose, guardian, onSave, onD
                             type="text"
                             label="CPF"
                             placeholder="Insira o CPF"
-                            className="read-only:bg-gray-200 read-only:cursor-default"
+                            className="read-only:bg-slate-200 read-only:cursor-default"
                             {...registerGuardian("cpf")}
                             error={errorsGuardian.cpf}
                         />
@@ -147,7 +147,7 @@ export default function FormEditGuardian({isOpen, onClose, guardian, onSave, onD
                             type="text"
                             label="RG"
                             placeholder="Insira o RG"
-                            className="read-only:bg-gray-200 read-only:cursor-default"
+                            className="read-only:bg-slate-200 read-only:cursor-default"
                             {...registerGuardian("rg")}
                             error={errorsGuardian.rg}
                         />
@@ -160,7 +160,7 @@ export default function FormEditGuardian({isOpen, onClose, guardian, onSave, onD
                             type="date"
                             label="Data de nascimento"
                             placeholder="dd/mm/aaaa"
-                            className="read-only:bg-gray-200 read-only:cursor-default"
+                            className="read-only:bg-slate-200 read-only:cursor-default"
                             {...registerGuardian("birthDate")}
                             error={errorsGuardian.birthDate}
                         />
@@ -204,7 +204,7 @@ export default function FormEditGuardian({isOpen, onClose, guardian, onSave, onD
                             type="text"
                             label="E-mail"
                             placeholder="Insira o e-mail"
-                            className="read-only:bg-gray-200 read-only:cursor-default"
+                            className="read-only:bg-slate-200 read-only:cursor-default"
                             {...registerGuardian("email")}
                             error={errorsGuardian.email}
                         />
@@ -217,7 +217,7 @@ export default function FormEditGuardian({isOpen, onClose, guardian, onSave, onD
                             type="text"
                             label="Telefone"
                             placeholder="Insira o telefone"
-                            className="read-only:bg-gray-200 read-only:cursor-default"
+                            className="read-only:bg-slate-200 read-only:cursor-default"
                             {...registerGuardian("phoneNumber")}
                             error={errorsGuardian.phoneNumber}
                         />
@@ -228,7 +228,7 @@ export default function FormEditGuardian({isOpen, onClose, guardian, onSave, onD
                             type="text"
                             label="Profissão"
                             placeholder="Insira a profissão"
-                            className="read-only:bg-gray-200 read-only:cursor-default"
+                            className="read-only:bg-slate-200 read-only:cursor-default"
                             {...registerGuardian("profession")}
                             error={errorsGuardian.profession}
                         />
@@ -239,7 +239,7 @@ export default function FormEditGuardian({isOpen, onClose, guardian, onSave, onD
                             type="text"
                             label="Nacionalidade"
                             placeholder="Insira a nacionalidade"
-                            className="read-only:bg-gray-200 read-only:cursor-default"
+                            className="read-only:bg-slate-200 read-only:cursor-default"
                             {...registerGuardian("nationality")}
                             error={errorsGuardian.nationality}
                         />
@@ -250,15 +250,15 @@ export default function FormEditGuardian({isOpen, onClose, guardian, onSave, onD
                             type="text"
                             label="Naturalidade"
                             placeholder="Insira a naturalidade"
-                            className="read-only:bg-gray-200 read-only:cursor-default"
+                            className="read-only:bg-slate-200 read-only:cursor-default"
                             {...registerGuardian("naturalness")}
                             error={errorsGuardian.naturalness}
                         />
                     </div>
 
-                    <div className="w-full pt-6 px-2 border-t border-gray-300 dark:border-gray-500">
+                    <div className="w-full pt-6 px-2 border-t border-slate-300 dark:border-slate-500">
                         <div className="flex items-center justify-between">
-                            <label className="pl-4 text-sm font-medium leading-tight text-gray-700 dark:text-white">Endereços</label>
+                            <label className="pl-4 text-sm font-medium leading-tight text-slate-700 dark:text-white">Endereços</label>
                             <button className="h-10 mb-1 space-x-2 flex items-center justify-center px-3 bg-teal-500 border rounded-md border-teal-500 cursor-pointer"
                                 type="button"
                                 onClick={() => {addressDisposer.open()}}

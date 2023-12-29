@@ -113,10 +113,10 @@ export default function FormServiceDiscipline({isOpen, onClose, onSave} : ModalS
                         />
                     </div>
                     <div className="w-full">
-                        <label className="pl-4 text-sm font-medium leading-tight text-gray-700 dark:text-white">Descrição<span className="text-red-500">*</span></label>
+                        <label className="pl-4 text-sm font-medium leading-tight text-slate-700 dark:text-white">Descrição<span className="text-red-500">*</span></label>
                         <textarea 
                             id="description"
-                            className="w-full h-24 px-4 py-2 text-sm font-medium leading-tight truncate dark:text-white placeholder-gray-500 dark:placeholder-white shadow-sm border rounded-lg border-gray-300 dark:border-gray-500  dark:bg-slate-700 focus:border-teal-400 focus:outline-none focus:ring-teal-400 resize-none"
+                            className="w-full h-24 px-4 py-2 text-sm font-medium leading-tight truncate dark:text-white placeholder-slate-500 dark:placeholder-white shadow-sm border rounded-lg border-slate-300 dark:border-slate-500  dark:bg-slate-700 focus:border-teal-400 focus:outline-none focus:ring-teal-400 resize-none"
                             placeholder=""
                             {...register("description")}
                         />
@@ -153,7 +153,7 @@ export default function FormServiceDiscipline({isOpen, onClose, onSave} : ModalS
                             id="ext"
                             {...register("ext")}
                         />
-                        <label className="pl-2 text-sm font-medium leading-tight text-gray-700 dark:text-white">Serviço Externo</label>
+                        <label className="pl-2 text-sm font-medium leading-tight text-slate-700 dark:text-white">Serviço Externo</label>
                     </div>
                     <div className="w-full md:w-1/2 flex flex-row">
                         <input
@@ -161,14 +161,14 @@ export default function FormServiceDiscipline({isOpen, onClose, onSave} : ModalS
                             id="active_duration_auto"
                             {...register("active_duration_auto")}
                         />
-                        <label className="pl-2 text-sm font-medium leading-tight text-gray-700 dark:text-white">Ativar duração automatica?</label>
+                        <label className="pl-2 text-sm font-medium leading-tight text-slate-700 dark:text-white">Ativar duração automatica?</label>
                     </div>
 
-                    <div className="w-full py-6 flex flex-row flex-wrap shadow-sm border-t border-gray-300 dark:border-gray-500">
+                    <div className="w-full py-6 flex flex-row flex-wrap shadow-sm border-t border-slate-300 dark:border-slate-500">
                     <div className="w-full flex justify-between">
                         <div className='text-start'>
-                            <p className="text-sm md:text-2xl font-bold leading-loose text-gray-900 dark:text-white">Horário do Serviço</p>
-                            <p className="text-xs leading-none text-gray-400">Confira os horários de serviço</p>
+                            <p className="text-sm md:text-2xl font-bold leading-loose text-slate-900 dark:text-white">Horário do Serviço</p>
+                            <p className="text-xs leading-none text-slate-400">Confira os horários de serviço</p>
                         </div>
                         <button className="h-10 flex items-center justify-center px-3 bg-teal-500 border rounded-md border-teal-500 cursor-pointer"
                             type="button"

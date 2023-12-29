@@ -12,8 +12,8 @@ function Root({children, title, subtitle}:HeaderProps) {
     return (
         <div className="w-full flex mt-8 items-center max-h-[3.125rem] px-[2rem] my-[2rem] justify-between">
             <div className='pr-4 text-start'>
-                <p className="text-sm md:text-2xl font-bold leading-loose text-gray-900 dark:text-white">{title}</p>
-                <p className="text-xs leading-none text-gray-400">{subtitle}</p>
+                <p className="text-sm md:text-2xl font-bold leading-loose text-slate-900 dark:text-white">{title}</p>
+                <p className="text-xs leading-none text-slate-400">{subtitle}</p>
             </div>
             <div className="flex">
                {children}
@@ -55,7 +55,7 @@ function Button({text, disabled, onClick, typeButton, style, textStyle, hidden} 
     }
 
     return (
-        <button className={twMerge("flex space-x-2 items-center justify-center py-2 pl-3 pr-4 dark:bg-slate-700 border rounded-md border-gray-300 dark:border-none cursor-pointer mr-[1rem] aria-hidden:hidden", style)}
+        <button className={twMerge("flex space-x-2 items-center justify-center mr-4 py-2 pl-3 pr-4 dark:bg-slate-700 border rounded-md border-slate-300 dark:border-none cursor-pointer aria-hidden:hidden", style)}
             disabled={disabled}
             onClick={onClick}
             aria-hidden={hidden}

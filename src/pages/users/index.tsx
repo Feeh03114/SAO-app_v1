@@ -95,8 +95,8 @@ export default function Users(): JSX.Element {
             >
                 <Header.Button 
                     text="Filtros"
-                    disabled={isLoading}
                     typeButton="filter"
+                    disabled={isLoading}
                     onClick={()=> console.log('filter')}
                 />
                 <Header.Button 
@@ -127,7 +127,7 @@ export default function Users(): JSX.Element {
                             <Table.CellBody hiddenInMobile={true}>{item.email}</Table.CellBody>
                             <Table.CellBody hiddenInMobile={true}>{item.ru}</Table.CellBody>
                             <Table.CellBody hiddenInMobile={true} style="text-end pr-6">
-                                <button className="h-full px-3 py-2 border dark:border-gray-500 rounded-md cursor-pointer aria-hidden:hidden"
+                                <button className="h-full px-3 py-2 border dark:border-slate-500 rounded-md cursor-pointer aria-hidden:hidden"
                                     onClick={() => onChangeStatusUser(item.id)}   
                                 >
                                     <MdCheckCircleOutline 

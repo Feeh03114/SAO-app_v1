@@ -143,28 +143,28 @@ export default function Schedule():JSX.Element {
                 />
             </Header.Root>
 
-            <div className="bg-white dark:bg-gray-800 border border-solid border-gray-200 dark:border-slate-700 rounded-lg mx-5 sm:m-[2rem] sm:px-[3rem] py-[1rem] pb-0 md:pb-4 h-full overflow-hidden">
+            <div className="bg-white dark:bg-slate-800 border border-solid border-slate-200 dark:border-slate-700 rounded-lg mx-5 sm:m-[2rem] sm:px-[3rem] py-[1rem] pb-0 md:pb-4 h-full overflow-hidden">
                 <div className="inline-flex flex-col space-y-4 items-start justify-start h-full w-full">
                     <div className="inline-flex space-x-4 items-center justify-center max-h-[3rem] w-full">
                         <div className="flex items-center justify-center w-12 p-3 rounded-full">
                             <FaChevronLeft className="flex-1 rounded-lg cursor-pointer dark:text-white" onClick={buttonPrevMonth}/>
                         </div>
                         <div className="flex items-center justify-center space-x-1 max-h-[1.813rem] w-full">
-                            <p className="text-xl font-bold leading-7 text-right text-gray-800 dark:text-white">{meses[selectedDate.month()]}</p>
-                            <p className="text-xl leading-7 text-gray-800 dark:text-white m-0">{selectedDate.year()}</p>
+                            <p className="text-xl font-bold leading-7 text-right text-slate-800 dark:text-white">{meses[selectedDate.month()]}</p>
+                            <p className="text-xl leading-7 text-slate-800 dark:text-white m-0">{selectedDate.year()}</p>
                         </div>
                         <div className="inline-flex items-center justify-center w-12 p-3 rounded-full">
                             <FaChevronRight className="flex-1 rounded-lg cursor-pointer dark:text-white" onClick={buttonNextMonth}/>
                         </div>
                     </div>
                     <div className="inline-flex space-x-0.5 items-start justify-start opacity-50 w-full">
-                        <p className="flex-1 text-xs font-medium text-center text-gray-800 dark:text-white uppercase mt-2">DOM</p>
-                        <p className="flex-1 text-xs font-medium text-center text-gray-800 dark:text-white uppercase">SEG</p>
-                        <p className="flex-1 text-xs font-medium text-center text-gray-800 dark:text-white uppercase">TER</p>
-                        <p className="flex-1 text-xs font-medium text-center text-gray-800 dark:text-white uppercase">QUA</p>
-                        <p className="flex-1 text-xs font-medium text-center text-gray-800 dark:text-white uppercase">QUI</p>
-                        <p className="flex-1 text-xs font-medium text-center text-gray-800 dark:text-white uppercase">SEX</p>
-                        <p className="flex-1 text-xs font-medium text-center text-gray-800 dark:text-white uppercase">SÁB</p>
+                        <p className="flex-1 text-xs font-medium text-center text-slate-800 dark:text-white uppercase mt-2">DOM</p>
+                        <p className="flex-1 text-xs font-medium text-center text-slate-800 dark:text-white uppercase">SEG</p>
+                        <p className="flex-1 text-xs font-medium text-center text-slate-800 dark:text-white uppercase">TER</p>
+                        <p className="flex-1 text-xs font-medium text-center text-slate-800 dark:text-white uppercase">QUA</p>
+                        <p className="flex-1 text-xs font-medium text-center text-slate-800 dark:text-white uppercase">QUI</p>
+                        <p className="flex-1 text-xs font-medium text-center text-slate-800 dark:text-white uppercase">SEX</p>
+                        <p className="flex-1 text-xs font-medium text-center text-slate-800 dark:text-white uppercase">SÁB</p>
                     </div>
                     <div className="flex flex-col items-start p-0 h-[calc(100vh-24rem)] md:h-[calc(100vh-21rem)] w-full overflow-y-auto">
                         <ul ref={scrollRef} id="scrollId" className="w-full h-full snap-x flex snap-mandatory snap-center overflow-scroll scroll">

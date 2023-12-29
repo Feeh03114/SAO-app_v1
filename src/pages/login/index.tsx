@@ -82,8 +82,8 @@ export default function Login(): JSX.Element{
                 </div>
 
                 <div className="w-full flex flex-col items-center justify-center text-center">
-                    <p className={`text-2xl font-bold leading-8 text-gray-900 dark:text-white`}>{isSendedEmail ? "Instruções enviadas com sucesso!" : "Redefinir senha"}</p>
-                    <p className="text-sm font-normal leading-none text-gray-400">{isSendedEmail ? "Por favor, verifique sua caixa de e-mail universitário" : "Redefina a sua senha para acessar a plataforma"}</p>
+                    <p className={`text-2xl font-bold leading-8 text-slate-900 dark:text-white`}>{isSendedEmail ? "Instruções enviadas com sucesso!" : "Redefinir senha"}</p>
+                    <p className="text-sm font-normal leading-none text-slate-400">{isSendedEmail ? "Por favor, verifique sua caixa de e-mail universitário" : "Redefina a sua senha para acessar a plataforma"}</p>
                 </div>
 
                 <div className="w-full relative flex flex-wrap items-stretch">
@@ -144,20 +144,20 @@ export default function Login(): JSX.Element{
                         onSubmit={handleSubmit(ValidCredentials)}
                     >
                         <div className="w-full flex flex-col items-center justify-center text-center">
-                            <p className="text-2xl font-bold leading-8 text-gray-900 dark:text-white">Bem-vindo ao Painel Odontológico</p>
-                            <p className="text-sm font-normal leading-none text-gray-400">Insira suas credenciais e acesse a plataforma</p>
+                            <p className="text-2xl font-bold leading-8 text-slate-900 dark:text-white">Bem-vindo ao Painel Odontológico</p>
+                            <p className="text-sm font-normal leading-none text-slate-400">Insira suas credenciais e acesse a plataforma</p>
                         </div>
                         <div className={`transition-all duration-1000 ease-in-out ${isLogin ? (errors.ru || errors.password) ? (errors.ru && errors.password) ? "h-[224.5px]" : "h-[204.5px]" : "h-[184.5px]" : "h-0"} w-full flex flex-col justify-start overflow-auto`}>
                             <div className="w-full pt-4 flex flex-col items-start justify-start">
                                 <div className="flex flex-col items-start justify-start w-full">
                                     <div className="inline-flex items-center justify-start pl-4 w-full mt-4">
-                                        <p className="text-sm font-medium leading-tight text-gray-700 dark:text-gray-300">Registro Universitário (RU)</p>
+                                        <p className="text-sm font-medium leading-tight text-slate-700 dark:text-slate-300">Registro Universitário (RU)</p>
                                     </div>
                                     <Input 
                                         id="ru"
                                         type="text"
                                         required
-                                        className="w-full h-10 text-sm font-normal leading-tight rounded-lg px-4 py-2 shadow border border-gray-300 text-gray-900 placeholder-gray-500 focus:border-teal-400 focus:outline-none focus:ring-teal-400"
+                                        className="w-full h-10 text-sm font-normal leading-tight rounded-lg px-4 py-2 shadow border border-slate-300 text-slate-900 placeholder-slate-500 focus:border-teal-400 focus:outline-none focus:ring-teal-400"
                                         placeholder="Registro Universitário"
                                         {...register("ru")}
                                         error={errors.ru}
@@ -165,7 +165,7 @@ export default function Login(): JSX.Element{
                                 </div>
                                 <div className="flex flex-col items-start justify-start w-full">
                                     <div className="inline-flex items-center justify-start pl-4 w-full mt-4">
-                                        <p className="text-sm font-medium leading-tight text-gray-700 dark:text-gray-300">Senha</p>
+                                        <p className="text-sm font-medium leading-tight text-slate-700 dark:text-slate-300">Senha</p>
                                     </div>
                                     <Input 
                                         id="password"
@@ -178,7 +178,7 @@ export default function Login(): JSX.Element{
                                         error={errors.password}
                                     />
                                     <div className="inline-flex items-center justify-start pl-4 w-full mt-1">
-                                        <p className="text-sm font-medium leading-tight text-gray-700 dark:text-gray-300 cursor-pointer hover:text-teal-500"
+                                        <p className="text-sm font-medium leading-tight text-slate-700 dark:text-slate-300 cursor-pointer hover:text-teal-500"
                                             onClick={() => setIsResetPassword(true)}>Redefinir Senha</p>
                                     </div>
                                 </div>
@@ -211,7 +211,7 @@ export default function Login(): JSX.Element{
                     </form>
 
                     <div className="my-4 flex flex-col transition-all overflow-auto w-full max-h-max">
-                        <hr className="border-gray-300"></hr>
+                        <hr className="border-slate-300"></hr>
                     </div>
 
                     <form className={`justify-start w-full inline-flex flex-col items-center bg-white dark:bg-slate-800`}
@@ -219,20 +219,20 @@ export default function Login(): JSX.Element{
                         onSubmit={handleSubmit2(newUserStudent)}
                     >
                         <div className="flex flex-col items-center justify-center w-full">
-                            <p className="text-2xl font-bold leading-8 text-gray-900 dark:text-white">Crie sua conta na plataforma</p>
-                            <p className="text-sm font-normal leading-none text-gray-500">Registre-se na plataforma.</p>
+                            <p className="text-2xl font-bold leading-8 text-slate-900 dark:text-white">Crie sua conta na plataforma</p>
+                            <p className="text-sm font-normal leading-none text-slate-500">Registre-se na plataforma.</p>
                         </div>
                         <div className={`transition-all duration-1000 ease-in-out ${!isLogin ? (errors2.nome || errors2.email) ? (errors2.nome && errors2.email) ? "h-[171px]" : "h-[151px]" : "h-[131px]" : "h-0"} overflow-auto w-full`}>
                             <div className="flex flex-col items-start justify-start w-full transition-all duration-500">
                                 <div className="flex flex-col items-start justify-start w-full">
                                     <div className="inline-flex items-center justify-start pl-4 w-full">
-                                        <p className="text-sm font-medium leading-tight text-gray-700 dark:text-gray-300">Nome</p>
+                                        <p className="text-sm font-medium leading-tight text-slate-700 dark:text-slate-300">Nome</p>
                                     </div>
                                     <Input 
                                         id="nome"
                                         type="text"
                                         required
-                                        className="w-full text-sm font-medium leading-tight rounded-lg px-4 py-2 shadow border border-gray-300 text-gray-900 placeholder-gray-500 focus:border-teal-400 focus:outline-none focus:ring-teal-400 sm:text-sm"
+                                        className="w-full text-sm font-medium leading-tight rounded-lg px-4 py-2 shadow border border-slate-300 text-slate-900 placeholder-slate-500 focus:border-teal-400 focus:outline-none focus:ring-teal-400 sm:text-sm"
                                         placeholder="Insira seu nome"
                                         {...register2("nome")}
                                         error={errors2.nome}
@@ -240,7 +240,7 @@ export default function Login(): JSX.Element{
                                 </div>
                                 <div className="flex flex-col items-start justify-start w-full" role="group">
                                     <div className="inline-flex items-center justify-start pl-4 w-full mt-4">
-                                        <p className="text-sm font-medium leading-tight text-gray-700 dark:text-gray-300">E-mail</p>
+                                        <p className="text-sm font-medium leading-tight text-slate-700 dark:text-slate-300">E-mail</p>
                                     </div>
                                     <div className="w-full relative flex flex-wrap items-stretch">
                                         <Input

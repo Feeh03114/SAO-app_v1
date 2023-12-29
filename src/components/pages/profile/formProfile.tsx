@@ -99,7 +99,7 @@ export default function FormProfile({edit, isPermissionWrite=true, onSave}:FormP
     return (
         <form id='formProfile' onSubmit={handleSubmit(onSave)}>
             <div className="w-screen px-8">
-                <div className="w-full p-6 flex flex-row flex-wrap shadow-sm border rounded-lg border-gray-300 dark:border-gray-500 dark:bg-slate-800">
+                <div className="w-full p-6 flex flex-row flex-wrap shadow-sm border rounded-lg border-slate-300 dark:border-slate-500 dark:bg-slate-800">
                     <div className="w-full md:w-1/2 px-2">
                         <Input
                             required
@@ -107,7 +107,7 @@ export default function FormProfile({edit, isPermissionWrite=true, onSave}:FormP
                             type="text"
                             label="Nome do Perfil"
                             placeholder="Insira o perfil"
-                            className="read-only:bg-gray-200 read-only:cursor-default"
+                            className="read-only:bg-slate-200 read-only:cursor-default"
                             {...register("name")}
                             error={errors.name}
                             readOnly={!isPermissionWrite}
@@ -130,7 +130,7 @@ export default function FormProfile({edit, isPermissionWrite=true, onSave}:FormP
                         />
                     </div>
                     <div className="w-full md:w-1/4 px-2 mt-4 md:mt-0">
-                        <label className="pl-4 text-sm font-medium leading-tight truncate text-gray-700 dark:text-white">Padrão para um novo usuário?</label>
+                        <label className="pl-4 text-sm font-medium leading-tight truncate text-slate-700 dark:text-white">Padrão para um novo usuário?</label>
                         <div id="pagante" className="mt-2 col-span-2">
                             <Controller
                                 name='default'
@@ -157,10 +157,10 @@ export default function FormProfile({edit, isPermissionWrite=true, onSave}:FormP
             </div>
 
             <div className="w-screen mt-8 px-8">
-                <div className="w-full py-6 flex flex-row flex-wrap shadow-sm border-t border-gray-300 dark:border-gray-500">
+                <div className="w-full py-6 flex flex-row flex-wrap shadow-sm border-t border-slate-300 dark:border-slate-500">
                     <div className='text-start'>
-                        <p className="text-sm md:text-2xl font-bold leading-loose text-gray-900 dark:text-white">Página do Perfil</p>
-                        <p className="text-xs leading-none text-gray-400">Confira as páginas do perfil</p>
+                        <p className="text-sm md:text-2xl font-bold leading-loose text-slate-900 dark:text-white">Página do Perfil</p>
+                        <p className="text-xs leading-none text-slate-400">Confira as páginas do perfil</p>
                     </div>
                     <Table.Root tableHeight={String(fields.length)} style="mt-8">
                         <Table.Header style="hidden">
@@ -179,7 +179,7 @@ export default function FormProfile({edit, isPermissionWrite=true, onSave}:FormP
                                     <Table.CellBody>
                                         <button
                                             type="button" 
-                                            className="h-full mr-4 px-3 py-2 border dark:border-gray-500 rounded-md cursor-pointer"
+                                            className="h-full mr-4 px-3 py-2 border dark:border-slate-500 rounded-md cursor-pointer"
                                             onClick={()=>update(index, 
                                                 { 
                                                     ...item,
@@ -202,7 +202,7 @@ export default function FormProfile({edit, isPermissionWrite=true, onSave}:FormP
                                     <Table.CellBody>
                                         <button
                                             type="button"
-                                            className="h-full mr-4 px-3 py-2 border dark:border-gray-500 rounded-md cursor-pointer"
+                                            className="h-full mr-4 px-3 py-2 border dark:border-slate-500 rounded-md cursor-pointer"
                                             onClick={()=>update(index, 
                                                 { 
                                                     ...item, 
@@ -223,7 +223,7 @@ export default function FormProfile({edit, isPermissionWrite=true, onSave}:FormP
                                     <Table.CellBody>
                                         <button
                                             type="button"
-                                            className="h-full mr-4 px-3 py-2 border dark:border-gray-500 rounded-md cursor-pointer"
+                                            className="h-full mr-4 px-3 py-2 border dark:border-slate-500 rounded-md cursor-pointer"
                                             onClick={()=>update(index, 
                                                 { 
                                                     ...item, 
@@ -244,7 +244,7 @@ export default function FormProfile({edit, isPermissionWrite=true, onSave}:FormP
                                     <Table.CellBody>
                                         <button
                                             type="button"
-                                            className="h-full mr-4 px-3 py-2 border dark:border-gray-500 rounded-md cursor-pointer"
+                                            className="h-full mr-4 px-3 py-2 border dark:border-slate-500 rounded-md cursor-pointer"
                                             onClick={()=>update(index, 
                                                 { 
                                                     ...item, 

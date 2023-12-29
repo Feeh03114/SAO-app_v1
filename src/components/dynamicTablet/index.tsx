@@ -259,7 +259,7 @@ export default function DynamicTablet(
     }
 
     return(
-        <div className="w-full h-full flex-1 bg-white dark:bg-gray-600 dark:text-white">
+        <div className="w-full h-full flex-1 bg-white dark:bg-slate-600 dark:text-white">
             <h1 className=" ml-3 pt-5 text-3xl font-bold">{metadata.title}</h1>
             <div className=" justify-between m-3 mb-2 mt-5 sm-mobile:hidden sm:flex">
                 <div className="inline">
@@ -289,7 +289,7 @@ export default function DynamicTablet(
                 </div>
                 <div className="text-center align-center">
                     <div className="inline-block relative mr-1">
-                        <input onChange={(e)=>setSearch(e.target.value)} value={search} type="text" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Search" />
+                        <input onChange={(e)=>setSearch(e.target.value)} value={search} type="text" className="shadow appearance-none border rounded w-full py-2 px-3 text-slate-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Search" />
                         <svg 
                             onClick={Search}
                             className="h-5 w-5 text-teal-400 absolute inset-y-2 right-1 hover:text-teal-600 cursor-pointer" 
@@ -334,7 +334,7 @@ export default function DynamicTablet(
                 </div>
                 <div className="text-center align-center m-1">
                     <div className="relative ">
-                        <input onChange={(e)=>setSearch(e.target.value)} value={search} type="text" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Search" />
+                        <input onChange={(e)=>setSearch(e.target.value)} value={search} type="text" className="shadow appearance-none border rounded w-full py-2 px-3 text-slate-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Search" />
                         <svg 
                             onClick={Search}
                             className="h-5 w-5 text-teal-400 absolute inset-y-2 right-1 hover:text-teal-600 cursor-pointer" 
@@ -465,7 +465,7 @@ export default function DynamicTablet(
                                     metadata?.fields?.filter(x=>x?.visible === undefined || x?.visible).map((column, indexColumn) => 
                                         (metadata?.actions?.filter((action:actionProps) => action.selectable === true || action.selectableAll).length !== 0) && indexColumn === 0?
                                             <>
-                                                <td key={indexColumn+'select'+index} className="border-b-2 border-gray-400 py-2 px-3 w-2 "> 
+                                                <td key={indexColumn+'select'+index} className="border-b-2 border-slate-400 py-2 px-3 w-2 "> 
                                                     <label className="ml-1">
                                                         <input 
                                                             checked={selected?.includes(row)}
@@ -475,7 +475,7 @@ export default function DynamicTablet(
                                                         />
                                                     </label>
                                                 </td>
-                                                <td key={`${column.property}-${index}`} className="border-b-2 border-gray-400 py-2 px-3">
+                                                <td key={`${column.property}-${index}`} className="border-b-2 border-slate-400 py-2 px-3">
                                                     <div className="flex align-center">
                                                     {
                                                         formatText(row[column.property], column?.type)
@@ -484,7 +484,7 @@ export default function DynamicTablet(
                                                 </td>
                                             </>
                                         :
-                                            <td key={`${column.property}-${index}`} className="border-b-2 border-gray-400 py-2 px-3">
+                                            <td key={`${column.property}-${index}`} className="border-b-2 border-slate-400 py-2 px-3">
                                                 <div className="flex align-center">
                                                     {
                                                     formatText(row[column.property], column?.type)

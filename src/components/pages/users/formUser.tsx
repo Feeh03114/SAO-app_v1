@@ -97,7 +97,7 @@ export default function FormUser({edit, isPermissionWrite=true, onSave, profiles
                             type="text"
                             label="Registro Universitário"
                             placeholder="Insira o RU"
-                            className="read-only:bg-gray-200 read-only:cursor-default"
+                            className="read-only:bg-slate-200 read-only:cursor-default"
                             {...register("ru")}
                             error={errors.ru}
                             readOnly={!isPermissionWrite}
@@ -111,7 +111,7 @@ export default function FormUser({edit, isPermissionWrite=true, onSave, profiles
                             type="text"
                             label="Nome"
                             placeholder="Insira o nome"
-                            className="read-only:bg-gray-200 read-only:cursor-default"
+                            className="read-only:bg-slate-200 read-only:cursor-default"
                             {...register("name")}
                             error={errors.name}
                             readOnly={!isPermissionWrite}
@@ -125,7 +125,7 @@ export default function FormUser({edit, isPermissionWrite=true, onSave, profiles
                             type="text"
                             label="E-mail"
                             placeholder="Insira o email"
-                            className="read-only:bg-gray-200 read-only:cursor-default"
+                            className="read-only:bg-slate-200 read-only:cursor-default"
                             {...register("email")}
                             error={errors.email}
                             readOnly={!isPermissionWrite}
@@ -139,7 +139,7 @@ export default function FormUser({edit, isPermissionWrite=true, onSave, profiles
                             type="text"
                             label="CRO"
                             placeholder="Insira o CRO"
-                            className="read-only:bg-gray-200 read-only:cursor-default"
+                            className="read-only:bg-slate-200 read-only:cursor-default"
                             {...register("cro")}
                             error={errors.cro}
                             readOnly={!isPermissionWrite}
@@ -147,7 +147,7 @@ export default function FormUser({edit, isPermissionWrite=true, onSave, profiles
                     </div>
 
                     <div className="w-1/2 px-2">
-                        <label className="pl-4 text-sm font-medium leading-tight text-gray-700 dark:text-white">Perfis</label>
+                        <label className="pl-4 text-sm font-medium leading-tight text-slate-700 dark:text-white">Perfis</label>
                         <Controller
                             name="profiles"
                             control={control}
@@ -167,7 +167,7 @@ export default function FormUser({edit, isPermissionWrite=true, onSave, profiles
                         />
                     </div>
                     <div className="w-1/2 px-2">
-                        <label className="pl-4 text-sm font-medium leading-tight text-gray-700 dark:text-white">Disciplinas</label>
+                        <label className="pl-4 text-sm font-medium leading-tight text-slate-700 dark:text-white">Disciplinas</label>
                         <Controller
                             name="disciplines"
                             control={control}

@@ -17,6 +17,7 @@ import { toast } from 'react-toastify';
 import { twMerge } from 'tailwind-merge';
 import * as yup from 'yup';
 
+import { HiChevronUp } from 'react-icons/hi';
 import "react-multi-date-picker/styles/backgrounds/bg-dark.css";
 import "react-multi-date-picker/styles/colors/teal.css";
 
@@ -48,7 +49,6 @@ export default function Home():JSX.Element {
     resolver: yupResolver(shema)
   });
 
-
   const onSave = async (data: any) => {
     try{
       await api.post('api/interest-system', data);
@@ -65,7 +65,13 @@ export default function Home():JSX.Element {
   return (
     <>
       <div className="fixed right-0 z-50 h-full">
-        <div className="w-full h-full bg-white dark:bg-gray-800 transform duration-500 ease-in-out fixed inline-flex flex-col items-start justify-start shadow" 
+        <button className={`absolute w-10 h-10 m-5 bottom-0 right-0 rounded-lg bg-teal-500 hover:bg-teal-400 transform duration-75 ease-in-out hover:-translate-y-1 cursor-pointer`}
+          onClick={() => document.getElementById("pagina-inicial")?.scrollIntoView({ behavior: "smooth", block: "start"})}
+        >
+          <HiChevronUp className="w-10 h-10 rounded-lg text-white" />
+        </button>
+
+        <div className="w-full h-full bg-white dark:bg-slate-800 transform duration-500 ease-in-out fixed inline-flex flex-col items-start justify-start shadow" 
           style={{transform: `${isMenuExpanded ? 'translateX(-100%)' : 'translateX(0%)'}`}}
           aria-label="Sidebar">
           <div className="w-full flex flex-row justify-between">
@@ -74,7 +80,7 @@ export default function Home():JSX.Element {
               onClick={()=>setIsMenuExpanded((e)=>!e)}
             />
             <div className="mt-16 mr-12 flex flex-col justify-end items-end gap-5">
-              <p className={twMerge("text-base font-medium text-gray-800 dark:text-white cursor-pointer hover:text-slate-700", poppins.className)}
+              <p className={twMerge("text-base font-medium text-slate-800 dark:text-white cursor-pointer hover:text-slate-700", poppins.className)}
                 onClick={() => {
                   document.getElementById("sobre")?.scrollIntoView({ behavior: "smooth", block: "start"});
                   setIsMenuExpanded(!isMenuExpanded);
@@ -82,7 +88,7 @@ export default function Home():JSX.Element {
               >
                 Sobre
               </p>
-              <p className={twMerge("text-base font-medium text-gray-800 dark:text-white cursor-pointer hover:text-slate-700", poppins.className)}
+              <p className={twMerge("text-base font-medium text-slate-800 dark:text-white cursor-pointer hover:text-slate-700", poppins.className)}
                 onClick={() => {
                   document.getElementById("desenvolvedores")?.scrollIntoView({ behavior: "smooth", block: "start"});
                   setIsMenuExpanded(!isMenuExpanded);
@@ -90,7 +96,7 @@ export default function Home():JSX.Element {
               >
                 Desenvolvedores
               </p>
-              <p className={twMerge("text-base font-medium text-gray-800 dark:text-white cursor-pointer hover:text-slate-700", poppins.className)}
+              <p className={twMerge("text-base font-medium text-slate-800 dark:text-white cursor-pointer hover:text-slate-700", poppins.className)}
                 onClick={() => {
                   document.getElementById("contato")?.scrollIntoView({ behavior: "smooth", block: "start"});
                   setIsMenuExpanded(!isMenuExpanded);
@@ -113,7 +119,7 @@ export default function Home():JSX.Element {
         </div>
       </div>
 
-      <div id="pagina-inicial" className={twMerge("w-screen bg-white dark:bg-gray-800 flex flex-col justify-center bg-none items-center bg-contain bg-no-repeat", poppins.className)}>
+      <div id="pagina-inicial" onScroll={() => console.log("teste")} className={twMerge("w-screen bg-white dark:bg-slate-800 flex flex-col justify-center bg-none items-center bg-contain bg-no-repeat", poppins.className)}>
         <div className="w-full h-20 md:px-12 pt-4 flex flex-row flex-nowrap items-center justify-between relative z-10">
           <div className="w-full absolute ml-[-24x] top-0 left-0 z-0 hidden dark:block">
               <img 
@@ -150,22 +156,22 @@ export default function Home():JSX.Element {
           </div>
 
           <div className="hidden lg:flex items-center z-10">
-            <div className={twMerge("text-base font-medium leading-normal whitespace-nowrap text-gray-800 dark:text-white cursor-pointer hover:text-slate-500 dark:hover:text-slate-300", inter.className)}
+            <div className={twMerge("text-base font-medium leading-normal whitespace-nowrap text-slate-800 dark:text-white cursor-pointer hover:text-slate-500 dark:hover:text-slate-300", inter.className)}
               onClick={() => document.getElementById("sobre")?.scrollIntoView({ behavior: "smooth", block: "start"})}
             >
               Sobre
             </div>
-            <div className={twMerge("ml-3 text-base font-medium leading-normal whitespace-nowrap text-gray-800 dark:text-white cursor-pointer hover:text-slate-500 dark:hover:text-slate-300", inter.className)}
+            <div className={twMerge("ml-3 text-base font-medium leading-normal whitespace-nowrap text-slate-800 dark:text-white cursor-pointer hover:text-slate-500 dark:hover:text-slate-300", inter.className)}
               onClick={() => document.getElementById("desenvolvedores")?.scrollIntoView({ behavior: "smooth", block: "start"})}
             >
               Desenvolvedores
             </div>
-            <div className={twMerge("ml-3 text-base font-medium leading-normal whitespace-nowrap text-gray-800 dark:text-white cursor-pointer hover:text-slate-500 dark:hover:text-slate-300", inter.className)}
+            <div className={twMerge("ml-3 text-base font-medium leading-normal whitespace-nowrap text-slate-800 dark:text-white cursor-pointer hover:text-slate-500 dark:hover:text-slate-300", inter.className)}
               onClick={() => document.getElementById("contato")?.scrollIntoView({ behavior: "smooth", block: "start"})}
             >
               Contato
             </div>
-            {/* <button className="h-11 ml-3 px-4 py-2 rounded-full shadow border border-teal-500 flex justify-center items-center text-gray-800 dark:text-white aria-hidden:hidden"
+            {/* <button className="h-11 ml-3 px-4 py-2 rounded-full shadow border border-teal-500 flex justify-center items-center text-slate-800 dark:text-white aria-hidden:hidden"
               aria-hidden="true"
             >
               <div className={twMerge("text-teal-500 text-lg font-medium leading-5 whitespace-nowrap", inter.className)}>Agendar Consulta</div>
@@ -186,7 +192,7 @@ export default function Home():JSX.Element {
               <span className={twMerge("text-5xl font-bold leading-10 text-black dark:text-white", poppins.className)}>
                 O seu aliado na gestão odontológica
               </span>
-              <div className={twMerge("w-96 mt-6 text-base font-normal leading-normal font-['Sora'] text-slate-500 dark:text-gray-300", sora.className)}>
+              <div className={twMerge("w-96 mt-6 text-base font-normal leading-normal font-['Sora'] text-slate-500 dark:text-slate-300", sora.className)}>
                 Agendamento, fila de espera, financeiro, pacientes, disciplinas e usuários tudo em um só lugar.
               </div>
               {/* <div className="w-56 mt-6 px-7 py-4 bg-gradient-96 from-teal-500 to-teal-600 rounded-full shadow justify-start items-start inline-flex">
@@ -215,7 +221,7 @@ export default function Home():JSX.Element {
                 src="/assets/SVG/odonto_homePage.svg"
                 alt='odonto_homePage'
               /> 
-              <div className={twMerge("mt-6 text-sm font-normal leading-5 text-slate-500 dark:text-gray-300", sora.className)}>
+              <div className={twMerge("mt-6 text-sm font-normal leading-5 text-slate-500 dark:text-slate-300", sora.className)}>
                 Agendamento, fila de espera, financeiro, pacientes, disciplinas e usuários tudo em um só lugar.
               </div>
               <div className="w-48 h-10 mt-6 px-7 flex justify-center items-center bg-gradient-96 from-teal-500 to-teal-600 rounded-full shadow">
@@ -282,7 +288,7 @@ export default function Home():JSX.Element {
               <span className={twMerge("text-lg md:text-3xl leading-normal font-semibold text-black dark:text-white", poppins.className)}>
                 Um sistema voltado para o controle e organização de sua clinica
               </span>
-              <span className={twMerge("text-sm md:text-base font-normal font-['Sora'] leading-normal text-slate-500 dark:text-gray-300", sora.className)}>
+              <span className={twMerge("text-sm md:text-base font-normal font-['Sora'] leading-normal text-slate-500 dark:text-slate-300", sora.className)}>
                 O Sistema de Agendamento Odontológico é um sistema de gestão odontológica desenvolvido como Trabalho de Conclusão de curso por alunos do curso de Engenharia da Computação. O sistema é voltado para clinicas odontológicas de todos os tamanhos e oferece uma solução completa para a gestão da clinica
               </span>
             </div>
@@ -464,7 +470,7 @@ export default function Home():JSX.Element {
               <span className={twMerge("px-20 md:px-10 text-black dark:text-white text-center text-xl md:text-5xl font-bold leading-7 md:leading-10 md:whitespace-nowrap", poppins.className)}>
                 Tem interesse em nosso sistema?
               </span>
-              <span className={twMerge("text-slate-500 dark:text-gray-300 text-center text-xs md:text-2xl font-bold leading-5 px-10 md:whitespace-nowrap", poppins.className)}>
+              <span className={twMerge("text-slate-500 dark:text-slate-300 text-center text-xs md:text-2xl font-bold leading-5 px-10 md:whitespace-nowrap", poppins.className)}>
                 Entre em contato com a gente por aqui
               </span>
               <div className="w-60 md:w-full h-1 mt-1 bg-teal-500 rounded-3xl" />
@@ -504,10 +510,10 @@ export default function Home():JSX.Element {
               </div>
               <div className="w-full flex items-center mt-2 md:mt-8">
                 <div className="w-full">
-                  <label className="pl-4 text-sm font-medium leading-tight text-gray-700 dark:text-white">Mensagem</label>
+                  <label className="pl-4 text-sm font-medium leading-tight text-slate-700 dark:text-white">Mensagem</label>
                   <textarea 
                       id="mensagem"
-                      className="w-full h-40 px-4 py-2 text-sm font-medium leading-tight truncate dark:text-white placeholder-gray-500 dark:placeholder-white shadow-sm border rounded-lg border-gray-300 dark:border-gray-500  dark:bg-slate-700 focus:border-teal-400 focus:outline-none focus:ring-teal-400 resize-none"
+                      className="w-full h-40 px-4 py-2 text-sm font-medium leading-tight truncate dark:text-white placeholder-slate-500 dark:placeholder-white shadow-sm border rounded-lg border-slate-300 dark:border-slate-500  dark:bg-slate-700 focus:border-teal-400 focus:outline-none focus:ring-teal-400 resize-none"
                       placeholder="O que você precisa?"
                       {...register("message")}
                   />
@@ -620,3 +626,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx: any) => {
       },
     }
 };
+
+function useRef() {
+  throw new Error('Function not implemented.');
+}
