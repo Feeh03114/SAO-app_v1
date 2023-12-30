@@ -42,7 +42,7 @@ export function MenuSideBar({open, setOpen}:{open:boolean, setOpen:React.Dispatc
         <Fragment>
             <div className={`${open ? 'w-full md:w-60 ' : 'w-0 '} transform duration-500 ease-in-out`}></div>
             <div className={`${open ? 'z-20' : 'z-0'} -mt-20 w-full md:w-60 fixed flex h-screen duration-500 ease-in-out`}>
-                <div className={`${open ? 'translate-x-0' : '-translate-x-full'} w-full bg-white dark:bg-slate-800 transform duration-500 ease-in-out  inline-flex flex-col items-start justify-start`} 
+                <div className={`${open ? 'translate-x-0' : '-translate-x-full'} w-full border-e-2 dark:border-e-0 bg-slate-50 dark:bg-slate-800 transform duration-500 ease-in-out  inline-flex flex-col items-start justify-start`} 
                     aria-label="Sidebar">
                     <div className="flex flex-col space-y-10 items-start justify-start w-full pt-5 pb-4">
                         <div className="inline-flex space-x-4 items-center justify-start w-full px-4">

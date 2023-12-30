@@ -72,7 +72,7 @@ const TableRow = ({children, style, onView, onDelete }:TableRowProps) => {
 
 const TableHeader = ({children, style} : RegisterModelProps) => {
     return (
-        <thead className="bg-white dark:bg-slate-700">
+        <thead className="bg-teal-400 dark:bg-slate-700">
             <tr className="overflow-auto">
                 {children}
                 <th className={twMerge("w-32", style)}></th>          
@@ -99,7 +99,7 @@ const TableCellHeader = ({children, hiddenInMobile, hiddenInDesktop, style}:Regi
     const finalStyle = styleCell + " " + style;
 
     return(
-        <th className={twMerge("px-3 md:px-6 py-3 text-start font-Inter text-xs font-medium leading-4 tracking-wide text-slate-500 dark:text-slate-200", finalStyle)}>
+        <th className={twMerge("px-3 md:px-6 py-3 text-start font-Inter text-xs font-medium leading-4 tracking-wide text-white dark:text-slate-200", finalStyle)}>
             {children}
         </th>
     )

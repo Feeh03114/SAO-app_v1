@@ -9,8 +9,8 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { GetServerSideProps } from "next";
 import { useEffect } from "react";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
-import { FiXCircle } from "react-icons/fi";
-import { MdCheckCircleOutline } from "react-icons/md";
+import { HiOutlineCheckCircle, HiOutlineXCircle } from "react-icons/hi";
+import { PiListChecksFill } from "react-icons/pi";
 import * as yup from 'yup';
 
 const schemaPermission = yup.object().shape({
@@ -98,7 +98,7 @@ export default function FormProfile({edit, isPermissionWrite=true, onSave}:FormP
 
     return (
         <form id='formProfile' onSubmit={handleSubmit(onSave)}>
-            <div className="w-screen px-8">
+            <div className="w-full px-8">
                 <div className="w-full p-6 flex flex-row flex-wrap shadow-sm border rounded-lg border-slate-300 dark:border-slate-500 dark:bg-slate-800">
                     <div className="w-full md:w-1/2 px-2">
                         <Input
@@ -156,7 +156,7 @@ export default function FormProfile({edit, isPermissionWrite=true, onSave}:FormP
                 </div>
             </div>
 
-            <div className="w-screen mt-8 px-8">
+            <div className="w-full mt-8 px-8">
                 <div className="w-full py-6 flex flex-row flex-wrap shadow-sm border-t border-slate-300 dark:border-slate-500">
                     <div className='text-start'>
                         <p className="text-sm md:text-2xl font-bold leading-loose text-slate-900 dark:text-white">Página do Perfil</p>
@@ -164,103 +164,138 @@ export default function FormProfile({edit, isPermissionWrite=true, onSave}:FormP
                     </div>
                     <Table.Root tableHeight={String(fields.length)} style="mt-8">
                         <Table.Header style="hidden">
-                            <Table.CellHeader>PÁGINA</Table.CellHeader>
-                            <Table.CellHeader>VIZUALIZAÇÃO</Table.CellHeader>
-                            <Table.CellHeader>CRIAÇÃO</Table.CellHeader>
-                            <Table.CellHeader>EDIÇÃO</Table.CellHeader>
-                            <Table.CellHeader>DELETAR</Table.CellHeader>
+                            <Table.CellHeader style="text-center">PÁGINA</Table.CellHeader>
+                            <Table.CellHeader style="text-center">VIZUALIZAÇÃO</Table.CellHeader>
+                            <Table.CellHeader style="text-center">CRIAÇÃO</Table.CellHeader>
+                            <Table.CellHeader style="text-center">EDIÇÃO</Table.CellHeader>
+                            <Table.CellHeader style="text-center">DELETAR</Table.CellHeader>
+                            <Table.CellHeader style="text-center">TODOS</Table.CellHeader>
                             {/* <Table.CellHeader>PERSONALIZAVEIS</Table.CellHeader> */}
                         </Table.Header>
 
                         <Table.Body tableHeight={String(fields.length)} rowNumber={fields.length}>
                             {fields.map((item: any, index) => (
-                                <Table.Row key={index}>
+                                <Table.Row key={index} style="flex">
                                     <Table.CellBody>{item.page.namePage}</Table.CellBody>
-                                    <Table.CellBody>
-                                        <button
-                                            type="button" 
-                                            className="h-full mr-4 px-3 py-2 border dark:border-slate-500 rounded-md cursor-pointer"
-                                            onClick={()=>update(index, 
-                                                { 
-                                                    ...item,
-                                                    isRead: !item.isRead,
-                                                    isCreate: !item.isRead === false ? false : item.isCreate,
-                                                    isEdit: !item.isRead === false ? false : item.isEdit,
-                                                    isDelete: !item.isRead === false ? false : item.isDelete,
-                                                })}
-                                        >
-                                            <MdCheckCircleOutline 
-                                                className="w-5 h-5 text-teal-500 aria-hidden:hidden"
-                                                aria-hidden={!item.isRead}
-                                            />
-                                            <FiXCircle 
-                                                className="w-5 h-5 text-red-500 aria-hidden:hidden"
-                                                aria-hidden={item.isRead}
-                                            />
-                                        </button>
+                                    <Table.CellBody style="w-full h-full md:pl-0">
+                                        <div className="flex justify-center items-center">
+                                            <button
+                                                type="button" 
+                                                className="w-9 h-9 border dark:border-slate-500 rounded-md cursor-pointer flex justify-center items-center"
+                                                onClick={()=>update(index, 
+                                                    { 
+                                                        ...item,
+                                                        isRead: !item.isRead,
+                                                        isCreate: !item.isRead === false ? false : item.isCreate,
+                                                        isEdit: !item.isRead === false ? false : item.isEdit,
+                                                        isDelete: !item.isRead === false ? false : item.isDelete,
+                                                    })
+                                                }
+                                            >
+                                                <HiOutlineCheckCircle  
+                                                    className="w-5 h-5 text-teal-500 aria-hidden:hidden"
+                                                    aria-hidden={!item.isRead}
+                                                />
+                                                <HiOutlineXCircle  
+                                                    className="w-5 h-5 text-red-500 aria-hidden:hidden"
+                                                    aria-hidden={item.isRead}
+                                                />
+                                            </button>
+                                        </div>
+                                        
                                     </Table.CellBody>
-                                    <Table.CellBody>
-                                        <button
-                                            type="button"
-                                            className="h-full mr-4 px-3 py-2 border dark:border-slate-500 rounded-md cursor-pointer"
-                                            onClick={()=>update(index, 
-                                                { 
-                                                    ...item, 
-                                                    isRead: !item.isCreate? true : item.isRead,
-                                                    isCreate: !item.isCreate 
-                                                })}
-                                        >
-                                            <MdCheckCircleOutline 
-                                                className="w-5 h-5 text-teal-500 aria-hidden:hidden"
-                                                aria-hidden={!item.isCreate}
-                                            />
-                                            <FiXCircle 
-                                                className="w-5 h-5 text-red-500 aria-hidden:hidden"
-                                                aria-hidden={item.isCreate}
-                                            />
-                                        </button>
+                                    <Table.CellBody style="w-full h-full md:pl-0">
+                                        <div className="flex justify-center items-center">
+                                            <button
+                                                type="button"
+                                                className="w-9 h-9 border dark:border-slate-500 rounded-md cursor-pointer flex justify-center items-center"
+                                                onClick={()=>update(index, 
+                                                    { 
+                                                        ...item, 
+                                                        isRead: !item.isCreate? true : item.isRead,
+                                                        isCreate: !item.isCreate 
+                                                    })
+                                                }
+                                            >
+                                                <HiOutlineCheckCircle  
+                                                    className="w-5 h-5 text-teal-500 aria-hidden:hidden"
+                                                    aria-hidden={!item.isCreate}
+                                                />
+                                                <HiOutlineXCircle  
+                                                    className="w-5 h-5 text-red-500 aria-hidden:hidden"
+                                                    aria-hidden={item.isCreate}
+                                                />
+                                            </button>
+                                        </div>
                                     </Table.CellBody>
-                                    <Table.CellBody>
-                                        <button
-                                            type="button"
-                                            className="h-full mr-4 px-3 py-2 border dark:border-slate-500 rounded-md cursor-pointer"
-                                            onClick={()=>update(index, 
-                                                { 
-                                                    ...item, 
-                                                    isRead: !item.isEdit? true : item.isRead,
-                                                    isEdit: !item.isEdit
-                                                })}
-                                        >
-                                            <MdCheckCircleOutline 
-                                                className="w-5 h-5 text-teal-500 aria-hidden:hidden"
-                                                aria-hidden={!item.isEdit}
-                                            />
-                                            <FiXCircle 
-                                                className="w-5 h-5 text-red-500 aria-hidden:hidden"
-                                                aria-hidden={item.isEdit}
-                                            />
-                                        </button>
+                                    <Table.CellBody style="w-full h-full md:pl-0">
+                                        <div className="flex justify-center items-center">
+                                            <button
+                                                type="button"
+                                                className="w-9 h-9 border dark:border-slate-500 rounded-md cursor-pointer flex justify-center items-center"
+                                                onClick={()=>update(index, 
+                                                    { 
+                                                        ...item, 
+                                                        isRead: !item.isEdit? true : item.isRead,
+                                                        isEdit: !item.isEdit
+                                                    })
+                                                }
+                                            >
+                                                <HiOutlineCheckCircle  
+                                                    className="w-5 h-5 text-teal-500 aria-hidden:hidden"
+                                                    aria-hidden={!item.isEdit}
+                                                />
+                                                <HiOutlineXCircle  
+                                                    className="w-5 h-5 text-red-500 aria-hidden:hidden"
+                                                    aria-hidden={item.isEdit}
+                                                />
+                                            </button>
+                                        </div>
                                     </Table.CellBody>
-                                    <Table.CellBody>
-                                        <button
-                                            type="button"
-                                            className="h-full mr-4 px-3 py-2 border dark:border-slate-500 rounded-md cursor-pointer"
-                                            onClick={()=>update(index, 
-                                                { 
-                                                    ...item, 
-                                                    isRead: !item.isDelete? true: item.isRead,
-                                                    isDelete: !item.isDelete
-                                                })}
-                                        >
-                                            <MdCheckCircleOutline 
-                                                className="w-5 h-5 text-teal-500 aria-hidden:hidden"
-                                                aria-hidden={!item.isDelete}
-                                            />
-                                            <FiXCircle 
-                                                className="w-5 h-5 text-red-500 aria-hidden:hidden"
-                                                aria-hidden={item.isDelete}
-                                            />
-                                        </button>
+                                    <Table.CellBody style="w-full h-12 md:pl-0">
+                                        <div className="flex justify-center items-center">
+                                            <button
+                                                type="button"
+                                                className="w-9 h-9 border dark:border-slate-500 rounded-md cursor-pointer flex justify-center items-center"
+                                                onClick={()=>update(index, 
+                                                    { 
+                                                        ...item, 
+                                                        isRead: !item.isDelete? true: item.isRead,
+                                                        isDelete: !item.isDelete
+                                                    })
+                                                }
+                                            >
+                                                <HiOutlineCheckCircle  
+                                                    className="w-5 h-5 text-teal-500 aria-hidden:hidden"
+                                                    aria-hidden={!item.isDelete}
+                                                />
+                                                <HiOutlineXCircle  
+                                                    className="w-5 h-5 text-red-500 aria-hidden:hidden"
+                                                    aria-hidden={item.isDelete}
+                                                />
+                                            </button>
+                                        </div>
+                                    </Table.CellBody>
+                                    <Table.CellBody style="w-full h-12 md:pl-0 border-s-2">
+                                        <div className="flex justify-center items-center">
+                                            <button
+                                                type="button"
+                                                className="w-9 h-9 border dark:border-slate-500 rounded-md cursor-pointer flex justify-center items-center active:bg-teal-500"
+                                                onClick={()=>update(index, 
+                                                    { 
+                                                        ...item,
+                                                        isRead: item.isRead === true && item.isCreate === true && item.isEdit === true && item.isDelete === true ? false : true,
+                                                        isCreate: item.isRead === true && item.isCreate === true && item.isEdit === true && item.isDelete === true ? false : true,
+                                                        isEdit: item.isRead === true && item.isCreate === true && item.isEdit === true && item.isDelete === true ? false : true,
+                                                        isDelete: item.isRead === true && item.isCreate === true && item.isEdit === true && item.isDelete === true ? false : true,
+                                                    })
+                                                }
+                                            >
+                                                <PiListChecksFill    
+                                                    className="w-5 h-5 dark:text-slate-400 active:text-white"
+                                                />
+                                            </button>
+                                        </div>
                                     </Table.CellBody>
                                 </Table.Row>
                             ))}
