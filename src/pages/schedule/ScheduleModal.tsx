@@ -240,6 +240,7 @@ export default function ScheduleModal({ open=false, setOpen, cancelButtonRef }: 
                                         {...register("nome")}
                                         error={errors.nome}
                                         onBlur={(e:any)=>e.target.value && getPatient()}
+                                        readOnly
                                     />
                                 </div>
                                 <label className="pl-4 text-sm font-medium leading-tight text-slate-700 dark:text-white">Tipo de consulta<span className="text-red-500">*</span></label>
@@ -335,13 +336,10 @@ export default function ScheduleModal({ open=false, setOpen, cancelButtonRef }: 
                                                     months={['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Nov', 'Dez']}
                                                     highlightToday
                                                     value={field.value||""}
-                                                    onChange={(e:DateObject)=>{
-                                                        // console.log(e?.toDate());
-                                                        field.onChange(e?.toDate());
-                                                    }}
+                                                    onChange={(e:DateObject)=>field.onChange(e?.toDate())}
                                                     className='teal bg-dark-perso'
                                                     inputClass='w-full rounded-lg px-4 py-2 dark:bg-slate-700 dark:text-white shadow border border-slate-300 dark:border-slate-500 text-slate-900 placeholder-slate-500 focus:border-teal-400 focus:outline-none focus:ring-teal-400 sm:text-sm'
-                                                    containerClassName=''
+                                                    containerClassName='w-full'
                                                     readOnly={Object.keys(service).length === 0}
                                                     format='DD/MM/YYYY'
                                                     minDate={new Date()}

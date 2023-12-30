@@ -44,6 +44,21 @@ code {
   z-index: 9999;
 }
 
+input, textarea, select{
+  outline: none;
+  &:focus-visible{
+    outline: none;
+  }
+  &:-webkit-autofill,
+  &:-webkit-autofill:hover, 
+  &:-webkit-autofill:focus, 
+  &:-webkit-autofill:active{
+    -webkit-background-clip: text;
+    /* -webkit-text-fill-color: #ffffff; */
+    background-color: transparent !important; 
+  }
+}
+
 @media (min-width: 640px) {
   .max-w-lg {
     max-width: 640px;
