@@ -14,21 +14,6 @@ import makeAnimated from 'react-select/animated';
 import { toast } from "react-toastify";
 import * as yup from 'yup';
 
-const mockDisciplinas = [
-    {
-        label: "Disciplina 1",
-        value: "1"
-    },
-    {
-        label: "Disciplina 2",
-        value: "2"
-    },
-    {
-        label: "Disciplina 3",
-        value: "3"
-    },
-];
-
 const schemaPermission = yup.object().shape({
     isRead: yup.boolean().optional(),
     isCreate: yup.boolean().optional(),
@@ -48,7 +33,6 @@ interface FormUserProps {
     edit?: User;
     isPermissionWrite?: boolean;
     onSave:(data:any)=>void;
-    profiles: string[];
 }
 
 interface options {
@@ -56,8 +40,9 @@ interface options {
     value: string;
 }
 
-export default function FormUser({edit, isPermissionWrite=true, onSave, profiles}:FormUserProps): JSX.Element {
+export default function FormUser({edit, isPermissionWrite=true, onSave}:FormUserProps): JSX.Element {
     const [optionsProfiles, setOptionsProfiles] = useState<options[]>([] as options[]);
+    const [optionsDisciplines, setOptionsDisciplines] = useState<options[]>([] as options[]);
     const { reset, control, watch, register, setValue, handleSubmit, formState: { errors } } = useForm();
     const animatedComponents = makeAnimated();
     
@@ -69,9 +54,20 @@ export default function FormUser({edit, isPermissionWrite=true, onSave, profiles
                 }
             });
             setOptionsProfiles(resp.data);
-            if(edit?.profilesIds)
-            setValue('profiles', resp.data.filter((item:options) => watch('profilesIds')?.includes(item.value))||[]);
-            setValue('disciplines', mockDisciplinas);
+            if(edit?.profilesIds) setValue('profiles', resp.data.filter((item:options) => watch('profilesIds')?.includes(item.value))||[]);
+            
+        } catch (error:any) {
+            if(error.response)
+                toast.error(error.response.data.message);
+            else
+                toast.error(error.message);
+        }
+    }
+
+    const loadOptionsDisciplines = async () => {
+        try {
+            const resp = await api.get('api/disciplines/options/select');
+            setOptionsDisciplines(resp.data);
         } catch (error:any) {
             if(error.response)
                 toast.error(error.response.data.message);
@@ -82,6 +78,7 @@ export default function FormUser({edit, isPermissionWrite=true, onSave, profiles
 
     useEffect(() => {
         loadOptionsProfiles();
+        loadOptionsDisciplines();
         reset(edit);
     }, [edit]);
     
@@ -174,7 +171,7 @@ export default function FormUser({edit, isPermissionWrite=true, onSave, profiles
                             render={({field})=>(
                                 <ReactSelect
                                     isMulti
-                                    options={mockDisciplinas}
+                                    options={optionsDisciplines}
                                     value={field.value}
                                     closeMenuOnSelect={false}
                                     components={animatedComponents}

@@ -41,7 +41,6 @@ interface Page {
 
 export default function UsersEdit(): JSX.Element {
     const [user, setData] = useState<User>({} as User);
-    const [profiles, setProfiles] = useState<string[]>([]);
     const permiteEdit = useDisclosure();
     const router = useRouter();
     const id = router.query.id;
@@ -73,6 +72,7 @@ export default function UsersEdit(): JSX.Element {
         setIsLoading(true);
         try {
             const profilesIds = data.profiles.map((item:any) => item.value);
+            const disciplinesIds = data.disciplines.map((item:any) => item.value);
             delete data.profiles;
             delete data.disciplines;
             delete data.createdBy;
@@ -84,10 +84,11 @@ export default function UsersEdit(): JSX.Element {
             const body ={
                 ...data,
                 profilesIds: profilesIds,
+                disciplinesIds: disciplinesIds
             }
             await api.put(`/api/users/${id}`, body);
             toast.success('Usuário atualizado com sucesso!');
-            router.back();
+            permiteEdit.close();
         } catch (error:any) {
             if(error?.response?.data?.message)
                 toast.error(error.response.data.message);
@@ -122,7 +123,6 @@ export default function UsersEdit(): JSX.Element {
                 isPermissionWrite={permiteEdit.isOpen}	
                 edit={user}
                 onSave={onSave}
-                profiles={profiles}
             />
         </>
     )
