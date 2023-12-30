@@ -149,7 +149,7 @@ export default function Login(): JSX.Element{
                         </div>
                         <div className={`transition-all duration-1000 ease-in-out ${isLogin ? (errors.ru || errors.password) ? (errors.ru && errors.password) ? "h-[224.5px]" : "h-[204.5px]" : "h-[184.5px]" : "h-0"} w-full flex flex-col justify-start overflow-auto`}>
                             <div className="w-full pt-4 flex flex-col items-start justify-start">
-                                <div className="flex flex-col items-start justify-start w-full">
+                                <div className="flex flex-col items-start justify-start w-full px-1">
                                     <div className="inline-flex items-center justify-start pl-4 w-full mt-4">
                                         <p className="text-sm font-medium leading-tight text-slate-700 dark:text-slate-300">Registro Universitário (RU)</p>
                                     </div>
@@ -163,7 +163,7 @@ export default function Login(): JSX.Element{
                                         error={errors.ru}
                                     />
                                 </div>
-                                <div className="flex flex-col items-start justify-start w-full">
+                                <div className="flex flex-col items-start justify-start w-full px-1">
                                     <div className="inline-flex items-center justify-start pl-4 w-full mt-4">
                                         <p className="text-sm font-medium leading-tight text-slate-700 dark:text-slate-300">Senha</p>
                                     </div>
@@ -224,7 +224,7 @@ export default function Login(): JSX.Element{
                         </div>
                         <div className={`transition-all duration-1000 ease-in-out ${!isLogin ? (errors2.nome || errors2.email) ? (errors2.nome && errors2.email) ? "h-[171px]" : "h-[151px]" : "h-[131px]" : "h-0"} overflow-auto w-full`}>
                             <div className="flex flex-col items-start justify-start w-full transition-all duration-500">
-                                <div className="flex flex-col items-start justify-start w-full">
+                                <div className="flex flex-col items-start justify-start w-full px-1">
                                     <div className="inline-flex items-center justify-start pl-4 w-full">
                                         <p className="text-sm font-medium leading-tight text-slate-700 dark:text-slate-300">Nome</p>
                                     </div>
@@ -238,7 +238,7 @@ export default function Login(): JSX.Element{
                                         error={errors2.nome}
                                     />
                                 </div>
-                                <div className="flex flex-col items-start justify-start w-full" role="group">
+                                <div className="flex flex-col items-start justify-start w-full px-1" role="group" >
                                     <div className="inline-flex items-center justify-start pl-4 w-full mt-4">
                                         <p className="text-sm font-medium leading-tight text-slate-700 dark:text-slate-300">E-mail</p>
                                     </div>
