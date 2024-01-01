@@ -17,7 +17,7 @@ import { toast } from 'react-toastify';
 import { twMerge } from 'tailwind-merge';
 import * as yup from 'yup';
 
-import { HiChevronUp } from 'react-icons/hi';
+import { HiArrowSmUp } from 'react-icons/hi';
 import "react-multi-date-picker/styles/backgrounds/bg-dark.css";
 import "react-multi-date-picker/styles/colors/teal.css";
 
@@ -65,10 +65,10 @@ export default function Home():JSX.Element {
   return (
     <>
       <div className="fixed right-0 z-50 h-full">
-        <button className={`absolute w-10 h-10 m-5 bottom-0 right-0 rounded-lg bg-teal-500 hover:bg-teal-400 transform duration-75 ease-in-out hover:-translate-y-1 cursor-pointer`}
+        <button className={`absolute w-12 h-12 m-5 bottom-0 right-0 rounded-full flex justify-center items-center bg-white dark:bg-slate-600 dark:hover:bg-slate-600 transform duration-75 ease-in-out hover:-translate-y-1 drop-shadow-lg cursor-pointer`}
           onClick={() => document.getElementById("pagina-inicial")?.scrollIntoView({ behavior: "smooth", block: "start"})}
         >
-          <HiChevronUp className="w-10 h-10 rounded-lg text-white" />
+          <HiArrowSmUp className="w-9 h-9 text-teal-400" />
         </button>
 
         <div className="w-full h-full bg-white dark:bg-slate-800 transform duration-500 ease-in-out fixed inline-flex flex-col items-start justify-start shadow" 
@@ -265,10 +265,10 @@ export default function Home():JSX.Element {
               description="Melhore a organização da sua clinica."
             />
           </div>   
-          <div className="w-full h-20 -mt-10 relative z-0 bg-teal-50 dark:bg-slate-700"></div>
+          <div className="w-full h-20 -mt-10 relative z-0 bg-teal-100 dark:bg-slate-700"></div>
         </div>      
 
-        <div id="sobre" className="w-full flex justify-center bg-teal-50 dark:bg-slate-700">
+        <div id="sobre" className="w-full flex justify-center bg-teal-100 dark:bg-slate-700">
           <div className="pb-10 flex flex-col md:flex-row justify-start md:justify-evenly items-center md:pt-24 relative"
             style={{
               maxWidth: '1110px',
@@ -360,7 +360,7 @@ export default function Home():JSX.Element {
           </div>
         </div>    
 
-        <div id="desenvolvedores" className="w-full flex flex-col gap-6 py-10 md:mt-20 bg-teal-50 dark:bg-slate-700">
+        <div id="desenvolvedores" className="w-full flex flex-col gap-6 py-10 md:mt-20 bg-teal-100 dark:bg-slate-700">
           <div className="flex flex-col justify-center items-center md:gap-3">
             <span className={twMerge("text-center text-black dark:text-white text-xl md:text-5xl font-bold leading-7 md:leading-10 px-10 md:whitespace-nowrap", poppins.className)}>
               Conheça os Desenvolvedores
@@ -460,7 +460,7 @@ export default function Home():JSX.Element {
           </div>
         </div>
 
-        <div className="w-full flex justify-center bg-teal-50 dark:bg-slate-700">
+        <div className="w-full flex justify-center bg-teal-100 dark:bg-slate-700">
           <div className="py-12 flex flex-col justify-center items-center"
             style={{
               maxWidth: '1110px',
@@ -599,7 +599,7 @@ export default function Home():JSX.Element {
           </div>
         </div>
         <div className="w-11/12 h-px my-10 bg-white opacity-60"/>
-        <span className="mx-auto text-white opacity-80 text-base leading-normal whitespace-nowrap">© SAO all rights 2023</span>
+        <div className="w-full mx-auto text-white opacity-80 text-center leading-normal whitespace-nowrap">© SAO all rights 2024</div>
       </div>
     </>
   )

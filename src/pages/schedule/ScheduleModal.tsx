@@ -207,8 +207,8 @@ export default function ScheduleModal({ open=false, setOpen, cancelButtonRef }: 
                         <div className="flex flex-row flex-wrap justify-center items-center">
                             <form className="grid grid-cols-2 gap-4" onSubmit={handleSubmit(addPost)}>
                                 <div className="flex flex-row justify-start items-center col-span-2">
-                                    <div className="flex items-center justify-center rounded-full bg-teal-200 dark:bg-teal-400 h-10 w-10">
-                                        <AiOutlinePlus className="text-xl text-teal-500 dark:text-teal-700"/>
+                                    <div className="flex items-center justify-center rounded-full bg-teal-200 dark:bg-teal-500 h-10 w-10">
+                                        <AiOutlinePlus className="text-xl text-teal-500 dark:text-white"/>
                                     </div>
                                     <div className="ml-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
                                         <Dialog.Title as="h3" className="text-base font-semibold leading-6 text-slate-900 dark:text-white">
@@ -386,7 +386,7 @@ export default function ScheduleModal({ open=false, setOpen, cancelButtonRef }: 
                                     </button>
                                     <button
                                         type="submit"
-                                        className="ml-4 rounded-md bg-teal-500 dark:bg-teal-700 px-3 py-2 text-sm font-semibold text-white shadow sm:ml-3 ring-1 ring-inset sm:w-auto">
+                                        className="ml-4 rounded-md bg-teal-500 dark:bg-teal-500 px-3 py-2 text-sm font-semibold text-white shadow sm:ml-3 ring-1 ring-inset sm:w-auto">
                                             Cadastrar
                                     </button>
                                 </div>
