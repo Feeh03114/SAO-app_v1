@@ -16,11 +16,11 @@ import * as yup from 'yup';
 interface ModalUserProps{
     isOpen: boolean;
     onClose: () => void;
-    loadData: () => void;
+    loadData: () => Promise<void>;
 }
 
 interface Option {
-    value: number;
+    value: string;
     label: string;
 }
 
@@ -94,7 +94,7 @@ export function ModalUser({ isOpen, onClose, loadData }: ModalUserProps) {
         userData.profilesIds = userData.profilesIds?.map((e: any) => e?.value);
         userData.active = true;
         try {
-            const resp = await api.post(`/api/users`, userData);
+            await api.post(`/api/users`, userData);
             toast.success('Usuário criado com sucesso!');
             onClose();
             clearErrors();
@@ -194,7 +194,7 @@ export function ModalUser({ isOpen, onClose, loadData }: ModalUserProps) {
                                     onChange={(e)=> field.onChange(e)}
                                     isDisabled={watch('typeUser') === undefined}
                                     placeholder={watch('typeUser') === undefined ? 'Primeiro selecione o tipo de usuário' : "Selecione os perfis"}
-                                    styles={reactSelectStyle(watch('typeUser') === undefined)}
+                                    styles={reactSelectStyle(watch('typeUser') === undefined) as any}
                                 />
                             )}
                         />
