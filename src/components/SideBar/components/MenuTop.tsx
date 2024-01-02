@@ -21,7 +21,7 @@ export function MenuTop({setIsOpenNavbar}:{setIsOpenNavbar:React.Dispatch<React.
                     <div className="z-10 flex items-center justify-start">
                         <HiOutlineMenu className={`cursor-pointer text-white`} size={24} onClick={()=>setIsOpenNavbar(e=>!e)}/>
                     </div>
-                    <div className="flex space-x-6 items-center justify-end pl-4 pr-4 md:pr-8 max-h-[2.75rem] w-full">
+                    <div className="z-10 flex space-x-6 items-center justify-end pl-4 pr-4 md:pr-8 max-h-[2.75rem] w-full">
                         <div className="flex items-center justify-center p-1 rounded-full">
                             <TbBell className="flex-1 h-full rounded-lg text-white w-[1.5rem]"/>
                         </div>

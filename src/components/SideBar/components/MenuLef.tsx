@@ -1,4 +1,4 @@
-
+import packageJson from '@/../package.json';
 import { GetIcon } from "@/util/icons";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
@@ -66,6 +66,7 @@ export function MenuSideBar({open, setOpen}:{open:boolean, setOpen:React.Dispatc
                                 </Link>
                             ))}
                         </div>
+                        <span className="absolute bottom-0 left-0 text-slate-500">{`v ${packageJson.version}`}</span>
                     </div>
                 </div>
             </div>

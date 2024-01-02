@@ -117,13 +117,13 @@ export default function Finance(): JSX.Element {
                 title={"Financeiro (Mockado)"}
                 subtitle={"Consulte os pagamentos de serviços"}
             >
-                <Header.Button 
+                {/* <Header.Button 
                     text="Filtros"
                     disabled={isLoading}
                     typeButton="filter"
                     style="mr-0"
                     onClick={()=> console.log('filter')}
-                />
+                /> */}
             </Header.Root>
             <Table.Root style="px-8">
                 <Table.Header>

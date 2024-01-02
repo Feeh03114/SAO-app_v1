@@ -108,12 +108,12 @@ export default function Subjects(): JSX.Element {
                 title={"Disciplinas"}
                 subtitle={"Consulte as disciplinas da plataforma"}
             >
-                <Header.Button 
+                {/* <Header.Button 
                     text="Filtros"
                     disabled={isLoading}
                     typeButton="filter"
                     onClick={()=> console.log('filter')}
-                />
+                /> */}
                 <Header.Button 
                     text="Adicionar disciplina"
                     typeButton="add"

@@ -129,11 +129,11 @@ export default function Schedule():JSX.Element {
                 title={"Página Inicial"}
                 subtitle={"Agendamento de Consultas"}
             >
-                <Header.Button 
+                {/* <Header.Button 
                     text="Filtros"
                     typeButton="filter"
                     onClick={() => alert('Filtros em desenvolvimento')}
-                />
+                /> */}
                 <Header.Button 
                     text="Adicionar Consulta"
                     typeButton="add"
