@@ -1,5 +1,6 @@
 import Card from "@/components/elementTag/cardText";
 import { Input } from "@/components/elementTag/input";
+import MaskedInput from "@/components/elementTag/maskedInput";
 import Select from "@/components/elementTag/select";
 import { EduacationLevel } from "@/enum/educationLevel.enum";
 import { Ethnicity } from "@/enum/ethnicity.enum";
@@ -23,7 +24,7 @@ const validationPatient = yup.object().shape({
     medicalRecord: yup.string().optional(),
     name: yup.string().required('Campo obrigatório'),
     lastName: yup.string().required('Campo obrigatório'),
-    cpf: yup.string().required('Campo obrigatório'),
+    cpf: yup.string().required('Campo obrigatório').min(11, 'CPF inválido'),
     rg: yup.string().required('Campo obrigatório'),
     birthDate: yup.string().required('Campo obrigatório'),
     gender: yup.string().required('Campo obrigatório'),
@@ -197,27 +198,25 @@ export default function FormPatient({ isPermissionWrite=true, onSave, edit={} }:
                     />
                 </div>
                 <div className="w-full md:w-1/4 px-2">
-                    <Input 
+                    <MaskedInput 
                         required
-                        id="cpf"
-                        type="text"
+                        name="cpf"
                         label="CPF"
-                        placeholder="Insira o CPF"
+                        mask="999.999.999-99"
                         className="read-only:bg-slate-200 read-only:cursor-default"
-                        {...register1("cpf")}
+                        control={control1}
                         error={errors1.cpf}
                         readOnly={!isPermissionWrite}
                     />
                 </div>
                 <div className="w-full md:w-1/4 px-2">
-                    <Input 
+                    <MaskedInput 
                         required
-                        id="rg"
-                        type="text"
+                        name="rg"
                         label="RG"
-                        placeholder="Insira o RG"
+                        typeInput="rg"
                         className="read-only:bg-slate-200 read-only:cursor-default"
-                        {...register1("rg")}
+                        control={control1}
                         error={errors1.rg}
                         readOnly={!isPermissionWrite}
                     />
@@ -289,14 +288,13 @@ export default function FormPatient({ isPermissionWrite=true, onSave, edit={} }:
                 </div>
 
                 <div className="w-full md:w-1/4 px-2">
-                    <Input 
+                    <MaskedInput 
                         required
-                        id="phoneNumber"
-                        type="text"
+                        name="phoneNumber"
                         label="Telefone"
-                        placeholder="Insira o telefone"
+                        typeInput="phoneNumber"
                         className="read-only:bg-slate-200 read-only:cursor-default"
-                        {...register1("phoneNumber")}
+                        control={control1}
                         error={errors1.phoneNumber}
                         readOnly={!isPermissionWrite}
                     />
