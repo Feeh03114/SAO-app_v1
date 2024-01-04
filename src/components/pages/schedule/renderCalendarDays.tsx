@@ -170,7 +170,7 @@ export default function RenderCalendar({ selectedDate, setOpenDayList, setTodayD
                     <div className={`w-full h-full -mt-5 z-10 relative flex justify-center items-center`}>
                         <IsLoading
                             isVisible={isLoading}
-                            className='text-white'
+                            className='text-slate-400 dark:text-white'
                         />
                     </div>
                 }

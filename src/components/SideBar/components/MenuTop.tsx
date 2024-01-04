@@ -11,7 +11,7 @@ export function MenuTop({setIsOpenNavbar}:{setIsOpenNavbar:React.Dispatch<React.
     const session = useSession();
 
     return(
-        <div className={`w-full`}>
+        <div className={`w-full absolute z-10`}>
             <div className="w-full h-20 bg-teal-400 dark:bg-slate-800 shadow-md aria-hidden:hidden" style={{
                 boxShadow: '0px 1px 3px rgba(0, 0, 0, 0.1), 0px 1px 2px rgba(0, 0, 0, 0.06)'
             }}
