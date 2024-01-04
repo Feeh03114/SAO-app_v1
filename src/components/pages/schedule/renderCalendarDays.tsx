@@ -1,3 +1,4 @@
+import IsLoading from "@/components/elementTag/isLoading";
 import api from "@/service/api";
 import dayjs, { Dayjs } from "dayjs";
 import { useEffect, useState } from "react";
@@ -14,35 +15,62 @@ interface RenderFakeCalendarProps {
     open: boolean;
 }
 
+const isCenter = (date: dayjs.Dayjs): boolean => {
+   const day = Number(date.format('DD'));
+   const week = date.format('dddd');
+   if (week === 'quarta-feira' && day >= 12 && day <=18 ) return true;
+   return false;
+}
+
 export default function RenderCalendar({ selectedDate, setOpenDayList, setTodayDate, open }:RenderFakeCalendarProps): JSX.Element {
     const [hastreatmentTodayData, sethastreatmentTodayData] = useState<HasTreatmentToday[]>([]);
     const daysInMonth = selectedDate.daysInMonth();
     const startOfMonth = selectedDate.startOf('month').day();
     const ultimoDiaMes = selectedDate.endOf('month').day();
+    const [isLoading, setIsLoading] = useState(false);
     
-    const [paramsHasScedule] = useState({
+    const [paramsHasScedule, setParamsHasScedule] = useState({
         init: selectedDate.startOf('month').format(),
         end: selectedDate.endOf('month').format(),
     });
 
-    const loadHasSceduleData = async () => {
+    const loadHasScheduleData = async () => {
+        setIsLoading(true);
         try {
+            console.log("init: " + selectedDate.startOf('month').format());
+            console.log("end: " + selectedDate.endOf('month').format());
             const { data:RespAPI } = await api.get("api/treatment/schedule", {
                 params: paramsHasScedule
             });
             sethastreatmentTodayData(RespAPI);
+            console.log(RespAPI);
         } catch (error) {
           console.log(error);
+        } 
+        finally{
+            setIsLoading(false);
         }
     };
 
     useEffect(() => {
-        loadHasSceduleData();
+        loadHasScheduleData();
     }, []);
 
     useEffect(() => {
-        if(!open) loadHasSceduleData();
+        if(!open) loadHasScheduleData();
     }, [open]);
+
+    useEffect(() => {
+        setParamsHasScedule({
+            init: selectedDate.startOf('month').format(),
+            end: selectedDate.endOf('month').format(),
+        })
+       
+    }, [selectedDate]);
+
+    useEffect(() => {
+        loadHasScheduleData();
+    }, [paramsHasScedule]);
 
     function isSameDay(date1: dayjs.Dayjs, date2: dayjs.Dayjs) {
         return (
@@ -133,10 +161,19 @@ export default function RenderCalendar({ selectedDate, setOpenDayList, setTodayD
                     ${week === 'sábado' ? 'border-r-0 bg-slate-50 dark:bg-slate-700 dark:hover:bg-slate-600':'border-r'} ${week === 'domingo' && 'bg-slate-50 dark:bg-slate-700 dark:hover:bg-slate-600'} ${i >= (daysInMonth-ultimoDiaMes)? 'border-b-0': 'border-b'} border-solid border-black/10 dark:border-white/10`}
                 key={date.format('YYYY-MM-DD')}
                 onClick={() => {hasEventForDay(date) && setOpenDayList(true), hasEventForDay(date) && getEventsForDay(date)}}
-            >
+            >  
                 <p className={`w-full text-center sm:text-start text-sm sm:text-base font-semibold dark:text-white ${isSameDay(dayjs(), date) ? 'text-white' : 'text-slate-700'}`}>
                     {date.format('DD')}
                 </p>
+                {
+                    isCenter(date) &&
+                    <div className={`w-full h-full -mt-5 z-10 relative flex justify-center items-center`}>
+                        <IsLoading
+                            isVisible={isLoading}
+                            className='text-white'
+                        />
+                    </div>
+                }
             </div>
         );
     }

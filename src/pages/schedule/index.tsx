@@ -74,6 +74,7 @@ export default function Schedule():JSX.Element {
     const [todayDate, setTodayDate] = useState(dayjs());
     const [scrollMiddle, setScrollMiddle] = useState(false);
     const scrollRef = useRef<HTMLUListElement>(null);
+  
     const meses = [
         'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
         'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
