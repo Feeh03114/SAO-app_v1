@@ -4,7 +4,7 @@ import api from '@/service/api';
 import { Dialog, Transition } from '@headlessui/react';
 import { yupResolver } from '@hookform/resolvers/yup';
 import dayjs from 'dayjs';
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment, useEffect, useRef, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { AiOutlinePlus } from 'react-icons/ai';
 import DatePicker, { DateObject } from "react-multi-date-picker";
@@ -68,6 +68,7 @@ interface schedule{
 export default function ScheduleModal({ open=false, setOpen, cancelButtonRef }: ScheduleModalProps):JSX.Element  {
     const [service, setService] = useState<IService>({} as IService);
     const [treatment, setTreatment] = useState<ITratamento[]>([] as ITratamento[])
+    const datePickerRef = useRef();
     const { reset, control, register, setValue, watch, handleSubmit, formState: { errors } } = useForm({
         resolver: yupResolver(validationFullModal)
     });
@@ -193,15 +194,15 @@ export default function ScheduleModal({ open=false, setOpen, cancelButtonRef }: 
   
           <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
             <div className="flex min-h-full items-center justify-center p-4 text-center sm:items-center sm:p-0">
-              <Transition.Child
-                as={Fragment}
-                enter="ease-out duration-300"
-                enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-                enterTo="opacity-100 translate-y-0 sm:scale-100"
-                leave="ease-in duration-200"
-                leaveFrom="opacity-100 translate-y-0 sm:scale-100"
-                leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-              >
+                <Transition.Child
+                    as={Fragment}
+                    enter="ease-out duration-300"
+                    enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                    enterTo="opacity-100 translate-y-0 sm:scale-100"
+                    leave="ease-in duration-200"
+                    leaveFrom="opacity-100 translate-y-0 sm:scale-100"
+                    leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                >
                 <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white dark:bg-slate-800 text-left shadow transition-all sm:my-8 sm:w-full max-w-lg">
                     <div className="bg-white dark:bg-slate-800 px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
                         <div className="flex flex-row flex-wrap justify-center items-center">
@@ -328,7 +329,7 @@ export default function ScheduleModal({ open=false, setOpen, cancelButtonRef }: 
                                         rules={{ required: true }}
                                         render={({ field }) => (
                                             <label>
-                                                <DatePicker
+                                                <DatePicker ref={datePickerRef}
                                                     portal
                                                     name={field.name}
                                                     showOtherDays
@@ -350,7 +351,14 @@ export default function ScheduleModal({ open=false, setOpen, cancelButtonRef }: 
                                                             excludes: service.schedules.map((item) => new DateObject(new Date(item.date))),
                                                         }
                                                     )}
-                                                />
+                                                   
+                                                >
+                                                    <div className='text-white cursor-pointer bg-teal-700 rounded-b-md'
+                                                        onClick={() => (datePickerRef.current as any)?.closeCalendar()}
+                                                    >
+                                                        Fechar
+                                                    </div>
+                                                </DatePicker>
                                                 {!!errors.data && (
                                                     <p className="text-red-500 text-sm">{errors.data?.message?.toString()}</p>
                                                 )}

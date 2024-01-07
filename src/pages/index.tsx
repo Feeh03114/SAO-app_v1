@@ -109,7 +109,7 @@ export default function Home():JSX.Element {
               >
                 <div className={twMerge("text-teal-500 text-lg font-medium leading-5 whitespace-nowrap", inter.className)}>Agendar Consulta</div>
               </button> */}
-              <button className="h-14 ml-3 px-4 py-2 bg-teal-500 rounded-full shadow justify-center items-center flex"
+              <button className="h-14 ml-3 px-4 py-2 bg-gradient-96 bg-teal-400 dark:from-teal-500 dark:to-teal-600 rounded-full shadow justify-center items-center flex"
                 onClick={() => router.push('/login')}
               >
                 <p className={twMerge("text-white text-lg font-medium leading-5 truncate", inter.className)}>Acesse a plataforma</p>
@@ -176,7 +176,7 @@ export default function Home():JSX.Element {
             >
               <div className={twMerge("text-teal-500 text-lg font-medium leading-5 whitespace-nowrap", inter.className)}>Agendar Consulta</div>
             </button> */}
-            <button className="h-14 ml-3 px-4 py-2 bg-teal-500 rounded-full shadow justify-center items-center flex"
+            <button className="h-14 ml-3 px-4 py-2 bg-gradient-96 bg-teal-400 dark:from-teal-500 dark:to-teal-600 rounded-full shadow justify-center items-center flex"
               onClick={() => router.push('/login')}
             >
               <p className={twMerge("text-white text-lg font-medium leading-5 truncate", inter.className)}>Acesse a plataforma</p>
@@ -304,7 +304,7 @@ export default function Home():JSX.Element {
             <span className={twMerge("px-10 text-xl md:text-5xl font-bold leading-7 md:leading-10 text-black dark:text-white", poppins.className)}>
               Nossos serviços
             </span>
-            <div className="w-full h-1 mt-1 bg-teal-500 rounded-3xl" />
+            <div className="w-full h-1 mt-1 bg-teal-400 dark:bg-teal-500 rounded-3xl" />
           </div>
           <div className="w-full hidden md:flex justify-center items-center flex-wrap gap-9">
             <CardInfo2
@@ -365,7 +365,7 @@ export default function Home():JSX.Element {
             <span className={twMerge("text-center text-black dark:text-white text-xl md:text-5xl font-bold leading-7 md:leading-10 px-10 md:whitespace-nowrap", poppins.className)}>
               Conheça os Desenvolvedores
             </span>
-            <div className="w-60 md:w-[52rem] h-1 mt-1 bg-teal-500 rounded-3xl" />
+            <div className="w-60 md:w-[52rem] h-1 mt-1 bg-teal-400 dark:bg-teal-500 rounded-3xl" />
           </div>
           <div className="w-full flex-col justify-center items-center flex-wrap gap-4 md:gap-9 flex">
             <div className='mx-auto flex justify-center items-center flex-wrap gap-4 md:gap-9'>
@@ -410,7 +410,7 @@ export default function Home():JSX.Element {
             <span className={twMerge("text-black dark:text-white text-xl md:text-5xl font-bold leading-7 md:leading-10 px-10 whitespace-nowrap", poppins.className)}>
               Nossos parceiros
             </span>
-            <div className="w-full h-1 mt-1 bg-teal-500 rounded-3xl"/>
+            <div className="w-full h-1 mt-1 bg-teal-400 dark:bg-teal-500 rounded-3xl"/>
           </div>
           <div className="md:mt-20 flex flex-row flex-wrap justify-center">
             <div className="w-96 flex justify-center">
@@ -473,7 +473,7 @@ export default function Home():JSX.Element {
               <span className={twMerge("text-slate-500 dark:text-slate-300 text-center text-xs md:text-2xl font-bold leading-5 px-10 md:whitespace-nowrap", poppins.className)}>
                 Entre em contato com a gente por aqui
               </span>
-              <div className="w-60 md:w-full h-1 mt-1 bg-teal-500 rounded-3xl" />
+              <div className="w-60 md:w-full h-1 mt-1 bg-teal-400 dark:bg-teal-500 rounded-3xl" />
             </div>
             <form className="w-5/6 mt-8 md:mt-0 flex flex-row flex-wrap justify-center items-center" id='formInterestSystem'
               onSubmit={handleSubmit(onSave)}
@@ -520,7 +520,7 @@ export default function Home():JSX.Element {
                   {errors?.message && <span className="text-red-500 text-sm font-medium leading-tight">{errors?.message?.message?.toString()}</span>}
                 </div>
               </div>
-              <div className="w-full md:w-72 h-10 md:h-16 mt-6 flex justify-center items-center bg-gradient-96 from-teal-500 to-teal-600 rounded-full shadow
+              <div className="w-full md:w-72 h-10 md:h-16 mt-6 flex justify-center items-center bg-gradient-96 bg-teal-400 dark:from-teal-500 dark:to-teal-600 rounded-full shadow
                aria-disabled:from-teal-300 aria-disabled:to-teal-400"
                 aria-disabled={isSubmitting}
               >
@@ -536,7 +536,7 @@ export default function Home():JSX.Element {
         </div>
       </div>
 
-      <div className="w-full py-10 pb-10 flex flex-row flex-wrap items-center justify-center bg-gradient-96 from-teal-500 to-teal-600 overflow-hidden">
+      <div className="w-full py-10 pb-10 flex flex-row flex-wrap items-center justify-center bg-gradient-96 bg-teal-400 dark:bg-teal-500 overflow-hidden">
         <div className="w-5/6 flex flex-row flex-wrap justify-center md:justify-evenly items-center ">
           <div className="w-auto flex flex-col justify-center md:justify-between">
             <Image

@@ -45,6 +45,7 @@ export default function FormUser({edit, isPermissionWrite=true, onSave}:FormUser
     const [optionsDisciplines, setOptionsDisciplines] = useState<options[]>([] as options[]);
     const { reset, control, watch, register, setValue, handleSubmit, formState: { errors } } = useForm();
     const animatedComponents = makeAnimated();
+    const [isDarkMode, setIsDarkMode] = useState(false);
     
     const loadOptionsProfiles = async () => {
         try {
@@ -75,6 +76,13 @@ export default function FormUser({edit, isPermissionWrite=true, onSave}:FormUser
                 toast.error(error.message);
         }
     }
+
+    useEffect(() => {
+        if(window.matchMedia('(prefers-color-scheme: dark)').matches)
+            setIsDarkMode(true);
+        else
+            setIsDarkMode(false);
+    }, []);
 
     useEffect(() => {
         loadOptionsProfiles();
@@ -144,7 +152,8 @@ export default function FormUser({edit, isPermissionWrite=true, onSave}:FormUser
                     </div>
 
                     <div className="w-1/2 px-2">
-                        <label className="pl-4 text-sm font-medium leading-tight text-slate-700 dark:text-white">Perfis</label>
+                        {/* <label className="pl-4 text-sm font-medium leading-tight text-slate-700 dark:text-white">Perfis</label> */}
+                        <label className={`pl-4 text-sm font-medium leading-tight text-slate-700 dark:text-white`}>{isDarkMode ? "true" : "false"}</label>
                         <Controller
                             name="profiles"
                             control={control}
@@ -158,7 +167,7 @@ export default function FormUser({edit, isPermissionWrite=true, onSave}:FormUser
                                     onChange={(e)=> field.onChange(e)}
                                     isDisabled={!isPermissionWrite}
                                     placeholder={watch('typeUser') === undefined && "Selecione os perfis"}
-                                    styles={reactSelectStyle(watch('typeUser') === undefined)}
+                                    styles={reactSelectStyle(watch('typeUser') === undefined, isDarkMode)}
                                 />
                             )}
                         />
@@ -178,7 +187,7 @@ export default function FormUser({edit, isPermissionWrite=true, onSave}:FormUser
                                     onChange={(e)=> field.onChange(e)}
                                     isDisabled={!isPermissionWrite}
                                     placeholder={watch('typeUser') === undefined && "Selecione as disciplinas"}
-                                    styles={reactSelectStyle(watch('typeUser') === undefined)}
+                                    styles={reactSelectStyle(watch('typeUser') === undefined, isDarkMode)}
                                 />
                             )}
                         />

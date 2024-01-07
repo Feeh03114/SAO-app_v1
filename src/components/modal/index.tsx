@@ -16,7 +16,7 @@ export interface RegisterModelProps {
 function ModalRoot({ isOpen, onClose, children, width }:RegisterModelProps): JSX.Element {
     return(
         <Transition.Root show={isOpen} as={Fragment}>
-            <Dialog as="div" className="relative z-10" onClose={onClose}>
+            <Dialog as="div" className={`relative ${isOpen && "z-10"}`} onClose={onClose}>
             <Transition.Child
                 as={Fragment}
                 enter="ease-out duration-300"
@@ -29,7 +29,7 @@ function ModalRoot({ isOpen, onClose, children, width }:RegisterModelProps): JSX
                 <div className="fixed inset-0 bg-slate-500 bg-opacity-75 transition-opacity"/>
             </Transition.Child>
     
-            <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
+            <div className={`fixed inset-0 ${isOpen && "z-10"} w-screen overflow-y-auto`}>
                 <div className="flex min-h-full items-center justify-center p-4 md:items-center md:p-0">
                 <Transition.Child
                     as={Fragment}

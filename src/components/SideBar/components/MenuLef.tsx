@@ -4,14 +4,13 @@ import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useEffect } from "react";
 import { MdChevronRight } from "react-icons/md";
 
 export function MenuSideBar({open, setOpen}:{open:boolean, setOpen:React.Dispatch<React.SetStateAction<boolean>>}){
     const {data} = useSession();
     const router = useRouter();
     const [menu, setMenu] = React.useState<any[]>([]);
-    const [openMenu, setOpenMenu] = useState(true);
 
     function validRouter(url:string){
         if(url === router.pathname) return true;

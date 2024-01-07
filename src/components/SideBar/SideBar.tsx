@@ -26,7 +26,7 @@ export function SideBar({title, children, ...rest}:SidebarProps){
                 <MenuTop setIsOpenNavbar={setIsOpenNavbar}/>
                 <div className={`${Object.keys(session?.data || {}).length===0 ? "mt-0" : "mt-20"} w-full flex flex-row`}>
                     <MenuSideBar open={isOpenNavbar} setOpen={setIsOpenNavbar}/>
-                    <main className={`${Object.keys(session?.data || {}).length===0 ? "w-full" : (isOpenNavbar ? 'w-screen md:w-[calc(100%-240px)] transform duration-500 ease-in-out' : 'w-screen md:w-full transform duration-500 ease-in-out')} dark:bg-slate-900`}>
+                    <main className={`${Object.keys(session?.data || {}).length===0 ? "w-full" : (isOpenNavbar ? 'w-screen md:w-[calc(100%-240px)] transform duration-500 ease-in-out' : 'w-screen md:w-full transform duration-500 ease-in-out h-[calc(100vh-80px)] overflow-hidden')} dark:bg-slate-900`}>
                         {children}
                     </main>
                 </div>

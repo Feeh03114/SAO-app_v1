@@ -24,7 +24,7 @@ interface IHomeProps {
 
 export function CartInfo({icon:Icon, title, description}:IHomeProps){
     return(
-    <div className='w-80 md:w-auto h-14 md:h-20 flex px-4 bg-gradient-96 from-teal-500 to-teal-600 rounded-xl gap-3 items-center relative z-10'>
+    <div className='w-80 md:w-auto h-14 md:h-20 flex px-4 bg-gradient-96 bg-teal-400 dark:from-teal-500 dark:to-teal-600 rounded-xl gap-3 items-center relative z-10'>
         {Icon&&<Icon className='w-10 h-10 text-white'/>}
         <div className='flex flex-col w-auto'>
             <span className="text-white text-sm md:text-lg font-semibold leading-normal">
@@ -90,7 +90,7 @@ export function CartIntegrantes({imagem = '/assets/avatar_doutor.png', title, de
                     {description}
                 </span>
             </div>
-            <button className={twMerge("mx-auto h-12 md:h-14 px-7 bg-gradient-to-r from-teal-500 to-teal-600 rounded-full shadow justify-end items-center inline-flex", sora.className)}
+            <button className={twMerge("mx-auto h-12 md:h-14 px-7 bg-gradient-to-r from-teal-400 to-teal-500 dark:from-teal-500 dark:to-teal-600 rounded-full shadow justify-end items-center inline-flex", sora.className)}
                 onClick={()=>window.open(urlLinkedin,"_blank")}
             >
                 <div className="text-white text-sm md:text-lg font-semibold whitespace-nowrap">Acessar Linkedin</div>
