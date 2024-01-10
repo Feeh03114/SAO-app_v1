@@ -1,3 +1,4 @@
+import { Clock } from '@/components/elementTag/clock';
 import { Input } from '@/components/elementTag/input';
 import { daySchedule } from '@/components/pages/schedule/edit/components';
 import api from '@/service/api';
@@ -68,9 +69,20 @@ interface schedule{
 export default function ScheduleModal({ open=false, setOpen, cancelButtonRef }: ScheduleModalProps):JSX.Element  {
     const [service, setService] = useState<IService>({} as IService);
     const [treatment, setTreatment] = useState<ITratamento[]>([] as ITratamento[])
-    const datePickerRef = useRef();
+    const datePickerRef = useRef<HTMLDivElement>(null);
+    const timePickerRef = useRef();
     const { reset, control, register, setValue, watch, handleSubmit, formState: { errors } } = useForm({
         resolver: yupResolver(validationFullModal)
+    });
+
+    useEffect(() => {
+        let handler = (event: any) => {
+            console.log( document.getElementsByClassName('rmdp-wrapper')[0]?.contains(event.target));
+            if (!document.getElementsByClassName('rmdp-wrapper')[0]?.contains(event.target)) {
+                (datePickerRef.current as any)?.closeCalendar();
+            }
+        }
+        document.addEventListener("mousedown", handler);
     });
 
     const addPost = async (data: any) => {
@@ -336,10 +348,12 @@ export default function ScheduleModal({ open=false, setOpen, cancelButtonRef }: 
                                                     weekDays={['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab']}
                                                     months={['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Nov', 'Dez']}
                                                     highlightToday
+                                                    shadow={false}
                                                     value={field.value||""}
                                                     onChange={(e:DateObject)=>field.onChange(e?.toDate())}
-                                                    className='teal bg-dark-perso'
-                                                    inputClass='w-full rounded-lg px-4 py-2 dark:bg-slate-700 dark:text-white shadow border border-slate-300 dark:border-slate-500 text-slate-900 placeholder-slate-500 focus:border-teal-400 focus:outline-none focus:ring-teal-400 sm:text-sm'
+                                                    calendarPosition="top"
+                                                    className='teal bg-dark-perso border border-slate-700'
+                                                    inputClass='w-full h-10 mt-1 rounded-lg px-4 py-2 dark:bg-slate-700 dark:text-white shadow text-slate-900 placeholder-slate-500 dark:placeholder-white focus:border-teal-400 focus:outline-none focus:ring-teal-400 md:text-sm'
                                                     containerClassName='w-full'
                                                     readOnly={Object.keys(service).length === 0}
                                                     format='DD/MM/YYYY'
@@ -352,13 +366,7 @@ export default function ScheduleModal({ open=false, setOpen, cancelButtonRef }: 
                                                         }
                                                     )}
                                                    
-                                                >
-                                                    <div className='text-white cursor-pointer bg-teal-700 rounded-b-md'
-                                                        onClick={() => (datePickerRef.current as any)?.closeCalendar()}
-                                                    >
-                                                        Fechar
-                                                    </div>
-                                                </DatePicker>
+                                                />
                                                 {!!errors.data && (
                                                     <p className="text-red-500 text-sm">{errors.data?.message?.toString()}</p>
                                                 )}
@@ -366,20 +374,15 @@ export default function ScheduleModal({ open=false, setOpen, cancelButtonRef }: 
                                         )}
                                     />
                                 </div>
-                                <div>
-                                    <Input 
+                                <div className='flex flex-col gap-1'>
+                                    <Clock
                                         id="horario"
-                                        type="time"
                                         label="Horário"
-                                        className="w-full cursor-text rounded-lg px-4 py-2 dark:bg-slate-700 dark:text-white shadow border border-slate-300 dark:border-slate-500 text-slate-900 placeholder-slate-500 focus:border-teal-400 focus:outline-none focus:ring-teal-400 sm:text-sm"
+                                        className="w-full rounded-lg px-4 py-2 dark:bg-slate-700 dark:text-white shadow border border-slate-300 text-slate-900 placeholder-slate-500 dark:placeholder-white focus:border-teal-400 focus:outline-none focus:ring-teal-400 md:text-sm"
                                         placeholder="00:00"
                                         required
                                         {...register("horario")}
                                         error={errors.horario}
-                                        disabled={Object.keys(service).length === 0 || !watch('data')}
-                                        step={(service.duration_medio || 0) * 60}
-                                        min={getHours().initHour}
-                                        max={getHours().endHour}
                                     />
                                 </div>
                                 <div className="px-4 py-3 flex justify-end sm:px-6 col-span-2 dark:bg-slate-800">
@@ -402,8 +405,8 @@ export default function ScheduleModal({ open=false, setOpen, cancelButtonRef }: 
                 </Dialog.Panel>
               </Transition.Child>
             </div>
-          </div>
-        </Dialog>
-      </Transition.Root>
+            </div>
+            </Dialog>
+        </Transition.Root>
     )
 }
