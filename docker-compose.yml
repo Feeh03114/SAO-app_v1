@@ -10,7 +10,7 @@ services:
     environment:
       - NEXTAUTH_URL=https://sao-homo.labprivate.cloud
       - URL_BACKEND=https://backend-odonto.labprivate.cloud
-    networks:
-      default:
-        external:
-          name:	nginx-proxy-manager_default
+networks:
+  default:
+    external:
+      name:	nginx-proxy-manager_default
