@@ -43,6 +43,10 @@ export default NextAuth({
                         rememberPassword: credentials?.remember_me||false,
                     });
                     const {payload:decoded} = await jwt.jwtVerify(response.data.token, new TextEncoder().encode('k$fs_!v$zh(43ntx_2)wjd+9n-+9)0r7z80u8^=2yuz6g)n!1o'));
+                    
+                    if(response.data?.menu?.length ===0)
+                        throw new Error('Usuário não possui permissões');
+                    
                     return {
                         ...response.data,
                         user:{
@@ -51,9 +55,9 @@ export default NextAuth({
                         }
                     };
                 } catch (error:any) {
-                    console.log("error login", error.response.data);
                     if(error?.response?.data?.message) throw new Error(error.response.data?.message);
-                    throw new Error('Erro ao realizar login');
+                    else if(error?.message) throw new Error(error.message);
+                    else throw new Error('Erro ao realizar login');
                 }
             },
         }),

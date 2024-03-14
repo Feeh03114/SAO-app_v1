@@ -29,8 +29,9 @@ export function useLogin(){
         redirect: false,
       }
     );
+    
     if(resp?.error) 
-      if(!resp.error.includes('connect ECONNREFUSED'))toast.error(resp.error);
+      if(!resp.error.includes('connect ECONNREFUSED')) toast.error(resp.error);
       else toast.error('Erro ao conectar com o servidor');
     else router.push('/schedule');
   }
