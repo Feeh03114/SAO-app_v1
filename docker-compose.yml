@@ -1,6 +1,7 @@
 version: '3'
 services:
   myapp:
+    container_name: frontend_sao
     build:
       context: ./  # O diretório atual (onde o Dockerfile está localizado)
       dockerfile: Dockerfile  # O nome do Dockerfile
@@ -9,3 +10,7 @@ services:
     environment:
       - NEXTAUTH_URL=https://sao-homo.labprivate.cloud
       - URL_BACKEND=https://backend-odonto.labprivate.cloud
+    networks:
+      default:
+        external:
+          name:	nginx-proxy-manager_default

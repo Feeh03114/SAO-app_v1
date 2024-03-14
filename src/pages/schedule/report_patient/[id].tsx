@@ -33,7 +33,6 @@ export default function DentalChart(): JSX.Element {
     const permiteEdit = useDisclosure();
     const [isLoading, setIsLoading] = useState(false);
     const [patientRecord, setPatientRecord] = useState<PatientRecord>({} as PatientRecord);
-    const [initConsult, setInitConsult] = useState<Date|null>(null);
 
     const loadingConsult = async () => {
         try {
@@ -67,10 +66,8 @@ export default function DentalChart(): JSX.Element {
     }, [id]);
 
     function handleEdit() {
-        if(!permiteEdit.isOpen){
-            permiteEdit.open();
-            setInitConsult(new Date());
-        }else{
+        if(!permiteEdit.isOpen) permiteEdit.open();
+        else{
             const form = document.getElementById('formPatientRecord');
             form?.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
         }
@@ -81,15 +78,12 @@ export default function DentalChart(): JSX.Element {
         try {
             const body = {
                 status: StatusType.concluded,
-                dateConsultationStarted: initConsult,
-                dateConsultationFinished: new Date(),
                 occurrenceConsultation: data.occurrenceConsultation,
                 serviceForwardedId: data?.serviceForwardedId,
             }
             // const resp = await api.put(`/api/patientRecords/${id}`, data);
             // console.log(resp);
             
-            console.log(body);
             toast.success('Ficha do paciente atualizada com sucesso!');
             router.back();
         } catch (error) {
