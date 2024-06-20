@@ -1,38 +1,68 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+Claro! Abaixo está um exemplo de README ajustado para o projeto de um sistema de agendamento odontológico universitário, nomeado de SAO, baseado no link fornecido.
 
-## Getting Started
+---
 
-First, run the development server:
+# SAO - Sistema de Agendamento Odontológico
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+[![NPM](https://img.shields.io/npm/l/react)](https://github.com/your-repo/sao/blob/main/LICENSE)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Descrição
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+O SAO (Sistema de Agendamento Odontológico) é uma aplicação voltada para facilitar o gerenciamento de agendamentos em clínicas odontológicas universitárias. Este sistema permite que alunos, professores e administradores possam agendar, visualizar e gerenciar consultas de forma eficiente e organizada.
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+## Demonstração
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+Você pode acessar a demonstração do sistema através do seguinte link: [SAO Demonstração](https://sao-homo.labprivate.cloud)
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Funcionalidades
 
-## Learn More
+- **Cadastro de Usuários**: Permite o cadastro de alunos, professores e administradores.
+- **Agendamento de Consultas**: Funcionalidade para agendamento de consultas odontológicas.
+- **Gerenciamento de Agendamentos**: Visualização e edição de agendamentos existentes.
 
-To learn more about Next.js, take a look at the following resources:
+## Tecnologias Utilizadas
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **Front-end**: NextJs, ReactJS, TailwindCss, AXIOS, TypeScript
+- **Back-end**: Node.js, NestJs
+- **Banco de Dados**: PostgreSql
+- **Autenticação**: JWT (JSON Web Tokens)
+- **Hospedagem**: [Hostiger](https://www.hostinger.com.br)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## Requisitos
 
-## Deploy on Vercel
+- Node.js
+- PostgrSql
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Instalação
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+1. Clone o repositório:
+   ```bash
+   git clone https://github.com/Feeh03114/SAO-app_v1
+   ```
+2. Navegue até o diretório do projeto:
+   ```bash
+   cd SAO-app_v1
+   ```
+3. Instale as dependências:
+   ```bash
+   npm install || yarn
+   ```
+4. Configure as variáveis de ambiente conforme o arquivo `.env.example` || `.env`.
+5. Inicie o servidor:
+   ```bash
+   npm dev
+   ```
+
+## Uso
+
+Após iniciar o servidor, você pode acessar a aplicação em `http://localhost:3000`. 
+
+## Licença
+
+Este projeto está licenciado sob a licença MIT - veja o arquivo [LICENSE](https://github.com/Feeh03114/SAO-app_v1/blob/main/LICENSE) para mais detalhes.
+
+## Contato
+
+Para mais informações, entre em contato pelo email: sao@labprivate.cloud
+
+---
