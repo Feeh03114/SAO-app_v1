@@ -24,14 +24,14 @@ Você pode acessar a demonstração do sistema através do seguinte link: [SAO D
 
 - **Front-end**: NextJs, ReactJS, TailwindCss, AXIOS, TypeScript
 - **Back-end**: Node.js, NestJs
-- **Banco de Dados**: PostgreSql
+- **Banco de Dados**: PostgreSQL
 - **Autenticação**: JWT (JSON Web Tokens)
 - **Hospedagem**: [Hostiger](https://www.hostinger.com.br)
 
 ## Requisitos
 
 - Node.js
-- PostgrSql
+- PostgreSQL
 
 ## Instalação
 
@@ -45,10 +45,14 @@ Você pode acessar a demonstração do sistema através do seguinte link: [SAO D
    ```
 3. Instale as dependências:
    ```bash
-   npm install || yarn
+   npm install 
    ```
-4. Configure as variáveis de ambiente conforme o arquivo `.env.example` || `.env`.
-5. Inicie o servidor:
+   ||
+   ```bash
+   yarn
+   ```
+5. Configure as variáveis de ambiente conforme o arquivo `.env.example` || `.env`.
+6. Inicie o servidor:
    ```bash
    npm dev
    ```
