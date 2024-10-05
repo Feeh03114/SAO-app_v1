@@ -1,38 +1,36 @@
-import Header from "@/components/Header";
+import Header from "@/components/Header/multipleButtons";
 import Table from "@/components/Table";
 import { Pagination } from "@/components/Table/Pagination";
-import Modal from "@/components/modal";
+import { ModalDelete } from "@/components/elementTag/modalDelete";
+import { ModalUser } from "@/components/pages/users/modalUser";
 import { useDisclosure } from "@/hook/useDisclosure";
 import api from "@/service/api";
 import { withSSRAuth } from "@/util/withSSRAuth";
 import { GetServerSideProps } from "next";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { BsFillPersonPlusFill } from "react-icons/bs";
-import { Input } from "rsuite";
+import { FiXCircle } from "react-icons/fi";
+import { MdCheckCircleOutline } from "react-icons/md";
+import { toast } from "react-toastify";
 
 const TOTAL_ELEMENTS = 25;
 const rowsNumber = 6;
 
-export default function Users(): JSX.Element {
-    // interface User {
-    //     name: string;
-    //     email: string;
-    //     ru: string;
-    // }
-    
+export default function Users(): JSX.Element { 
     const newUserDisposer = useDisclosure();
-    // const [data, setData] = useState<User[]>([]);
     const [data, setData] = useState([]);
-    const [currentPage, setCurrentPage] = useState(1);
+    const router = useRouter();
     const [totalElements, setTotalElements] = useState(TOTAL_ELEMENTS);
     const [isLoading, setIsLoading] = useState(false);
+    const [idDelete, setIdDelete] = useState<string>("");
+    const deleteDisposer = useDisclosure();
 
     const [params, setParams] = useState({
-        page: currentPage,
+        page: 1,
         pageSize: rowsNumber,
         sortOrder: 'ASC',
-        sortField: 'id',
-        status: 2,
+        sortField: 'date',
+        status: 0,
     });
 
     const loadData = async () => {
@@ -41,151 +39,117 @@ export default function Users(): JSX.Element {
             const { data:RespAPI } = await api.get("api/users", {
                 params: params
             });
-            console.log(RespAPI);
             setData(RespAPI.data);
-            setCurrentPage(RespAPI.page);
             setTotalElements(RespAPI.totalElement);
         } catch (error) {
           console.log(error);
         }
         setIsLoading(false);
     };
-    
-    useEffect(() => {
-        loadData();
-    }, []);
 
-    // const mock: User[] = [];
-    // 
-    // for (let index = 1; index <= TOTAL_ELEMENTS; index++) {
-    //     mock.push({
-    //         name: "Teste " + index.toString(),
-    //         email: "exemple@email.com",
-    //         ru: "123456789"
-    //     });
-    // }
-    // 
-    // const start = currentPage * rowsNumber - rowsNumber;
-    // const newMock = mock.slice(start, start + rowsNumber);
-    // 
-    // const loadDataMock = async () => {
-    //     setData(newMock);
-    //     setCurrentPage(currentPage);
-    //     setTotalElements(TOTAL_ELEMENTS);
-    // }
 
     useEffect(() => {
         loadData();
-        // loadDataMock();
-    }, [currentPage]);
+    }, [params]);
+
+/*     useEffect(() => {
+        loadData();
+    }, [params]); */
+
+    const onDelete = async (id: string) => {
+        try {
+            const resp = await api.delete(`api/users/${id}`);
+            toast.success(resp.data.message);
+            deleteDisposer.close();
+            await loadData();
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    function deleteItem(id: string) {
+        setIdDelete(id);
+        deleteDisposer.open();
+    }
+
+    const onChangeStatusUser = async (id: string) => {
+        try {
+            await  api.put(`api/users/change-status/${id}`);
+            toast.success('Status alterado com sucesso!');
+            await loadData();
+        } catch (error:Error|any) {
+            if(error?.response?.data?.message)
+                toast.error(error.response.data.message);
+            else
+                toast.error(error.message);
+        }
+    };
 
     return (
         <div className="flex flex-col flex-wrap">
-            <Modal.Root
-                isOpen={newUserDisposer.isOpen}
-                onClose={newUserDisposer.close}
-                width="md:max-w-lg"
+            <ModalUser isOpen={newUserDisposer.isOpen} onClose={newUserDisposer.close} loadData={() => loadData()}/>
+            <ModalDelete isOpen={deleteDisposer.isOpen} onClose={deleteDisposer.close} onDelete={() => onDelete(idDelete)}></ModalDelete> 
+             <Header.Root 
+                title={"Usuários"}
+                subtitle={"Consulte os usuários da plataforma"}
             >
-                <Modal.Header title="Novo Usuário" icon={BsFillPersonPlusFill} />
-                <Modal.Body>
-                    <div className="w-full">
-                        <label className="pl-4 text-sm font-medium leading-tight text-gray-700 dark:text-white">Prontuário do Paciente</label>
-                        <Input 
-                            id="prontuario"
-                            type="text"
-                            className="w-full rounded-lg px-4 py-2 dark:bg-gray-700 dark:text-white shadow border border-gray-300 text-gray-900 placeholder-gray-500 dark:placeholder-white focus:border-teal-400 focus:outline-none focus:ring-teal-400 md:text-sm"
-                            placeholder="Insira seu prontuário"
-                            // {...register("prontuario")}
-                            // error={errors.prontuario}
-                        />
-                    </div>
-                    <div className="w-full">
-                        <label className="pl-4 text-sm font-medium leading-tight text-gray-700 dark:text-white">Nome</label>
-                        <Input 
-                            id="prontuario"
-                            type="text"
-                            className="w-full rounded-lg px-4 py-2 dark:bg-gray-700 dark:text-white shadow border border-gray-300 text-gray-900 placeholder-gray-500 dark:placeholder-white focus:border-teal-400 focus:outline-none focus:ring-teal-400 md:text-sm"
-                            placeholder="Insira o nome"
-                            // {...register("prontuario")}
-                            // error={errors.prontuario}
-                        />
-                    </div>
-                    <div className="w-full">
-                        <label className="pl-4 text-sm font-medium leading-tight text-gray-700 dark:text-white">Registro Universitário</label>
-                        <Input 
-                            id="prontuario"
-                            type="text"
-                            className="w-full rounded-lg px-4 py-2 dark:bg-gray-700 dark:text-white shadow border border-gray-300 text-gray-900 placeholder-gray-500 dark:placeholder-white focus:border-teal-400 focus:outline-none focus:ring-teal-400 md:text-sm"
-                            placeholder="Insira o RU"
-                            // {...register("prontuario")}
-                            // error={errors.prontuario}
-                        />
-                    </div>
-                    <div className="w-full">
-                        <label className="pl-4 text-sm font-medium leading-tight text-gray-700 dark:text-white">E-mail</label>
-                        <Input 
-                            id="prontuario"
-                            type="text"
-                            className="w-full rounded-lg px-4 py-2 dark:bg-gray-700 dark:text-white shadow border border-gray-300 text-gray-900 placeholder-gray-500 dark:placeholder-white focus:border-teal-400 focus:outline-none focus:ring-teal-400 md:text-sm"
-                            placeholder="Insira o e-mail"
-                            // {...register("prontuario")}
-                            // error={errors.prontuario}
-                        />
-                    </div>
-                    <div className="w-full">
-                        <label className="pl-4 text-sm font-medium leading-tight text-gray-700 dark:text-white">CRO</label>
-                        <Input 
-                            id="prontuario"
-                            type="text"
-                            className="w-full rounded-lg px-4 py-2 dark:bg-gray-700 dark:text-white shadow border border-gray-300 text-gray-900 placeholder-gray-500 dark:placeholder-white focus:border-teal-400 focus:outline-none focus:ring-teal-400 md:text-sm"
-                            placeholder="Insira o CRO"
-                            // {...register("prontuario")}
-                            // error={errors.prontuario}
-                        />
-                    </div>
-                    <div className="w-full">
-                        <label className="pl-4 text-sm font-medium leading-tight text-gray-700 dark:text-white">Perfis</label>
-                        <Input 
-                            id="prontuario"
-                            type="text"
-                            className="w-full rounded-lg px-4 py-2 dark:bg-gray-700 dark:text-white shadow border border-gray-300 text-gray-900 placeholder-gray-500 dark:placeholder-white focus:border-teal-400 focus:outline-none focus:ring-teal-400 md:text-sm"
-                            // {...register("prontuario")}
-                            // error={errors.prontuario}
-                        />
-                    </div>
-                </Modal.Body>
-                <Modal.Footer/>
-            </Modal.Root>
-            <Header 
-                title="Usuários"
-                subtitle="Consulte os usuários da plataforma"
-                isFilterVisibled
-                textLeft="Filtros"
-                textRight="Adicionar Usuário"
-                onClickLeft={()=> console.log('filter')}
-                onClickRight={newUserDisposer.open}
-            />
-            <Table.Root tableHeight={String(rowsNumber)}>
+                {/* <Header.Button 
+                    text="Filtros"
+                    typeButton="filter"
+                    disabled={isLoading}
+                    onClick={()=> console.log('filter')}
+                /> */}
+                <Header.Button 
+                    text="Adicionar usuário"
+                    typeButton="add"
+                    textStyle="text-white"
+                    style="mr-0 bg-teal-400 dark:bg-teal-500"
+                    disabled={isLoading}
+                    onClick={newUserDisposer.open}
+                />
+            </Header.Root>
+            <Table.Root style="px-8">
                 <Table.Header>
                     <Table.CellHeader hiddenInMobile={false}>NOME</Table.CellHeader>
                     <Table.CellHeader hiddenInMobile={true}>E-MAIL</Table.CellHeader>
                     <Table.CellHeader hiddenInMobile={true}>REGISTRO UNIVERSITÁRIO</Table.CellHeader>
+                    <Table.CellHeader hiddenInMobile={true} style="text-end">STATUS</Table.CellHeader>
                 </Table.Header>
 
-                {data.map((item: { id:string, name: string, email: string, ru: string }, index: number) => (
-                    <Table.Row key={index} link={"/users/edit/" + item.id}>
-                        <Table.CellBody><p className="font-medium dark:text-white">{item.name}</p></Table.CellBody>
-                        <Table.CellBody hiddenInMobile={true}>{item.email}</Table.CellBody>
-                        <Table.CellBody hiddenInMobile={true}>{item.ru}</Table.CellBody>
-                    </Table.Row>
-                ))}
+                <Table.Body tableHeight={String(rowsNumber)} rowNumber={data.length}>
+                    {data.map((item: { id:string, name: string, email: string, ru: string, active:boolean }, index: number) => (
+                        <Table.Row 
+                            key={index}                        
+                            onView={()=> router.push(`/users/edit/${item.id}`)}
+                            onDelete={() => deleteItem(item.id)}
+                        >
+                            <Table.CellBody><p className="font-medium dark:text-white">{item.name}</p></Table.CellBody>
+                            <Table.CellBody hiddenInMobile={true}>{item.email}</Table.CellBody>
+                            <Table.CellBody hiddenInMobile={true}>{item.ru}</Table.CellBody>
+                            <Table.CellBody hiddenInMobile={true} style="text-end pr-6">
+                                <button className="h-full px-3 py-2 border dark:border-slate-500 rounded-md cursor-pointer aria-hidden:hidden"
+                                    onClick={() => onChangeStatusUser(item.id)}   
+                                >
+                                    <MdCheckCircleOutline 
+                                        className="w-5 h-5 text-teal-500 aria-hidden:hidden"
+                                        aria-hidden={!item.active}
+                                    />
+                                    <FiXCircle 
+                                        className="w-5 h-5 text-red-500 aria-hidden:hidden"
+                                        aria-hidden={item.active}
+                                    />
+                                </button>
+                            </Table.CellBody>
+                        </Table.Row>
+                    ))}
+                </Table.Body>
             </Table.Root> 
 
             <Pagination
                 pageSize={rowsNumber}
                 totalElements={totalElements}
-                currentPage={currentPage}
-                setCurrentPage={setCurrentPage}
+                currentPage={params.page}
+                setCurrentPage={(page: number) => setParams({...params, page: page})}
             />
         </div>
     );

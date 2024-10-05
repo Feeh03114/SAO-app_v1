@@ -22,6 +22,13 @@ export function MenuAvatar({open, onClose}:{open:boolean, onClose: React.Dispatc
         window.location.href = `/users/edit/${data?.user?.id}`;
     };
 
+    useEffect(() => {
+        if(window.matchMedia('(prefers-color-scheme: dark)').matches)
+            setIsDarkMode(true);
+        else
+            setIsDarkMode(false);
+    }, []);
+
     return(
         <Transition.Root show={open} as={Fragment}>
             <Dialog as="div" className={`${open?'block': 'hidden'}`} onClose={onClose}>
@@ -34,11 +41,11 @@ export function MenuAvatar({open, onClose}:{open:boolean, onClose: React.Dispatc
                     leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                     leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                 >
-                    <Dialog.Panel className={`rounded-lg bg-white dark:bg-gray-800 text-left transition-all fixed top-0 right-0 mt-20 mr-2 md:mr-28 w-56 z-50 shadow-lg flex justify-start`}>
+                    <Dialog.Panel className={`rounded-lg bg-white dark:bg-slate-800 text-left transition-all fixed top-0 right-0 mt-20 mr-2 md:mr-28 w-56 z-50 shadow-lg flex justify-start`}>
                         <ul className="py-1" role="none">
                             <li>
                                 <button
-                                    className="w-56 px-4 py-2 text-sm text-gray-700 hover:bg-teal-50 hover:text-teal-600 dark:text-gray-300 dark:hover:bg-teal-900 dark:hover:text-teal-100 flex justify-start"
+                                    className="w-56 px-4 py-2 text-sm text-slate-700 hover:bg-teal-50 hover:text-teal-600 dark:text-slate-300 dark:hover:bg-teal-900 dark:hover:text-teal-100 flex justify-start"
                                     onClick={handleClick}
                                 >
                                     <BsPerson className="inline-block w-5 h-5 mr-3"/>
@@ -47,7 +54,7 @@ export function MenuAvatar({open, onClose}:{open:boolean, onClose: React.Dispatc
                             </li>
                             <li>
                                 <button onClick={()=>setIsDarkMode(!isDarkMode)}
-                                    className="w-56 px-4 py-2 text-sm text-gray-700 hover:bg-teal-50 hover:text-teal-600 dark:text-gray-300 dark:hover:bg-teal-900 dark:hover:text-teal-100 flex justify-start"
+                                    className="w-56 px-4 py-2 text-sm text-slate-700 hover:bg-teal-50 hover:text-teal-600 dark:text-slate-300 dark:hover:bg-teal-900 dark:hover:text-teal-100 flex justify-start"
                                 >
                                     {isDarkMode ? <BsSun className='inline-block w-5 h-5 mr-3'/> : <BsMoon className='inline-block w-5 h-5 mr-3'/>}
                                     {isDarkMode ? 'Light' : 'Dark'}
@@ -55,7 +62,7 @@ export function MenuAvatar({open, onClose}:{open:boolean, onClose: React.Dispatc
                             </li>
                             <li>
                                 <button onClick={()=>signOut()}
-                                    className="w-56 px-4 py-2 text-sm text-gray-700 hover:bg-teal-50 hover:text-teal-600 dark:text-gray-300 dark:hover:bg-teal-900 dark:hover:text-teal-100 flex justify-start"
+                                    className="w-56 px-4 py-2 text-sm text-slate-700 hover:bg-teal-50 hover:text-teal-600 dark:text-slate-300 dark:hover:bg-teal-900 dark:hover:text-teal-100 flex justify-start"
                                 >
                                     <PiSignOutBold className="inline-block w-5 h-5 mr-3"/>
                                     Sign out

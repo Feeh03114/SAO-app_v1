@@ -1,14 +1,18 @@
-import Header from "@/components/Header";
+import Header from "@/components/Header/multipleButtons";
 import Table from "@/components/Table";
 import { Pagination } from "@/components/Table/Pagination";
+import { ModalDelete } from "@/components/elementTag/modalDelete";
+import { useDisclosure } from "@/hook/useDisclosure";
 import { withSSRAuth } from "@/util/withSSRAuth";
 import { GetServerSideProps } from "next";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
-const TOTAL_ELEMENTS = 25;
+const TOTAL_ELEMENTS = 300;
 const rowsNumber = 6;
 
 interface Finance {
+    id: string;
     prontuario: string;
     nome: string;
     servico: string;
@@ -19,16 +23,19 @@ interface Finance {
 export default function Finance(): JSX.Element {
     const [data, setData] = useState<Finance[]>([]);
     // const [data, setData] = useState([]);
+    const router = useRouter();
     const [currentPage, setCurrentPage] = useState(1);
     const [totalElements, setTotalElements] = useState(rowsNumber);
+    const deleteDisposer = useDisclosure();
+    const [idDelete, setIdDelete] = useState<string>("");
     const [isLoading, setIsLoading] = useState(false);
 
     const [params, setParams] = useState({
-        page: currentPage,
+        page: 1,
         pageSize: rowsNumber,
         sortOrder: 'ASC',
-        sortField: 'id',
-        status: 2,
+        sortField: 'date',
+        status: 0,
       });
 
     // const loadData = async () => {
@@ -38,8 +45,6 @@ export default function Finance(): JSX.Element {
     //             params: params
     //         });
     //         console.log(RespAPI);
-    //         setData(RespAPI.data);
-    //         setCurrentPage(RespAPI.page);
     //         setTotalElements(RespAPI.totalElement);
     //     } catch (error) {
     //       console.log(error);
@@ -48,8 +53,15 @@ export default function Finance(): JSX.Element {
     // };
     
     // useEffect(() => {
+    //     setParams({
+    //         ...params,
+    //         page: currentPage,
+    //     });
+    // }, [currentPage]);
+
+    // useEffect(() => {
     //     loadData();
-    // }, []);
+    // }, [params]);
 
     const mock: Finance[] = [];
     
@@ -58,6 +70,7 @@ export default function Finance(): JSX.Element {
         const randomNumber = Math.floor(Math.random() * 10000000);
         const randomPrice = Math.floor(Math.random() * 100);
         mock.push({
+            id: String(index),
             prontuario: String(randomNumber),
             nome: "Nome " + index.toString(),
             servico: "Consulta",
@@ -80,16 +93,39 @@ export default function Finance(): JSX.Element {
         // loadData();
     }, [currentPage]);
 
+    function deleteItem(id: string) {
+        setIdDelete(id);
+        deleteDisposer.open();
+    }
+
+    const onDelete = async (id: string) => {
+        // try {
+        //     const resp = await api.delete(`api/finance/${id}`);
+        //     toast.success(resp.data.message);
+        //     deleteDisposer.close();
+        //     loadData();
+        // } catch (error) {
+        //     console.log(error);
+        // }
+        deleteDisposer.close();
+    };
+
     return (
         <>
-            <Header 
-                title="Financeiro (Mockado)"
-                subtitle="Consulte os pagamentos de serviços"
-                isFilterVisibled
-                textLeft="Filtros"
-                onClickLeft={()=> console.log('filter')}
-            />
-            <Table.Root tableHeight={String(rowsNumber)}>
+            <ModalDelete isOpen={deleteDisposer.isOpen} onClose={deleteDisposer.close} onDelete={() => onDelete(idDelete)}></ModalDelete> 
+            <Header.Root 
+                title={"Financeiro (Mockado)"}
+                subtitle={"Consulte os pagamentos de serviços"}
+            >
+                {/* <Header.Button 
+                    text="Filtros"
+                    disabled={isLoading}
+                    typeButton="filter"
+                    style="mr-0"
+                    onClick={()=> console.log('filter')}
+                /> */}
+            </Header.Root>
+            <Table.Root style="px-8">
                 <Table.Header>
                     <Table.CellHeader hiddenInMobile={true}>PRONTUÁRIO</Table.CellHeader>
                     <Table.CellHeader hiddenInMobile={false}>NOME</Table.CellHeader>
@@ -98,15 +134,21 @@ export default function Finance(): JSX.Element {
                     <Table.CellHeader hiddenInMobile={false}>STATUS</Table.CellHeader>
                 </Table.Header>
 
-                {data.map((item: Finance, index: number) => (
-                    <Table.Row key={index}>
-                        <Table.CellBody hiddenInMobile={true}><p className="font-medium dark:text-white">{item.prontuario}</p></Table.CellBody>
-                        <Table.CellBody><p className="font-medium dark:text-white">{item.nome}</p></Table.CellBody>
-                        <Table.CellBody hiddenInMobile={true}><p className="font-medium dark:text-white">{item.servico}</p></Table.CellBody>
-                        <Table.CellBody hiddenInMobile={true}>R$ {item.preco}</Table.CellBody>
-                        <Table.CellBody><div className={`w-3 h-3 ml-4 rounded-full ${item.status ? 'bg-green-300' : 'bg-yellow-300'}`}></div></Table.CellBody>
-                    </Table.Row>
-                ))}
+                <Table.Body tableHeight={String(rowsNumber)} rowNumber={data.length}>
+                    {data.map((item: Finance, index: number) => (
+                        <Table.Row 
+                            key={index}
+                            onView={()=> router.push(`/finance/edit/${item.prontuario}`)}
+                            onDelete={() => deleteItem(item.id)}
+                        >
+                            <Table.CellBody hiddenInMobile={true}><p className="font-medium dark:text-white">{item.prontuario}</p></Table.CellBody>
+                            <Table.CellBody><p className="font-medium dark:text-white">{item.nome}</p></Table.CellBody>
+                            <Table.CellBody hiddenInMobile={true}><p className="font-medium dark:text-white">{item.servico}</p></Table.CellBody>
+                            <Table.CellBody hiddenInMobile={true}>R$ {item.preco}</Table.CellBody>
+                            <Table.CellBody><div className={`w-3 h-3 ml-4 rounded-full ${item.status ? 'bg-green-300' : 'bg-yellow-300'}`}></div></Table.CellBody>
+                        </Table.Row>
+                    ))}
+                </Table.Body>
             </Table.Root> 
 
             <Pagination
@@ -120,3 +162,7 @@ export default function Finance(): JSX.Element {
 }
 
 export const getServerSideProps: GetServerSideProps = withSSRAuth();
+
+function loadData() {
+    throw new Error("Function not implemented.");
+}

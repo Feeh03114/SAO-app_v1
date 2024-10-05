@@ -1,9 +1,7 @@
 import api from "@/service/api";
+import * as jwt from 'jose';
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-
-
-
 interface ResponseSignIn {
     data?:DataProps;
     message: string;
@@ -44,9 +42,16 @@ export default NextAuth({
                         password: credentials.password,
                         rememberPassword: credentials?.remember_me||false,
                     });
-                    return response.data;
+                    const {payload:decoded} = await jwt.jwtVerify(response.data.token, new TextEncoder().encode('k$fs_!v$zh(43ntx_2)wjd+9n-+9)0r7z80u8^=2yuz6g)n!1o'));
+                    return {
+                        ...response.data,
+                        user:{
+                            ...response.data.user,
+                            typeUser:decoded.typeUser,
+                        }
+                    };
                 } catch (error:any) {
-                    console.log("error", error.response.data);
+                    console.log("error login", error.response.data);
                     if(error?.response?.data?.message) throw new Error(error.response.data?.message);
                     throw new Error('Erro ao realizar login');
                 }

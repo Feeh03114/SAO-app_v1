@@ -1,38 +1,54 @@
-import Header from "@/components/Header";
-import Table from "@/components/Table";
-import Card from "@/components/elementTag/cardText";
+import Header from "@/components/Header/multipleButtons";
+import FormUser from "@/components/pages/users/formUser";
+import { TypeUser } from "@/enum/typeUser.enum";
 import { useDisclosure } from "@/hook/useDisclosure";
 import api from "@/service/api";
 import { withSSRAuth } from "@/util/withSSRAuth";
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
-interface UserData {
+export interface User {
+    id: string;
     ru: string;
     name: string;
     email: string;
     cro: string;
-    profilesIds: [];
+    typeUser:TypeUser;
+    profilesIds: string[];
+    permissions: Permission[];
+}
+
+interface Permission {
+    profile_id: string;
+    page_id: string;
+    isRead: boolean;
+    isCreate: boolean;
+    isEdit: boolean;
+    isDelete: boolean;
+    filter: boolean;
+    page: Page;
+}
+
+interface Page {
+    id: string;
+    namePage: string;
+    url: string;
+    icon: string;
+    ordem: number;
 }
 
 export default function UsersEdit(): JSX.Element {
-    const [data, setData] = useState<UserData>({
-        ru: "",
-        name: "",
-        email: "",
-        cro: "",
-        profilesIds: [],
-    });
-    const [profiles, setProfiles] = useState<string[]>([]);
-    const newUserDisposer = useDisclosure();
+    const [user, setData] = useState<User>({} as User);
+    const permiteEdit = useDisclosure();
     const router = useRouter();
     const id = router.query.id;
+    const [isLoading, setIsLoading] = useState(false);
     
     const loadData = async () => {
         try {
             const { data: RespAPI } = await api.get(`api/users/${id}`);
-            console.log(RespAPI);
             setData(RespAPI);
         } catch (error) {
           console.log(error);
@@ -43,59 +59,71 @@ export default function UsersEdit(): JSX.Element {
         loadData();
     }, []);
 
-    const loadProfile = async () => {
-        const profileNames = await Promise.all(data.profilesIds.map(async (id) => {
-            try {
-                const { data: RespAPI } = await api.get(`api/Profile/${id}`);
-                return RespAPI.name;
-            } catch (error) {
-                console.log(error);
-            }
-        }));
-        setProfiles(profileNames);
-    };
+    function handleEdit() {
+        if(!permiteEdit.isOpen)
+            permiteEdit.open();
+        else{
+            const form = document.getElementById('formUser');
+            form?.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
+        }
+    }
 
-    useEffect(() => {
-        loadProfile();
-    }, [data.profilesIds]);
+    const onSave = async (data:any) => {
+        setIsLoading(true);
+        try {
+            const profilesIds = data.profiles.map((item:any) => item.value);
+            const disciplinesIds = data.disciplines.map((item:any) => item.value);
+            delete data.profiles;
+            delete data.disciplines;
+            delete data.createdBy;
+            delete data.criatedAt;
+            delete data.updatedAt;
+            delete data.updatedBy;
+            delete data.deletedAt;
+            delete data.deletedBy;
+            const body ={
+                ...data,
+                profilesIds: profilesIds,
+                disciplinesIds: disciplinesIds
+            }
+            await api.put(`/api/users/${id}`, body);
+            toast.success('Usuário atualizado com sucesso!');
+            permiteEdit.close();
+        } catch (error:any) {
+            if(error?.response?.data?.message)
+                toast.error(error.response.data.message);
+            else toast.error('Erro ao atualizar usuário!');
+        }
+        finally{
+            setIsLoading(false);
+        }
+    }
     
     return (
         <>
-            <Header 
-                title={data.name}
-                subtitle={"RU: " + data.ru}
-                isFilterVisibled
-                textLeft="Voltar"
-                textRight="Editar"
-                onClickLeft={()=> console.log('filter')}
-                onClickRight={newUserDisposer.open}
+               <Header.Root 
+                title={user.name}
+                subtitle={"RU: " + user.ru}
+            >
+                <Header.Button 
+                    text="Voltar"
+                    disabled={isLoading}
+                    onClick={() => router.back()}
+                />
+                <Header.Button 
+                    text={permiteEdit.isOpen ? "Salvar" : "Editar"}
+                    typeButton={permiteEdit.isOpen ? 'confirm' : 'edit'}
+                    textStyle="text-white"
+                    style="mr-0 bg-teal-400 dark:bg-teal-500"
+                    disabled={isLoading}
+                    onClick={handleEdit}
+                />
+            </Header.Root>
+            <FormUser 
+                isPermissionWrite={permiteEdit.isOpen}	
+                edit={user}
+                onSave={onSave}
             />
-
-            <div className="w-screen">
-                <Card.Root>
-                    <Card.Text label="Registro Universitário" text={data.ru} width="w-full md:w-1/4"></Card.Text>
-                    <Card.Text label="Nome" text={data.name} width="w-full md:w-1/4"></Card.Text>
-                    <Card.Text label="E-mail" text={data.email} width="w-full md:w-1/4"></Card.Text>
-                    <Card.Text label="CRO" text={data.cro} width="w-full md:w-1/4"></Card.Text>
-
-                    <Card.CardSelected label="Perfis" width="w-full md:w-1/2">
-                        {profiles.map((profile, index) => (
-                            <Card.TextSelected key={index} text={String(profile)}></Card.TextSelected>
-                        ))}
-                    </Card.CardSelected>
-
-                    <Card.CardSelected label="Disciplinas" width="w-full md:w-1/2">
-                    </Card.CardSelected>
-                    
-                    <Table.Root tableHeight={String(6)} style="mx-3" label="Pacientes">
-                        <Table.Header>
-                            <Table.CellHeader hiddenInMobile={false}>NOME</Table.CellHeader>
-                            <Table.CellHeader hiddenInMobile={true}>E-MAIL</Table.CellHeader>
-                            <Table.CellHeader hiddenInMobile={true}>REGISTRO UNIVERSITÁRIO</Table.CellHeader>
-                        </Table.Header>
-                    </Table.Root> 
-                </Card.Root>
-            </div>
         </>
     )
 }

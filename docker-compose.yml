@@ -1,0 +1,11 @@
+version: '3'
+services:
+  myapp:
+    build:
+      context: ./  # O diretório atual (onde o Dockerfile está localizado)
+      dockerfile: Dockerfile  # O nome do Dockerfile
+    ports:
+      - "3001:80"  # Mapeia a porta 3002 do host para a porta 3002 do contêiner
+    environment:
+      - NEXTAUTH_URL=https://sao-homo.labprivate.cloud
+      - URL_BACKEND=https://backend-odonto.labprivate.cloud

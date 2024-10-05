@@ -45,20 +45,20 @@ export function ModalFilter({fields, isFilterOpen, setIsFilterOpen, filterSelect
     }, [filterSelect]) */
     return(
         <Modal isOpen={isFilterOpen} onClose={()=>setIsFilterOpen(!isFilterOpen)}>
-            <div className="w-full h-full flex-1 bg-white dark:bg-gray-600 dark:text-white ">
+            <div className="w-full h-full flex-1 bg-white dark:bg-slate-600 dark:text-white ">
                 <h1 className=" ml-3 pt-5 text-3xl font-bold">Filtros</h1>
                 <div className="grid grid-cols-12 w-full">
                     {fields.filter((column) => column.filter).map((column) => (
                         <div
                             className={`m-3 mb-2 mt-5${gridSpan(column)}`}>
-                            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">
+                            <label className="block text-slate-700 text-sm font-bold mb-2" htmlFor="username">
                                 {getUppercaseFirstLetter(column?.label)}
                             </label>
                             <Input
                                 onChange={(e)=>setFilterSelect({...filterSelect, [column.property]: e.target.value})}
                                 value={filterSelect[column.property]}
                                 type={column?.type || "text"}
-                                className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline 
+                                className={`shadow appearance-none border rounded w-full py-2 px-3 text-slate-700 leading-tight focus:outline-none focus:shadow-outline 
                                 ${column?.type === "number" ? "text-right" : ""} ${column.options && 'hidden'}`} 
                             />
                             {
@@ -67,7 +67,7 @@ export function ModalFilter({fields, isFilterOpen, setIsFilterOpen, filterSelect
                                 <select 
                                     onChange={(e)=>setFilterSelect({...filterSelect, [column.property]: e.target.value})}
                                     value={filterSelect[column.property]}
-                                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                    className="shadow appearance-none border rounded w-full py-2 px-3 text-slate-700 leading-tight focus:outline-none focus:shadow-outline"
                                 >
                                     <option selected disabled>Selecione uma opção</option>
                                     {column.options.map((option) => (
@@ -122,7 +122,6 @@ export function ModalFilter({fields, isFilterOpen, setIsFilterOpen, filterSelect
                         </button>
                         <button 
                             onClick={()=>{
-                                console.log(filterSelect);
                                 filter(filterSelect)
                                 setIsFilterOpen(!isFilterOpen)
                             }}

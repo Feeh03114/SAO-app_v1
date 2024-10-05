@@ -1,41 +1,55 @@
-import Header from "@/components/Header";
+import Header from "@/components/Header/multipleButtons";
 import { Pagination } from "@/components/Table/Pagination";
 import Table from "@/components/Table/index";
-import Modal from "@/components/modal";
+import Card from "@/components/elementTag/cardText";
+import { ModalDelete } from "@/components/elementTag/modalDelete";
 import { useDisclosure } from "@/hook/useDisclosure";
 import api from "@/service/api";
 import { withSSRAuth } from "@/util/withSSRAuth";
 import { GetServerSideProps } from "next";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { BsFillPersonPlusFill } from "react-icons/bs";
-import { Input } from "rsuite";
+import { toast } from "react-toastify";
 
-const rowsNumber = 6;
+const rowsNumber = 5;
+
+interface Profile {
+    id: string;
+    name: string;
+    permissions: [
+        {
+            isRead: boolean;
+            page: {
+                    namePage: string;
+            }
+        }
+    ]
+}
 
 export default function Profiles(): JSX.Element {
-    const newDisposer = useDisclosure();
-    const [data, setData] = useState([]);
+    const router = useRouter();
+    const [data, setData] = useState<Profile[]>([]);
+    const [idDelete, setIdDelete] = useState<string>("");
     const [currentPage, setCurrentPage] = useState(1);
+    const deleteDisposer = useDisclosure();
     const [totalElements, setTotalElements] = useState(rowsNumber);
     const [isLoading, setIsLoading] = useState(false);
 
     const [params, setParams] = useState({
-        page: currentPage,
+        page: 1,
         pageSize: rowsNumber,
         sortOrder: 'ASC',
-        sortField: 'id',
-        status: 2,
-      });
+        sortField: 'date',
+        status: 0,
+    });
 
     const loadData = async () => {
         setIsLoading(true);
         try {
-            const { data:RespAPI } = await api.get("api/Profile", {
+            const { data:RespAPI } = await api.get("api/profiles", {
                 params: params
             });
-            console.log(RespAPI);
             setData(RespAPI.data);
-            setCurrentPage(RespAPI.page);
             setTotalElements(RespAPI.totalElement);
         } catch (error) {
           console.log(error);
@@ -48,53 +62,78 @@ export default function Profiles(): JSX.Element {
     }, []);
 
     useEffect(() => {
-        loadData();
+        setParams({
+            ...params,
+            page: currentPage,
+        });
     }, [currentPage]);
+
+    useEffect(() => {
+        loadData();
+    }, [params]);
+
+    const onDelete = async (id: string) => {
+        try {
+            const resp = await api.delete(`api/profiles/${id}`);
+            toast.success(resp.data.message);
+            deleteDisposer.close();
+            await loadData();
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    function deleteItem(id: string) {
+        setIdDelete(id);
+        deleteDisposer.open();
+    }
 
     return (
         <>
-            <Modal.Root
-                isOpen={newDisposer.isOpen}
-                onClose={newDisposer.close}
-                width="md:max-w-lg"
+            <ModalDelete isOpen={deleteDisposer.isOpen} onClose={deleteDisposer.close} onDelete={() => onDelete(idDelete)}></ModalDelete> 
+              <Header.Root 
+                title={"Perfis"}
+                subtitle={"Consulte os perfis da plataforma"}
             >
-                <Modal.Header title="Novo Usuário" icon={BsFillPersonPlusFill} />
-                <Modal.Body>
-                    <div className="w-full">
-                        <label className="pl-4 text-sm font-medium leading-tight text-gray-700 dark:text-white">Teste</label>
-                        <Input 
-                            id="prontuario"
-                            type="text"
-                            className="w-full rounded-lg px-4 py-2 dark:bg-gray-700 dark:text-white shadow border border-gray-300 text-gray-900 placeholder-gray-500 dark:placeholder-white focus:border-teal-400 focus:outline-none focus:ring-teal-400 md:text-sm"
-                            placeholder="Insira seu prontuário"
-                            // {...register("prontuario")}
-                            // error={errors.prontuario}
-                        />
-                    </div>
-                </Modal.Body>
-                <Modal.Footer/>
-            </Modal.Root>
-            <Header 
-                title="Perfis"
-                subtitle="Consulte os perfis da plataforma"
-                isFilterVisibled
-                textLeft="Filtros"
-                textRight="Adicionar Perfil"
-                onClickLeft={()=> console.log('filter')}
-                onClickRight={newDisposer.open}
-            />
-            <Table.Root tableHeight={String(rowsNumber)}>
+                {/* <Header.Button 
+                    text="Filtros"
+                    disabled={isLoading}
+                    typeButton="filter"
+                    onClick={()=> console.log('filter')}
+                /> */}
+                <Header.Button 
+                    text="Adicionar perfil"
+                    typeButton="add"
+                    textStyle="text-white"
+                    style="mr-0 bg-teal-400 dark:bg-teal-500"
+                    disabled={isLoading}
+                    onClick={()=> router.push('/profiles/add')}
+                />
+            </Header.Root>
+            <Table.Root style="px-8">
                 <Table.Header>
-                    <Table.CellHeader hiddenInMobile={false}>NOME</Table.CellHeader>
-                    <Table.CellHeader hiddenInMobile={false}>PÁGINAS</Table.CellHeader>
-                </Table.Header>
+                    <Table.CellHeader style={"w-40 md:w-60"}>NOME</Table.CellHeader>
+                    <Table.CellHeader hiddenInMobile={true}>PÁGINAS</Table.CellHeader>
+                </Table.Header> 
 
-                {data.map((item: { name: string, email: string, ru: string }, index: number) => (
-                    <Table.Row key={index}>
-                        <Table.CellBody><p className="font-medium dark:text-white">{item.name}</p></Table.CellBody>
-                        <Table.CellBody><p className="font-medium dark:text-white"></p></Table.CellBody>
-                    </Table.Row>
-                ))}
+                <Table.Body tableHeight={String(rowsNumber)} rowNumber={data.length}>
+                    {data.map((item: Profile, index: number) => (
+                        <Table.Row 
+                            key={index}
+                            onView={()=> router.push(`/profiles/edit/${item.id}`)}
+                            onDelete={() => deleteItem(item.id)}
+                        >
+                            <Table.CellBody><p className="font-medium dark:text-white">{item.name}</p></Table.CellBody>
+                            <Table.CellBody hiddenInMobile={true}>
+                                <div className="py-1 flex flex-row flex-wrap">
+                                    {item.permissions.map((item: any, index: number) => (
+                                        item.isRead && <Card.TextSelected key={index} text={item.page.namePage}></Card.TextSelected>
+                                    ))}
+                                </div>
+                            </Table.CellBody>
+                        </Table.Row>
+                    ))}
+                </Table.Body>
             </Table.Root> 
 
             <Pagination
@@ -106,38 +145,5 @@ export default function Profiles(): JSX.Element {
         </>
     );
 }
-    // const {push} = useRouter();
-
-    // return (
-    //     <>
-    //         <Header 
-    //             title="Usuários"
-    //             subtitle="Consulte os usuários da plataforma"
-    //             isFilterVisibled
-    //             textLeft="Filtros"
-    //             textRight="Adicionar Consulta"
-    //             onClickLeft={()=> console.log('filter')}
-    //             onClickRight={()=> push('/roles/add')}
-    //         />
-    //         <Table 
-    //             endPoint="api/role"
-    //             colunm={
-    //                 [
-    //                     {
-    //                         property: 'role',
-    //                         label: 'Perfil',
-    //                     },
-    //                     {
-    //                         property: 'actions',
-    //                         label: 'Ações',
-    //                         type: 'actions',
-    //                         optionsActions: ['view'],
-    //                     }
-    //                 ]
-    //             }
-    //         />
-    //     </>
-    // );
-// }
 
 export const getServerSideProps: GetServerSideProps = withSSRAuth();

@@ -19,6 +19,17 @@ export default function App({ Component, pageProps }: AppProps): JSX.Element {
         });
     }
   }, []);
+  
+  useEffect(() => {
+    if(window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      document.querySelector('html')?.classList.add('dark');
+      document.querySelector('meta[name="theme-color"]')?.setAttribute("content", "#0694A2");
+    }
+    else {
+      document.querySelector('html')?.classList.remove('dark');
+    }
+  }, []);
+  
   return (
     <>
       <ToastContainer position="top-center"/>
@@ -28,6 +39,5 @@ export default function App({ Component, pageProps }: AppProps): JSX.Element {
         </SideBar>
       </SessionProvider>
     </>
-    
   )
 }
