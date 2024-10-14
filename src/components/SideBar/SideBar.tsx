@@ -1,5 +1,3 @@
-
-import packageJson from '@/../package.json';
 import { useSession } from "next-auth/react";
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -26,10 +24,9 @@ export function SideBar({title, children, ...rest}:SidebarProps){
             </Head>
             <div className="w-screen h-screen flex flex-col overflow-y-auto">
                 <MenuTop setIsOpenNavbar={setIsOpenNavbar}/>
-                <div className="w-full flex flex-row">
+                <div className={`${Object.keys(session?.data || {}).length===0 ? "mt-0" : "mt-20"} w-full flex flex-row`}>
                     <MenuSideBar open={isOpenNavbar} setOpen={setIsOpenNavbar}/>
-                    <main className={`${Object.keys(session?.data || {}).length===0 ? "w-full" : (isOpenNavbar ? 'w-screen md:w-[calc(100%-240px)] transform duration-500 ease-in-out' : 'w-screen md:w-full transform duration-500 ease-in-out')} dark:bg-slate-900`}>
-                        <span className="absolute bottom-0 right-2">{`v ${packageJson.version}`}</span>
+                    <main className={`${Object.keys(session?.data || {}).length===0 ? "w-full" : (isOpenNavbar ? 'w-screen md:w-[calc(100%-240px)] transform duration-500 ease-in-out' : 'w-screen md:w-full transform duration-500 ease-in-out h-[calc(100vh-80px)] overflow-hidden')} dark:bg-slate-900`}>
                         {children}
                     </main>
                 </div>

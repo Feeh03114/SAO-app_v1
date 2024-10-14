@@ -72,12 +72,12 @@ export default function TermsPrivacy() {
                 title={"Termos de Confiabilidade"}
                 subtitle={"Consulte os termos de confiabilidade cadastrados na plataforma"}
             >
-                <Header.Button 
+                {/* <Header.Button 
                     text="Filtros"
                     disabled={isLoading}
                     typeButton="filter"
                     onClick={()=> console.log('filter')}
-                />
+                /> */}
                 <Header.Button 
                     text="Adicionar Termo"
                     typeButton="add"

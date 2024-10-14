@@ -93,12 +93,12 @@ export default function Users(): JSX.Element {
                 title={"Usuários"}
                 subtitle={"Consulte os usuários da plataforma"}
             >
-                <Header.Button 
+                {/* <Header.Button 
                     text="Filtros"
                     typeButton="filter"
                     disabled={isLoading}
                     onClick={()=> console.log('filter')}
-                />
+                /> */}
                 <Header.Button 
                     text="Adicionar usuário"
                     typeButton="add"

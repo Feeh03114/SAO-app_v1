@@ -10,11 +10,11 @@ export default function Pages(): JSX.Element {
             title={"Páginas"}
             subtitle={"Consulte as páginas cadastradas no sistema"}
         >
-            <Header.Button 
+            {/* <Header.Button 
                 text="Filtros"
                 typeButton="filter"
                 onClick={()=> console.log('filter')}
-            />
+            /> */}
             <Header.Button 
                 text="Adicionar consulta"
                 typeButton="add"

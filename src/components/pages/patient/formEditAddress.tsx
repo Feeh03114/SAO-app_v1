@@ -16,7 +16,7 @@ interface ModalAddressProps{
 }
 
 export default function FormEditAddress({isOpen, onClose, address, onSave, onDelete} : ModalAddressProps): JSX.Element {
-    const { control, register, reset, watch, handleSubmit, formState: { errors }  } = useForm({
+    const { control, register, reset, setValue, setFocus, handleSubmit, formState: { errors }  } = useForm({
         // resolver: yupResolver(validationAddress)
     });
     
@@ -37,6 +37,20 @@ export default function FormEditAddress({isOpen, onClose, address, onSave, onDel
         onClose();
         onSave(data);
     };
+
+    const checkCEP  = (e: { target: { value: string; }; }) => {
+        if (!e.target.value) return; 
+        const cep = e.target.value.replace(/\D/g, '');
+        fetch(`https://viacep.com.br/ws/${cep}/json/`)
+        .then(res => res.json()).then(data => {
+            setValue('streetAddress', data.logradouro);
+            setValue('district', data.bairro);
+            setValue('city', data.localidade);
+            setValue('state', data.uf);
+            setFocus('number');
+        })
+        .catch((err) => console.log(err));;
+    }
 
     return (
         <Modal.Root
@@ -60,16 +74,17 @@ export default function FormEditAddress({isOpen, onClose, address, onSave, onDel
                             error={errors.name}
                         />
                     </div>
-                    <div className="w-full px-2">
+                    <div className="w-full md:w-1/2 px-2">
                         <Input 
                             required
-                            id="streetAddress"
+                            id="cep"
                             type="text"
-                            label="Rua"
+                            label="CEP"
                             className="w-full"
-                            placeholder="Insira a rua"
-                            {...register("streetAddress")}
-                            error={errors.streetAddress}
+                            placeholder="Insira o CEP"
+                            {...register("cep")}
+                            error={errors.cep}
+                            onBlur={checkCEP}
                         />
                     </div>
                     <div className="w-full md:w-1/2 px-2">
@@ -84,16 +99,16 @@ export default function FormEditAddress({isOpen, onClose, address, onSave, onDel
                             error={errors.number}
                         />
                     </div>
-                    <div className="w-full md:w-1/2 px-2">
+                    <div className="w-full px-2">
                         <Input 
                             required
-                            id="cep"
+                            id="streetAddress"
                             type="text"
-                            label="CEP"
+                            label="Rua"
                             className="w-full"
-                            placeholder="Insira o CEP"
-                            {...register("cep")}
-                            error={errors.cep}
+                            placeholder="Insira a rua"
+                            {...register("streetAddress")}
+                            error={errors.streetAddress}
                         />
                     </div>
                     <div className="w-full px-2">

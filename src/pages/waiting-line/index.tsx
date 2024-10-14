@@ -132,12 +132,12 @@ export default function WaitingLineIndex(): JSX.Element {
                 title="Fila de espera (Mockado)"
                 subtitle="Consulte os pagamentos de serviços"
             >
-                <Header.Button 
+                {/* <Header.Button 
                     text={"Filtros"} 
                     typeButton="filter"
                     style="mr-0"
                     onClick={()=> console.log('filter')}
-                />
+                /> */}
             </Header.Root>
             
             <Table.Root style="px-8">

@@ -95,12 +95,12 @@ export default function Profiles(): JSX.Element {
                 title={"Perfis"}
                 subtitle={"Consulte os perfis da plataforma"}
             >
-                <Header.Button 
+                {/* <Header.Button 
                     text="Filtros"
                     disabled={isLoading}
                     typeButton="filter"
                     onClick={()=> console.log('filter')}
-                />
+                /> */}
                 <Header.Button 
                     text="Adicionar perfil"
                     typeButton="add"

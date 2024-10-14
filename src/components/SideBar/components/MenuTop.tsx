@@ -11,7 +11,7 @@ export function MenuTop({setIsOpenNavbar}:{setIsOpenNavbar:React.Dispatch<React.
     const session = useSession();
 
     return(
-        <div className={`w-full`}>
+        <div className={`w-full absolute z-10`}>
             <div className="w-full h-20 bg-teal-400 dark:bg-slate-800 shadow-md aria-hidden:hidden" style={{
                 boxShadow: '0px 1px 3px rgba(0, 0, 0, 0.1), 0px 1px 2px rgba(0, 0, 0, 0.06)'
             }}
@@ -21,7 +21,7 @@ export function MenuTop({setIsOpenNavbar}:{setIsOpenNavbar:React.Dispatch<React.
                     <div className="z-10 flex items-center justify-start">
                         <HiOutlineMenu className={`cursor-pointer text-white`} size={24} onClick={()=>setIsOpenNavbar(e=>!e)}/>
                     </div>
-                    <div className="flex space-x-6 items-center justify-end pl-4 pr-4 md:pr-8 max-h-[2.75rem] w-full">
+                    <div className="z-10 flex space-x-6 items-center justify-end pl-4 pr-4 md:pr-8 max-h-[2.75rem] w-full">
                         <div className="flex items-center justify-center p-1 rounded-full">
                             <TbBell className="flex-1 h-full rounded-lg text-white w-[1.5rem]"/>
                         </div>

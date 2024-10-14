@@ -1,10 +1,11 @@
+import { Clock } from '@/components/elementTag/clock';
 import { Input } from '@/components/elementTag/input';
 import { daySchedule } from '@/components/pages/schedule/edit/components';
 import api from '@/service/api';
 import { Dialog, Transition } from '@headlessui/react';
 import { yupResolver } from '@hookform/resolvers/yup';
 import dayjs from 'dayjs';
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment, useEffect, useRef, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { AiOutlinePlus } from 'react-icons/ai';
 import DatePicker, { DateObject } from "react-multi-date-picker";
@@ -68,8 +69,20 @@ interface schedule{
 export default function ScheduleModal({ open=false, setOpen, cancelButtonRef }: ScheduleModalProps):JSX.Element  {
     const [service, setService] = useState<IService>({} as IService);
     const [treatment, setTreatment] = useState<ITratamento[]>([] as ITratamento[])
+    const datePickerRef = useRef<HTMLDivElement>(null);
+    const timePickerRef = useRef();
     const { reset, control, register, setValue, watch, handleSubmit, formState: { errors } } = useForm({
         resolver: yupResolver(validationFullModal)
+    });
+
+    useEffect(() => {
+        let handler = (event: any) => {
+            console.log( document.getElementsByClassName('rmdp-wrapper')[0]?.contains(event.target));
+            if (!document.getElementsByClassName('rmdp-wrapper')[0]?.contains(event.target)) {
+                (datePickerRef.current as any)?.closeCalendar();
+            }
+        }
+        document.addEventListener("mousedown", handler);
     });
 
     const addPost = async (data: any) => {
@@ -193,22 +206,22 @@ export default function ScheduleModal({ open=false, setOpen, cancelButtonRef }: 
   
           <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
             <div className="flex min-h-full items-center justify-center p-4 text-center sm:items-center sm:p-0">
-              <Transition.Child
-                as={Fragment}
-                enter="ease-out duration-300"
-                enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-                enterTo="opacity-100 translate-y-0 sm:scale-100"
-                leave="ease-in duration-200"
-                leaveFrom="opacity-100 translate-y-0 sm:scale-100"
-                leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-              >
+                <Transition.Child
+                    as={Fragment}
+                    enter="ease-out duration-300"
+                    enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                    enterTo="opacity-100 translate-y-0 sm:scale-100"
+                    leave="ease-in duration-200"
+                    leaveFrom="opacity-100 translate-y-0 sm:scale-100"
+                    leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                >
                 <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white dark:bg-slate-800 text-left shadow transition-all sm:my-8 sm:w-full max-w-lg">
                     <div className="bg-white dark:bg-slate-800 px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
                         <div className="flex flex-row flex-wrap justify-center items-center">
                             <form className="grid grid-cols-2 gap-4" onSubmit={handleSubmit(addPost)}>
                                 <div className="flex flex-row justify-start items-center col-span-2">
-                                    <div className="flex items-center justify-center rounded-full bg-teal-200 dark:bg-teal-400 h-10 w-10">
-                                        <AiOutlinePlus className="text-xl text-teal-500 dark:text-teal-700"/>
+                                    <div className="flex items-center justify-center rounded-full bg-teal-200 dark:bg-teal-500 h-10 w-10">
+                                        <AiOutlinePlus className="text-xl text-teal-500 dark:text-white"/>
                                     </div>
                                     <div className="ml-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
                                         <Dialog.Title as="h3" className="text-base font-semibold leading-6 text-slate-900 dark:text-white">
@@ -328,17 +341,19 @@ export default function ScheduleModal({ open=false, setOpen, cancelButtonRef }: 
                                         rules={{ required: true }}
                                         render={({ field }) => (
                                             <label>
-                                                <DatePicker
+                                                <DatePicker ref={datePickerRef}
                                                     portal
                                                     name={field.name}
                                                     showOtherDays
                                                     weekDays={['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab']}
                                                     months={['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Nov', 'Dez']}
                                                     highlightToday
+                                                    shadow={false}
                                                     value={field.value||""}
                                                     onChange={(e:DateObject)=>field.onChange(e?.toDate())}
-                                                    className='teal bg-dark-perso'
-                                                    inputClass='w-full rounded-lg px-4 py-2 dark:bg-slate-700 dark:text-white shadow border border-slate-300 dark:border-slate-500 text-slate-900 placeholder-slate-500 focus:border-teal-400 focus:outline-none focus:ring-teal-400 sm:text-sm'
+                                                    calendarPosition="top"
+                                                    className='teal bg-dark-perso border border-slate-700'
+                                                    inputClass='w-full h-10 mt-1 rounded-lg px-4 py-2 dark:bg-slate-700 dark:text-white shadow text-slate-900 placeholder-slate-500 dark:placeholder-white focus:border-teal-400 focus:outline-none focus:ring-teal-400 md:text-sm'
                                                     containerClassName='w-full'
                                                     readOnly={Object.keys(service).length === 0}
                                                     format='DD/MM/YYYY'
@@ -350,6 +365,7 @@ export default function ScheduleModal({ open=false, setOpen, cancelButtonRef }: 
                                                             excludes: service.schedules.map((item) => new DateObject(new Date(item.date))),
                                                         }
                                                     )}
+                                                   
                                                 />
                                                 {!!errors.data && (
                                                     <p className="text-red-500 text-sm">{errors.data?.message?.toString()}</p>
@@ -358,20 +374,15 @@ export default function ScheduleModal({ open=false, setOpen, cancelButtonRef }: 
                                         )}
                                     />
                                 </div>
-                                <div>
-                                    <Input 
+                                <div className='flex flex-col gap-1'>
+                                    <Clock
                                         id="horario"
-                                        type="time"
                                         label="Horário"
-                                        className="w-full cursor-text rounded-lg px-4 py-2 dark:bg-slate-700 dark:text-white shadow border border-slate-300 dark:border-slate-500 text-slate-900 placeholder-slate-500 focus:border-teal-400 focus:outline-none focus:ring-teal-400 sm:text-sm"
+                                        className="w-full rounded-lg px-4 py-2 dark:bg-slate-700 dark:text-white shadow border border-slate-300 text-slate-900 placeholder-slate-500 dark:placeholder-white focus:border-teal-400 focus:outline-none focus:ring-teal-400 md:text-sm"
                                         placeholder="00:00"
                                         required
                                         {...register("horario")}
                                         error={errors.horario}
-                                        disabled={Object.keys(service).length === 0 || !watch('data')}
-                                        step={(service.duration_medio || 0) * 60}
-                                        min={getHours().initHour}
-                                        max={getHours().endHour}
                                     />
                                 </div>
                                 <div className="px-4 py-3 flex justify-end sm:px-6 col-span-2 dark:bg-slate-800">
@@ -384,7 +395,7 @@ export default function ScheduleModal({ open=false, setOpen, cancelButtonRef }: 
                                     </button>
                                     <button
                                         type="submit"
-                                        className="ml-4 rounded-md bg-teal-500 dark:bg-teal-700 px-3 py-2 text-sm font-semibold text-white shadow sm:ml-3 ring-1 ring-inset sm:w-auto">
+                                        className="ml-4 rounded-md bg-teal-500 dark:bg-teal-500 px-3 py-2 text-sm font-semibold text-white shadow sm:ml-3 ring-1 ring-inset sm:w-auto">
                                             Cadastrar
                                     </button>
                                 </div>
@@ -394,8 +405,8 @@ export default function ScheduleModal({ open=false, setOpen, cancelButtonRef }: 
                 </Dialog.Panel>
               </Transition.Child>
             </div>
-          </div>
-        </Dialog>
-      </Transition.Root>
+            </div>
+            </Dialog>
+        </Transition.Root>
     )
 }

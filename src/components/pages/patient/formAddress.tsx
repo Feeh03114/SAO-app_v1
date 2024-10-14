@@ -27,7 +27,7 @@ interface ModalAddressProps{
 }
 
 export default function FormAddress({isOpen, onClose, onSave} : ModalAddressProps): JSX.Element {
-    const { control, register, reset, watch, handleSubmit, formState: { errors }  } = useForm({
+    const { control, register, reset, setValue, setFocus,handleSubmit, formState: { errors }  } = useForm({
         resolver: yupResolver(validationAddress)
     });
     
@@ -49,6 +49,20 @@ export default function FormAddress({isOpen, onClose, onSave} : ModalAddressProp
         onSave(data);
     };
 
+    const checkCEP  = (e: { target: { value: string; }; }) => {
+        if (!e.target.value) return; 
+        const cep = e.target.value.replace(/\D/g, '');
+        fetch(`https://viacep.com.br/ws/${cep}/json/`)
+        .then(res => res.json()).then(data => {
+            setValue('streetAddress', data.logradouro);
+            setValue('district', data.bairro);
+            setValue('city', data.localidade);
+            setValue('state', data.uf);
+            setFocus('number');
+        })
+        .catch((err) => console.log(err));;
+    }
+
     return (
         <Modal.Root
             isOpen={isOpen}
@@ -64,23 +78,24 @@ export default function FormAddress({isOpen, onClose, onSave} : ModalAddressProp
                             id="name"
                             type="text"
                             label="Nome do endereço"
-                            placeholder="Insira um nome para o endereço"
+                            placeholder="Crie um nome para o endereço"
                             className="read-only:bg-slate-200 read-only:cursor-default"
                             autoComplete="new-password"
                             {...register("name")}
                             error={errors.name}
                         />
                     </div>
-                    <div className="w-full px-2">
+                    <div className="w-full md:w-1/2 px-2">
                         <Input 
                             required
-                            id="streetAddress"
+                            id="cep"
                             type="text"
-                            label="Rua"
+                            label="CEP"
                             className="w-full"
-                            placeholder="Insira a rua"
-                            {...register("streetAddress")}
-                            error={errors.streetAddress}
+                            placeholder="Insira o CEP"
+                            {...register("cep")}
+                            error={errors.cep}
+                            onBlur={checkCEP}
                         />
                     </div>
                     <div className="w-full md:w-1/2 px-2">
@@ -95,18 +110,6 @@ export default function FormAddress({isOpen, onClose, onSave} : ModalAddressProp
                             error={errors.number}
                         />
                     </div>
-                    <div className="w-full md:w-1/2 px-2">
-                        <Input 
-                            required
-                            id="cep"
-                            type="text"
-                            label="CEP"
-                            className="w-full"
-                            placeholder="Insira o CEP"
-                            {...register("cep")}
-                            error={errors.cep}
-                        />
-                    </div>
                     <div className="w-full px-2">
                         <Input 
                             id="complement"
@@ -116,6 +119,18 @@ export default function FormAddress({isOpen, onClose, onSave} : ModalAddressProp
                             placeholder="Insira o complemento"
                             {...register("complement")}
                             error={errors.complement}
+                        />
+                    </div>
+                    <div className="w-full px-2">
+                        <Input 
+                            required
+                            id="streetAddress"
+                            type="text"
+                            label="Rua"
+                            className="w-full"
+                            placeholder="Insira a rua"
+                            {...register("streetAddress")}
+                            error={errors.streetAddress}
                         />
                     </div>
                     <div className="w-full px-2">
